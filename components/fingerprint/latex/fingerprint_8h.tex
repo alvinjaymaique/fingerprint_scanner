@@ -1,0 +1,979 @@
+\doxysection{include/fingerprint.h File Reference}
+\hypertarget{fingerprint_8h}{}\label{fingerprint_8h}\index{include/fingerprint.h@{include/fingerprint.h}}
+
+
+Fingerprint sensor driver (ZW111) for ESP32.  
+
+
+{\ttfamily \#include "{}esp\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}}
+\begin{DoxyCompactList}\small\item\em Structure representing a fingerprint module command packet. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{fingerprint_8h_a68654b05f39a5e88db0453de6f7fd726}{DEFAULT\+\_\+\+BAUD\+\_\+\+RATE}}~57600
+\begin{DoxyCompactList}\small\item\em Event handler for processing fingerprint events. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{fingerprint_8h_a906d33234fc0a208973dee29efb12336}{DEFAULT\+\_\+\+TX\+\_\+\+PIN}}~17
+\begin{DoxyCompactList}\small\item\em Default UART pins (modifiable at runtime). \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{fingerprint_8h_aef44023d85418b6b89d8e8492f4feb81}{DEFAULT\+\_\+\+RX\+\_\+\+PIN}}~16
+\item 
+\#define \mbox{\hyperlink{fingerprint_8h_a3213a1f8aac63fb5a1e7fba62b6c14c9}{FINGERPRINT\+\_\+\+HEADER}}~0x\+EF01
+\begin{DoxyCompactList}\small\item\em Default fingerprint module header identifier. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{fingerprint_8h_a5d7dc57da1b15b90f236d89912b2d95a}{DEFAULT\+\_\+\+FINGERPRINT\+\_\+\+ADDRESS}}~0x\+FFFFFFFF
+\begin{DoxyCompactList}\small\item\em Default fingerprint module address (broadcast address). \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{fingerprint_8h_a69d1c616ae544899c43fd1dbfcbaa086}{UART\+\_\+\+READ\+\_\+\+TIMEOUT}}~100
+\begin{DoxyCompactList}\small\item\em Timeout value for UART read operations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}}) (\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}} event)
+\begin{DoxyCompactList}\small\item\em Typedef for the fingerprint event handler callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \{ \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc}{FINGERPRINT\+\_\+\+OK}} = 0x00
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d}{FINGERPRINT\+\_\+\+PACKET\+\_\+\+ERROR}} = 0x01
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea}{FINGERPRINT\+\_\+\+NO\+\_\+\+FINGER}} = 0x02
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609}{FINGERPRINT\+\_\+\+IMAGE\+\_\+\+FAIL}} = 0x03
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82}{FINGERPRINT\+\_\+\+TOO\+\_\+\+DRY}} = 0x04
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac}{FINGERPRINT\+\_\+\+TOO\+\_\+\+WET}} = 0x05
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846}{FINGERPRINT\+\_\+\+TOO\+\_\+\+CHAOTIC}} = 0x06
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a}{FINGERPRINT\+\_\+\+TOO\+\_\+\+FEW\+\_\+\+POINTS}} = 0x07
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e}{FINGERPRINT\+\_\+\+MISMATCH}} = 0x08
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9}{FINGERPRINT\+\_\+\+NOT\+\_\+\+FOUND}} = 0x09
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74}{FINGERPRINT\+\_\+\+MERGE\+\_\+\+FAIL}} = 0x0A
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0}{FINGERPRINT\+\_\+\+DB\+\_\+\+RANGE\+\_\+\+ERROR}} = 0x0B
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f}{FINGERPRINT\+\_\+\+READ\+\_\+\+TEMPLATE\+\_\+\+ERROR}} = 0x0C
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300}{FINGERPRINT\+\_\+\+UPLOAD\+\_\+\+FEATURE\+\_\+\+FAIL}} = 0x0D
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1}{FINGERPRINT\+\_\+\+DATA\+\_\+\+PACKET\+\_\+\+ERROR}} = 0x0E
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8}{FINGERPRINT\+\_\+\+UPLOAD\+\_\+\+IMAGE\+\_\+\+FAIL}} = 0x0F
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02}{FINGERPRINT\+\_\+\+DELETE\+\_\+\+TEMPLATE\+\_\+\+FAIL}} = 0x10
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7}{FINGERPRINT\+\_\+\+DB\+\_\+\+CLEAR\+\_\+\+FAIL}} = 0x11
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1}{FINGERPRINT\+\_\+\+LOW\+\_\+\+POWER\+\_\+\+FAIL}} = 0x12
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633}{FINGERPRINT\+\_\+\+WRONG\+\_\+\+PASSWORD}} = 0x13
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1}{FINGERPRINT\+\_\+\+NO\+\_\+\+VALID\+\_\+\+IMAGE}} = 0x15
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a}{FINGERPRINT\+\_\+\+UPGRADE\+\_\+\+FAIL}} = 0x16
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340}{FINGERPRINT\+\_\+\+RESIDUAL\+\_\+\+FINGER}} = 0x17
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e}{FINGERPRINT\+\_\+\+FLASH\+\_\+\+RW\+\_\+\+ERROR}} = 0x18
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96}{FINGERPRINT\+\_\+\+RANDOM\+\_\+\+GEN\+\_\+\+FAIL}} = 0x19
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9}{FINGERPRINT\+\_\+\+INVALID\+\_\+\+REGISTER}} = 0x1A
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8}{FINGERPRINT\+\_\+\+REGISTER\+\_\+\+SETTING\+\_\+\+ERROR}} = 0x1B
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3}{FINGERPRINT\+\_\+\+NOTEPAD\+\_\+\+PAGE\+\_\+\+ERROR}} = 0x1C
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac}{FINGERPRINT\+\_\+\+PORT\+\_\+\+OP\+\_\+\+FAIL}} = 0x1D
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4}{FINGERPRINT\+\_\+\+ENROLL\+\_\+\+FAIL}} = 0x1E
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb}{FINGERPRINT\+\_\+\+DB\+\_\+\+FULL}} = 0x1F
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51}{FINGERPRINT\+\_\+\+DEVICE\+\_\+\+ADDRESS\+\_\+\+ERROR}} = 0x20
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df}{FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+NOT\+\_\+\+EMPTY}} = 0x22
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e}{FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+EMPTY}} = 0x23
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581}{FINGERPRINT\+\_\+\+DB\+\_\+\+EMPTY}} = 0x24
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03}{FINGERPRINT\+\_\+\+ENTRY\+\_\+\+COUNT\+\_\+\+ERROR}} = 0x25
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36}{FINGERPRINT\+\_\+\+TIMEOUT}} = 0x26
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb}{FINGERPRINT\+\_\+\+ALREADY\+\_\+\+EXISTS}} = 0x27
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef}{FINGERPRINT\+\_\+\+FEATURES\+\_\+\+RELATED}} = 0x28
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362}{FINGERPRINT\+\_\+\+SENSOR\+\_\+\+OP\+\_\+\+FAIL}} = 0x29
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7}{FINGERPRINT\+\_\+\+MODULE\+\_\+\+INFO\+\_\+\+NOT\+\_\+\+EMPTY}} = 0x2A
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932}{FINGERPRINT\+\_\+\+MODULE\+\_\+\+INFO\+\_\+\+EMPTY}} = 0x2B
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9}{FINGERPRINT\+\_\+\+OTP\+\_\+\+FAIL}} = 0x2C
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596}{FINGERPRINT\+\_\+\+KEY\+\_\+\+GEN\+\_\+\+FAIL}} = 0x2D
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906}{FINGERPRINT\+\_\+\+KEY\+\_\+\+NOT\+\_\+\+EXIST}} = 0x2E
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0}{FINGERPRINT\+\_\+\+SECURITY\+\_\+\+ALGO\+\_\+\+FAIL}} = 0x2F
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf}{FINGERPRINT\+\_\+\+ENCRYPTION\+\_\+\+MISMATCH}} = 0x30
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222}{FINGERPRINT\+\_\+\+KEY\+\_\+\+LOCKED}} = 0x32
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1}{FINGERPRINT\+\_\+\+IMAGE\+\_\+\+AREA\+\_\+\+SMALL}} = 0x33
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385}{FINGERPRINT\+\_\+\+IMAGE\+\_\+\+NOT\+\_\+\+AVAILABLE}} = 0x34
+, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994}{FINGERPRINT\+\_\+\+ILLEGAL\+\_\+\+DATA}} = 0x35
+ \}
+\begin{DoxyCompactList}\small\item\em Fingerprint sensor status codes. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}} \{ \newline
+\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b}{EVENT\+\_\+\+FINGER\+\_\+\+DETECTED}}
+, \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9}{EVENT\+\_\+\+IMAGE\+\_\+\+CAPTURED}}
+, \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b}{EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACTED}}
+, \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6}{EVENT\+\_\+\+MATCH\+\_\+\+SUCCESS}}
+, \newline
+\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63}{EVENT\+\_\+\+MATCH\+\_\+\+FAIL}}
+, \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a}{EVENT\+\_\+\+ERROR}}
+, \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa7ba4dbb06dfd6e55e77531a98e45382a}{EVENT\+\_\+\+IMAGE\+\_\+\+FAIL}}
+, \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aad081bd29ae5c73e876ada30fba4aa662}{EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACT\+\_\+\+FAIL}}
+, \newline
+\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa8ac0d84de03764aaacb0d296b7aaeb19}{EVENT\+\_\+\+DB\+\_\+\+FULL}}
+, \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aab213512d60aa61fb662ae5ceaa26a791}{EVENT\+\_\+\+SENSOR\+\_\+\+ERROR}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum to define various fingerprint events. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the fingerprint scanner. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_ac29250c5487590be95f209110f32961e}{fingerprint\+\_\+build\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd, uint8\+\_\+t command, uint8\+\_\+t \texorpdfstring{$\ast$}{*}params, uint8\+\_\+t param\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Builds a fingerprint command packet. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{fingerprint_8h_a0d5b756311c0909b7f123085fb54e5b5}{fingerprint\+\_\+calculate\+\_\+checksum}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd)
+\begin{DoxyCompactList}\small\item\em Computes the checksum for a given \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet} structure. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}{fingerprint\+\_\+send\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd, uint32\+\_\+t address)
+\begin{DoxyCompactList}\small\item\em Sends a fingerprint command packet to the fingerprint module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{fingerprint_8h_a18e8b2af7dd860c312d730b5d1d30b7f}{fingerprint\+\_\+read\+\_\+response}} (void)
+\begin{DoxyCompactList}\small\item\em Reads the response packet from UART and returns a dynamically allocated \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \mbox{\hyperlink{fingerprint_8h_a20092401e8301669fc2d595f02dc433d}{fingerprint\+\_\+get\+\_\+status}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}packet)
+\begin{DoxyCompactList}\small\item\em Get the status of the fingerprint operation from the response packet. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \mbox{\hyperlink{fingerprint_8h_a9f8428752fbef75d23833bfd50411091}{fingerprint\+\_\+scan}} (void)
+\begin{DoxyCompactList}\small\item\em Scans for a fingerprint and returns the status. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a511e826c0481490ea7eafe369a219291}{fingerprint\+\_\+enroll}} (int id)
+\begin{DoxyCompactList}\small\item\em Enrolls a fingerprint. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a907879b40b181a5643873afad0d96952}{fingerprint\+\_\+delete}} (int id)
+\begin{DoxyCompactList}\small\item\em Deletes a stored fingerprint. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a}{fingerprint\+\_\+set\+\_\+pins}} (int tx, int rx)
+\begin{DoxyCompactList}\small\item\em Sets the UART TX and RX pins for the fingerprint sensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8h_a0b31fe5ffffcc895863a47bd7000c337}{fingerprint\+\_\+set\+\_\+baudrate}} (int baud)
+\begin{DoxyCompactList}\small\item\em Sets the baud rate for fingerprint module communication. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16}{register\+\_\+fingerprint\+\_\+event\+\_\+handler}} (void(\texorpdfstring{$\ast$}{*}handler)(\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}}))
+\begin{DoxyCompactList}\small\item\em Function to register an event handler for fingerprint events. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f}{trigger\+\_\+fingerprint\+\_\+event}} (\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}} event)
+\begin{DoxyCompactList}\small\item\em Function to trigger a fingerprint event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_adaa0f83cf286650e928b5a4ed88ef1ae}{PS\+\_\+\+Get\+Image}}
+\begin{DoxyCompactList}\small\item\em Captures a fingerprint image from the scanner\textquotesingle{}s sensor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_ac85a52db93400d03d4759f9a73cf6d16}{PS\+\_\+\+Gen\+Char1}}
+\begin{DoxyCompactList}\small\item\em Generates a character file in Buffer 1. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_a41d10de9b594218b451f25eea203dd62}{PS\+\_\+\+Gen\+Char2}}
+\begin{DoxyCompactList}\small\item\em Generates a character file in Buffer 2. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_aab4b4130360fb33dd9060889dc8adc41}{PS\+\_\+\+Reg\+Model}}
+\begin{DoxyCompactList}\small\item\em Combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerprint model. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\+\_\+\+Search}}
+\begin{DoxyCompactList}\small\item\em Searches for a fingerprint match in the database. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_abea54c21ef0faa579e3ff4b86d07afa5}{PS\+\_\+\+Match}}
+\begin{DoxyCompactList}\small\item\em Matches two fingerprint templates stored in RAM. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_a1a39bbe581e26c3841e9d8502e887b41}{PS\+\_\+\+Store\+Char}}
+\begin{DoxyCompactList}\small\item\em Stores a fingerprint template from the buffer to the database. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_a6678fa109dafcae6dd0ac4def5435c59}{PS\+\_\+\+Delet\+Char}}
+\begin{DoxyCompactList}\small\item\em Deletes a specific fingerprint template from the database. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_ab02b3ece2bf54d92b9c8bfbacd73aa6d}{PS\+\_\+\+Empty}}
+\begin{DoxyCompactList}\small\item\em Clears all stored fingerprints (factory reset). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_adc5e9ebe13e75cf54551fb45a19dc8b3}{PS\+\_\+\+Read\+Sys\+Para}}
+\begin{DoxyCompactList}\small\item\em Reads system parameters from the fingerprint module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8h_a46a013e40835607060be04c22f89e005}{PS\+\_\+\+Set\+Chip\+Addr}}
+\begin{DoxyCompactList}\small\item\em Sets the fingerprint scanner\textquotesingle{}s device address. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} \mbox{\hyperlink{fingerprint_8h_ac1bc88ca9eeff4bcae8ac419f8653c07}{g\+\_\+fingerprint\+\_\+event\+\_\+handler}}
+\begin{DoxyCompactList}\small\item\em Global pointer to the fingerprint event handler function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Fingerprint sensor driver (ZW111) for ESP32. 
+
+\hypertarget{fingerprint_8h_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{1. Hardware Interface Description}{1. Hardware Interface Description}}\label{fingerprint_8h_autotoc_md0}
+\hypertarget{fingerprint_8h_autotoc_md1}{}\doxysubsubsubsection{\texorpdfstring{1.\+1 UART}{1.\+1 UART}}\label{fingerprint_8h_autotoc_md1}
+
+\begin{DoxyItemize}
+\item Default baud rate\+: 57600 bps (8 data bits, 1 stop bit, no parity)
+\item Baud rate adjustable\+: 9600 to 115200 bps
+\item Direct connection to MCU (3.\+3V) or use RS232 level converter for PC
+\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md2}{}\doxysubsubsubsection{\texorpdfstring{1.\+2 Power-\/on Sequence\+:}{1.\+2 Power-\/on Sequence\+:}}\label{fingerprint_8h_autotoc_md2}
+
+\begin{DoxyEnumerate}
+\item Host receives fingerprint module (FPM) interrupt wake-\/up signal.
+\item Host powers on Vmcu (MCU power supply) {\bfseries{before}} initializing UART.
+\item After communication completes, pull down serial signal lines {\bfseries{before}} powering off Vmcu.
+\end{DoxyEnumerate}\hypertarget{fingerprint_8h_autotoc_md3}{}\doxysubsubsubsection{\texorpdfstring{1.\+3 Connection}{1.\+3 Connection}}\label{fingerprint_8h_autotoc_md3}
+
+\begin{DoxyItemize}
+\item {\bfseries{TX}} → ESP32 GPIO17
+\item {\bfseries{RX}} → ESP32 GPIO16
+\item {\bfseries{VCC}} → 3.\+3V
+\item {\bfseries{GND}} → GND
+\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Event-\/driven System}{Event-\/driven System}}\label{fingerprint_8h_autotoc_md4}
+This system operates on an event-\/driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. The following events are generated based on the corresponding system actions. 
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{fingerprint_8h_a68654b05f39a5e88db0453de6f7fd726}\index{fingerprint.h@{fingerprint.h}!DEFAULT\_BAUD\_RATE@{DEFAULT\_BAUD\_RATE}}
+\index{DEFAULT\_BAUD\_RATE@{DEFAULT\_BAUD\_RATE}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_BAUD\_RATE}{DEFAULT\_BAUD\_RATE}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a68654b05f39a5e88db0453de6f7fd726} 
+\#define DEFAULT\+\_\+\+BAUD\+\_\+\+RATE~57600}
+
+
+
+Event handler for processing fingerprint events. 
+
+This function processes various fingerprint-\/related events and logs messages based on the event type. It can be used as a sample for handling fingerprint events in the application. The events are processed based on the {\ttfamily \doxylink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}} enumeration, and corresponding messages are logged using the ESP-\/\+IDF logging system.
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & The fingerprint event that occurred. This can be one of the following\+:
+\begin{DoxyItemize}
+\item {\ttfamily EVENT\+\_\+\+FINGER\+\_\+\+DETECTED}\+: Triggered when a finger is detected.
+\item {\ttfamily EVENT\+\_\+\+IMAGE\+\_\+\+CAPTURED}\+: Triggered when the fingerprint image is captured successfully.
+\item {\ttfamily EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACTED}\+: Triggered when the fingerprint features are extracted successfully.
+\item {\ttfamily EVENT\+\_\+\+MATCH\+\_\+\+SUCCESS}\+: Triggered when a fingerprint match is successful.
+\item {\ttfamily EVENT\+\_\+\+MATCH\+\_\+\+FAIL}\+: Triggered when a fingerprint mismatch occurs.
+\item {\ttfamily EVENT\+\_\+\+ERROR}\+: Triggered for general errors during fingerprint processing.
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+This function logs the corresponding message for each event. It can be modified or extended as needed for custom event handling in the application.
+
+\begin{DoxyNote}{Note}
+To use this function in the application, assign it to the global event handler {\ttfamily g\+\_\+fingerprint\+\_\+event\+\_\+handler} in the {\ttfamily app\+\_\+main.\+c}.
+\end{DoxyNote}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Sample\ code\ for\ event\ handler}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ handle\_fingerprint\_event(\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\_event\_t}}\ event)\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{switch}\ (event)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b}{EVENT\_FINGER\_DETECTED}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Finger\ detected!"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9}{EVENT\_IMAGE\_CAPTURED}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ image\ captured\ successfully!"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b}{EVENT\_FEATURE\_EXTRACTED}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ features\ extracted\ successfully!"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6}{EVENT\_MATCH\_SUCCESS}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ match\ successful!"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63}{EVENT\_MATCH\_FAIL}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ mismatch."{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a}{EVENT\_ERROR}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}An\ error\ occurred\ during\ fingerprint\ processing."{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Unknown\ event\ triggered."{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Default UART baud rate for fingerprint module. \Hypertarget{fingerprint_8h_a5d7dc57da1b15b90f236d89912b2d95a}\index{fingerprint.h@{fingerprint.h}!DEFAULT\_FINGERPRINT\_ADDRESS@{DEFAULT\_FINGERPRINT\_ADDRESS}}
+\index{DEFAULT\_FINGERPRINT\_ADDRESS@{DEFAULT\_FINGERPRINT\_ADDRESS}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_FINGERPRINT\_ADDRESS}{DEFAULT\_FINGERPRINT\_ADDRESS}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a5d7dc57da1b15b90f236d89912b2d95a} 
+\#define DEFAULT\+\_\+\+FINGERPRINT\+\_\+\+ADDRESS~0x\+FFFFFFFF}
+
+
+
+Default fingerprint module address (broadcast address). 
+
+\Hypertarget{fingerprint_8h_aef44023d85418b6b89d8e8492f4feb81}\index{fingerprint.h@{fingerprint.h}!DEFAULT\_RX\_PIN@{DEFAULT\_RX\_PIN}}
+\index{DEFAULT\_RX\_PIN@{DEFAULT\_RX\_PIN}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_RX\_PIN}{DEFAULT\_RX\_PIN}}
+{\footnotesize\ttfamily \label{fingerprint_8h_aef44023d85418b6b89d8e8492f4feb81} 
+\#define DEFAULT\+\_\+\+RX\+\_\+\+PIN~16}
+
+\Hypertarget{fingerprint_8h_a906d33234fc0a208973dee29efb12336}\index{fingerprint.h@{fingerprint.h}!DEFAULT\_TX\_PIN@{DEFAULT\_TX\_PIN}}
+\index{DEFAULT\_TX\_PIN@{DEFAULT\_TX\_PIN}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_TX\_PIN}{DEFAULT\_TX\_PIN}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a906d33234fc0a208973dee29efb12336} 
+\#define DEFAULT\+\_\+\+TX\+\_\+\+PIN~17}
+
+
+
+Default UART pins (modifiable at runtime). 
+
+\Hypertarget{fingerprint_8h_a3213a1f8aac63fb5a1e7fba62b6c14c9}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_HEADER@{FINGERPRINT\_HEADER}}
+\index{FINGERPRINT\_HEADER@{FINGERPRINT\_HEADER}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{FINGERPRINT\_HEADER}{FINGERPRINT\_HEADER}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a3213a1f8aac63fb5a1e7fba62b6c14c9} 
+\#define FINGERPRINT\+\_\+\+HEADER~0x\+EF01}
+
+
+
+Default fingerprint module header identifier. 
+
+\Hypertarget{fingerprint_8h_a69d1c616ae544899c43fd1dbfcbaa086}\index{fingerprint.h@{fingerprint.h}!UART\_READ\_TIMEOUT@{UART\_READ\_TIMEOUT}}
+\index{UART\_READ\_TIMEOUT@{UART\_READ\_TIMEOUT}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{UART\_READ\_TIMEOUT}{UART\_READ\_TIMEOUT}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a69d1c616ae544899c43fd1dbfcbaa086} 
+\#define UART\+\_\+\+READ\+\_\+\+TIMEOUT~100}
+
+
+
+Timeout value for UART read operations. 
+
+Defines the maximum wait time for receiving data over UART in milliseconds. Adjust this value based on the fingerprint module\textquotesingle{}s response time. 
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}\index{fingerprint.h@{fingerprint.h}!fingerprint\_event\_handler\_t@{fingerprint\_event\_handler\_t}}
+\index{fingerprint\_event\_handler\_t@{fingerprint\_event\_handler\_t}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_event\_handler\_t}{fingerprint\_event\_handler\_t}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789} 
+typedef void(\texorpdfstring{$\ast$}{*} fingerprint\+\_\+event\+\_\+handler\+\_\+t) (\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}} event)}
+
+
+
+Typedef for the fingerprint event handler callback. 
+
+This type is used to define a function pointer for handling fingerprint-\/related events. The function pointed to by the callback should take a single parameter of type {\ttfamily \doxylink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}}, representing the specific event that occurred.
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & The fingerprint event that occurred. This is an enumeration value of type {\ttfamily \doxylink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}}. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}\index{fingerprint.h@{fingerprint.h}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\index{fingerprint\_event\_t@{fingerprint\_event\_t}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_event\_t}{fingerprint\_event\_t}}
+{\footnotesize\ttfamily \label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a} 
+enum \mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}}}
+
+
+
+Enum to define various fingerprint events. 
+
+These events represent significant milestones or errors during the fingerprint processing. They allow for event-\/driven management of the fingerprint sensor actions.
+
+Each event is triggered when a certain action or error occurs, making it easier for the application to respond to changes in the system state.
+
+\begin{DoxyNote}{Note}
+The event codes are used in an event handler system where functions can subscribe and react to specific events. 
+\end{DoxyNote}
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_FINGER\_DETECTED@{EVENT\_FINGER\_DETECTED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_FINGER\_DETECTED@{EVENT\_FINGER\_DETECTED}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b} 
+EVENT\+\_\+\+FINGER\+\_\+\+DETECTED&Event triggered when a finger is detected. Indicates that a finger has been placed on the fingerprint scanner. Finger detected \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_IMAGE\_CAPTURED@{EVENT\_IMAGE\_CAPTURED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_IMAGE\_CAPTURED@{EVENT\_IMAGE\_CAPTURED}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9} 
+EVENT\+\_\+\+IMAGE\+\_\+\+CAPTURED&Event triggered when a fingerprint image is captured successfully. Indicates that the fingerprint sensor has successfully captured an image. Image captured \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_FEATURE\_EXTRACTED@{EVENT\_FEATURE\_EXTRACTED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_FEATURE\_EXTRACTED@{EVENT\_FEATURE\_EXTRACTED}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b} 
+EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACTED&Event triggered when fingerprint features are successfully extracted. This event is generated after the sensor extracts features from the fingerprint image. Feature extraction completed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_MATCH\_SUCCESS@{EVENT\_MATCH\_SUCCESS}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_MATCH\_SUCCESS@{EVENT\_MATCH\_SUCCESS}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6} 
+EVENT\+\_\+\+MATCH\+\_\+\+SUCCESS&Event triggered when a fingerprint match is successful. Indicates that a fingerprint match has been found in the database. Fingerprint matched \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_MATCH\_FAIL@{EVENT\_MATCH\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_MATCH\_FAIL@{EVENT\_MATCH\_FAIL}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63} 
+EVENT\+\_\+\+MATCH\+\_\+\+FAIL&Event triggered when a fingerprint mismatch occurs. Occurs when no matching fingerprint is found in the database. Fingerprint mismatch \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_ERROR@{EVENT\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_ERROR@{EVENT\_ERROR}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a} 
+EVENT\+\_\+\+ERROR&A general error event, used for unexpected failures. This event signifies a general failure in the fingerprint system. General error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_IMAGE\_FAIL@{EVENT\_IMAGE\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_IMAGE\_FAIL@{EVENT\_IMAGE\_FAIL}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa7ba4dbb06dfd6e55e77531a98e45382a}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa7ba4dbb06dfd6e55e77531a98e45382a} 
+EVENT\+\_\+\+IMAGE\+\_\+\+FAIL&Event triggered when the fingerprint image capture fails. This event corresponds to the status {\ttfamily FINGERPRINT\+\_\+\+IMAGE\+\_\+\+FAIL}. Image capture failure (FINGERPRINT\+\_\+\+IMAGE\+\_\+\+FAIL) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_FEATURE\_EXTRACT\_FAIL@{EVENT\_FEATURE\_EXTRACT\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_FEATURE\_EXTRACT\_FAIL@{EVENT\_FEATURE\_EXTRACT\_FAIL}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aad081bd29ae5c73e876ada30fba4aa662}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aad081bd29ae5c73e876ada30fba4aa662} 
+EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACT\+\_\+\+FAIL&Event triggered when feature extraction fails. This event corresponds to the status {\ttfamily FINGERPRINT\+\_\+\+TOO\+\_\+\+FEW\+\_\+\+POINTS}. Feature extraction failure (FINGERPRINT\+\_\+\+TOO\+\_\+\+FEW\+\_\+\+POINTS) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_DB\_FULL@{EVENT\_DB\_FULL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_DB\_FULL@{EVENT\_DB\_FULL}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa8ac0d84de03764aaacb0d296b7aaeb19}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aa8ac0d84de03764aaacb0d296b7aaeb19} 
+EVENT\+\_\+\+DB\+\_\+\+FULL&Event triggered when the fingerprint database is full. This event corresponds to the status {\ttfamily FINGERPRINT\+\_\+\+DB\+\_\+\+FULL}. Database full (FINGERPRINT\+\_\+\+DB\+\_\+\+FULL) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_SENSOR\_ERROR@{EVENT\_SENSOR\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_SENSOR\_ERROR@{EVENT\_SENSOR\_ERROR}}}\Hypertarget{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aab213512d60aa61fb662ae5ceaa26a791}\label{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5aab213512d60aa61fb662ae5ceaa26a791} 
+EVENT\+\_\+\+SENSOR\+\_\+\+ERROR&Event triggered when there is a sensor operation failure. This event corresponds to the status {\ttfamily FINGERPRINT\+\_\+\+SENSOR\+\_\+\+OP\+\_\+\+FAIL}. Sensor operation failure (FINGERPRINT\+\_\+\+SENSOR\+\_\+\+OP\+\_\+\+FAIL) \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}\index{fingerprint.h@{fingerprint.h}!fingerprint\_status\_t@{fingerprint\_status\_t}}
+\index{fingerprint\_status\_t@{fingerprint\_status\_t}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_status\_t}{fingerprint\_status\_t}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364} 
+enum \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}}}
+
+
+
+Fingerprint sensor status codes. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_OK@{FINGERPRINT\_OK}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_OK@{FINGERPRINT\_OK}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc} 
+FINGERPRINT\+\_\+\+OK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_PACKET\_ERROR@{FINGERPRINT\_PACKET\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_PACKET\_ERROR@{FINGERPRINT\_PACKET\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d} 
+FINGERPRINT\+\_\+\+PACKET\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_NO\_FINGER@{FINGERPRINT\_NO\_FINGER}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_NO\_FINGER@{FINGERPRINT\_NO\_FINGER}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea} 
+FINGERPRINT\+\_\+\+NO\+\_\+\+FINGER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_IMAGE\_FAIL@{FINGERPRINT\_IMAGE\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_IMAGE\_FAIL@{FINGERPRINT\_IMAGE\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609} 
+FINGERPRINT\+\_\+\+IMAGE\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_TOO\_DRY@{FINGERPRINT\_TOO\_DRY}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_TOO\_DRY@{FINGERPRINT\_TOO\_DRY}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82} 
+FINGERPRINT\+\_\+\+TOO\+\_\+\+DRY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_TOO\_WET@{FINGERPRINT\_TOO\_WET}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_TOO\_WET@{FINGERPRINT\_TOO\_WET}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac} 
+FINGERPRINT\+\_\+\+TOO\+\_\+\+WET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_TOO\_CHAOTIC@{FINGERPRINT\_TOO\_CHAOTIC}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_TOO\_CHAOTIC@{FINGERPRINT\_TOO\_CHAOTIC}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846} 
+FINGERPRINT\+\_\+\+TOO\+\_\+\+CHAOTIC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_TOO\_FEW\_POINTS@{FINGERPRINT\_TOO\_FEW\_POINTS}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_TOO\_FEW\_POINTS@{FINGERPRINT\_TOO\_FEW\_POINTS}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a} 
+FINGERPRINT\+\_\+\+TOO\+\_\+\+FEW\+\_\+\+POINTS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_MISMATCH@{FINGERPRINT\_MISMATCH}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_MISMATCH@{FINGERPRINT\_MISMATCH}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e} 
+FINGERPRINT\+\_\+\+MISMATCH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_NOT\_FOUND@{FINGERPRINT\_NOT\_FOUND}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_NOT\_FOUND@{FINGERPRINT\_NOT\_FOUND}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9} 
+FINGERPRINT\+\_\+\+NOT\+\_\+\+FOUND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_MERGE\_FAIL@{FINGERPRINT\_MERGE\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_MERGE\_FAIL@{FINGERPRINT\_MERGE\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74} 
+FINGERPRINT\+\_\+\+MERGE\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_DB\_RANGE\_ERROR@{FINGERPRINT\_DB\_RANGE\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_DB\_RANGE\_ERROR@{FINGERPRINT\_DB\_RANGE\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0} 
+FINGERPRINT\+\_\+\+DB\+\_\+\+RANGE\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_READ\_TEMPLATE\_ERROR@{FINGERPRINT\_READ\_TEMPLATE\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_READ\_TEMPLATE\_ERROR@{FINGERPRINT\_READ\_TEMPLATE\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f} 
+FINGERPRINT\+\_\+\+READ\+\_\+\+TEMPLATE\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_UPLOAD\_FEATURE\_FAIL@{FINGERPRINT\_UPLOAD\_FEATURE\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_UPLOAD\_FEATURE\_FAIL@{FINGERPRINT\_UPLOAD\_FEATURE\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300} 
+FINGERPRINT\+\_\+\+UPLOAD\+\_\+\+FEATURE\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_DATA\_PACKET\_ERROR@{FINGERPRINT\_DATA\_PACKET\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_DATA\_PACKET\_ERROR@{FINGERPRINT\_DATA\_PACKET\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1} 
+FINGERPRINT\+\_\+\+DATA\+\_\+\+PACKET\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_UPLOAD\_IMAGE\_FAIL@{FINGERPRINT\_UPLOAD\_IMAGE\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_UPLOAD\_IMAGE\_FAIL@{FINGERPRINT\_UPLOAD\_IMAGE\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8} 
+FINGERPRINT\+\_\+\+UPLOAD\+\_\+\+IMAGE\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_DELETE\_TEMPLATE\_FAIL@{FINGERPRINT\_DELETE\_TEMPLATE\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_DELETE\_TEMPLATE\_FAIL@{FINGERPRINT\_DELETE\_TEMPLATE\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02} 
+FINGERPRINT\+\_\+\+DELETE\+\_\+\+TEMPLATE\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_DB\_CLEAR\_FAIL@{FINGERPRINT\_DB\_CLEAR\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_DB\_CLEAR\_FAIL@{FINGERPRINT\_DB\_CLEAR\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7} 
+FINGERPRINT\+\_\+\+DB\+\_\+\+CLEAR\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_LOW\_POWER\_FAIL@{FINGERPRINT\_LOW\_POWER\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_LOW\_POWER\_FAIL@{FINGERPRINT\_LOW\_POWER\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1} 
+FINGERPRINT\+\_\+\+LOW\+\_\+\+POWER\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_WRONG\_PASSWORD@{FINGERPRINT\_WRONG\_PASSWORD}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_WRONG\_PASSWORD@{FINGERPRINT\_WRONG\_PASSWORD}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633} 
+FINGERPRINT\+\_\+\+WRONG\+\_\+\+PASSWORD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_NO\_VALID\_IMAGE@{FINGERPRINT\_NO\_VALID\_IMAGE}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_NO\_VALID\_IMAGE@{FINGERPRINT\_NO\_VALID\_IMAGE}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1} 
+FINGERPRINT\+\_\+\+NO\+\_\+\+VALID\+\_\+\+IMAGE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_UPGRADE\_FAIL@{FINGERPRINT\_UPGRADE\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_UPGRADE\_FAIL@{FINGERPRINT\_UPGRADE\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a} 
+FINGERPRINT\+\_\+\+UPGRADE\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_RESIDUAL\_FINGER@{FINGERPRINT\_RESIDUAL\_FINGER}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_RESIDUAL\_FINGER@{FINGERPRINT\_RESIDUAL\_FINGER}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340} 
+FINGERPRINT\+\_\+\+RESIDUAL\+\_\+\+FINGER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_FLASH\_RW\_ERROR@{FINGERPRINT\_FLASH\_RW\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_FLASH\_RW\_ERROR@{FINGERPRINT\_FLASH\_RW\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e} 
+FINGERPRINT\+\_\+\+FLASH\+\_\+\+RW\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_RANDOM\_GEN\_FAIL@{FINGERPRINT\_RANDOM\_GEN\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_RANDOM\_GEN\_FAIL@{FINGERPRINT\_RANDOM\_GEN\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96} 
+FINGERPRINT\+\_\+\+RANDOM\+\_\+\+GEN\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_INVALID\_REGISTER@{FINGERPRINT\_INVALID\_REGISTER}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_INVALID\_REGISTER@{FINGERPRINT\_INVALID\_REGISTER}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9} 
+FINGERPRINT\+\_\+\+INVALID\+\_\+\+REGISTER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_REGISTER\_SETTING\_ERROR@{FINGERPRINT\_REGISTER\_SETTING\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_REGISTER\_SETTING\_ERROR@{FINGERPRINT\_REGISTER\_SETTING\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8} 
+FINGERPRINT\+\_\+\+REGISTER\+\_\+\+SETTING\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_NOTEPAD\_PAGE\_ERROR@{FINGERPRINT\_NOTEPAD\_PAGE\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_NOTEPAD\_PAGE\_ERROR@{FINGERPRINT\_NOTEPAD\_PAGE\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3} 
+FINGERPRINT\+\_\+\+NOTEPAD\+\_\+\+PAGE\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_PORT\_OP\_FAIL@{FINGERPRINT\_PORT\_OP\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_PORT\_OP\_FAIL@{FINGERPRINT\_PORT\_OP\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac} 
+FINGERPRINT\+\_\+\+PORT\+\_\+\+OP\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_ENROLL\_FAIL@{FINGERPRINT\_ENROLL\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_ENROLL\_FAIL@{FINGERPRINT\_ENROLL\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4} 
+FINGERPRINT\+\_\+\+ENROLL\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_DB\_FULL@{FINGERPRINT\_DB\_FULL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_DB\_FULL@{FINGERPRINT\_DB\_FULL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb} 
+FINGERPRINT\+\_\+\+DB\+\_\+\+FULL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_DEVICE\_ADDRESS\_ERROR@{FINGERPRINT\_DEVICE\_ADDRESS\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_DEVICE\_ADDRESS\_ERROR@{FINGERPRINT\_DEVICE\_ADDRESS\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51} 
+FINGERPRINT\+\_\+\+DEVICE\+\_\+\+ADDRESS\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_TEMPLATE\_NOT\_EMPTY@{FINGERPRINT\_TEMPLATE\_NOT\_EMPTY}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_TEMPLATE\_NOT\_EMPTY@{FINGERPRINT\_TEMPLATE\_NOT\_EMPTY}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df} 
+FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+NOT\+\_\+\+EMPTY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_TEMPLATE\_EMPTY@{FINGERPRINT\_TEMPLATE\_EMPTY}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_TEMPLATE\_EMPTY@{FINGERPRINT\_TEMPLATE\_EMPTY}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e} 
+FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+EMPTY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_DB\_EMPTY@{FINGERPRINT\_DB\_EMPTY}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_DB\_EMPTY@{FINGERPRINT\_DB\_EMPTY}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581} 
+FINGERPRINT\+\_\+\+DB\+\_\+\+EMPTY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_ENTRY\_COUNT\_ERROR@{FINGERPRINT\_ENTRY\_COUNT\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_ENTRY\_COUNT\_ERROR@{FINGERPRINT\_ENTRY\_COUNT\_ERROR}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03} 
+FINGERPRINT\+\_\+\+ENTRY\+\_\+\+COUNT\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_TIMEOUT@{FINGERPRINT\_TIMEOUT}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_TIMEOUT@{FINGERPRINT\_TIMEOUT}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36} 
+FINGERPRINT\+\_\+\+TIMEOUT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_ALREADY\_EXISTS@{FINGERPRINT\_ALREADY\_EXISTS}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_ALREADY\_EXISTS@{FINGERPRINT\_ALREADY\_EXISTS}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb} 
+FINGERPRINT\+\_\+\+ALREADY\+\_\+\+EXISTS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_FEATURES\_RELATED@{FINGERPRINT\_FEATURES\_RELATED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_FEATURES\_RELATED@{FINGERPRINT\_FEATURES\_RELATED}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef} 
+FINGERPRINT\+\_\+\+FEATURES\+\_\+\+RELATED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_SENSOR\_OP\_FAIL@{FINGERPRINT\_SENSOR\_OP\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_SENSOR\_OP\_FAIL@{FINGERPRINT\_SENSOR\_OP\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362} 
+FINGERPRINT\+\_\+\+SENSOR\+\_\+\+OP\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_MODULE\_INFO\_NOT\_EMPTY@{FINGERPRINT\_MODULE\_INFO\_NOT\_EMPTY}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_MODULE\_INFO\_NOT\_EMPTY@{FINGERPRINT\_MODULE\_INFO\_NOT\_EMPTY}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7} 
+FINGERPRINT\+\_\+\+MODULE\+\_\+\+INFO\+\_\+\+NOT\+\_\+\+EMPTY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_MODULE\_INFO\_EMPTY@{FINGERPRINT\_MODULE\_INFO\_EMPTY}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_MODULE\_INFO\_EMPTY@{FINGERPRINT\_MODULE\_INFO\_EMPTY}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932} 
+FINGERPRINT\+\_\+\+MODULE\+\_\+\+INFO\+\_\+\+EMPTY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_OTP\_FAIL@{FINGERPRINT\_OTP\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_OTP\_FAIL@{FINGERPRINT\_OTP\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9} 
+FINGERPRINT\+\_\+\+OTP\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_KEY\_GEN\_FAIL@{FINGERPRINT\_KEY\_GEN\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_KEY\_GEN\_FAIL@{FINGERPRINT\_KEY\_GEN\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596} 
+FINGERPRINT\+\_\+\+KEY\+\_\+\+GEN\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_KEY\_NOT\_EXIST@{FINGERPRINT\_KEY\_NOT\_EXIST}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_KEY\_NOT\_EXIST@{FINGERPRINT\_KEY\_NOT\_EXIST}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906} 
+FINGERPRINT\+\_\+\+KEY\+\_\+\+NOT\+\_\+\+EXIST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_SECURITY\_ALGO\_FAIL@{FINGERPRINT\_SECURITY\_ALGO\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_SECURITY\_ALGO\_FAIL@{FINGERPRINT\_SECURITY\_ALGO\_FAIL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0} 
+FINGERPRINT\+\_\+\+SECURITY\+\_\+\+ALGO\+\_\+\+FAIL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_ENCRYPTION\_MISMATCH@{FINGERPRINT\_ENCRYPTION\_MISMATCH}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_ENCRYPTION\_MISMATCH@{FINGERPRINT\_ENCRYPTION\_MISMATCH}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf} 
+FINGERPRINT\+\_\+\+ENCRYPTION\+\_\+\+MISMATCH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_KEY\_LOCKED@{FINGERPRINT\_KEY\_LOCKED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_KEY\_LOCKED@{FINGERPRINT\_KEY\_LOCKED}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222} 
+FINGERPRINT\+\_\+\+KEY\+\_\+\+LOCKED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_IMAGE\_AREA\_SMALL@{FINGERPRINT\_IMAGE\_AREA\_SMALL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_IMAGE\_AREA\_SMALL@{FINGERPRINT\_IMAGE\_AREA\_SMALL}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1} 
+FINGERPRINT\+\_\+\+IMAGE\+\_\+\+AREA\+\_\+\+SMALL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_IMAGE\_NOT\_AVAILABLE@{FINGERPRINT\_IMAGE\_NOT\_AVAILABLE}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_IMAGE\_NOT\_AVAILABLE@{FINGERPRINT\_IMAGE\_NOT\_AVAILABLE}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385} 
+FINGERPRINT\+\_\+\+IMAGE\+\_\+\+NOT\+\_\+\+AVAILABLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FINGERPRINT\_ILLEGAL\_DATA@{FINGERPRINT\_ILLEGAL\_DATA}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_ILLEGAL\_DATA@{FINGERPRINT\_ILLEGAL\_DATA}}}\Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994}\label{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994} 
+FINGERPRINT\+\_\+\+ILLEGAL\+\_\+\+DATA&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{fingerprint_8h_ac29250c5487590be95f209110f32961e}\index{fingerprint.h@{fingerprint.h}!fingerprint\_build\_command@{fingerprint\_build\_command}}
+\index{fingerprint\_build\_command@{fingerprint\_build\_command}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_build\_command()}{fingerprint\_build\_command()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_ac29250c5487590be95f209110f32961e} 
+esp\+\_\+err\+\_\+t fingerprint\+\_\+build\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}}]{cmd}{, }\item[{uint8\+\_\+t}]{command}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{params}{, }\item[{uint8\+\_\+t}]{param\+\_\+length}{}\end{DoxyParamCaption})}
+
+
+
+Builds a fingerprint command packet. 
+
+This function initializes a {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} with the specified command and parameters. It ensures the parameter length does not exceed 4 bytes and calculates the checksum.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em cmd} & Pointer to the {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} to be populated. \\
+\hline
+\mbox{\texttt{ in}}  & {\em command} & Command byte to be included in the packet. \\
+\hline
+\mbox{\texttt{ in}}  & {\em params} & Pointer to parameter array (can be NULL if no parameters). \\
+\hline
+\mbox{\texttt{ in}}  & {\em param\+\_\+length} & Number of parameters (max 4). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily ESP\+\_\+\+OK} on success.
+\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG} if {\ttfamily cmd} is NULL.
+\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+SIZE} if {\ttfamily param\+\_\+length} exceeds 4. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a0d5b756311c0909b7f123085fb54e5b5}\index{fingerprint.h@{fingerprint.h}!fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}}
+\index{fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_calculate\_checksum()}{fingerprint\_calculate\_checksum()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a0d5b756311c0909b7f123085fb54e5b5} 
+uint16\+\_\+t fingerprint\+\_\+calculate\+\_\+checksum (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}}]{cmd}{}\end{DoxyParamCaption})}
+
+
+
+Computes the checksum for a given \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet} structure. 
+
+The checksum is the sum of all bytes from packet\+\_\+id to parameters.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em cmd} & Pointer to the \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet} structure. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The computed checksum. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a907879b40b181a5643873afad0d96952}\index{fingerprint.h@{fingerprint.h}!fingerprint\_delete@{fingerprint\_delete}}
+\index{fingerprint\_delete@{fingerprint\_delete}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_delete()}{fingerprint\_delete()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a907879b40b181a5643873afad0d96952} 
+esp\+\_\+err\+\_\+t fingerprint\+\_\+delete (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+Deletes a stored fingerprint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & ID of the fingerprint to delete. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK on success, error code otherwise. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a511e826c0481490ea7eafe369a219291}\index{fingerprint.h@{fingerprint.h}!fingerprint\_enroll@{fingerprint\_enroll}}
+\index{fingerprint\_enroll@{fingerprint\_enroll}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_enroll()}{fingerprint\_enroll()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a511e826c0481490ea7eafe369a219291} 
+esp\+\_\+err\+\_\+t fingerprint\+\_\+enroll (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+Enrolls a fingerprint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & ID of the fingerprint to enroll. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK on success, error code otherwise. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a20092401e8301669fc2d595f02dc433d}\index{fingerprint.h@{fingerprint.h}!fingerprint\_get\_status@{fingerprint\_get\_status}}
+\index{fingerprint\_get\_status@{fingerprint\_get\_status}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_get\_status()}{fingerprint\_get\_status()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a20092401e8301669fc2d595f02dc433d} 
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} fingerprint\+\_\+get\+\_\+status (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}}]{packet}{}\end{DoxyParamCaption})}
+
+
+
+Get the status of the fingerprint operation from the response packet. 
+
+This function extracts the confirmation code from the fingerprint sensor\textquotesingle{}s response and maps it to a predefined \doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} enumeration.
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to the \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet} structure containing the response.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} Status code representing the operation result. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}\index{fingerprint.h@{fingerprint.h}!fingerprint\_init@{fingerprint\_init}}
+\index{fingerprint\_init@{fingerprint\_init}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_init()}{fingerprint\_init()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580} 
+esp\+\_\+err\+\_\+t fingerprint\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the fingerprint scanner. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK on success, error code otherwise. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a18e8b2af7dd860c312d730b5d1d30b7f}\index{fingerprint.h@{fingerprint.h}!fingerprint\_read\_response@{fingerprint\_read\_response}}
+\index{fingerprint\_read\_response@{fingerprint\_read\_response}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_read\_response()}{fingerprint\_read\_response()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a18e8b2af7dd860c312d730b5d1d30b7f} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*} fingerprint\+\_\+read\+\_\+response (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Reads the response packet from UART and returns a dynamically allocated \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to the received \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}, or NULL on failure. The caller is responsible for freeing the allocated memory using {\ttfamily free()}. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a9f8428752fbef75d23833bfd50411091}\index{fingerprint.h@{fingerprint.h}!fingerprint\_scan@{fingerprint\_scan}}
+\index{fingerprint\_scan@{fingerprint\_scan}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_scan()}{fingerprint\_scan()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a9f8428752fbef75d23833bfd50411091} 
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} fingerprint\+\_\+scan (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Scans for a fingerprint and returns the status. 
+
+This function sends a scan command to the fingerprint module, waits for a response, and maps the received status code to the corresponding \doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} value.
+
+\begin{DoxyReturn}{Returns}
+\doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} The status of the fingerprint scan. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}\index{fingerprint.h@{fingerprint.h}!fingerprint\_send\_command@{fingerprint\_send\_command}}
+\index{fingerprint\_send\_command@{fingerprint\_send\_command}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_send\_command()}{fingerprint\_send\_command()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb} 
+esp\+\_\+err\+\_\+t fingerprint\+\_\+send\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}}]{cmd}{, }\item[{uint32\+\_\+t}]{address}{}\end{DoxyParamCaption})}
+
+
+
+Sends a fingerprint command packet to the fingerprint module. 
+
+This function constructs a command packet, calculates its checksum, and sends it via UART to the fingerprint module at the specified address.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cmd} & Pointer to a \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet} structure containing the command details. \\
+\hline
+{\em address} & The address of the fingerprint module. This can be configured as needed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on success
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM if memory allocation fails
+\item ESP\+\_\+\+FAIL if the command could not be fully sent over UART 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a0b31fe5ffffcc895863a47bd7000c337}\index{fingerprint.h@{fingerprint.h}!fingerprint\_set\_baudrate@{fingerprint\_set\_baudrate}}
+\index{fingerprint\_set\_baudrate@{fingerprint\_set\_baudrate}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_set\_baudrate()}{fingerprint\_set\_baudrate()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a0b31fe5ffffcc895863a47bd7000c337} 
+void fingerprint\+\_\+set\+\_\+baudrate (\begin{DoxyParamCaption}\item[{int}]{baud}{}\end{DoxyParamCaption})}
+
+
+
+Sets the baud rate for fingerprint module communication. 
+
+This function adjusts the baud rate used for UART communication with the fingerprint scanner. It should be called before {\ttfamily \doxylink{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\+\_\+init()}} to ensure proper communication settings.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em baud} & The desired baud rate (e.\+g., 9600, 57600, 115200). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a}\index{fingerprint.h@{fingerprint.h}!fingerprint\_set\_pins@{fingerprint\_set\_pins}}
+\index{fingerprint\_set\_pins@{fingerprint\_set\_pins}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_set\_pins()}{fingerprint\_set\_pins()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a} 
+void fingerprint\+\_\+set\+\_\+pins (\begin{DoxyParamCaption}\item[{int}]{tx}{, }\item[{int}]{rx}{}\end{DoxyParamCaption})}
+
+
+
+Sets the UART TX and RX pins for the fingerprint sensor. 
+
+This function allows dynamic configuration of the TX and RX pins before initializing the fingerprint module.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em tx} & GPIO number for the TX pin. \\
+\hline
+\mbox{\texttt{ in}}  & {\em rx} & GPIO number for the RX pin. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16}\index{fingerprint.h@{fingerprint.h}!register\_fingerprint\_event\_handler@{register\_fingerprint\_event\_handler}}
+\index{register\_fingerprint\_event\_handler@{register\_fingerprint\_event\_handler}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{register\_fingerprint\_event\_handler()}{register\_fingerprint\_event\_handler()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16} 
+void register\+\_\+fingerprint\+\_\+event\+\_\+handler (\begin{DoxyParamCaption}\item[{void(\texorpdfstring{$\ast$}{*}}]{handler~}{)(\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}})}\end{DoxyParamCaption})}
+
+
+
+Function to register an event handler for fingerprint events. 
+
+This function allows the application to register a callback handler that will be called when a fingerprint event is triggered. The handler will process the event according to its type (e.\+g., finger detected, match success, etc.).
+
+
+\begin{DoxyParams}{Parameters}
+{\em handler} & The function pointer to the event handler function. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f}\index{fingerprint.h@{fingerprint.h}!trigger\_fingerprint\_event@{trigger\_fingerprint\_event}}
+\index{trigger\_fingerprint\_event@{trigger\_fingerprint\_event}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{trigger\_fingerprint\_event()}{trigger\_fingerprint\_event()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f} 
+void trigger\+\_\+fingerprint\+\_\+event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}}}]{event}{}\end{DoxyParamCaption})}
+
+
+
+Function to trigger a fingerprint event. 
+
+This function is called to trigger a specific fingerprint event. It will invoke the registered event handler (if any) with the specified event.
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & The fingerprint event to trigger. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{fingerprint_8h_ac1bc88ca9eeff4bcae8ac419f8653c07}\index{fingerprint.h@{fingerprint.h}!g\_fingerprint\_event\_handler@{g\_fingerprint\_event\_handler}}
+\index{g\_fingerprint\_event\_handler@{g\_fingerprint\_event\_handler}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{g\_fingerprint\_event\_handler}{g\_fingerprint\_event\_handler}}
+{\footnotesize\ttfamily \label{fingerprint_8h_ac1bc88ca9eeff4bcae8ac419f8653c07} 
+\mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} g\+\_\+fingerprint\+\_\+event\+\_\+handler\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Global pointer to the fingerprint event handler function. 
+
+This pointer is used to assign a function that will handle fingerprint-\/related events. The function should be defined by the user and should match the {\ttfamily \doxylink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} callback type. The event handler is called whenever a fingerprint-\/related event occurs, such as detection, image capture, or match results. \Hypertarget{fingerprint_8h_a6678fa109dafcae6dd0ac4def5435c59}\index{fingerprint.h@{fingerprint.h}!PS\_DeletChar@{PS\_DeletChar}}
+\index{PS\_DeletChar@{PS\_DeletChar}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_DeletChar}{PS\_DeletChar}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a6678fa109dafcae6dd0ac4def5435c59} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Delet\+Char\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Deletes a specific fingerprint template from the database. 
+
+\Hypertarget{fingerprint_8h_ab02b3ece2bf54d92b9c8bfbacd73aa6d}\index{fingerprint.h@{fingerprint.h}!PS\_Empty@{PS\_Empty}}
+\index{PS\_Empty@{PS\_Empty}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_Empty}{PS\_Empty}}
+{\footnotesize\ttfamily \label{fingerprint_8h_ab02b3ece2bf54d92b9c8bfbacd73aa6d} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Empty\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Clears all stored fingerprints (factory reset). 
+
+\Hypertarget{fingerprint_8h_ac85a52db93400d03d4759f9a73cf6d16}\index{fingerprint.h@{fingerprint.h}!PS\_GenChar1@{PS\_GenChar1}}
+\index{PS\_GenChar1@{PS\_GenChar1}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_GenChar1}{PS\_GenChar1}}
+{\footnotesize\ttfamily \label{fingerprint_8h_ac85a52db93400d03d4759f9a73cf6d16} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Gen\+Char1\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Generates a character file in Buffer 1. 
+
+\Hypertarget{fingerprint_8h_a41d10de9b594218b451f25eea203dd62}\index{fingerprint.h@{fingerprint.h}!PS\_GenChar2@{PS\_GenChar2}}
+\index{PS\_GenChar2@{PS\_GenChar2}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_GenChar2}{PS\_GenChar2}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a41d10de9b594218b451f25eea203dd62} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Gen\+Char2\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Generates a character file in Buffer 2. 
+
+\Hypertarget{fingerprint_8h_adaa0f83cf286650e928b5a4ed88ef1ae}\index{fingerprint.h@{fingerprint.h}!PS\_GetImage@{PS\_GetImage}}
+\index{PS\_GetImage@{PS\_GetImage}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_GetImage}{PS\_GetImage}}
+{\footnotesize\ttfamily \label{fingerprint_8h_adaa0f83cf286650e928b5a4ed88ef1ae} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Get\+Image\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Captures a fingerprint image from the scanner\textquotesingle{}s sensor. 
+
+\Hypertarget{fingerprint_8h_abea54c21ef0faa579e3ff4b86d07afa5}\index{fingerprint.h@{fingerprint.h}!PS\_Match@{PS\_Match}}
+\index{PS\_Match@{PS\_Match}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_Match}{PS\_Match}}
+{\footnotesize\ttfamily \label{fingerprint_8h_abea54c21ef0faa579e3ff4b86d07afa5} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Match\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Matches two fingerprint templates stored in RAM. 
+
+\Hypertarget{fingerprint_8h_adc5e9ebe13e75cf54551fb45a19dc8b3}\index{fingerprint.h@{fingerprint.h}!PS\_ReadSysPara@{PS\_ReadSysPara}}
+\index{PS\_ReadSysPara@{PS\_ReadSysPara}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_ReadSysPara}{PS\_ReadSysPara}}
+{\footnotesize\ttfamily \label{fingerprint_8h_adc5e9ebe13e75cf54551fb45a19dc8b3} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Read\+Sys\+Para\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Reads system parameters from the fingerprint module. 
+
+\Hypertarget{fingerprint_8h_aab4b4130360fb33dd9060889dc8adc41}\index{fingerprint.h@{fingerprint.h}!PS\_RegModel@{PS\_RegModel}}
+\index{PS\_RegModel@{PS\_RegModel}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_RegModel}{PS\_RegModel}}
+{\footnotesize\ttfamily \label{fingerprint_8h_aab4b4130360fb33dd9060889dc8adc41} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Reg\+Model\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerprint model. 
+
+\Hypertarget{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}\index{fingerprint.h@{fingerprint.h}!PS\_Search@{PS\_Search}}
+\index{PS\_Search@{PS\_Search}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_Search}{PS\_Search}}
+{\footnotesize\ttfamily \label{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Search\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Searches for a fingerprint match in the database. 
+
+\Hypertarget{fingerprint_8h_a46a013e40835607060be04c22f89e005}\index{fingerprint.h@{fingerprint.h}!PS\_SetChipAddr@{PS\_SetChipAddr}}
+\index{PS\_SetChipAddr@{PS\_SetChipAddr}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_SetChipAddr}{PS\_SetChipAddr}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a46a013e40835607060be04c22f89e005} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Set\+Chip\+Addr\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Sets the fingerprint scanner\textquotesingle{}s device address. 
+
+\Hypertarget{fingerprint_8h_a1a39bbe581e26c3841e9d8502e887b41}\index{fingerprint.h@{fingerprint.h}!PS\_StoreChar@{PS\_StoreChar}}
+\index{PS\_StoreChar@{PS\_StoreChar}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{PS\_StoreChar}{PS\_StoreChar}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a1a39bbe581e26c3841e9d8502e887b41} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Store\+Char\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Stores a fingerprint template from the buffer to the database. 
+
