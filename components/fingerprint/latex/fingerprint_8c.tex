@@ -1,0 +1,514 @@
+\doxysection{fingerprint.\+c File Reference}
+\hypertarget{fingerprint_8c}{}\label{fingerprint_8c}\index{fingerprint.c@{fingerprint.c}}
+{\ttfamily \#include "{}include/fingerprint.\+h"{}}\newline
+{\ttfamily \#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \#include "{}driver/uart.\+h"{}}\newline
+{\ttfamily \#include "{}esp\+\_\+err.\+h"{}}\newline
+{\ttfamily \#include "{}freertos/\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \#include "{}freertos/task.\+h"{}}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{fingerprint_8c_afc3d101f633a076cc1ca84b85b6224b2}{TAG}}~"{}FINGERPRINT"{}
+\item 
+\#define \mbox{\hyperlink{fingerprint_8c_a49dcd593bb4dd55620e7c08581f8e2ad}{UART\+\_\+\+NUM}}~UART\+\_\+\+NUM\+\_\+2
+\item 
+\#define \mbox{\hyperlink{fingerprint_8c_a690f985c933da2ce6fe62b6c61dfa662}{RX\+\_\+\+BUF\+\_\+\+SIZE}}~128
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{fingerprint_8c_a9d930710d85ff4f3085dd32e2ce89a8a}{fingerprint\+\_\+set\+\_\+pins}} (int tx, int rx)
+\begin{DoxyCompactList}\small\item\em Sets the UART TX and RX pins for the fingerprint sensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8c_a0b31fe5ffffcc895863a47bd7000c337}{fingerprint\+\_\+set\+\_\+baudrate}} (int baud)
+\begin{DoxyCompactList}\small\item\em Sets the baud rate for fingerprint module communication. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{fingerprint_8c_adc0f6cd7bd369df0424bd51bfc28951d}{fingerprint\+\_\+calculate\+\_\+checksum}} (\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \texorpdfstring{$\ast$}{*}cmd)
+\item 
+void \mbox{\hyperlink{fingerprint_8c_ad8e6974b42670ab53d56e08d9c0cab54}{fingerprint\+\_\+build\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \texorpdfstring{$\ast$}{*}cmd, uint8\+\_\+t command, uint8\+\_\+t \texorpdfstring{$\ast$}{*}params, uint8\+\_\+t param\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Builds a fingerprint scanner command. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8c_a403837dbbf58c8286619220784c5b942}{fingerprint\+\_\+send\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \texorpdfstring{$\ast$}{*}cmd)
+\begin{DoxyCompactList}\small\item\em Sends a command packet to the fingerprint scanner. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the fingerprint scanner. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \mbox{\hyperlink{fingerprint_8c_a9f8428752fbef75d23833bfd50411091}{fingerprint\+\_\+scan}} (void)
+\begin{DoxyCompactList}\small\item\em Scans for a fingerprint and returns the status. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a511e826c0481490ea7eafe369a219291}{fingerprint\+\_\+enroll}} (int id)
+\begin{DoxyCompactList}\small\item\em Enrolls a fingerprint. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a907879b40b181a5643873afad0d96952}{fingerprint\+\_\+delete}} (int id)
+\begin{DoxyCompactList}\small\item\em Deletes a stored fingerprint. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static int \mbox{\hyperlink{fingerprint_8c_a10401260df6ab61a4519575c27d3e5c7}{tx\+\_\+pin}} = 17
+\item 
+static int \mbox{\hyperlink{fingerprint_8c_a219fb0cecab94c438944338382716e4d}{rx\+\_\+pin}} = 16
+\item 
+static int \mbox{\hyperlink{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}{baud\+\_\+rate}} = 57600
+\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a4915ef57f319b8d8ea72418faaff3dbc}{get\+\_\+image\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Captures a fingerprint image from the scanner\textquotesingle{}s sensor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a66096bd91c9d834a69e73a7ef3b1a46b}{gen\+\_\+char1\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Generates a character file in Buffer 1. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a6f97def4b797296f556f315253afa08a}{gen\+\_\+char2\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Generates a character file in Buffer 2. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_aeb74008b325a9327bb62cf59b1a58a08}{reg\+\_\+model\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerprint model. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a46e30f1ee80010ebd8c344d65f124142}{search\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Searches for a fingerprint match in the database. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a7b03974deca91c5817c154e8d7237050}{match\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Matches two fingerprint templates stored in RAM. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_aa166220ec06e4d292f2e755342492c83}{store\+\_\+char\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Stores a fingerprint template from the buffer to the database. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a5489531169eece8bc1cee26019ec6ac5}{delet\+\_\+char\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Deletes a specific fingerprint template from the database. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a143b7468ae4a60b92c4c03a2270c9fd2}{empty\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Clears all stored fingerprints (factory reset). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a2e3d6bf54b2a6bfbf923113b7c96ecf9}{read\+\_\+syspara\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Reads system parameters from the fingerprint module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \mbox{\hyperlink{fingerprint_8c_a58386fe6e1b3b49321008ea436d0b710}{set\+\_\+address\+\_\+cmd}}
+\begin{DoxyCompactList}\small\item\em Sets the fingerprint scanner\textquotesingle{}s device address. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{fingerprint_8c_a690f985c933da2ce6fe62b6c61dfa662}\index{fingerprint.c@{fingerprint.c}!RX\_BUF\_SIZE@{RX\_BUF\_SIZE}}
+\index{RX\_BUF\_SIZE@{RX\_BUF\_SIZE}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{RX\_BUF\_SIZE}{RX\_BUF\_SIZE}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a690f985c933da2ce6fe62b6c61dfa662} 
+\#define RX\+\_\+\+BUF\+\_\+\+SIZE~128}
+
+\Hypertarget{fingerprint_8c_afc3d101f633a076cc1ca84b85b6224b2}\index{fingerprint.c@{fingerprint.c}!TAG@{TAG}}
+\index{TAG@{TAG}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{TAG}{TAG}}
+{\footnotesize\ttfamily \label{fingerprint_8c_afc3d101f633a076cc1ca84b85b6224b2} 
+\#define TAG~"{}FINGERPRINT"{}}
+
+\Hypertarget{fingerprint_8c_a49dcd593bb4dd55620e7c08581f8e2ad}\index{fingerprint.c@{fingerprint.c}!UART\_NUM@{UART\_NUM}}
+\index{UART\_NUM@{UART\_NUM}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{UART\_NUM}{UART\_NUM}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a49dcd593bb4dd55620e7c08581f8e2ad} 
+\#define UART\+\_\+\+NUM~UART\+\_\+\+NUM\+\_\+2}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{fingerprint_8c_ad8e6974b42670ab53d56e08d9c0cab54}\index{fingerprint.c@{fingerprint.c}!fingerprint\_build\_command@{fingerprint\_build\_command}}
+\index{fingerprint\_build\_command@{fingerprint\_build\_command}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_build\_command()}{fingerprint\_build\_command()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_ad8e6974b42670ab53d56e08d9c0cab54} 
+void fingerprint\+\_\+build\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \texorpdfstring{$\ast$}{*}}]{cmd}{, }\item[{uint8\+\_\+t}]{command}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{params}{, }\item[{uint8\+\_\+t}]{param\+\_\+length}{}\end{DoxyParamCaption})}
+
+
+
+Builds a fingerprint scanner command. 
+
+This function constructs a command packet by filling in the required fields such as the header, address, command, and parameters. The checksum is calculated automatically.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em cmd} & Pointer to the \doxylink{struct_fingerprint_command}{Fingerprint\+Command} structure to be populated. \\
+\hline
+\mbox{\texttt{ in}}  & {\em command} & Command ID to be set in the packet. \\
+\hline
+\mbox{\texttt{ in}}  & {\em params} & Pointer to an array of command parameters (if any). \\
+\hline
+\mbox{\texttt{ in}}  & {\em param\+\_\+length} & Length of the parameters array (should be \texorpdfstring{$<$}{<}= 4). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{fingerprint_8c_adc0f6cd7bd369df0424bd51bfc28951d}\index{fingerprint.c@{fingerprint.c}!fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}}
+\index{fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_calculate\_checksum()}{fingerprint\_calculate\_checksum()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_adc0f6cd7bd369df0424bd51bfc28951d} 
+uint16\+\_\+t fingerprint\+\_\+calculate\+\_\+checksum (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \texorpdfstring{$\ast$}{*}}]{cmd}{}\end{DoxyParamCaption})}
+
+\Hypertarget{fingerprint_8c_a907879b40b181a5643873afad0d96952}\index{fingerprint.c@{fingerprint.c}!fingerprint\_delete@{fingerprint\_delete}}
+\index{fingerprint\_delete@{fingerprint\_delete}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_delete()}{fingerprint\_delete()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a907879b40b181a5643873afad0d96952} 
+esp\+\_\+err\+\_\+t fingerprint\+\_\+delete (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+Deletes a stored fingerprint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & ID of the fingerprint to delete. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK on success, error code otherwise. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8c_a511e826c0481490ea7eafe369a219291}\index{fingerprint.c@{fingerprint.c}!fingerprint\_enroll@{fingerprint\_enroll}}
+\index{fingerprint\_enroll@{fingerprint\_enroll}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_enroll()}{fingerprint\_enroll()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a511e826c0481490ea7eafe369a219291} 
+esp\+\_\+err\+\_\+t fingerprint\+\_\+enroll (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+Enrolls a fingerprint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & ID of the fingerprint to enroll. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK on success, error code otherwise. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8c_a759d58795c9a87a5d2fa233e52e5d580}\index{fingerprint.c@{fingerprint.c}!fingerprint\_init@{fingerprint\_init}}
+\index{fingerprint\_init@{fingerprint\_init}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_init()}{fingerprint\_init()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a759d58795c9a87a5d2fa233e52e5d580} 
+esp\+\_\+err\+\_\+t fingerprint\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the fingerprint scanner. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK on success, error code otherwise. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8c_a9f8428752fbef75d23833bfd50411091}\index{fingerprint.c@{fingerprint.c}!fingerprint\_scan@{fingerprint\_scan}}
+\index{fingerprint\_scan@{fingerprint\_scan}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_scan()}{fingerprint\_scan()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a9f8428752fbef75d23833bfd50411091} 
+\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} fingerprint\+\_\+scan (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Scans for a fingerprint and returns the status. 
+
+This function sends a scan command to the fingerprint module, waits for a response, and maps the received status code to the corresponding \doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} value.
+
+\begin{DoxyReturn}{Returns}
+\doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} The status of the fingerprint scan. 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8c_a403837dbbf58c8286619220784c5b942}\index{fingerprint.c@{fingerprint.c}!fingerprint\_send\_command@{fingerprint\_send\_command}}
+\index{fingerprint\_send\_command@{fingerprint\_send\_command}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_send\_command()}{fingerprint\_send\_command()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a403837dbbf58c8286619220784c5b942} 
+void fingerprint\+\_\+send\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} \texorpdfstring{$\ast$}{*}}]{cmd}{}\end{DoxyParamCaption})}
+
+
+
+Sends a command packet to the fingerprint scanner. 
+
+This function transmits a properly formatted command packet over UART to the fingerprint scanner.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em cmd} & Pointer to the \doxylink{struct_fingerprint_command}{Fingerprint\+Command} structure containing the command. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{fingerprint_8c_a0b31fe5ffffcc895863a47bd7000c337}\index{fingerprint.c@{fingerprint.c}!fingerprint\_set\_baudrate@{fingerprint\_set\_baudrate}}
+\index{fingerprint\_set\_baudrate@{fingerprint\_set\_baudrate}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_set\_baudrate()}{fingerprint\_set\_baudrate()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a0b31fe5ffffcc895863a47bd7000c337} 
+void fingerprint\+\_\+set\+\_\+baudrate (\begin{DoxyParamCaption}\item[{int}]{baud}{}\end{DoxyParamCaption})}
+
+
+
+Sets the baud rate for fingerprint module communication. 
+
+This function adjusts the baud rate used for UART communication with the fingerprint scanner. It should be called before {\ttfamily \doxylink{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\+\_\+init()}} to ensure proper communication settings.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em baud} & The desired baud rate (e.\+g., 9600, 57600, 115200). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{fingerprint_8c_a9d930710d85ff4f3085dd32e2ce89a8a}\index{fingerprint.c@{fingerprint.c}!fingerprint\_set\_pins@{fingerprint\_set\_pins}}
+\index{fingerprint\_set\_pins@{fingerprint\_set\_pins}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_set\_pins()}{fingerprint\_set\_pins()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a9d930710d85ff4f3085dd32e2ce89a8a} 
+void fingerprint\+\_\+set\+\_\+pins (\begin{DoxyParamCaption}\item[{int}]{tx}{, }\item[{int}]{rx}{}\end{DoxyParamCaption})}
+
+
+
+Sets the UART TX and RX pins for the fingerprint sensor. 
+
+This function allows dynamic configuration of the TX and RX pins before initializing the fingerprint module.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em tx} & GPIO number for the TX pin. \\
+\hline
+\mbox{\texttt{ in}}  & {\em rx} & GPIO number for the RX pin. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}\index{fingerprint.c@{fingerprint.c}!baud\_rate@{baud\_rate}}
+\index{baud\_rate@{baud\_rate}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{baud\_rate}{baud\_rate}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff} 
+int baud\+\_\+rate = 57600\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{fingerprint_8c_a5489531169eece8bc1cee26019ec6ac5}\index{fingerprint.c@{fingerprint.c}!delet\_char\_cmd@{delet\_char\_cmd}}
+\index{delet\_char\_cmd@{delet\_char\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{delet\_char\_cmd}{delet\_char\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a5489531169eece8bc1cee26019ec6ac5} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} delet\+\_\+char\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0C,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x01,\ 0x00,\ 0x01\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0015\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Deletes a specific fingerprint template from the database. 
+
+\Hypertarget{fingerprint_8c_a143b7468ae4a60b92c4c03a2270c9fd2}\index{fingerprint.c@{fingerprint.c}!empty\_cmd@{empty\_cmd}}
+\index{empty\_cmd@{empty\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{empty\_cmd}{empty\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a143b7468ae4a60b92c4c03a2270c9fd2} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} empty\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0D,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0011\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Clears all stored fingerprints (factory reset). 
+
+\Hypertarget{fingerprint_8c_a66096bd91c9d834a69e73a7ef3b1a46b}\index{fingerprint.c@{fingerprint.c}!gen\_char1\_cmd@{gen\_char1\_cmd}}
+\index{gen\_char1\_cmd@{gen\_char1\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{gen\_char1\_cmd}{gen\_char1\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a66096bd91c9d834a69e73a7ef3b1a46b} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} gen\+\_\+char1\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x02,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x01\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0008\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Generates a character file in Buffer 1. 
+
+\Hypertarget{fingerprint_8c_a6f97def4b797296f556f315253afa08a}\index{fingerprint.c@{fingerprint.c}!gen\_char2\_cmd@{gen\_char2\_cmd}}
+\index{gen\_char2\_cmd@{gen\_char2\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{gen\_char2\_cmd}{gen\_char2\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a6f97def4b797296f556f315253afa08a} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} gen\+\_\+char2\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x02,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x02\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0009\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Generates a character file in Buffer 2. 
+
+\Hypertarget{fingerprint_8c_a4915ef57f319b8d8ea72418faaff3dbc}\index{fingerprint.c@{fingerprint.c}!get\_image\_cmd@{get\_image\_cmd}}
+\index{get\_image\_cmd@{get\_image\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{get\_image\_cmd}{get\_image\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a4915ef57f319b8d8ea72418faaff3dbc} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} get\+\_\+image\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x01,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0005\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Captures a fingerprint image from the scanner\textquotesingle{}s sensor. 
+
+\Hypertarget{fingerprint_8c_a7b03974deca91c5817c154e8d7237050}\index{fingerprint.c@{fingerprint.c}!match\_cmd@{match\_cmd}}
+\index{match\_cmd@{match\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{match\_cmd}{match\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a7b03974deca91c5817c154e8d7237050} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} match\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x03,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0007\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Matches two fingerprint templates stored in RAM. 
+
+\Hypertarget{fingerprint_8c_a2e3d6bf54b2a6bfbf923113b7c96ecf9}\index{fingerprint.c@{fingerprint.c}!read\_syspara\_cmd@{read\_syspara\_cmd}}
+\index{read\_syspara\_cmd@{read\_syspara\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{read\_syspara\_cmd}{read\_syspara\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a2e3d6bf54b2a6bfbf923113b7c96ecf9} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} read\+\_\+syspara\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0F,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0013\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Reads system parameters from the fingerprint module. 
+
+\Hypertarget{fingerprint_8c_aeb74008b325a9327bb62cf59b1a58a08}\index{fingerprint.c@{fingerprint.c}!reg\_model\_cmd@{reg\_model\_cmd}}
+\index{reg\_model\_cmd@{reg\_model\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{reg\_model\_cmd}{reg\_model\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_aeb74008b325a9327bb62cf59b1a58a08} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} reg\+\_\+model\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x05,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0009\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerprint model. 
+
+\Hypertarget{fingerprint_8c_a219fb0cecab94c438944338382716e4d}\index{fingerprint.c@{fingerprint.c}!rx\_pin@{rx\_pin}}
+\index{rx\_pin@{rx\_pin}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{rx\_pin}{rx\_pin}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a219fb0cecab94c438944338382716e4d} 
+int rx\+\_\+pin = 16\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{fingerprint_8c_a46e30f1ee80010ebd8c344d65f124142}\index{fingerprint.c@{fingerprint.c}!search\_cmd@{search\_cmd}}
+\index{search\_cmd@{search\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{search\_cmd}{search\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a46e30f1ee80010ebd8c344d65f124142} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} search\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0008,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x04,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x01,\ 0x00,\ 0x00,\ 0xFF\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0013\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Searches for a fingerprint match in the database. 
+
+\Hypertarget{fingerprint_8c_a58386fe6e1b3b49321008ea436d0b710}\index{fingerprint.c@{fingerprint.c}!set\_address\_cmd@{set\_address\_cmd}}
+\index{set\_address\_cmd@{set\_address\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{set\_address\_cmd}{set\_address\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a58386fe6e1b3b49321008ea436d0b710} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} set\+\_\+address\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x15,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x00,\ 0x00,\ 0x02\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0020\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Sets the fingerprint scanner\textquotesingle{}s device address. 
+
+\Hypertarget{fingerprint_8c_aa166220ec06e4d292f2e755342492c83}\index{fingerprint.c@{fingerprint.c}!store\_char\_cmd@{store\_char\_cmd}}
+\index{store\_char\_cmd@{store\_char\_cmd}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{store\_char\_cmd}{store\_char\_cmd}}
+{\footnotesize\ttfamily \label{fingerprint_8c_aa166220ec06e4d292f2e755342492c83} 
+\mbox{\hyperlink{struct_fingerprint_command}{Fingerprint\+Command}} store\+\_\+char\+\_\+cmd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0006,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x06,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x01,\ 0x00,\ 0x01\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x000F\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Stores a fingerprint template from the buffer to the database. 
+
+\Hypertarget{fingerprint_8c_a10401260df6ab61a4519575c27d3e5c7}\index{fingerprint.c@{fingerprint.c}!tx\_pin@{tx\_pin}}
+\index{tx\_pin@{tx\_pin}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{tx\_pin}{tx\_pin}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a10401260df6ab61a4519575c27d3e5c7} 
+int tx\+\_\+pin = 17\hspace{0.3cm}{\ttfamily [static]}}
+
