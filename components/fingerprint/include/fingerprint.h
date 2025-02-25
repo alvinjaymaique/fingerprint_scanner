@@ -19,7 +19,63 @@
  * - **VCC** → 3.3V
  * - **GND** → GND
  *
+ * ## Event-driven System
+ * This system operates on an event-driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. 
+ * The following events are generated based on the corresponding system actions.
  */
+
+ /**
+ * @brief Event handler for processing fingerprint events.
+ *
+ * This function processes various fingerprint-related events and logs messages 
+ * based on the event type. It can be used as a sample for handling fingerprint events 
+ * in the application. The events are processed based on the `fingerprint_event_t` 
+ * enumeration, and corresponding messages are logged using the ESP-IDF logging system.
+ *
+ * @param event The fingerprint event that occurred. This can be one of the following:
+ *      - `EVENT_FINGER_DETECTED`: Triggered when a finger is detected.
+ *      - `EVENT_IMAGE_CAPTURED`: Triggered when the fingerprint image is captured successfully.
+ *      - `EVENT_FEATURE_EXTRACTED`: Triggered when the fingerprint features are extracted successfully.
+ *      - `EVENT_MATCH_SUCCESS`: Triggered when a fingerprint match is successful.
+ *      - `EVENT_MATCH_FAIL`: Triggered when a fingerprint mismatch occurs.
+ *      - `EVENT_ERROR`: Triggered for general errors during fingerprint processing.
+ *
+ * This function logs the corresponding message for each event. It can be modified or 
+ * extended as needed for custom event handling in the application.
+ *
+ * @note To use this function in the application, assign it to the global event handler 
+ *       `g_fingerprint_event_handler` in the `app_main.c`.
+ *
+ * @code
+ * // Sample code for event handler
+ * void handle_fingerprint_event(fingerprint_event_t event) {
+ *     switch (event) {
+ *         case EVENT_FINGER_DETECTED:
+ *             ESP_LOGI("Fingerprint", "Finger detected!");
+ *             break;
+ *         case EVENT_IMAGE_CAPTURED:
+ *             ESP_LOGI("Fingerprint", "Fingerprint image captured successfully!");
+ *             break;
+ *         case EVENT_FEATURE_EXTRACTED:
+ *             ESP_LOGI("Fingerprint", "Fingerprint features extracted successfully!");
+ *             break;
+ *         case EVENT_MATCH_SUCCESS:
+ *             ESP_LOGI("Fingerprint", "Fingerprint match successful!");
+ *             break;
+ *         case EVENT_MATCH_FAIL:
+ *             ESP_LOGI("Fingerprint", "Fingerprint mismatch.");
+ *             break;
+ *         case EVENT_ERROR:
+ *             ESP_LOGI("Fingerprint", "An error occurred during fingerprint processing.");
+ *             break;
+ *         default:
+ *             ESP_LOGI("Fingerprint", "Unknown event triggered.");
+ *             break;
+ *     }
+ * }
+ * @endcode
+ */
+
 
 #ifndef FINGERPRINT_H
 #define FINGERPRINT_H
@@ -52,7 +108,15 @@ extern "C" {
 #define DEFAULT_FINGERPRINT_ADDRESS 0xFFFFFFFF
 
 /**
- * @struct FingerprintCommand
+ * @brief Timeout value for UART read operations.
+ *
+ * Defines the maximum wait time for receiving data over UART in milliseconds.
+ * Adjust this value based on the fingerprint module's response time.
+ */
+#define UART_READ_TIMEOUT 100  // Adjust based on hardware response time
+
+/**
+ * @struct FingerprintPacket
  * @brief Structure representing a fingerprint module command packet.
  *
  * This structure defines the format of a command packet sent to the fingerprint scanner.
@@ -65,62 +129,62 @@ typedef struct {
     uint8_t command;      /**< Command ID (e.g., 0x01 for capturing an image). */
     uint8_t parameters[4];/**< Command-specific parameters (varies per command). */
     uint16_t checksum;    /**< Checksum for packet integrity validation. */
-} FingerprintCommand;
+} FingerprintPacket;
 
 /**
  * @brief Captures a fingerprint image from the scanner's sensor.
  */
-extern FingerprintCommand PS_GetImage;
+extern FingerprintPacket PS_GetImage;
 
 /**
  * @brief Generates a character file in Buffer 1.
  */
-extern FingerprintCommand PS_GenChar1;
+extern FingerprintPacket PS_GenChar1;
 
 /**
  * @brief Generates a character file in Buffer 2.
  */
-extern FingerprintCommand PS_GenChar2;
+extern FingerprintPacket PS_GenChar2;
 
 /**
  * @brief Combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerprint model.
  */
-extern FingerprintCommand PS_RegModel;
+extern FingerprintPacket PS_RegModel;
 
 /**
  * @brief Searches for a fingerprint match in the database.
  */
-extern FingerprintCommand PS_Search;
+extern FingerprintPacket PS_Search;
 
 /**
  * @brief Matches two fingerprint templates stored in RAM.
  */
-extern FingerprintCommand PS_Match;
+extern FingerprintPacket PS_Match;
 
 /**
  * @brief Stores a fingerprint template from the buffer to the database.
  */
-extern FingerprintCommand PS_StoreChar;
+extern FingerprintPacket PS_StoreChar;
 
 /**
  * @brief Deletes a specific fingerprint template from the database.
  */
-extern FingerprintCommand PS_DeletChar;
+extern FingerprintPacket PS_DeletChar;
 
 /**
  * @brief Clears all stored fingerprints (factory reset).
  */
-extern FingerprintCommand PS_Empty;
+extern FingerprintPacket PS_Empty;
 
 /**
  * @brief Reads system parameters from the fingerprint module.
  */
-extern FingerprintCommand PS_ReadSysPara;
+extern FingerprintPacket PS_ReadSysPara;
 
 /**
  * @brief Sets the fingerprint scanner's device address.
  */
-extern FingerprintCommand PS_SetChipAddr;
+extern FingerprintPacket PS_SetChipAddr;
 
 /**
  * @brief Fingerprint sensor status codes.
@@ -180,44 +244,75 @@ typedef enum {
 } fingerprint_status_t;
 
 /**
- * @brief Computes the checksum for a given FingerprintCommand structure.
- *
- * The checksum is the sum of all bytes from packet_id to parameters.
- *
- * @param[in] cmd Pointer to the FingerprintCommand structure.
- * @return The computed checksum.
- */
-uint16_t fingerprint_calculate_checksum(FingerprintCommand *cmd);
-
-/**
- * @brief Sends a command packet to the fingerprint scanner.
- *
- * This function transmits a properly formatted command packet over UART 
- * to the fingerprint scanner.
- *
- * @param[in] cmd Pointer to the FingerprintCommand structure containing the command.
- */
-void fingerprint_send_command(FingerprintCommand *cmd);
-
-/**
- * @brief Builds a fingerprint command packet dynamically.
- *
- * This function initializes a FingerprintCommand structure with the given command
- * and parameters, computes its checksum, and prepares it for sending.
- *
- * @param[out] cmd Pointer to the FingerprintCommand structure to be populated.
- * @param[in] command The fingerprint command byte.
- * @param[in] params Pointer to an array of command-specific parameters.
- * @param[in] param_length Number of parameters (max 4).
- */
-void fingerprint_build_command(FingerprintCommand *cmd, uint8_t command, uint8_t *params, uint8_t param_length);
-
-/**
  * @brief Initializes the fingerprint scanner.
  *
  * @return ESP_OK on success, error code otherwise.
  */
 esp_err_t fingerprint_init(void);
+
+/**
+ * @brief Builds a fingerprint command packet.
+ *
+ * This function initializes a `FingerprintPacket` with the specified command and parameters.
+ * It ensures the parameter length does not exceed 4 bytes and calculates the checksum.
+ *
+ * @param[out] cmd Pointer to the `FingerprintPacket` to be populated.
+ * @param[in] command Command byte to be included in the packet.
+ * @param[in] params Pointer to parameter array (can be NULL if no parameters).
+ * @param[in] param_length Number of parameters (max 4).
+ * @return 
+ *      - `ESP_OK` on success.
+ *      - `ESP_ERR_INVALID_ARG` if `cmd` is NULL.
+ *      - `ESP_ERR_INVALID_SIZE` if `param_length` exceeds 4.
+ */
+esp_err_t fingerprint_build_command(FingerprintPacket *cmd, uint8_t command, uint8_t *params, uint8_t param_length);
+
+/**
+ * @brief Computes the checksum for a given FingerprintPacket structure.
+ *
+ * The checksum is the sum of all bytes from packet_id to parameters.
+ *
+ * @param[in] cmd Pointer to the FingerprintPacket structure.
+ * @return The computed checksum.
+ */
+uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd);
+
+/**
+ * @brief Sends a fingerprint command packet to the fingerprint module.
+ *
+ * This function constructs a command packet, calculates its checksum,
+ * and sends it via UART to the fingerprint module at the specified address.
+ *
+ * @param cmd Pointer to a FingerprintPacket structure containing the command details.
+ * @param address The address of the fingerprint module. This can be configured as needed.
+ * 
+ * @return 
+ * - ESP_OK on success
+ * - ESP_ERR_NO_MEM if memory allocation fails
+ * - ESP_FAIL if the command could not be fully sent over UART
+ */
+esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address);
+
+
+/**
+ * @brief Reads the response packet from UART and returns a dynamically allocated FingerprintPacket.
+ *
+ * @return Pointer to the received FingerprintPacket, or NULL on failure.
+ *         The caller is responsible for freeing the allocated memory using `free()`.
+ */
+FingerprintPacket* fingerprint_read_response(void);
+
+/**
+ * @brief Get the status of the fingerprint operation from the response packet.
+ *
+ * This function extracts the confirmation code from the fingerprint sensor's response
+ * and maps it to a predefined fingerprint_status_t enumeration.
+ *
+ * @param packet Pointer to the FingerprintPacket structure containing the response.
+ *
+ * @return fingerprint_status_t Status code representing the operation result.
+ */
+fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet);
 
 /**
  * @brief Scans for a fingerprint and returns the status.
@@ -267,6 +362,133 @@ void fingerprint_set_pins(int tx, int rx);
  * @param[in] baud The desired baud rate (e.g., 9600, 57600, 115200).
  */
 void fingerprint_set_baudrate(int baud);
+
+
+
+
+
+/**
+ * @brief Enum to define various fingerprint events.
+ *
+ * These events represent significant milestones or errors during the fingerprint processing. 
+ * They allow for event-driven management of the fingerprint sensor actions.
+ * 
+ * Each event is triggered when a certain action or error occurs, making it easier for the application to respond to changes in the system state.
+ * 
+ * @note The event codes are used in an event handler system where functions can subscribe and react to specific events.
+ */
+typedef enum {
+    /**
+     * @brief Event triggered when a finger is detected.
+     *
+     * Indicates that a finger has been placed on the fingerprint scanner.
+     */
+    EVENT_FINGER_DETECTED,          /**< Finger detected */
+
+    /**
+     * @brief Event triggered when a fingerprint image is captured successfully.
+     *
+     * Indicates that the fingerprint sensor has successfully captured an image.
+     */
+    EVENT_IMAGE_CAPTURED,           /**< Image captured */
+
+    /**
+     * @brief Event triggered when fingerprint features are successfully extracted.
+     *
+     * This event is generated after the sensor extracts features from the fingerprint image.
+     */
+    EVENT_FEATURE_EXTRACTED,        /**< Feature extraction completed */
+
+    /**
+     * @brief Event triggered when a fingerprint match is successful.
+     *
+     * Indicates that a fingerprint match has been found in the database.
+     */
+    EVENT_MATCH_SUCCESS,            /**< Fingerprint matched */
+
+    /**
+     * @brief Event triggered when a fingerprint mismatch occurs.
+     *
+     * Occurs when no matching fingerprint is found in the database.
+     */
+    EVENT_MATCH_FAIL,               /**< Fingerprint mismatch */
+
+    /**
+     * @brief A general error event, used for unexpected failures.
+     *
+     * This event signifies a general failure in the fingerprint system.
+     */
+    EVENT_ERROR,                    /**< General error */
+
+    /**
+     * @brief Event triggered when the fingerprint image capture fails.
+     *
+     * This event corresponds to the status `FINGERPRINT_IMAGE_FAIL`.
+     */
+    EVENT_IMAGE_FAIL,               /**< Image capture failure (FINGERPRINT_IMAGE_FAIL) */
+
+    /**
+     * @brief Event triggered when feature extraction fails.
+     *
+     * This event corresponds to the status `FINGERPRINT_TOO_FEW_POINTS`.
+     */
+    EVENT_FEATURE_EXTRACT_FAIL,     /**< Feature extraction failure (FINGERPRINT_TOO_FEW_POINTS) */
+
+    /**
+     * @brief Event triggered when the fingerprint database is full.
+     *
+     * This event corresponds to the status `FINGERPRINT_DB_FULL`.
+     */
+    EVENT_DB_FULL,                  /**< Database full (FINGERPRINT_DB_FULL) */
+
+    /**
+     * @brief Event triggered when there is a sensor operation failure.
+     *
+     * This event corresponds to the status `FINGERPRINT_SENSOR_OP_FAIL`.
+     */
+    EVENT_SENSOR_ERROR              /**< Sensor operation failure (FINGERPRINT_SENSOR_OP_FAIL) */
+} fingerprint_event_t;
+
+/**
+ * @brief Typedef for the fingerprint event handler callback.
+ *
+ * This type is used to define a function pointer for handling fingerprint-related events.
+ * The function pointed to by the callback should take a single parameter of type `fingerprint_event_t`,
+ * representing the specific event that occurred.
+ *
+ * @param event The fingerprint event that occurred. This is an enumeration value of type `fingerprint_event_t`.
+ */
+typedef void (*fingerprint_event_handler_t)(fingerprint_event_t event);
+
+/**
+ * @brief Global pointer to the fingerprint event handler function.
+ *
+ * This pointer is used to assign a function that will handle fingerprint-related events.
+ * The function should be defined by the user and should match the `fingerprint_event_handler_t` callback type.
+ * The event handler is called whenever a fingerprint-related event occurs, such as detection, image capture, or match results.
+ */
+extern fingerprint_event_handler_t g_fingerprint_event_handler;
+
+/**
+ * @brief Function to register an event handler for fingerprint events.
+ * 
+ * This function allows the application to register a callback handler that will
+ * be called when a fingerprint event is triggered. The handler will process the
+ * event according to its type (e.g., finger detected, match success, etc.).
+ * 
+ * @param handler The function pointer to the event handler function.
+ */
+void register_fingerprint_event_handler(void (*handler)(fingerprint_event_t));
+
+/**
+ * @brief Function to trigger a fingerprint event.
+ * 
+ * This function is called to trigger a specific fingerprint event. It will invoke
+ * the registered event handler (if any) with the specified event.
+ * 
+ * @param event The fingerprint event to trigger.
+ */
+void trigger_fingerprint_event(fingerprint_event_t event);
 
 #ifdef __cplusplus
 }
