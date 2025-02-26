@@ -1,0 +1,83 @@
+\doxysection{Fingerprint\+Packet Struct Reference}
+\hypertarget{struct_fingerprint_packet}{}\label{struct_fingerprint_packet}\index{FingerprintPacket@{FingerprintPacket}}
+
+
+Structure representing a fingerprint module command packet.  
+
+
+
+
+{\ttfamily \#include $<$fingerprint.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{struct_fingerprint_packet_ad52b37d9004ee77c9dc446a2581b6b11}{header}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_fingerprint_packet_aa85456b6f3f16befd10d4ce7fc13d80f}{address}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_fingerprint_packet_a74f0c99563e332f6c518b5da07d057d8}{packet\+\_\+id}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{struct_fingerprint_packet_a3caa1aa8c03abae55918669b1bf935eb}{length}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_fingerprint_packet_a5afd9daf69457c9b2588a5489905dc43}{command}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_fingerprint_packet_af7b16dcf7bc2d33f294c55336c6de575}{parameters}} \mbox{[}5\mbox{]}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{struct_fingerprint_packet_a5e9ea03f104b3aa12bb5542ccbb2eb88}{checksum}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Structure representing a fingerprint module command packet. 
+
+This structure defines the format of a command packet sent to the fingerprint scanner. 
+
+\doxysubsection{Field Documentation}
+\Hypertarget{struct_fingerprint_packet_aa85456b6f3f16befd10d4ce7fc13d80f}\index{FingerprintPacket@{FingerprintPacket}!address@{address}}
+\index{address@{address}!FingerprintPacket@{FingerprintPacket}}
+\doxysubsubsection{\texorpdfstring{address}{address}}
+{\footnotesize\ttfamily \label{struct_fingerprint_packet_aa85456b6f3f16befd10d4ce7fc13d80f} 
+uint32\+\_\+t Fingerprint\+Packet\+::address}
+
+Address of the fingerprint module (4 bytes). \Hypertarget{struct_fingerprint_packet_a5e9ea03f104b3aa12bb5542ccbb2eb88}\index{FingerprintPacket@{FingerprintPacket}!checksum@{checksum}}
+\index{checksum@{checksum}!FingerprintPacket@{FingerprintPacket}}
+\doxysubsubsection{\texorpdfstring{checksum}{checksum}}
+{\footnotesize\ttfamily \label{struct_fingerprint_packet_a5e9ea03f104b3aa12bb5542ccbb2eb88} 
+uint16\+\_\+t Fingerprint\+Packet\+::checksum}
+
+Checksum for packet integrity validation. \Hypertarget{struct_fingerprint_packet_a5afd9daf69457c9b2588a5489905dc43}\index{FingerprintPacket@{FingerprintPacket}!command@{command}}
+\index{command@{command}!FingerprintPacket@{FingerprintPacket}}
+\doxysubsubsection{\texorpdfstring{command}{command}}
+{\footnotesize\ttfamily \label{struct_fingerprint_packet_a5afd9daf69457c9b2588a5489905dc43} 
+uint8\+\_\+t Fingerprint\+Packet\+::command}
+
+Command ID (e.\+g., 0x01 for capturing an image). \Hypertarget{struct_fingerprint_packet_ad52b37d9004ee77c9dc446a2581b6b11}\index{FingerprintPacket@{FingerprintPacket}!header@{header}}
+\index{header@{header}!FingerprintPacket@{FingerprintPacket}}
+\doxysubsubsection{\texorpdfstring{header}{header}}
+{\footnotesize\ttfamily \label{struct_fingerprint_packet_ad52b37d9004ee77c9dc446a2581b6b11} 
+uint16\+\_\+t Fingerprint\+Packet\+::header}
+
+Fixed header (0x\+EF01) indicating the start of a packet. \Hypertarget{struct_fingerprint_packet_a3caa1aa8c03abae55918669b1bf935eb}\index{FingerprintPacket@{FingerprintPacket}!length@{length}}
+\index{length@{length}!FingerprintPacket@{FingerprintPacket}}
+\doxysubsubsection{\texorpdfstring{length}{length}}
+{\footnotesize\ttfamily \label{struct_fingerprint_packet_a3caa1aa8c03abae55918669b1bf935eb} 
+uint16\+\_\+t Fingerprint\+Packet\+::length}
+
+Total length of the packet excluding header and address. \Hypertarget{struct_fingerprint_packet_a74f0c99563e332f6c518b5da07d057d8}\index{FingerprintPacket@{FingerprintPacket}!packet\_id@{packet\_id}}
+\index{packet\_id@{packet\_id}!FingerprintPacket@{FingerprintPacket}}
+\doxysubsubsection{\texorpdfstring{packet\_id}{packet\_id}}
+{\footnotesize\ttfamily \label{struct_fingerprint_packet_a74f0c99563e332f6c518b5da07d057d8} 
+uint8\+\_\+t Fingerprint\+Packet\+::packet\+\_\+id}
+
+Packet type identifier (e.\+g., 0x01 for command packets). \Hypertarget{struct_fingerprint_packet_af7b16dcf7bc2d33f294c55336c6de575}\index{FingerprintPacket@{FingerprintPacket}!parameters@{parameters}}
+\index{parameters@{parameters}!FingerprintPacket@{FingerprintPacket}}
+\doxysubsubsection{\texorpdfstring{parameters}{parameters}}
+{\footnotesize\ttfamily \label{struct_fingerprint_packet_af7b16dcf7bc2d33f294c55336c6de575} 
+uint8\+\_\+t Fingerprint\+Packet\+::parameters\mbox{[}5\mbox{]}}
+
+Command-\/specific parameters (varies per command). 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{fingerprint_8h}{fingerprint.\+h}}\end{DoxyCompactItemize}
