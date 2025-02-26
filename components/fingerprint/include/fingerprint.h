@@ -643,6 +643,15 @@ extern FingerprintPacket PS_ReadIndexTable;
      FINGERPRINT_ILLEGAL_DATA = 0x35             
  
  } fingerprint_status_t;
+
+ /**
+ * @brief Event handler for the fingerprint sensor status.
+ *
+ * This function triggers a high-level event based on the received fingerprint status.
+ *
+ * @param status The current fingerprint status code.
+ */
+void fingerprint_status_event_handler(fingerprint_status_t status);
  
  /**
   * @brief Initializes the fingerprint scanner.

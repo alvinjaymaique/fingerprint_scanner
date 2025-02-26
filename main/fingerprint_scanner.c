@@ -31,6 +31,11 @@ void app_main(void)
         return;
     }
     trigger_fingerprint_event(EVENT_FINGER_DETECTED);
+
+    FingerprintPacket* response = fingerprint_read_response();
+    fingerprint_status_t status = fingerprint_get_status(response);
+    printf("Fingerprint status: %d\n", status); // Should print 0 (FINGERPRINT_OK)
+    free(response);
 }
 
 // Sample code for event handler

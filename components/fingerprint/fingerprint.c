@@ -591,12 +591,16 @@ FingerprintPacket* fingerprint_read_response(void) {
 
     if (length <= 0) {
         ESP_LOGE("Fingerprint", "Failed to read data from UART");
+        // Trigger an error event for UART read failure
+        fingerprint_status_event_handler(FINGERPRINT_SENSOR_OP_FAIL);  // Error in sensor operation
         return NULL;
     }
 
     // Check packet length to prevent out-of-bounds errors
     if (length < 12) {  // Minimum valid packet size
         ESP_LOGE("Fingerprint", "Invalid packet length: %d", length);
+        // Trigger an event for invalid packet length
+        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);  // Error in receiving packet
         return NULL;
     }
 
@@ -610,6 +614,8 @@ FingerprintPacket* fingerprint_read_response(void) {
 
     if (computed_checksum != received_checksum) {
         ESP_LOGE("Fingerprint", "Checksum mismatch! Computed: 0x%04X, Received: 0x%04X", computed_checksum, received_checksum);
+        // Trigger an event for checksum mismatch
+        fingerprint_status_event_handler(FINGERPRINT_DATA_PACKET_ERROR);  // Error in data packet
         return NULL;
     }
 
@@ -617,6 +623,8 @@ FingerprintPacket* fingerprint_read_response(void) {
     FingerprintPacket *packet = (FingerprintPacket*)malloc(sizeof(FingerprintPacket));
     if (!packet) {
         ESP_LOGE("Fingerprint", "Memory allocation failed!");
+        // Trigger an event for memory allocation failure
+        fingerprint_status_event_handler(FINGERPRINT_SENSOR_OP_FAIL);  // Sensor operation failure
         return NULL;
     }
 
@@ -636,6 +644,7 @@ FingerprintPacket* fingerprint_read_response(void) {
     packet->checksum = received_checksum;  // Store checksum after validation
 
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
+    fingerprint_status_event_handler((fingerprint_status_t)packet->command);  // Trigger event based on status code
     return packet;  // Caller must free this memory after use
 }
 
@@ -656,6 +665,8 @@ fingerprint_status_t fingerprint_scan(void) {
     esp_err_t err = uart_write_bytes(UART_NUM, (const char*)command, sizeof(command));
     if (err < 0) {
         ESP_LOGE(TAG, "Failed to send fingerprint scan command");
+        // Trigger an error event for UART read failure
+        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);  // Trigger event on error
         return FINGERPRINT_PACKET_ERROR;
     }
 
@@ -716,6 +727,96 @@ esp_err_t fingerprint_delete(int id) {
 
     ESP_LOGI(TAG, "Fingerprint ID %d deleted successfully", id);
     return ESP_OK;
+}
+
+// Event status handler function
+void fingerprint_status_event_handler(fingerprint_status_t status) {
+    // Trigger corresponding high-level event based on low-level fingerprint status
+    switch (status) {
+        case FINGERPRINT_OK:
+            trigger_fingerprint_event(EVENT_FINGER_DETECTED);  // Event when a finger is detected
+            break;
+
+        case FINGERPRINT_NO_FINGER:
+            trigger_fingerprint_event(EVENT_IMAGE_CAPTURED);  // Event when no finger is detected
+            break;
+
+        case FINGERPRINT_IMAGE_FAIL:
+            trigger_fingerprint_event(EVENT_IMAGE_FAIL);  // Event when image capture fails
+            break;
+
+        case FINGERPRINT_MISMATCH:
+            trigger_fingerprint_event(EVENT_MATCH_FAIL);  // Event when there is a mismatch
+            break;
+
+        case FINGERPRINT_DB_FULL:
+            trigger_fingerprint_event(EVENT_DB_FULL);  // Event when the database is full
+            break;
+
+        case FINGERPRINT_TIMEOUT:
+            trigger_fingerprint_event(EVENT_ERROR);  // Event for a timeout error
+            break;
+
+        case FINGERPRINT_PACKET_ERROR:
+            trigger_fingerprint_event(EVENT_ERROR);  // Event for packet errors 
+        case FINGERPRINT_DATA_PACKET_ERROR:
+        case FINGERPRINT_FLASH_RW_ERROR:
+        case FINGERPRINT_PORT_OP_FAIL:
+        case FINGERPRINT_DB_CLEAR_FAIL:
+            trigger_fingerprint_event(EVENT_ERROR);  // Event for packet or flash errors
+            break;
+
+        case FINGERPRINT_TOO_DRY:
+        case FINGERPRINT_TOO_WET:
+        case FINGERPRINT_TOO_CHAOTIC:
+            trigger_fingerprint_event(EVENT_IMAGE_FAIL);  // Event when image quality is poor
+            break;
+
+        case FINGERPRINT_TOO_FEW_POINTS:
+            trigger_fingerprint_event(EVENT_FEATURE_EXTRACT_FAIL);  // Event when feature extraction fails
+            break;
+
+        case FINGERPRINT_NOT_FOUND:
+            trigger_fingerprint_event(EVENT_MATCH_FAIL);  // Event when no fingerprint match is found
+            break;
+
+        case FINGERPRINT_DB_RANGE_ERROR:
+        case FINGERPRINT_READ_TEMPLATE_ERROR:
+        case FINGERPRINT_UPLOAD_FEATURE_FAIL:
+        case FINGERPRINT_DELETE_TEMPLATE_FAIL:
+        case FINGERPRINT_DB_EMPTY:
+        case FINGERPRINT_ENTRY_COUNT_ERROR:
+        case FINGERPRINT_ALREADY_EXISTS:
+            trigger_fingerprint_event(EVENT_ERROR);  // Event for database errors
+            break;
+
+        case FINGERPRINT_SENSOR_OP_FAIL:
+            trigger_fingerprint_event(EVENT_SENSOR_ERROR);  // Event when sensor operation fails
+            break;
+
+        case FINGERPRINT_UPLOAD_IMAGE_FAIL:
+        case FINGERPRINT_IMAGE_AREA_SMALL:
+        case FINGERPRINT_IMAGE_NOT_AVAILABLE:
+            trigger_fingerprint_event(EVENT_IMAGE_FAIL);  // Event when image upload or area is invalid
+            break;
+
+        case FINGERPRINT_MODULE_INFO_NOT_EMPTY:
+        case FINGERPRINT_MODULE_INFO_EMPTY:
+        case FINGERPRINT_OTP_FAIL:
+        case FINGERPRINT_KEY_GEN_FAIL:
+        case FINGERPRINT_KEY_NOT_EXIST:
+        case FINGERPRINT_SECURITY_ALGO_FAIL:
+        case FINGERPRINT_ENCRYPTION_MISMATCH:
+        case FINGERPRINT_KEY_LOCKED:
+            trigger_fingerprint_event(EVENT_ERROR);  // Event for various module and security failures
+            break;
+
+        default:
+            // Handle any unexpected status
+            ESP_LOGE("Fingerprint", "Unknown status: 0x%02X", status);
+            trigger_fingerprint_event(EVENT_ERROR);  // Event for unknown status codes
+            break;
+    }
 }
 
 // Function to register the event handler
