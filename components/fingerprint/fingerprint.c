@@ -365,16 +365,21 @@ esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8
 ExtendedPacket createExtendedPacket(FingerprintPacket base_packet, uint8_t page_number, const uint8_t *data, size_t data_size) {
     ExtendedPacket packet;
     packet.base = base_packet;
-    packet.base.length = 0x24;
-    packet.base.command = 0x18;
-    packet.base.parameters[0] = page_number;
-    if (data_size != 32) {
-        printf("Error: Data must be 32 bytes (given: %zu)\n", data_size);
-        memset(packet.data, 0, 32);
-        packet.base.checksum = 0xFFFF;
-        return packet;
+    packet.base.length = 0x24;  // Fixed length for WriteNotepad command
+    packet.base.command = 0x18; // Command for WriteNotepad
+    packet.base.parameters[0] = page_number; // Store page number
+
+    // Ensure data_size is at most 32 bytes
+    if (data_size > 32) {
+        printf("Warning: Data exceeds 32 bytes, truncating...\n");
+        data_size = 32;  // Truncate if larger
     }
-    memcpy(packet.data, data, 32);
+
+    // Copy provided data and pad with zeros if needed
+    memset(packet.data, 0, 32);  // Zero out entire buffer
+    memcpy(packet.data, data, data_size);  // Copy actual data
+
+    // Compute checksum
     uint16_t checksum = packet.base.packet_id + packet.base.length + packet.base.command + page_number;
     for (int i = 0; i < 32; i++) {
         checksum += packet.data[i];
@@ -383,6 +388,7 @@ ExtendedPacket createExtendedPacket(FingerprintPacket base_packet, uint8_t page_
 
     return packet;
 }
+
 
 uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd) {
     uint16_t sum = 0;

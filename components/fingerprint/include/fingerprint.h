@@ -556,29 +556,31 @@ esp_err_t fingerprint_init(void);
 esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8_t *params, uint8_t param_length);
 
 /**
- * @brief Creates an ExtendedPacket for commands requiring additional data.
+ * @brief Creates an ExtendedPacket for commands that require additional data.
  * 
- * This function is primarily used for commands like `PS_WriteNotepad`, which require a page number 
- * and a 32-byte data block to be written to the fingerprint module’s internal storage.
+ * This function is primarily used for commands like `PS_WriteNotepad` (0x18), which require a 
+ * page number and a data block to be stored in the fingerprint module’s internal memory. 
+ * It ensures that the provided data is at most 32 bytes, padding with zeros if necessary.
  * 
- * @param base_packet Base `FingerprintPacket`.
- * @param page_number Page number (0-15) where data will be written.
- * @param data Pointer to 32-byte data.
- * @param data_size Size of data (must be 32).
- * @return ExtendedPacket instance.
+ * @param base_packet The base `FingerprintPacket` structure.
+ * @param page_number The target page number (0-15) where data will be written.
+ * @param data Pointer to the user data (up to 32 bytes).
+ * @param data_size The size of the user data (≤ 32 bytes).
+ * @return An `ExtendedPacket` instance containing the formatted command.
  * 
- * @note This function is used for the `PS_WriteNotepad` command (0x18), which writes user data 
- * to the fingerprint module's internal storage.
+ * @note This function is specifically designed for the `PS_WriteNotepad` command (0x18), which 
+ * writes user data to the fingerprint module's notepad memory.
  * 
  * @note Example Usage:
  * @code
- * // Example: Writing 32 bytes of user data to page 5 using PS_WriteNotepad (0x18)
+ * // Writing 32 bytes of user data to page 5 using PS_WriteNotepad (0x18)
  * FingerprintPacket base = {0xEF01, 0xFFFFFFFF, 0x01, 0x24, 0x18, {0}, 0};
- * uint8_t user_data[32] = { \/* 32-byte data *\/  };
- * ExtendedPacket PS_WriteNotepad = createExtendedPacket(base, 5, user_data, sizeof(user_data));
+ * uint8_t user_data[32] = { \/* 32-byte user data *\/ };
+ * ExtendedPacket packet = createExtendedPacket(base, 5, user_data, sizeof(user_data));
  * @endcode
  */
 ExtendedPacket createExtendedPacket(FingerprintPacket base_packet, uint8_t page_number, const uint8_t *data, size_t data_size);
+
 
 /**
  * @brief Computes the checksum for a given FingerprintPacket structure.
