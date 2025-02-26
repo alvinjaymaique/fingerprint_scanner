@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['extendedpacket_0',['ExtendedPacket',['../struct_extended_packet.html',1,'']]]
+  ['fingerprintpacket_0',['FingerprintPacket',['../struct_fingerprint_packet.html',1,'']]]
 ];

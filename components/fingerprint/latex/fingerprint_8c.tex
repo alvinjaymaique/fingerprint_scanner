@@ -23,12 +23,14 @@ void \mbox{\hyperlink{fingerprint_8c_a9d930710d85ff4f3085dd32e2ce89a8a}{fingerpr
 \begin{DoxyCompactList}\small\item\em Sets the UART TX and RX pins for the fingerprint sensor. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8c_a0b31fe5ffffcc895863a47bd7000c337}{fingerprint\+\_\+set\+\_\+baudrate}} (int baud)
 \begin{DoxyCompactList}\small\item\em Sets the baud rate for fingerprint module communication. \end{DoxyCompactList}\item 
+static uint16\+\_\+t \mbox{\hyperlink{fingerprint_8c_a5777230ba3f52101f5caf39a070f2aeb}{min}} (uint16\+\_\+t a, uint16\+\_\+t b)
+\begin{DoxyCompactList}\small\item\em Returns the smaller of two unsigned integers. \end{DoxyCompactList}\item 
+static uint16\+\_\+t \mbox{\hyperlink{fingerprint_8c_a6134c859d385b972b7c0716784a20a2d}{max}} (uint16\+\_\+t a, uint16\+\_\+t b)
+\begin{DoxyCompactList}\small\item\em Returns the larger of two unsigned integers. \end{DoxyCompactList}\item 
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\+\_\+init}} (void)
 \begin{DoxyCompactList}\small\item\em Initializes the fingerprint scanner. \end{DoxyCompactList}\item 
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd, uint8\+\_\+t command, uint8\+\_\+t \texorpdfstring{$\ast$}{*}params, uint8\+\_\+t param\+\_\+length)
 \begin{DoxyCompactList}\small\item\em Sets or modifies a fingerprint command packet. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{struct_extended_packet}{Extended\+Packet}} \mbox{\hyperlink{fingerprint_8c_aaa520601ccba5e238d68c32565dc8ccd}{create\+Extended\+Packet}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} base\+\_\+packet, uint8\+\_\+t page\+\_\+number, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, size\+\_\+t data\+\_\+size)
-\begin{DoxyCompactList}\small\item\em Creates an \doxylink{struct_extended_packet}{Extended\+Packet} for commands that require additional data. \end{DoxyCompactList}\item 
 uint16\+\_\+t \mbox{\hyperlink{fingerprint_8c_a0d5b756311c0909b7f123085fb54e5b5}{fingerprint\+\_\+calculate\+\_\+checksum}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd)
 \begin{DoxyCompactList}\small\item\em Computes the checksum for a given \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet} structure. \end{DoxyCompactList}\item 
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a25d10be1c372a32ba6e9ff2eb7cc60cb}{fingerprint\+\_\+send\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd, uint32\+\_\+t address)
@@ -43,6 +45,8 @@ esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a511e826c0481490ea7eafe369a2
 \begin{DoxyCompactList}\small\item\em Enrolls a fingerprint. \end{DoxyCompactList}\item 
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a907879b40b181a5643873afad0d96952}{fingerprint\+\_\+delete}} (int id)
 \begin{DoxyCompactList}\small\item\em Deletes a stored fingerprint. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8c_a7db574152ca5af75df9adf2da5504a8e}{fingerprint\+\_\+status\+\_\+event\+\_\+handler}} (\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} status)
+\begin{DoxyCompactList}\small\item\em Event handler for the fingerprint sensor status. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8c_acdb139ac079afac098d142b4cf7a8b7f}{register\+\_\+fingerprint\+\_\+event\+\_\+handler}} (\mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} handler)
 \begin{DoxyCompactList}\small\item\em Function to register an event handler for fingerprint events. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8c_af94c8bea84a1e0b7efff92d7c3a2624f}{trigger\+\_\+fingerprint\+\_\+event}} (\mbox{\hyperlink{fingerprint_8h_ae5124f307680e5a9210e3cfc06566d5a}{fingerprint\+\_\+event\+\_\+t}} event)
@@ -113,7 +117,31 @@ static int \mbox{\hyperlink{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}{ba
 \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_acf7752546cf6206fe99cc820c37fe8f8}{PS\+\_\+\+Write\+Notepad}}
 \item 
 \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_ace4f99c616f2c9a5a61d2cc804a72635}{PS\+\_\+\+Read\+Notepad}}
-\begin{DoxyCompactList}\small\item\em Reads data from the fingerprint sensor\textquotesingle{}s notepad memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Reads data from the fingerprint sensor\textquotesingle{}s notepad memory. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_ae243d24ce9fa25ead1f1fccf0c22d806}{PS\+\_\+\+Hand\+Shake}}
+\begin{DoxyCompactList}\small\item\em Performs a handshake with the fingerprint module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_a8fe0e76ceb799b2fc34ab9a90cb80864}{PS\+\_\+\+Control\+BLN}}
+\begin{DoxyCompactList}\small\item\em Controls the fingerprint sensor\textquotesingle{}s LED light mode. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_a39b572fc25a81120d0868524bb44a87c}{PS\+\_\+\+Get\+Image\+Info}}
+\begin{DoxyCompactList}\small\item\em Retrieves information about the current fingerprint image. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_a0287773fa3edfdd6ced6ee27e891e412}{PS\+\_\+\+Search\+Now}}
+\begin{DoxyCompactList}\small\item\em Performs an immediate fingerprint search in the database. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_ab42f2079ba5448cddcd5f3c0ca2aef9c}{PS\+\_\+\+Valid\+Templete\+Num}}
+\begin{DoxyCompactList}\small\item\em Retrieves the number of valid fingerprint templates stored in the module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_aa46ebc75eb2fb94cde2ac30fcf8b8f29}{PS\+\_\+\+Sleep}}
+\begin{DoxyCompactList}\small\item\em Puts the fingerprint module into sleep mode. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_aa61a0c0c5c6bfe32a6650f61e9241b84}{PS\+\_\+\+Lock\+Keyt}}
+\begin{DoxyCompactList}\small\item\em Locks the fingerprint module\textquotesingle{}s key pair. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_a6ca21b7e91140d05e0ca8bcc20a381ec}{PS\+\_\+\+Get\+Ciphertext}}
+\begin{DoxyCompactList}\small\item\em Retrieves an encrypted random number from the fingerprint module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_aeb1b58bc4812142db1f180b5f81efff2}{PS\+\_\+\+Get\+Chip\+SN}}
+\begin{DoxyCompactList}\small\item\em Retrieves the fingerprint module\textquotesingle{}s unique serial number. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_af0e670df93dd042b2499d252e62b6330}{PS\+\_\+\+Get\+Enroll\+Image}}
+\begin{DoxyCompactList}\small\item\em Captures an image for fingerprint enrollment. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_afc475b21fe147ae6a5a87075ed1ce6c5}{PS\+\_\+\+Write\+Reg}}
+\begin{DoxyCompactList}\small\item\em Writes to the fingerprint module\textquotesingle{}s system register. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_a013246c7b412ad6777655f5e9aab3d06}{PS\+\_\+\+Read\+Index\+Table}}
+\begin{DoxyCompactList}\small\item\em Reads the fingerprint template index table. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Macro Definition Documentation}
@@ -138,45 +166,6 @@ static int \mbox{\hyperlink{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}{ba
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{fingerprint_8c_aaa520601ccba5e238d68c32565dc8ccd}\index{fingerprint.c@{fingerprint.c}!createExtendedPacket@{createExtendedPacket}}
-\index{createExtendedPacket@{createExtendedPacket}!fingerprint.c@{fingerprint.c}}
-\doxysubsubsection{\texorpdfstring{createExtendedPacket()}{createExtendedPacket()}}
-{\footnotesize\ttfamily \label{fingerprint_8c_aaa520601ccba5e238d68c32565dc8ccd} 
-\mbox{\hyperlink{struct_extended_packet}{Extended\+Packet}} create\+Extended\+Packet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}}}]{base\+\_\+packet}{, }\item[{uint8\+\_\+t}]{page\+\_\+number}{, }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{size\+\_\+t}]{data\+\_\+size}{}\end{DoxyParamCaption})}
-
-
-
-Creates an \doxylink{struct_extended_packet}{Extended\+Packet} for commands that require additional data. 
-
-This function is primarily used for commands like {\ttfamily PS\+\_\+\+Write\+Notepad} (0x18), which require a page number and a data block to be stored in the fingerprint module’s internal memory. It ensures that the provided data is at most 32 bytes, padding with zeros if necessary.
-
-
-\begin{DoxyParams}{Parameters}
-{\em base\+\_\+packet} & The base {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} structure. \\
-\hline
-{\em page\+\_\+number} & The target page number (0-\/15) where data will be written. \\
-\hline
-{\em data} & Pointer to the user data (up to 32 bytes). \\
-\hline
-{\em data\+\_\+size} & The size of the user data (≤ 32 bytes). \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-An {\ttfamily \doxylink{struct_extended_packet}{Extended\+Packet}} instance containing the formatted command.
-\end{DoxyReturn}
-\begin{DoxyNote}{Note}
-This function is specifically designed for the {\ttfamily PS\+\_\+\+Write\+Notepad} command (0x18), which writes user data to the fingerprint module\textquotesingle{}s notepad memory.
-
-Example Usage\+: 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{comment}{//\ Writing\ 32\ bytes\ of\ user\ data\ to\ page\ 5\ using\ PS\_WriteNotepad\ (0x18)}}
-\DoxyCodeLine{\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ base\ =\ \{0xEF01,\ 0xFFFFFFFF,\ 0x01,\ 0x24,\ 0x18,\ \{0\},\ 0\};}
-\DoxyCodeLine{uint8\_t\ user\_data[32]\ =\ \{\ x\ \};\ \textcolor{comment}{//\ x\ =\ (32-\/byte\ user\ data)\ }}
-\DoxyCodeLine{\mbox{\hyperlink{struct_extended_packet}{ExtendedPacket}}\ packet\ =\ \mbox{\hyperlink{fingerprint_8h_aaa520601ccba5e238d68c32565dc8ccd}{createExtendedPacket}}(base,\ 5,\ user\_data,\ \textcolor{keyword}{sizeof}(user\_data));}
-
-\end{DoxyCode}
- 
-\end{DoxyNote}
 \Hypertarget{fingerprint_8c_a0d5b756311c0909b7f123085fb54e5b5}\index{fingerprint.c@{fingerprint.c}!fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}}
 \index{fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_calculate\_checksum()}{fingerprint\_calculate\_checksum()}}
@@ -279,7 +268,9 @@ Reads the response packet from UART and returns a dynamically allocated \doxylin
 \begin{DoxyReturn}{Returns}
 Pointer to the received \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}, or NULL on failure. The caller is responsible for freeing the allocated memory using {\ttfamily free()}. 
 \end{DoxyReturn}
-\Hypertarget{fingerprint_8c_a9f8428752fbef75d23833bfd50411091}\index{fingerprint.c@{fingerprint.c}!fingerprint\_scan@{fingerprint\_scan}}
+\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.
+
+\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\Hypertarget{fingerprint_8c_a9f8428752fbef75d23833bfd50411091}\index{fingerprint.c@{fingerprint.c}!fingerprint\_scan@{fingerprint\_scan}}
 \index{fingerprint\_scan@{fingerprint\_scan}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_scan()}{fingerprint\_scan()}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a9f8428752fbef75d23833bfd50411091} 
@@ -369,7 +360,7 @@ This function initializes or updates a {\ttfamily \doxylink{struct_fingerprint_p
 \item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+SIZE} if {\ttfamily param\+\_\+length} exceeds 4. 
 \end{DoxyItemize}
 \end{DoxyReturn}
-\Hypertarget{fingerprint_8c_a9d930710d85ff4f3085dd32e2ce89a8a}\index{fingerprint.c@{fingerprint.c}!fingerprint\_set\_pins@{fingerprint\_set\_pins}}
+\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\Hypertarget{fingerprint_8c_a9d930710d85ff4f3085dd32e2ce89a8a}\index{fingerprint.c@{fingerprint.c}!fingerprint\_set\_pins@{fingerprint\_set\_pins}}
 \index{fingerprint\_set\_pins@{fingerprint\_set\_pins}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_set\_pins()}{fingerprint\_set\_pins()}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a9d930710d85ff4f3085dd32e2ce89a8a} 
@@ -388,6 +379,63 @@ This function allows dynamic configuration of the TX and RX pins before initiali
 \mbox{\texttt{ in}}  & {\em rx} & GPIO number for the RX pin. \\
 \hline
 \end{DoxyParams}
+\Hypertarget{fingerprint_8c_a7db574152ca5af75df9adf2da5504a8e}\index{fingerprint.c@{fingerprint.c}!fingerprint\_status\_event\_handler@{fingerprint\_status\_event\_handler}}
+\index{fingerprint\_status\_event\_handler@{fingerprint\_status\_event\_handler}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{fingerprint\_status\_event\_handler()}{fingerprint\_status\_event\_handler()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a7db574152ca5af75df9adf2da5504a8e} 
+void fingerprint\+\_\+status\+\_\+event\+\_\+handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}}}]{status}{}\end{DoxyParamCaption})}
+
+
+
+Event handler for the fingerprint sensor status. 
+
+This function triggers a high-\/level event based on the received fingerprint status.
+
+
+\begin{DoxyParams}{Parameters}
+{\em status} & The current fingerprint status code. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{fingerprint_8c_a6134c859d385b972b7c0716784a20a2d}\index{fingerprint.c@{fingerprint.c}!max@{max}}
+\index{max@{max}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{max()}{max()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a6134c859d385b972b7c0716784a20a2d} 
+static uint16\+\_\+t max (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{a}{, }\item[{uint16\+\_\+t}]{b}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Returns the larger of two unsigned integers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & First number \\
+\hline
+{\em b} & Second number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximum of the two numbers 
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8c_a5777230ba3f52101f5caf39a070f2aeb}\index{fingerprint.c@{fingerprint.c}!min@{min}}
+\index{min@{min}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{min()}{min()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a5777230ba3f52101f5caf39a070f2aeb} 
+static uint16\+\_\+t min (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{a}{, }\item[{uint16\+\_\+t}]{b}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Returns the smaller of two unsigned integers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & First number \\
+\hline
+{\em b} & Second number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The minimum of the two numbers 
+\end{DoxyReturn}
 \Hypertarget{fingerprint_8c_acdb139ac079afac098d142b4cf7a8b7f}\index{fingerprint.c@{fingerprint.c}!register\_fingerprint\_event\_handler@{register\_fingerprint\_event\_handler}}
 \index{register\_fingerprint\_event\_handler@{register\_fingerprint\_event\_handler}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{register\_fingerprint\_event\_handler()}{register\_fingerprint\_event\_handler()}}
@@ -455,7 +503,7 @@ This pointer is used to assign a function that will handle fingerprint-\/related
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0008,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x31,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x01,\ 0x02,\ 0x00,\ 0x00\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x003A\ }
 \DoxyCodeLine{\}}
 
@@ -484,7 +532,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0006,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x32,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x12,\ 0x00\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x003F\ }
 \DoxyCodeLine{\}}
 
@@ -520,6 +568,8 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 
 
 Erases the fingerprint sensor\textquotesingle{}s firmware. 
+
+Erases the module firmware and enters upgrade mode.
 
 This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Upgrade Mode) is dynamic.\hypertarget{fingerprint_8h_autotoc_md11}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md11}
 
@@ -571,7 +621,37 @@ This command has no parameters and is used to stop any ongoing process. \Hyperta
 
 Checks the status of the fingerprint sensor. 
 
-This command has no parameters. \Hypertarget{fingerprint_8c_a6678fa109dafcae6dd0ac4def5435c59}\index{fingerprint.c@{fingerprint.c}!PS\_DeletChar@{PS\_DeletChar}}
+This command has no parameters. \Hypertarget{fingerprint_8c_a8fe0e76ceb799b2fc34ab9a90cb80864}\index{fingerprint.c@{fingerprint.c}!PS\_ControlBLN@{PS\_ControlBLN}}
+\index{PS\_ControlBLN@{PS\_ControlBLN}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_ControlBLN}{PS\_ControlBLN}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a8fe0e76ceb799b2fc34ab9a90cb80864} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Control\+BLN}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x3C,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0046\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Controls the fingerprint sensor\textquotesingle{}s LED light mode. 
+
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Function, Start Color, End Color, Cycles) are dynamic.\hypertarget{fingerprint_8h_autotoc_md15}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md15}
+
+\begin{DoxyItemize}
+\item {\bfseries{Function}} (1 byte)\+: Specifies LED function.
+\item {\bfseries{Start Color}} (1 byte)\+: Starting color.
+\item {\bfseries{End Color}} (1 byte)\+: Ending color.
+\item {\bfseries{Cycles}} (1 byte)\+: Number of cycles. 
+\end{DoxyItemize}\Hypertarget{fingerprint_8c_a6678fa109dafcae6dd0ac4def5435c59}\index{fingerprint.c@{fingerprint.c}!PS\_DeletChar@{PS\_DeletChar}}
 \index{PS\_DeletChar@{PS\_DeletChar}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_DeletChar}{PS\_DeletChar}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a6678fa109dafcae6dd0ac4def5435c59} 
@@ -585,7 +665,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_a6678fa109dafcae6dd0
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x0C,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x01,\ 0x00,\ 0x01\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0015\ }
 \DoxyCodeLine{\}}
 
@@ -654,7 +734,7 @@ Clears all stored fingerprints (factory reset).
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x02,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x01\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0008\ }
 \DoxyCodeLine{\}}
 
@@ -677,7 +757,7 @@ Generates a character file in Buffer 1.
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x02,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x02\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0009\ }
 \DoxyCodeLine{\}}
 
@@ -685,6 +765,75 @@ Generates a character file in Buffer 1.
 
 
 Generates a character file in Buffer 2. 
+
+\Hypertarget{fingerprint_8c_aeb1b58bc4812142db1f180b5f81efff2}\index{fingerprint.c@{fingerprint.c}!PS\_GetChipSN@{PS\_GetChipSN}}
+\index{PS\_GetChipSN@{PS\_GetChipSN}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_GetChipSN}{PS\_GetChipSN}}
+{\footnotesize\ttfamily \label{fingerprint_8c_aeb1b58bc4812142db1f180b5f81efff2} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Get\+Chip\+SN}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x13,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0016\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Retrieves the fingerprint module\textquotesingle{}s unique serial number. 
+
+\Hypertarget{fingerprint_8c_a6ca21b7e91140d05e0ca8bcc20a381ec}\index{fingerprint.c@{fingerprint.c}!PS\_GetCiphertext@{PS\_GetCiphertext}}
+\index{PS\_GetCiphertext@{PS\_GetCiphertext}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_GetCiphertext}{PS\_GetCiphertext}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a6ca21b7e91140d05e0ca8bcc20a381ec} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Get\+Ciphertext}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0xE2,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00E5\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Retrieves an encrypted random number from the fingerprint module. 
+
+\Hypertarget{fingerprint_8c_af0e670df93dd042b2499d252e62b6330}\index{fingerprint.c@{fingerprint.c}!PS\_GetEnrollImage@{PS\_GetEnrollImage}}
+\index{PS\_GetEnrollImage@{PS\_GetEnrollImage}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_GetEnrollImage}{PS\_GetEnrollImage}}
+{\footnotesize\ttfamily \label{fingerprint_8c_af0e670df93dd042b2499d252e62b6330} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Get\+Enroll\+Image}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x29,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x002D\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Captures an image for fingerprint enrollment. 
 
 \Hypertarget{fingerprint_8c_adaa0f83cf286650e928b5a4ed88ef1ae}\index{fingerprint.c@{fingerprint.c}!PS\_GetImage@{PS\_GetImage}}
 \index{PS\_GetImage@{PS\_GetImage}!fingerprint.c@{fingerprint.c}}
@@ -709,7 +858,30 @@ Generates a character file in Buffer 2.
 
 Captures a fingerprint image from the scanner\textquotesingle{}s sensor. 
 
-\Hypertarget{fingerprint_8c_a0debfe933b7bc0bd43e6390a45f9e664}\index{fingerprint.c@{fingerprint.c}!PS\_GetKeyt@{PS\_GetKeyt}}
+\Hypertarget{fingerprint_8c_a39b572fc25a81120d0868524bb44a87c}\index{fingerprint.c@{fingerprint.c}!PS\_GetImageInfo@{PS\_GetImageInfo}}
+\index{PS\_GetImageInfo@{PS\_GetImageInfo}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_GetImageInfo}{PS\_GetImageInfo}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a39b572fc25a81120d0868524bb44a87c} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Get\+Image\+Info}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x3D,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0041\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Retrieves information about the current fingerprint image. 
+
+This command requests metadata about the fingerprint image stored in the buffer. \Hypertarget{fingerprint_8c_a0debfe933b7bc0bd43e6390a45f9e664}\index{fingerprint.c@{fingerprint.c}!PS\_GetKeyt@{PS\_GetKeyt}}
 \index{PS\_GetKeyt@{PS\_GetKeyt}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_GetKeyt}{PS\_GetKeyt}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a0debfe933b7bc0bd43e6390a45f9e664} 
@@ -755,7 +927,53 @@ This command has no parameters. \Hypertarget{fingerprint_8c_a3a555d20d18c66cabfd
 
 Requests a random number from the fingerprint sensor. 
 
-This command has no parameters. \Hypertarget{fingerprint_8c_abea54c21ef0faa579e3ff4b86d07afa5}\index{fingerprint.c@{fingerprint.c}!PS\_Match@{PS\_Match}}
+This command has no parameters. \Hypertarget{fingerprint_8c_ae243d24ce9fa25ead1f1fccf0c22d806}\index{fingerprint.c@{fingerprint.c}!PS\_HandShake@{PS\_HandShake}}
+\index{PS\_HandShake@{PS\_HandShake}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_HandShake}{PS\_HandShake}}
+{\footnotesize\ttfamily \label{fingerprint_8c_ae243d24ce9fa25ead1f1fccf0c22d806} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Hand\+Shake}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x35,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0039\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Performs a handshake with the fingerprint module. 
+
+Used to verify communication with the fingerprint module. \Hypertarget{fingerprint_8c_aa61a0c0c5c6bfe32a6650f61e9241b84}\index{fingerprint.c@{fingerprint.c}!PS\_LockKeyt@{PS\_LockKeyt}}
+\index{PS\_LockKeyt@{PS\_LockKeyt}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_LockKeyt}{PS\_LockKeyt}}
+{\footnotesize\ttfamily \label{fingerprint_8c_aa61a0c0c5c6bfe32a6650f61e9241b84} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Lock\+Keyt}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0xE1,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00E4\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Locks the fingerprint module\textquotesingle{}s key pair. 
+
+\Hypertarget{fingerprint_8c_abea54c21ef0faa579e3ff4b86d07afa5}\index{fingerprint.c@{fingerprint.c}!PS\_Match@{PS\_Match}}
 \index{PS\_Match@{PS\_Match}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_Match}{PS\_Match}}
 {\footnotesize\ttfamily \label{fingerprint_8c_abea54c21ef0faa579e3ff4b86d07afa5} 
@@ -778,7 +996,34 @@ This command has no parameters. \Hypertarget{fingerprint_8c_abea54c21ef0faa579e3
 
 Matches two fingerprint templates stored in RAM. 
 
-\Hypertarget{fingerprint_8c_adf9f490df58b6a6d71ca6ea80262fa1d}\index{fingerprint.c@{fingerprint.c}!PS\_ReadINFpage@{PS\_ReadINFpage}}
+\Hypertarget{fingerprint_8c_a013246c7b412ad6777655f5e9aab3d06}\index{fingerprint.c@{fingerprint.c}!PS\_ReadIndexTable@{PS\_ReadIndexTable}}
+\index{PS\_ReadIndexTable@{PS\_ReadIndexTable}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_ReadIndexTable}{PS\_ReadIndexTable}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a013246c7b412ad6777655f5e9aab3d06} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Read\+Index\+Table}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x1F,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0023\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Reads the fingerprint template index table. 
+
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Page Number) is dynamic.\hypertarget{fingerprint_8h_autotoc_md18}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md18}
+
+\begin{DoxyItemize}
+\item {\bfseries{Page Number}} (1 byte)\+: Specifies which index table page to read. 
+\end{DoxyItemize}\Hypertarget{fingerprint_8c_adf9f490df58b6a6d71ca6ea80262fa1d}\index{fingerprint.c@{fingerprint.c}!PS\_ReadINFpage@{PS\_ReadINFpage}}
 \index{PS\_ReadINFpage@{PS\_ReadINFpage}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_ReadINFpage}{PS\_ReadINFpage}}
 {\footnotesize\ttfamily \label{fingerprint_8c_adf9f490df58b6a6d71ca6ea80262fa1d} 
@@ -800,6 +1045,8 @@ Matches two fingerprint templates stored in RAM.
 
 
 Reads the fingerprint sensor\textquotesingle{}s flash information page. 
+
+Reads the flash information page of the fingerprint module.
 
 This command has no parameters. \Hypertarget{fingerprint_8c_ace4f99c616f2c9a5a61d2cc804a72635}\index{fingerprint.c@{fingerprint.c}!PS\_ReadNotepad@{PS\_ReadNotepad}}
 \index{PS\_ReadNotepad@{PS\_ReadNotepad}!fingerprint.c@{fingerprint.c}}
@@ -911,7 +1158,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_aad1f05a6bbac30c9f3e
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0008,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x04,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x00,\ 0x00,\ 0x00,\ 0x00\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00\ }
 \DoxyCodeLine{\}}
 
@@ -934,7 +1181,35 @@ This packet structure should be overwritten using \doxylink{fingerprint_8h_aa621
 2 bytes   &4 bytes   &1 byte   &2 bytes   &1 byte   &Buffer ID 1 bytes, Start Page 2 bytes, Page\+Num 2 bytes   &2 bytes    \\\cline{1-7}
 0x\+EF01   &0x\+FFFFFFFF   &0x01   &0x0008   &0x04   &Varies (set dynamically)   &Computed dynamically   \\\cline{1-7}
 \end{longtabu}
-\Hypertarget{fingerprint_8c_acaf7ef75a6a5378d834a47a003901295}\index{fingerprint.c@{fingerprint.c}!PS\_SecuritySearch@{PS\_SecuritySearch}}
+\Hypertarget{fingerprint_8c_a0287773fa3edfdd6ced6ee27e891e412}\index{fingerprint.c@{fingerprint.c}!PS\_SearchNow@{PS\_SearchNow}}
+\index{PS\_SearchNow@{PS\_SearchNow}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_SearchNow}{PS\_SearchNow}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a0287773fa3edfdd6ced6ee27e891e412} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Search\+Now}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x3E,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0046\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Performs an immediate fingerprint search in the database. 
+
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Start Page, Number of Pages) are dynamic.\hypertarget{fingerprint_8h_autotoc_md16}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md16}
+
+\begin{DoxyItemize}
+\item {\bfseries{Start Page}} (2 bytes)\+: Page to start searching from.
+\item {\bfseries{Number of Pages}} (2 bytes)\+: Number of pages to search. 
+\end{DoxyItemize}\Hypertarget{fingerprint_8c_acaf7ef75a6a5378d834a47a003901295}\index{fingerprint.c@{fingerprint.c}!PS\_SecuritySearch@{PS\_SecuritySearch}}
 \index{PS\_SecuritySearch@{PS\_SecuritySearch}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_SecuritySearch}{PS\_SecuritySearch}}
 {\footnotesize\ttfamily \label{fingerprint_8c_acaf7ef75a6a5378d834a47a003901295} 
@@ -948,7 +1223,7 @@ This packet structure should be overwritten using \doxylink{fingerprint_8h_aa621
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0008,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0xF4,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x01,\ 0x00,\ 0x00,\ 0xFF\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00FD\ }
 \DoxyCodeLine{\}}
 
@@ -1005,7 +1280,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x15,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x00,\ 0x00,\ 0x02\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0020\ }
 \DoxyCodeLine{\}}
 
@@ -1028,7 +1303,7 @@ Sets the fingerprint scanner\textquotesingle{}s device address.
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x12,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x00,\ 0x00,\ 0x00\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0019\ }
 \DoxyCodeLine{\}}
 
@@ -1041,7 +1316,30 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 
 \begin{DoxyItemize}
 \item {\bfseries{Password}} (4 bytes)\+: The new password for sensor access. 
-\end{DoxyItemize}\Hypertarget{fingerprint_8c_a1a39bbe581e26c3841e9d8502e887b41}\index{fingerprint.c@{fingerprint.c}!PS\_StoreChar@{PS\_StoreChar}}
+\end{DoxyItemize}\Hypertarget{fingerprint_8c_aa46ebc75eb2fb94cde2ac30fcf8b8f29}\index{fingerprint.c@{fingerprint.c}!PS\_Sleep@{PS\_Sleep}}
+\index{PS\_Sleep@{PS\_Sleep}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_Sleep}{PS\_Sleep}}
+{\footnotesize\ttfamily \label{fingerprint_8c_aa46ebc75eb2fb94cde2ac30fcf8b8f29} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Sleep}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x33,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0037\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Puts the fingerprint module into sleep mode. 
+
+\Hypertarget{fingerprint_8c_a1a39bbe581e26c3841e9d8502e887b41}\index{fingerprint.c@{fingerprint.c}!PS\_StoreChar@{PS\_StoreChar}}
 \index{PS\_StoreChar@{PS\_StoreChar}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_StoreChar}{PS\_StoreChar}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a1a39bbe581e26c3841e9d8502e887b41} 
@@ -1055,7 +1353,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0006,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x06,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x01,\ 0x00,\ 0x01\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x000F\ }
 \DoxyCodeLine{\}}
 
@@ -1083,7 +1381,30 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 
 Uploads the fingerprint image from the sensor. 
 
-This command has no parameters. \Hypertarget{fingerprint_8c_a928959be5d6dfed951392801b7010e8b}\index{fingerprint.c@{fingerprint.c}!PS\_VfyPwd@{PS\_VfyPwd}}
+This command has no parameters. \Hypertarget{fingerprint_8c_ab42f2079ba5448cddcd5f3c0ca2aef9c}\index{fingerprint.c@{fingerprint.c}!PS\_ValidTempleteNum@{PS\_ValidTempleteNum}}
+\index{PS\_ValidTempleteNum@{PS\_ValidTempleteNum}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_ValidTempleteNum}{PS\_ValidTempleteNum}}
+{\footnotesize\ttfamily \label{fingerprint_8c_ab42f2079ba5448cddcd5f3c0ca2aef9c} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Valid\+Templete\+Num}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x1D,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0021\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Retrieves the number of valid fingerprint templates stored in the module. 
+
+\Hypertarget{fingerprint_8c_a928959be5d6dfed951392801b7010e8b}\index{fingerprint.c@{fingerprint.c}!PS\_VfyPwd@{PS\_VfyPwd}}
 \index{PS\_VfyPwd@{PS\_VfyPwd}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_VfyPwd}{PS\_VfyPwd}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a928959be5d6dfed951392801b7010e8b} 
@@ -1097,7 +1418,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_a928959be5d6dfed9513
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0x13,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00,\ 0x00,\ 0x00,\ 0x00\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x001A\ }
 \DoxyCodeLine{\}}
 
@@ -1129,7 +1450,35 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
-\Hypertarget{fingerprint_8c_a219fb0cecab94c438944338382716e4d}\index{fingerprint.c@{fingerprint.c}!rx\_pin@{rx\_pin}}
+\Hypertarget{fingerprint_8c_afc475b21fe147ae6a5a87075ed1ce6c5}\index{fingerprint.c@{fingerprint.c}!PS\_WriteReg@{PS\_WriteReg}}
+\index{PS\_WriteReg@{PS\_WriteReg}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_WriteReg}{PS\_WriteReg}}
+{\footnotesize\ttfamily \label{fingerprint_8c_afc475b21fe147ae6a5a87075ed1ce6c5} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Write\+Reg}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0005,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0E,\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0013\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Writes to the fingerprint module\textquotesingle{}s system register. 
+
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Register Number, Value) are dynamic.\hypertarget{fingerprint_8h_autotoc_md17}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md17}
+
+\begin{DoxyItemize}
+\item {\bfseries{Register Number}} (1 byte)\+: Specifies which register to write to.
+\item {\bfseries{Value}} (1 byte)\+: Data to be written. 
+\end{DoxyItemize}\Hypertarget{fingerprint_8c_a219fb0cecab94c438944338382716e4d}\index{fingerprint.c@{fingerprint.c}!rx\_pin@{rx\_pin}}
 \index{rx\_pin@{rx\_pin}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{rx\_pin}{rx\_pin}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a219fb0cecab94c438944338382716e4d} 

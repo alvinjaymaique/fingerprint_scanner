@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['header_0',['header',['../struct_fingerprint_packet.html#ad52b37d9004ee77c9dc446a2581b6b11',1,'FingerprintPacket']]]
+  ['length_0',['length',['../struct_fingerprint_packet.html#a3caa1aa8c03abae55918669b1bf935eb',1,'FingerprintPacket']]]
 ];

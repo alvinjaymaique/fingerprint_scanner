@@ -122,10 +122,7 @@ $(function(){initNavTree('fingerprint_8h.html',''); initResizable(true); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure representing a fingerprint module command packet.  <a href="struct_fingerprint_packet.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_extended_packet.html">ExtendedPacket</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extends <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a> with additional data.  <a href="struct_extended_packet.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure representing a command or response packet for the fingerprint module.  <a href="struct_fingerprint_packet.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -147,6 +144,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a69d1c616ae544899c43fd1dbfcbaa086" id="r_a69d1c616ae544899c43fd1dbfcbaa086"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69d1c616ae544899c43fd1dbfcbaa086">UART_READ_TIMEOUT</a>&#160;&#160;&#160;100</td></tr>
 <tr class="memdesc:a69d1c616ae544899c43fd1dbfcbaa086"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout value for UART read operations.  <br /></td></tr>
 <tr class="separator:a69d1c616ae544899c43fd1dbfcbaa086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68c7f0498bb1932350eb092be1b5e912" id="r_a68c7f0498bb1932350eb092be1b5e912"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68c7f0498bb1932350eb092be1b5e912">MAX_PARAMETERS</a>&#160;&#160;&#160;32</td></tr>
+<tr class="memdesc:a68c7f0498bb1932350eb092be1b5e912"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of parameters supported in a fingerprint packet.  <br /></td></tr>
+<tr class="separator:a68c7f0498bb1932350eb092be1b5e912"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -244,23 +244,23 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a7db574152ca5af75df9adf2da5504a8e" id="r_a7db574152ca5af75df9adf2da5504a8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7db574152ca5af75df9adf2da5504a8e">fingerprint_status_event_handler</a> (<a class="el" href="#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> status)</td></tr>
+<tr class="memdesc:a7db574152ca5af75df9adf2da5504a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event handler for the fingerprint sensor status.  <br /></td></tr>
+<tr class="separator:a7db574152ca5af75df9adf2da5504a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a759d58795c9a87a5d2fa233e52e5d580" id="r_a759d58795c9a87a5d2fa233e52e5d580"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a759d58795c9a87a5d2fa233e52e5d580">fingerprint_init</a> (void)</td></tr>
 <tr class="memdesc:a759d58795c9a87a5d2fa233e52e5d580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the fingerprint scanner.  <br /></td></tr>
 <tr class="separator:a759d58795c9a87a5d2fa233e52e5d580"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa621bd8222b32b5d2245f92e22934655" id="r_aa621bd8222b32b5d2245f92e22934655"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa621bd8222b32b5d2245f92e22934655">fingerprint_set_command</a> (<a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *cmd, uint8_t command, uint8_t *params, uint8_t param_length)</td></tr>
 <tr class="memdesc:aa621bd8222b32b5d2245f92e22934655"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets or modifies a fingerprint command packet.  <br /></td></tr>
 <tr class="separator:aa621bd8222b32b5d2245f92e22934655"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa520601ccba5e238d68c32565dc8ccd" id="r_aaa520601ccba5e238d68c32565dc8ccd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_extended_packet.html">ExtendedPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa520601ccba5e238d68c32565dc8ccd">createExtendedPacket</a> (<a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> base_packet, uint8_t page_number, const uint8_t *data, size_t data_size)</td></tr>
-<tr class="memdesc:aaa520601ccba5e238d68c32565dc8ccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="struct_extended_packet.html" title="Extends FingerprintPacket with additional data.">ExtendedPacket</a> for commands that require additional data.  <br /></td></tr>
-<tr class="separator:aaa520601ccba5e238d68c32565dc8ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d5b756311c0909b7f123085fb54e5b5" id="r_a0d5b756311c0909b7f123085fb54e5b5"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d5b756311c0909b7f123085fb54e5b5">fingerprint_calculate_checksum</a> (<a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *cmd)</td></tr>
-<tr class="memdesc:a0d5b756311c0909b7f123085fb54e5b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the checksum for a given <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a> structure.  <br /></td></tr>
+<tr class="memdesc:a0d5b756311c0909b7f123085fb54e5b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the checksum for a given <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a> structure.  <br /></td></tr>
 <tr class="separator:a0d5b756311c0909b7f123085fb54e5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25d10be1c372a32ba6e9ff2eb7cc60cb" id="r_a25d10be1c372a32ba6e9ff2eb7cc60cb"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25d10be1c372a32ba6e9ff2eb7cc60cb">fingerprint_send_command</a> (<a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *cmd, uint32_t address)</td></tr>
 <tr class="memdesc:a25d10be1c372a32ba6e9ff2eb7cc60cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a fingerprint command packet to the fingerprint module.  <br /></td></tr>
 <tr class="separator:a25d10be1c372a32ba6e9ff2eb7cc60cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18e8b2af7dd860c312d730b5d1d30b7f" id="r_a18e8b2af7dd860c312d730b5d1d30b7f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18e8b2af7dd860c312d730b5d1d30b7f">fingerprint_read_response</a> (void)</td></tr>
-<tr class="memdesc:a18e8b2af7dd860c312d730b5d1d30b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the response packet from UART and returns a dynamically allocated <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a>.  <br /></td></tr>
+<tr class="memdesc:a18e8b2af7dd860c312d730b5d1d30b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the response packet from UART and returns a dynamically allocated <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a>.  <br /></td></tr>
 <tr class="separator:a18e8b2af7dd860c312d730b5d1d30b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20092401e8301669fc2d595f02dc433d" id="r_a20092401e8301669fc2d595f02dc433d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20092401e8301669fc2d595f02dc433d">fingerprint_get_status</a> (<a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *packet)</td></tr>
 <tr class="memdesc:a20092401e8301669fc2d595f02dc433d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the status of the fingerprint operation from the response packet.  <br /></td></tr>
@@ -370,6 +370,48 @@ Variables</h2></td></tr>
 <tr class="memitem:ace4f99c616f2c9a5a61d2cc804a72635" id="r_ace4f99c616f2c9a5a61d2cc804a72635"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace4f99c616f2c9a5a61d2cc804a72635">PS_ReadNotepad</a></td></tr>
 <tr class="memdesc:ace4f99c616f2c9a5a61d2cc804a72635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data from the fingerprint sensor's notepad memory.  <br /></td></tr>
 <tr class="separator:ace4f99c616f2c9a5a61d2cc804a72635"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a105683cebbfd541df8ba50d6df3b37a8" id="r_a105683cebbfd541df8ba50d6df3b37a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a105683cebbfd541df8ba50d6df3b37a8">PS_DownChar</a></td></tr>
+<tr class="memdesc:a105683cebbfd541df8ba50d6df3b37a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a fingerprint template to the module.  <br /></td></tr>
+<tr class="separator:a105683cebbfd541df8ba50d6df3b37a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7704dbb198c160338884a15a3ef01203" id="r_a7704dbb198c160338884a15a3ef01203"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7704dbb198c160338884a15a3ef01203">PS_UpChar</a></td></tr>
+<tr class="memdesc:a7704dbb198c160338884a15a3ef01203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a stored fingerprint template from the module.  <br /></td></tr>
+<tr class="separator:a7704dbb198c160338884a15a3ef01203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae243d24ce9fa25ead1f1fccf0c22d806" id="r_ae243d24ce9fa25ead1f1fccf0c22d806"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae243d24ce9fa25ead1f1fccf0c22d806">PS_HandShake</a></td></tr>
+<tr class="memdesc:ae243d24ce9fa25ead1f1fccf0c22d806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a handshake with the fingerprint module.  <br /></td></tr>
+<tr class="separator:ae243d24ce9fa25ead1f1fccf0c22d806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fe0e76ceb799b2fc34ab9a90cb80864" id="r_a8fe0e76ceb799b2fc34ab9a90cb80864"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fe0e76ceb799b2fc34ab9a90cb80864">PS_ControlBLN</a></td></tr>
+<tr class="memdesc:a8fe0e76ceb799b2fc34ab9a90cb80864"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls the fingerprint sensor's LED light mode.  <br /></td></tr>
+<tr class="separator:a8fe0e76ceb799b2fc34ab9a90cb80864"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39b572fc25a81120d0868524bb44a87c" id="r_a39b572fc25a81120d0868524bb44a87c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39b572fc25a81120d0868524bb44a87c">PS_GetImageInfo</a></td></tr>
+<tr class="memdesc:a39b572fc25a81120d0868524bb44a87c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves information about the current fingerprint image.  <br /></td></tr>
+<tr class="separator:a39b572fc25a81120d0868524bb44a87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0287773fa3edfdd6ced6ee27e891e412" id="r_a0287773fa3edfdd6ced6ee27e891e412"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0287773fa3edfdd6ced6ee27e891e412">PS_SearchNow</a></td></tr>
+<tr class="memdesc:a0287773fa3edfdd6ced6ee27e891e412"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs an immediate fingerprint search in the database.  <br /></td></tr>
+<tr class="separator:a0287773fa3edfdd6ced6ee27e891e412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab42f2079ba5448cddcd5f3c0ca2aef9c" id="r_ab42f2079ba5448cddcd5f3c0ca2aef9c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab42f2079ba5448cddcd5f3c0ca2aef9c">PS_ValidTempleteNum</a></td></tr>
+<tr class="memdesc:ab42f2079ba5448cddcd5f3c0ca2aef9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the number of valid fingerprint templates stored in the module.  <br /></td></tr>
+<tr class="separator:ab42f2079ba5448cddcd5f3c0ca2aef9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa46ebc75eb2fb94cde2ac30fcf8b8f29" id="r_aa46ebc75eb2fb94cde2ac30fcf8b8f29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa46ebc75eb2fb94cde2ac30fcf8b8f29">PS_Sleep</a></td></tr>
+<tr class="memdesc:aa46ebc75eb2fb94cde2ac30fcf8b8f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Puts the fingerprint module into sleep mode.  <br /></td></tr>
+<tr class="separator:aa46ebc75eb2fb94cde2ac30fcf8b8f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa61a0c0c5c6bfe32a6650f61e9241b84" id="r_aa61a0c0c5c6bfe32a6650f61e9241b84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa61a0c0c5c6bfe32a6650f61e9241b84">PS_LockKeyt</a></td></tr>
+<tr class="memdesc:aa61a0c0c5c6bfe32a6650f61e9241b84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Locks the fingerprint module's key pair.  <br /></td></tr>
+<tr class="separator:aa61a0c0c5c6bfe32a6650f61e9241b84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca21b7e91140d05e0ca8bcc20a381ec" id="r_a6ca21b7e91140d05e0ca8bcc20a381ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ca21b7e91140d05e0ca8bcc20a381ec">PS_GetCiphertext</a></td></tr>
+<tr class="memdesc:a6ca21b7e91140d05e0ca8bcc20a381ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves an encrypted random number from the fingerprint module.  <br /></td></tr>
+<tr class="separator:a6ca21b7e91140d05e0ca8bcc20a381ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb1b58bc4812142db1f180b5f81efff2" id="r_aeb1b58bc4812142db1f180b5f81efff2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb1b58bc4812142db1f180b5f81efff2">PS_GetChipSN</a></td></tr>
+<tr class="memdesc:aeb1b58bc4812142db1f180b5f81efff2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the fingerprint module's unique serial number.  <br /></td></tr>
+<tr class="separator:aeb1b58bc4812142db1f180b5f81efff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0e670df93dd042b2499d252e62b6330" id="r_af0e670df93dd042b2499d252e62b6330"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0e670df93dd042b2499d252e62b6330">PS_GetEnrollImage</a></td></tr>
+<tr class="memdesc:af0e670df93dd042b2499d252e62b6330"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures an image for fingerprint enrollment.  <br /></td></tr>
+<tr class="separator:af0e670df93dd042b2499d252e62b6330"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc475b21fe147ae6a5a87075ed1ce6c5" id="r_afc475b21fe147ae6a5a87075ed1ce6c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc475b21fe147ae6a5a87075ed1ce6c5">PS_WriteReg</a></td></tr>
+<tr class="memdesc:afc475b21fe147ae6a5a87075ed1ce6c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to the fingerprint module's system register.  <br /></td></tr>
+<tr class="separator:afc475b21fe147ae6a5a87075ed1ce6c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a013246c7b412ad6777655f5e9aab3d06" id="r_a013246c7b412ad6777655f5e9aab3d06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a013246c7b412ad6777655f5e9aab3d06">PS_ReadIndexTable</a></td></tr>
+<tr class="memdesc:a013246c7b412ad6777655f5e9aab3d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the fingerprint template index table.  <br /></td></tr>
+<tr class="separator:a013246c7b412ad6777655f5e9aab3d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1bc88ca9eeff4bcae8ac419f8653c07" id="r_ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a658eb2a1aea7e912aabef713b69d6789">fingerprint_event_handler_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1bc88ca9eeff4bcae8ac419f8653c07">g_fingerprint_event_handler</a></td></tr>
 <tr class="memdesc:ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global pointer to the fingerprint event handler function.  <br /></td></tr>
 <tr class="separator:ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -447,13 +489,13 @@ Event-driven System</h2>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a></div><div class="ttdeci">fingerprint_event_t</div><div class="ttdoc">Enum to define various fingerprint events.</div><div class="ttdef"><b>Definition</b> fingerprint.h:695</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a></div><div class="ttdeci">@ EVENT_FEATURE_EXTRACTED</div><div class="ttdoc">Event triggered when fingerprint features are successfully extracted.</div><div class="ttdef"><b>Definition</b> fingerprint.h:715</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a></div><div class="ttdeci">@ EVENT_FINGER_DETECTED</div><div class="ttdoc">Event triggered when a finger is detected.</div><div class="ttdef"><b>Definition</b> fingerprint.h:701</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a></div><div class="ttdeci">@ EVENT_ERROR</div><div class="ttdoc">A general error event, used for unexpected failures.</div><div class="ttdef"><b>Definition</b> fingerprint.h:736</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a></div><div class="ttdeci">@ EVENT_MATCH_FAIL</div><div class="ttdoc">Event triggered when a fingerprint mismatch occurs.</div><div class="ttdef"><b>Definition</b> fingerprint.h:729</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a></div><div class="ttdeci">@ EVENT_IMAGE_CAPTURED</div><div class="ttdoc">Event triggered when a fingerprint image is captured successfully.</div><div class="ttdef"><b>Definition</b> fingerprint.h:708</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a></div><div class="ttdeci">@ EVENT_MATCH_SUCCESS</div><div class="ttdoc">Event triggered when a fingerprint match is successful.</div><div class="ttdef"><b>Definition</b> fingerprint.h:722</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a></div><div class="ttdeci">fingerprint_event_t</div><div class="ttdoc">Enum to define various fingerprint events.</div><div class="ttdef"><b>Definition</b> fingerprint.h:791</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a></div><div class="ttdeci">@ EVENT_FEATURE_EXTRACTED</div><div class="ttdoc">Event triggered when fingerprint features are successfully extracted.</div><div class="ttdef"><b>Definition</b> fingerprint.h:811</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a></div><div class="ttdeci">@ EVENT_FINGER_DETECTED</div><div class="ttdoc">Event triggered when a finger is detected.</div><div class="ttdef"><b>Definition</b> fingerprint.h:797</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a></div><div class="ttdeci">@ EVENT_ERROR</div><div class="ttdoc">A general error event, used for unexpected failures.</div><div class="ttdef"><b>Definition</b> fingerprint.h:832</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a></div><div class="ttdeci">@ EVENT_MATCH_FAIL</div><div class="ttdoc">Event triggered when a fingerprint mismatch occurs.</div><div class="ttdef"><b>Definition</b> fingerprint.h:825</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a></div><div class="ttdeci">@ EVENT_IMAGE_CAPTURED</div><div class="ttdoc">Event triggered when a fingerprint image is captured successfully.</div><div class="ttdef"><b>Definition</b> fingerprint.h:804</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a></div><div class="ttdeci">@ EVENT_MATCH_SUCCESS</div><div class="ttdoc">Event triggered when a fingerprint match is successful.</div><div class="ttdef"><b>Definition</b> fingerprint.h:818</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a68654b05f39a5e88db0453de6f7fd726" name="a68654b05f39a5e88db0453de6f7fd726"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a68654b05f39a5e88db0453de6f7fd726">&#9670;&#160;</a></span>DEFAULT_BAUD_RATE</h2>
@@ -530,6 +572,23 @@ Event-driven System</h2>
 </div><div class="memdoc">
 
 <p>Default fingerprint module header identifier. </p>
+
+</div>
+</div>
+<a id="a68c7f0498bb1932350eb092be1b5e912" name="a68c7f0498bb1932350eb092be1b5e912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68c7f0498bb1932350eb092be1b5e912">&#9670;&#160;</a></span>MAX_PARAMETERS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_PARAMETERS&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Maximum number of parameters supported in a fingerprint packet. </p>
+<p>Defines the fixed-size buffer for command-specific parameters in fingerprint communication. This value should be adjusted based on the largest expected parameter size to ensure sufficient space while maintaining efficient memory usage. Adjust based on the largest required parameter size. </p>
 
 </div>
 </div>
@@ -748,60 +807,6 @@ Event-driven System</h2>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aaa520601ccba5e238d68c32565dc8ccd" name="aaa520601ccba5e238d68c32565dc8ccd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa520601ccba5e238d68c32565dc8ccd">&#9670;&#160;</a></span>createExtendedPacket()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_extended_packet.html">ExtendedPacket</a> createExtendedPacket </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a></td>          <td class="paramname"><span class="paramname"><em>base_packet</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>page_number</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>data_size</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Creates an <a class="el" href="struct_extended_packet.html" title="Extends FingerprintPacket with additional data.">ExtendedPacket</a> for commands that require additional data. </p>
-<p>This function is primarily used for commands like <code>PS_WriteNotepad</code> (0x18), which require a page number and a data block to be stored in the fingerprint module’s internal memory. It ensures that the provided data is at most 32 bytes, padding with zeros if necessary.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">base_packet</td><td>The base <code><a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a></code> structure. </td></tr>
-    <tr><td class="paramname">page_number</td><td>The target page number (0-15) where data will be written. </td></tr>
-    <tr><td class="paramname">data</td><td>Pointer to the user data (up to 32 bytes). </td></tr>
-    <tr><td class="paramname">data_size</td><td>The size of the user data (≤ 32 bytes). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An <code><a class="el" href="struct_extended_packet.html" title="Extends FingerprintPacket with additional data.">ExtendedPacket</a></code> instance containing the formatted command.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is specifically designed for the <code>PS_WriteNotepad</code> command (0x18), which writes user data to the fingerprint module's notepad memory.</dd>
-<dd>
-Example Usage: <div class="fragment"><div class="line"><span class="comment">// Writing 32 bytes of user data to page 5 using PS_WriteNotepad (0x18)</span></div>
-<div class="line"><a class="code hl_struct" href="struct_fingerprint_packet.html">FingerprintPacket</a> base = {0xEF01, 0xFFFFFFFF, 0x01, 0x24, 0x18, {0}, 0};</div>
-<div class="line">uint8_t user_data[32] = { x }; <span class="comment">// x = (32-byte user data) </span></div>
-<div class="line"><a class="code hl_struct" href="struct_extended_packet.html">ExtendedPacket</a> packet = <a class="code hl_function" href="#aaa520601ccba5e238d68c32565dc8ccd">createExtendedPacket</a>(base, 5, user_data, <span class="keyword">sizeof</span>(user_data));</div>
-<div class="ttc" id="afingerprint_8h_html_aaa520601ccba5e238d68c32565dc8ccd"><div class="ttname"><a href="#aaa520601ccba5e238d68c32565dc8ccd">createExtendedPacket</a></div><div class="ttdeci">ExtendedPacket createExtendedPacket(FingerprintPacket base_packet, uint8_t page_number, const uint8_t *data, size_t data_size)</div><div class="ttdoc">Creates an ExtendedPacket for commands that require additional data.</div><div class="ttdef"><b>Definition</b> fingerprint.c:365</div></div>
-<div class="ttc" id="astruct_extended_packet_html"><div class="ttname"><a href="struct_extended_packet.html">ExtendedPacket</a></div><div class="ttdoc">Extends FingerprintPacket with additional data.</div><div class="ttdef"><b>Definition</b> fingerprint.h:136</div></div>
-<div class="ttc" id="astruct_fingerprint_packet_html"><div class="ttname"><a href="struct_fingerprint_packet.html">FingerprintPacket</a></div><div class="ttdoc">Structure representing a fingerprint module command packet.</div><div class="ttdef"><b>Definition</b> fingerprint.h:122</div></div>
-</div><!-- fragment --> </dd></dl>
-
-</div>
-</div>
 <a id="a0d5b756311c0909b7f123085fb54e5b5" name="a0d5b756311c0909b7f123085fb54e5b5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d5b756311c0909b7f123085fb54e5b5">&#9670;&#160;</a></span>fingerprint_calculate_checksum()</h2>
 
@@ -817,11 +822,11 @@ Example Usage: <div class="fragment"><div class="line"><span class="comment">// 
       </table>
 </div><div class="memdoc">
 
-<p>Computes the checksum for a given <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a> structure. </p>
+<p>Computes the checksum for a given <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a> structure. </p>
 <p>The checksum is the sum of all bytes from packet_id to parameters.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cmd</td><td>Pointer to the <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a> structure. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cmd</td><td>Pointer to the <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a> structure. </td></tr>
   </table>
   </dd>
 </dl>
@@ -900,7 +905,7 @@ Example Usage: <div class="fragment"><div class="line"><span class="comment">// 
 <p>This function extracts the confirmation code from the fingerprint sensor's response and maps it to a predefined <a class="el" href="#a4fa0db2c9622e0d4cbaa1e1c64c16364" title="Fingerprint sensor status codes.">fingerprint_status_t</a> enumeration.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">packet</td><td>Pointer to the <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a> structure containing the response.</td></tr>
+    <tr><td class="paramname">packet</td><td>Pointer to the <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a> structure containing the response.</td></tr>
   </table>
   </dd>
 </dl>
@@ -943,8 +948,10 @@ Example Usage: <div class="fragment"><div class="line"><span class="comment">// 
       </table>
 </div><div class="memdoc">
 
-<p>Reads the response packet from UART and returns a dynamically allocated <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the received <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a>, or NULL on failure. The caller is responsible for freeing the allocated memory using <code>free()</code>. </dd></dl>
+<p>Reads the response packet from UART and returns a dynamically allocated <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the received <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a>, or NULL on failure. The caller is responsible for freeing the allocated memory using <code>free()</code>. </dd></dl>
+<p>&lt; Adjust based on the largest required parameter size.</p>
+<p>&lt; Adjust based on the largest required parameter size.</p>
 
 </div>
 </div>
@@ -992,7 +999,7 @@ Example Usage: <div class="fragment"><div class="line"><span class="comment">// 
 <p>This function constructs a command packet, calculates its checksum, and sends it via UART to the fingerprint module at the specified address.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cmd</td><td>Pointer to a <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a> structure containing the command details. </td></tr>
+    <tr><td class="paramname">cmd</td><td>Pointer to a <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a> structure containing the command details. </td></tr>
     <tr><td class="paramname">address</td><td>The address of the fingerprint module. This can be configured as needed.</td></tr>
   </table>
   </dd>
@@ -1062,10 +1069,10 @@ Example Usage: <div class="fragment"><div class="line"><span class="comment">// 
 </div><div class="memdoc">
 
 <p>Sets or modifies a fingerprint command packet. </p>
-<p>This function initializes or updates a <code><a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a></code> with the specified command and parameters. It ensures that the parameter length does not exceed 4 bytes and automatically calculates the checksum. This function is useful for preparing commands before sending them to the fingerprint module.</p>
+<p>This function initializes or updates a <code><a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a></code> with the specified command and parameters. It ensures that the parameter length does not exceed 4 bytes and automatically calculates the checksum. This function is useful for preparing commands before sending them to the fingerprint module.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">cmd</td><td>Pointer to the <code><a class="el" href="struct_fingerprint_packet.html" title="Structure representing a fingerprint module command packet.">FingerprintPacket</a></code> to be populated or modified. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cmd</td><td>Pointer to the <code><a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a></code> to be populated or modified. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">command</td><td>Command byte to be set in the packet. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">params</td><td>Pointer to a parameter array (can be NULL if no parameters). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">param_length</td><td>Number of parameters (max 4). </td></tr>
@@ -1078,6 +1085,7 @@ Example Usage: <div class="fragment"><div class="line"><span class="comment">// 
 <li><code>ESP_ERR_INVALID_SIZE</code> if <code>param_length</code> exceeds 4. </li>
 </ul>
 </dd></dl>
+<p>&lt; Adjust based on the largest required parameter size.</p>
 
 </div>
 </div>
@@ -1106,6 +1114,32 @@ Example Usage: <div class="fragment"><div class="line"><span class="comment">// 
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">tx</td><td>GPIO number for the TX pin. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">rx</td><td>GPIO number for the RX pin. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7db574152ca5af75df9adf2da5504a8e" name="a7db574152ca5af75df9adf2da5504a8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7db574152ca5af75df9adf2da5504a8e">&#9670;&#160;</a></span>fingerprint_status_event_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fingerprint_status_event_handler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a></td>          <td class="paramname"><span class="paramname"><em>status</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Event handler for the fingerprint sensor status. </p>
+<p>This function triggers a high-level event based on the received fingerprint status.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>The current fingerprint status code. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1274,6 +1308,7 @@ Parameters:</h3>
 </div><div class="memdoc">
 
 <p>Erases the fingerprint sensor's firmware. </p>
+<p>Erases the module firmware and enters upgrade mode.</p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Sets or modifies a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Upgrade Mode) is dynamic.</p>
 <h3><a class="anchor" id="autotoc_md11"></a>
 Parameters:</h3>
@@ -1333,6 +1368,39 @@ Parameters:</h3>
 
 </div>
 </div>
+<a id="a8fe0e76ceb799b2fc34ab9a90cb80864" name="a8fe0e76ceb799b2fc34ab9a90cb80864"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fe0e76ceb799b2fc34ab9a90cb80864">&#9670;&#160;</a></span>PS_ControlBLN</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_ControlBLN</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Controls the fingerprint sensor's LED light mode. </p>
+<p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Sets or modifies a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Function, Start Color, End Color, Cycles) are dynamic.</p>
+<h3><a class="anchor" id="autotoc_md15"></a>
+Parameters:</h3>
+<ul>
+<li><b>Function</b> (1 byte): Specifies LED function.</li>
+<li><b>Start Color</b> (1 byte): Starting color.</li>
+<li><b>End Color</b> (1 byte): Ending color.</li>
+<li><b>Cycles</b> (1 byte): Number of cycles. </li>
+</ul>
+
+</div>
+</div>
 <a id="a6678fa109dafcae6dd0ac4def5435c59" name="a6678fa109dafcae6dd0ac4def5435c59"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6678fa109dafcae6dd0ac4def5435c59">&#9670;&#160;</a></span>PS_DeletChar</h2>
 
@@ -1354,6 +1422,30 @@ Parameters:</h3>
 </div><div class="memdoc">
 
 <p>Deletes a specific fingerprint template from the database. </p>
+
+</div>
+</div>
+<a id="a105683cebbfd541df8ba50d6df3b37a8" name="a105683cebbfd541df8ba50d6df3b37a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a105683cebbfd541df8ba50d6df3b37a8">&#9670;&#160;</a></span>PS_DownChar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_DownChar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Downloads a fingerprint template to the module. </p>
 
 </div>
 </div>
@@ -1454,6 +1546,78 @@ Parameters:</h3>
 
 </div>
 </div>
+<a id="aeb1b58bc4812142db1f180b5f81efff2" name="aeb1b58bc4812142db1f180b5f81efff2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb1b58bc4812142db1f180b5f81efff2">&#9670;&#160;</a></span>PS_GetChipSN</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_GetChipSN</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves the fingerprint module's unique serial number. </p>
+
+</div>
+</div>
+<a id="a6ca21b7e91140d05e0ca8bcc20a381ec" name="a6ca21b7e91140d05e0ca8bcc20a381ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ca21b7e91140d05e0ca8bcc20a381ec">&#9670;&#160;</a></span>PS_GetCiphertext</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_GetCiphertext</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves an encrypted random number from the fingerprint module. </p>
+
+</div>
+</div>
+<a id="af0e670df93dd042b2499d252e62b6330" name="af0e670df93dd042b2499d252e62b6330"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0e670df93dd042b2499d252e62b6330">&#9670;&#160;</a></span>PS_GetEnrollImage</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_GetEnrollImage</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Captures an image for fingerprint enrollment. </p>
+
+</div>
+</div>
 <a id="adaa0f83cf286650e928b5a4ed88ef1ae" name="adaa0f83cf286650e928b5a4ed88ef1ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adaa0f83cf286650e928b5a4ed88ef1ae">&#9670;&#160;</a></span>PS_GetImage</h2>
 
@@ -1475,6 +1639,31 @@ Parameters:</h3>
 </div><div class="memdoc">
 
 <p>Captures a fingerprint image from the scanner's sensor. </p>
+
+</div>
+</div>
+<a id="a39b572fc25a81120d0868524bb44a87c" name="a39b572fc25a81120d0868524bb44a87c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39b572fc25a81120d0868524bb44a87c">&#9670;&#160;</a></span>PS_GetImageInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_GetImageInfo</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves information about the current fingerprint image. </p>
+<p>This command requests metadata about the fingerprint image stored in the buffer. </p>
 
 </div>
 </div>
@@ -1528,6 +1717,55 @@ Parameters:</h3>
 
 </div>
 </div>
+<a id="ae243d24ce9fa25ead1f1fccf0c22d806" name="ae243d24ce9fa25ead1f1fccf0c22d806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae243d24ce9fa25ead1f1fccf0c22d806">&#9670;&#160;</a></span>PS_HandShake</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_HandShake</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Performs a handshake with the fingerprint module. </p>
+<p>Used to verify communication with the fingerprint module. </p>
+
+</div>
+</div>
+<a id="aa61a0c0c5c6bfe32a6650f61e9241b84" name="aa61a0c0c5c6bfe32a6650f61e9241b84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa61a0c0c5c6bfe32a6650f61e9241b84">&#9670;&#160;</a></span>PS_LockKeyt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_LockKeyt</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Locks the fingerprint module's key pair. </p>
+
+</div>
+</div>
 <a id="abea54c21ef0faa579e3ff4b86d07afa5" name="abea54c21ef0faa579e3ff4b86d07afa5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abea54c21ef0faa579e3ff4b86d07afa5">&#9670;&#160;</a></span>PS_Match</h2>
 
@@ -1552,6 +1790,36 @@ Parameters:</h3>
 
 </div>
 </div>
+<a id="a013246c7b412ad6777655f5e9aab3d06" name="a013246c7b412ad6777655f5e9aab3d06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a013246c7b412ad6777655f5e9aab3d06">&#9670;&#160;</a></span>PS_ReadIndexTable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_ReadIndexTable</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads the fingerprint template index table. </p>
+<p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Sets or modifies a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Page Number) is dynamic.</p>
+<h3><a class="anchor" id="autotoc_md18"></a>
+Parameters:</h3>
+<ul>
+<li><b>Page Number</b> (1 byte): Specifies which index table page to read. </li>
+</ul>
+
+</div>
+</div>
 <a id="adf9f490df58b6a6d71ca6ea80262fa1d" name="adf9f490df58b6a6d71ca6ea80262fa1d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adf9f490df58b6a6d71ca6ea80262fa1d">&#9670;&#160;</a></span>PS_ReadINFpage</h2>
 
@@ -1573,6 +1841,7 @@ Parameters:</h3>
 </div><div class="memdoc">
 
 <p>Reads the fingerprint sensor's flash information page. </p>
+<p>Reads the flash information page of the fingerprint module.</p>
 <p>This command has no parameters. </p>
 
 </div>
@@ -1715,6 +1984,37 @@ Packet Structure:</h3>
 
 </div>
 </div>
+<a id="a0287773fa3edfdd6ced6ee27e891e412" name="a0287773fa3edfdd6ced6ee27e891e412"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0287773fa3edfdd6ced6ee27e891e412">&#9670;&#160;</a></span>PS_SearchNow</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_SearchNow</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Performs an immediate fingerprint search in the database. </p>
+<p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Sets or modifies a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Start Page, Number of Pages) are dynamic.</p>
+<h3><a class="anchor" id="autotoc_md16"></a>
+Parameters:</h3>
+<ul>
+<li><b>Start Page</b> (2 bytes): Page to start searching from.</li>
+<li><b>Number of Pages</b> (2 bytes): Number of pages to search. </li>
+</ul>
+
+</div>
+</div>
 <a id="acaf7ef75a6a5378d834a47a003901295" name="acaf7ef75a6a5378d834a47a003901295"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acaf7ef75a6a5378d834a47a003901295">&#9670;&#160;</a></span>PS_SecuritySearch</h2>
 
@@ -1832,6 +2132,30 @@ Parameters:</h3>
 
 </div>
 </div>
+<a id="aa46ebc75eb2fb94cde2ac30fcf8b8f29" name="aa46ebc75eb2fb94cde2ac30fcf8b8f29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa46ebc75eb2fb94cde2ac30fcf8b8f29">&#9670;&#160;</a></span>PS_Sleep</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_Sleep</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Puts the fingerprint module into sleep mode. </p>
+
+</div>
+</div>
 <a id="af76822c0cde65af8b681a35d463285f4" name="af76822c0cde65af8b681a35d463285f4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af76822c0cde65af8b681a35d463285f4">&#9670;&#160;</a></span>PS_Store</h2>
 
@@ -1867,6 +2191,30 @@ Packet Structure:</h3>
 
 </div>
 </div>
+<a id="a7704dbb198c160338884a15a3ef01203" name="a7704dbb198c160338884a15a3ef01203"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7704dbb198c160338884a15a3ef01203">&#9670;&#160;</a></span>PS_UpChar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_UpChar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Uploads a stored fingerprint template from the module. </p>
+
+</div>
+</div>
 <a id="a8d25f5cf1e5e1c6b6415485947add3d6" name="a8d25f5cf1e5e1c6b6415485947add3d6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8d25f5cf1e5e1c6b6415485947add3d6">&#9670;&#160;</a></span>PS_Uplmage</h2>
 
@@ -1889,6 +2237,30 @@ Packet Structure:</h3>
 
 <p>Uploads the fingerprint image from the sensor. </p>
 <p>This command has no parameters. </p>
+
+</div>
+</div>
+<a id="ab42f2079ba5448cddcd5f3c0ca2aef9c" name="ab42f2079ba5448cddcd5f3c0ca2aef9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab42f2079ba5448cddcd5f3c0ca2aef9c">&#9670;&#160;</a></span>PS_ValidTempleteNum</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_ValidTempleteNum</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves the number of valid fingerprint templates stored in the module. </p>
 
 </div>
 </div>
@@ -1918,6 +2290,37 @@ Packet Structure:</h3>
 Parameters:</h3>
 <ul>
 <li><b>Password</b> (4 bytes): The password to verify. </li>
+</ul>
+
+</div>
+</div>
+<a id="afc475b21fe147ae6a5a87075ed1ce6c5" name="afc475b21fe147ae6a5a87075ed1ce6c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc475b21fe147ae6a5a87075ed1ce6c5">&#9670;&#160;</a></span>PS_WriteReg</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_WriteReg</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes to the fingerprint module's system register. </p>
+<p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Sets or modifies a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Register Number, Value) are dynamic.</p>
+<h3><a class="anchor" id="autotoc_md17"></a>
+Parameters:</h3>
+<ul>
+<li><b>Register Number</b> (1 byte): Specifies which register to write to.</li>
+<li><b>Value</b> (1 byte): Data to be written. </li>
 </ul>
 
 </div>

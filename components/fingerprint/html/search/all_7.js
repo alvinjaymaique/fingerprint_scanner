@@ -10,6 +10,5 @@ var searchData=
   ['event_5fimage_5ffail_7',['EVENT_IMAGE_FAIL',['../fingerprint_8h.html#ae5124f307680e5a9210e3cfc06566d5aa7ba4dbb06dfd6e55e77531a98e45382a',1,'fingerprint.h']]],
   ['event_5fmatch_5ffail_8',['EVENT_MATCH_FAIL',['../fingerprint_8h.html#ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63',1,'fingerprint.h']]],
   ['event_5fmatch_5fsuccess_9',['EVENT_MATCH_SUCCESS',['../fingerprint_8h.html#ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6',1,'fingerprint.h']]],
-  ['event_5fsensor_5ferror_10',['EVENT_SENSOR_ERROR',['../fingerprint_8h.html#ae5124f307680e5a9210e3cfc06566d5aab213512d60aa61fb662ae5ceaa26a791',1,'fingerprint.h']]],
-  ['extendedpacket_11',['ExtendedPacket',['../struct_extended_packet.html',1,'']]]
+  ['event_5fsensor_5ferror_10',['EVENT_SENSOR_ERROR',['../fingerprint_8h.html#ae5124f307680e5a9210e3cfc06566d5aab213512d60aa61fb662ae5ceaa26a791',1,'fingerprint.h']]]
 ];

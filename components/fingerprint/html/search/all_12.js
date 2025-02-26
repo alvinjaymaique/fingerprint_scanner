@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['uart_0',['1.1 UART',['../fingerprint_8h.html#autotoc_md1',1,'']]],
-  ['uart_5fnum_1',['UART_NUM',['../fingerprint_8c.html#a49dcd593bb4dd55620e7c08581f8e2ad',1,'fingerprint.c']]],
-  ['uart_5fread_5ftimeout_2',['UART_READ_TIMEOUT',['../fingerprint_8h.html#a69d1c616ae544899c43fd1dbfcbaa086',1,'fingerprint.h']]]
+  ['tag_0',['TAG',['../fingerprint_8c.html#afc3d101f633a076cc1ca84b85b6224b2',1,'fingerprint.c']]],
+  ['trigger_5ffingerprint_5fevent_1',['trigger_fingerprint_event',['../fingerprint_8h.html#af94c8bea84a1e0b7efff92d7c3a2624f',1,'trigger_fingerprint_event(fingerprint_event_t event):&#160;fingerprint.c'],['../fingerprint_8c.html#af94c8bea84a1e0b7efff92d7c3a2624f',1,'trigger_fingerprint_event(fingerprint_event_t event):&#160;fingerprint.c']]],
+  ['tx_5fpin_2',['tx_pin',['../fingerprint_8c.html#a10401260df6ab61a4519575c27d3e5c7',1,'fingerprint.c']]]
 ];

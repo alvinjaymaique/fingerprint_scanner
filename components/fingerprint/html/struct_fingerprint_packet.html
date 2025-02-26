@@ -108,7 +108,7 @@ $(function(){initNavTree('struct_fingerprint_packet.html',''); initResizable(tru
 </div><!--header-->
 <div class="contents">
 
-<p>Structure representing a fingerprint module command packet.  
+<p>Structure representing a command or response packet for the fingerprint module.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="fingerprint_8h_source.html">fingerprint.h</a>&gt;</code></p>
@@ -125,14 +125,14 @@ Data Fields</h2></td></tr>
 <tr class="separator:a3caa1aa8c03abae55918669b1bf935eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5afd9daf69457c9b2588a5489905dc43" id="r_a5afd9daf69457c9b2588a5489905dc43"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5afd9daf69457c9b2588a5489905dc43">command</a></td></tr>
 <tr class="separator:a5afd9daf69457c9b2588a5489905dc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7b16dcf7bc2d33f294c55336c6de575" id="r_af7b16dcf7bc2d33f294c55336c6de575"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7b16dcf7bc2d33f294c55336c6de575">parameters</a> [5]</td></tr>
-<tr class="separator:af7b16dcf7bc2d33f294c55336c6de575"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa901987094b3b84ba5ae18f98201b6ca" id="r_aa901987094b3b84ba5ae18f98201b6ca"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa901987094b3b84ba5ae18f98201b6ca">parameters</a> [32]</td></tr>
+<tr class="separator:aa901987094b3b84ba5ae18f98201b6ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9ea03f104b3aa12bb5542ccbb2eb88" id="r_a5e9ea03f104b3aa12bb5542ccbb2eb88"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e9ea03f104b3aa12bb5542ccbb2eb88">checksum</a></td></tr>
 <tr class="separator:a5e9ea03f104b3aa12bb5542ccbb2eb88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Structure representing a fingerprint module command packet. </p>
-<p>This structure defines the format of a command packet sent to the fingerprint scanner. </p>
+<div class="textblock"><p>Structure representing a command or response packet for the fingerprint module. </p>
+<p>This structure is used to send commands to and receive responses from the fingerprint module. It follows the module's communication protocol, containing fields for the header, address, packet type, length, command, parameters, and checksum. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="aa85456b6f3f16befd10d4ce7fc13d80f" name="aa85456b6f3f16befd10d4ce7fc13d80f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa85456b6f3f16befd10d4ce7fc13d80f">&#9670;&#160;</a></span>address</h2>
@@ -145,7 +145,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Address of the fingerprint module (4 bytes). </p>
+<p>Address of the fingerprint module (default: 0xFFFFFFFF). </p>
 
 </div>
 </div>
@@ -160,7 +160,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Checksum for packet integrity validation. </p>
+<p>Checksum for packet integrity verification. </p>
 
 </div>
 </div>
@@ -175,7 +175,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Command ID (e.g., 0x01 for capturing an image). </p>
+<p>Command ID specifying the requested operation (e.g., 0x01 for image capture). </p>
 
 </div>
 </div>
@@ -190,7 +190,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Fixed header (0xEF01) indicating the start of a packet. </p>
+<p>Fixed packet header (0xEF01) indicating the start of a fingerprint packet. </p>
 
 </div>
 </div>
@@ -205,7 +205,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Total length of the packet excluding header and address. </p>
+<p>Length of the packet, excluding the header and address. </p>
 
 </div>
 </div>
@@ -220,22 +220,22 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Packet type identifier (e.g., 0x01 for command packets). </p>
+<p>Packet identifier (e.g., 0x01 for command packets, 0x07 for responses). </p>
 
 </div>
 </div>
-<a id="af7b16dcf7bc2d33f294c55336c6de575" name="af7b16dcf7bc2d33f294c55336c6de575"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7b16dcf7bc2d33f294c55336c6de575">&#9670;&#160;</a></span>parameters</h2>
+<a id="aa901987094b3b84ba5ae18f98201b6ca" name="aa901987094b3b84ba5ae18f98201b6ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa901987094b3b84ba5ae18f98201b6ca">&#9670;&#160;</a></span>parameters</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t FingerprintPacket::parameters[5]</td>
+          <td class="memname">uint8_t FingerprintPacket::parameters[32]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Command-specific parameters (varies per command). </p>
+<p>Command-specific parameters (variable length, up to MAX_PARAMETERS bytes). </p>
 
 </div>
 </div>
