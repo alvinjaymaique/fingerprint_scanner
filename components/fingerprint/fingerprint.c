@@ -71,8 +71,8 @@ FingerprintPacket PS_Search = {
     .packet_id = 0x01,
     .length = 0x0008,
     .command = 0x04, // Search
-    .parameters = {0x01, 0x00, 0x00, 0xFF}, // Buffer ID, Start Page, Number of Pages
-    .checksum = 0x0013 // Hardcoded checksum
+    .parameters = {0x00, 0x00, 0x00, 0x00, 0x00}, // Buffer ID, Start Page, Number of Pages
+    .checksum = 0x00 // Hardcoded checksum
 };
 
 FingerprintPacket PS_Match = {
@@ -135,6 +135,177 @@ FingerprintPacket PS_SetChipAddr = {
     .checksum = 0x0020 // Hardcoded checksum
 };
 
+FingerprintPacket PS_Cancel = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0003,
+    .command = 0x30, // Cancel command
+    .parameters = {0}, // No parameters
+    .checksum = 0x0033 // Needs to be recalculated
+};
+
+FingerprintPacket PS_AutoEnroll = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0008,
+    .command = 0x31, // AutoEnroll command
+    .parameters = {0x00, 0x01, 0x02, 0x00, 0x00}, // ID number, number of entries, parameter
+    .checksum = 0x003A // Needs to be recalculated
+};
+
+FingerprintPacket PS_Autoldentify = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0006,
+    .command = 0x32, // AutoIdentify command
+    .parameters = {0x00, 0x12, 0x00}, // Score level, ID number
+    .checksum = 0x003F // Needs to be recalculated
+};
+
+FingerprintPacket PS_GetKeyt = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0003,
+    .command = 0xE0, // Get key pair
+    .parameters = {0}, // No parameters
+    .checksum = 0x00E3 // Needs to be recalculated
+};
+
+FingerprintPacket PS_SecurityStoreChar = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0006,
+    .command = 0xF2, // Secure Store Template
+    .parameters = {0x01, 0x00, 0x01}, // Buffer ID, Page ID
+    .checksum = 0x00FB // Needs to be recalculated
+};
+
+FingerprintPacket PS_SecuritySearch = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0008,
+    .command = 0xF4, // Secure Search
+    .parameters = {0x01, 0x00, 0x00, 0xFF}, // Buffer ID, Start Page, Number of Pages
+    .checksum = 0x00FD // Needs to be recalculated
+};
+
+FingerprintPacket PS_Uplmage = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0003,
+    .command = 0x0A, // Upload Image
+    .parameters = {0}, // No parameters
+    .checksum = 0x000D // Needs to be recalculated
+};
+
+FingerprintPacket PS_Downlmage = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0003,
+    .command = 0x0B, // Download Image
+    .parameters = {0}, // No parameters
+    .checksum = 0x000E // Needs to be recalculated
+};
+
+FingerprintPacket PS_CheckSensor = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0003,
+    .command = 0x36, // Check Sensor
+    .parameters = {0}, // No parameters
+    .checksum = 0x0039 // Needs to be recalculated
+};
+
+FingerprintPacket PS_RestSetting = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0003,
+    .command = 0x3B, // Restore Factory Settings
+    .parameters = {0}, // No parameters
+    .checksum = 0x003E // Needs to be recalculated
+};
+
+FingerprintPacket PS_ReadINFpage = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0003,
+    .command = 0x16, // Read Flash Information Page
+    .parameters = {0}, // No parameters
+    .checksum = 0x0019 // Needs to be recalculated
+};
+
+FingerprintPacket PS_BurnCode = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0004,
+    .command = 0x1A, // Erase Code
+    .parameters = {0x01}, // Default upgrade mode
+    .checksum = 0x001F // Needs to be recalculated
+};
+
+FingerprintPacket PS_SetPwd = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0007,
+    .command = 0x12, // Set Password
+    .parameters = {0x00, 0x00, 0x00, 0x00}, // Password (modifiable)
+    .checksum = 0x0019 // Needs to be recalculated
+};
+
+FingerprintPacket PS_VfyPwd = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0007,
+    .command = 0x13, // Verify Password
+    .parameters = {0x00, 0x00, 0x00, 0x00}, // Password
+    .checksum = 0x001A // Needs to be recalculated
+};
+
+FingerprintPacket PS_GetRandomCode = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0003,
+    .command = 0x14, // Get Random Number
+    .parameters = {0}, // No parameters
+    .checksum = 0x0017 // Needs to be recalculated
+};
+
+FingerprintPacket PS_WriteNotepad = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0023, // 32 bytes data
+    .command = 0x18, // Write Notepad
+    .parameters = {0}, // Data to write (to be filled)
+    .checksum = 0x003B // Needs to be recalculated
+};
+
+FingerprintPacket PS_ReadNotepad = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0004,
+    .command = 0x19, // Read Notepad
+    .parameters = {0x00}, // Page number
+    .checksum = 0x001E // Needs to be recalculated
+};
+
+
 esp_err_t fingerprint_init(void) {
     ESP_LOGI(TAG, "Initializing fingerprint scanner...");
     uart_config_t uart_config = {
@@ -164,19 +335,19 @@ esp_err_t fingerprint_init(void) {
     return ESP_OK;
 }
 
-esp_err_t fingerprint_build_command(FingerprintPacket *cmd, uint8_t command, uint8_t *params, uint8_t param_length) {
+esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8_t *params, uint8_t param_length) {
     if (cmd == NULL) {
         return ESP_ERR_INVALID_ARG;  // Null pointer error
     }
 
-    if (param_length > 4) {
-        return ESP_ERR_INVALID_SIZE;  // Enforce maximum parameter size
+    if (param_length > 5) {  // Allow up to 5 bytes for commands like PS_Search
+        return ESP_ERR_INVALID_SIZE;
     }
 
     cmd->header = FINGERPRINT_HEADER;
     cmd->address = DEFAULT_FINGERPRINT_ADDRESS;
     cmd->packet_id = 0x01;  // Command packet
-    cmd->length = 3 + param_length;  // Length calculation: command (1) + params (N) + checksum (1)
+    cmd->length = 1 + param_length + 2;  // Corrected length calculation
     cmd->command = command;
 
     // Clear parameters and copy only valid ones
@@ -189,6 +360,28 @@ esp_err_t fingerprint_build_command(FingerprintPacket *cmd, uint8_t command, uin
     cmd->checksum = fingerprint_calculate_checksum(cmd);
 
     return ESP_OK;
+}
+
+ExtendedPacket createExtendedPacket(FingerprintPacket base_packet, uint8_t page_number, const uint8_t *data, size_t data_size) {
+    ExtendedPacket packet;
+    packet.base = base_packet;
+    packet.base.length = 0x24;
+    packet.base.command = 0x18;
+    packet.base.parameters[0] = page_number;
+    if (data_size != 32) {
+        printf("Error: Data must be 32 bytes (given: %zu)\n", data_size);
+        memset(packet.data, 0, 32);
+        packet.base.checksum = 0xFFFF;
+        return packet;
+    }
+    memcpy(packet.data, data, 32);
+    uint16_t checksum = packet.base.packet_id + packet.base.length + packet.base.command + page_number;
+    for (int i = 0; i < 32; i++) {
+        checksum += packet.data[i];
+    }
+    packet.base.checksum = checksum;
+
+    return packet;
 }
 
 uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd) {

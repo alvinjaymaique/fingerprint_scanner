@@ -128,7 +128,7 @@ Data Structures</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a68654b05f39a5e88db0453de6f7fd726" id="r_a68654b05f39a5e88db0453de6f7fd726"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68654b05f39a5e88db0453de6f7fd726">DEFAULT_BAUD_RATE</a>&#160;&#160;&#160;57600</td></tr>
-<tr class="memdesc:a68654b05f39a5e88db0453de6f7fd726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event handler for processing fingerprint events.  <br /></td></tr>
+<tr class="memdesc:a68654b05f39a5e88db0453de6f7fd726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default UART baud rate for fingerprint module.  <br /></td></tr>
 <tr class="separator:a68654b05f39a5e88db0453de6f7fd726"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a906d33234fc0a208973dee29efb12336" id="r_a906d33234fc0a208973dee29efb12336"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a906d33234fc0a208973dee29efb12336">DEFAULT_TX_PIN</a>&#160;&#160;&#160;17</td></tr>
 <tr class="memdesc:a906d33234fc0a208973dee29efb12336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default UART pins (modifiable at runtime).  <br /></td></tr>
@@ -348,21 +348,8 @@ Variables</h2></td></tr>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Event-driven System</h2>
-<p>This system operates on an event-driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. The following events are generated based on the corresponding system actions. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a68654b05f39a5e88db0453de6f7fd726" name="a68654b05f39a5e88db0453de6f7fd726"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68654b05f39a5e88db0453de6f7fd726">&#9670;&#160;</a></span>DEFAULT_BAUD_RATE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFAULT_BAUD_RATE&#160;&#160;&#160;57600</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Event handler for processing fingerprint events. </p>
+<p>This system operates on an event-driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. The following events are generated based on the corresponding system actions.</p>
+<p>Event handler for processing fingerprint events.</p>
 <p>This function processes various fingerprint-related events and logs messages based on the event type. It can be used as a sample for handling fingerprint events in the application. The events are processed based on the <code><a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a" title="Enum to define various fingerprint events.">fingerprint_event_t</a></code> enumeration, and corresponding messages are logged using the ESP-IDF logging system.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -406,14 +393,27 @@ Event-driven System</h2>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a></div><div class="ttdeci">fingerprint_event_t</div><div class="ttdoc">Enum to define various fingerprint events.</div><div class="ttdef"><b>Definition</b> fingerprint.h:380</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a></div><div class="ttdeci">@ EVENT_FEATURE_EXTRACTED</div><div class="ttdoc">Event triggered when fingerprint features are successfully extracted.</div><div class="ttdef"><b>Definition</b> fingerprint.h:400</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a></div><div class="ttdeci">@ EVENT_FINGER_DETECTED</div><div class="ttdoc">Event triggered when a finger is detected.</div><div class="ttdef"><b>Definition</b> fingerprint.h:386</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a></div><div class="ttdeci">@ EVENT_ERROR</div><div class="ttdoc">A general error event, used for unexpected failures.</div><div class="ttdef"><b>Definition</b> fingerprint.h:421</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a></div><div class="ttdeci">@ EVENT_MATCH_FAIL</div><div class="ttdoc">Event triggered when a fingerprint mismatch occurs.</div><div class="ttdef"><b>Definition</b> fingerprint.h:414</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a></div><div class="ttdeci">@ EVENT_IMAGE_CAPTURED</div><div class="ttdoc">Event triggered when a fingerprint image is captured successfully.</div><div class="ttdef"><b>Definition</b> fingerprint.h:393</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a></div><div class="ttdeci">@ EVENT_MATCH_SUCCESS</div><div class="ttdoc">Event triggered when a fingerprint match is successful.</div><div class="ttdef"><b>Definition</b> fingerprint.h:407</div></div>
-</div><!-- fragment --><p>Default UART baud rate for fingerprint module. </p>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a></div><div class="ttdeci">fingerprint_event_t</div><div class="ttdoc">Enum to define various fingerprint events.</div><div class="ttdef"><b>Definition</b> fingerprint.h:484</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a></div><div class="ttdeci">@ EVENT_FEATURE_EXTRACTED</div><div class="ttdoc">Event triggered when fingerprint features are successfully extracted.</div><div class="ttdef"><b>Definition</b> fingerprint.h:504</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a></div><div class="ttdeci">@ EVENT_FINGER_DETECTED</div><div class="ttdoc">Event triggered when a finger is detected.</div><div class="ttdef"><b>Definition</b> fingerprint.h:490</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a></div><div class="ttdeci">@ EVENT_ERROR</div><div class="ttdoc">A general error event, used for unexpected failures.</div><div class="ttdef"><b>Definition</b> fingerprint.h:525</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a></div><div class="ttdeci">@ EVENT_MATCH_FAIL</div><div class="ttdoc">Event triggered when a fingerprint mismatch occurs.</div><div class="ttdef"><b>Definition</b> fingerprint.h:518</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a></div><div class="ttdeci">@ EVENT_IMAGE_CAPTURED</div><div class="ttdoc">Event triggered when a fingerprint image is captured successfully.</div><div class="ttdef"><b>Definition</b> fingerprint.h:497</div></div>
+<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a></div><div class="ttdeci">@ EVENT_MATCH_SUCCESS</div><div class="ttdoc">Event triggered when a fingerprint match is successful.</div><div class="ttdef"><b>Definition</b> fingerprint.h:511</div></div>
+</div><!-- fragment --> </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a68654b05f39a5e88db0453de6f7fd726" name="a68654b05f39a5e88db0453de6f7fd726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68654b05f39a5e88db0453de6f7fd726">&#9670;&#160;</a></span>DEFAULT_BAUD_RATE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_BAUD_RATE&#160;&#160;&#160;57600</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default UART baud rate for fingerprint module. </p>
 
 </div>
 </div>
@@ -585,58 +585,110 @@ Event-driven System</h2>
 </div><div class="memdoc">
 
 <p>Fingerprint sensor status codes. </p>
+<p>This enumeration defines various return codes for the fingerprint sensor. Each value corresponds to a specific error or status condition. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc"></a>FINGERPRINT_OK&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d" name="a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d"></a>FINGERPRINT_PACKET_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea"></a>FINGERPRINT_NO_FINGER&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609"></a>FINGERPRINT_IMAGE_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82"></a>FINGERPRINT_TOO_DRY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac"></a>FINGERPRINT_TOO_WET&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846"></a>FINGERPRINT_TOO_CHAOTIC&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a"></a>FINGERPRINT_TOO_FEW_POINTS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e"></a>FINGERPRINT_MISMATCH&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9" name="a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9"></a>FINGERPRINT_NOT_FOUND&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74"></a>FINGERPRINT_MERGE_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0"></a>FINGERPRINT_DB_RANGE_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f" name="a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f"></a>FINGERPRINT_READ_TEMPLATE_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300"></a>FINGERPRINT_UPLOAD_FEATURE_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1"></a>FINGERPRINT_DATA_PACKET_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8"></a>FINGERPRINT_UPLOAD_IMAGE_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02"></a>FINGERPRINT_DELETE_TEMPLATE_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7"></a>FINGERPRINT_DB_CLEAR_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1" name="a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1"></a>FINGERPRINT_LOW_POWER_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633"></a>FINGERPRINT_WRONG_PASSWORD&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1"></a>FINGERPRINT_NO_VALID_IMAGE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a"></a>FINGERPRINT_UPGRADE_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340"></a>FINGERPRINT_RESIDUAL_FINGER&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e"></a>FINGERPRINT_FLASH_RW_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96"></a>FINGERPRINT_RANDOM_GEN_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9"></a>FINGERPRINT_INVALID_REGISTER&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8"></a>FINGERPRINT_REGISTER_SETTING_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3"></a>FINGERPRINT_NOTEPAD_PAGE_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac"></a>FINGERPRINT_PORT_OP_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4"></a>FINGERPRINT_ENROLL_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb"></a>FINGERPRINT_DB_FULL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51" name="a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51"></a>FINGERPRINT_DEVICE_ADDRESS_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df"></a>FINGERPRINT_TEMPLATE_NOT_EMPTY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e"></a>FINGERPRINT_TEMPLATE_EMPTY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581" name="a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581"></a>FINGERPRINT_DB_EMPTY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03"></a>FINGERPRINT_ENTRY_COUNT_ERROR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36"></a>FINGERPRINT_TIMEOUT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb"></a>FINGERPRINT_ALREADY_EXISTS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef"></a>FINGERPRINT_FEATURES_RELATED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362"></a>FINGERPRINT_SENSOR_OP_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7" name="a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7"></a>FINGERPRINT_MODULE_INFO_NOT_EMPTY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932"></a>FINGERPRINT_MODULE_INFO_EMPTY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9"></a>FINGERPRINT_OTP_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596" name="a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596"></a>FINGERPRINT_KEY_GEN_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906"></a>FINGERPRINT_KEY_NOT_EXIST&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0"></a>FINGERPRINT_SECURITY_ALGO_FAIL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf"></a>FINGERPRINT_ENCRYPTION_MISMATCH&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222"></a>FINGERPRINT_KEY_LOCKED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1"></a>FINGERPRINT_IMAGE_AREA_SMALL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385"></a>FINGERPRINT_IMAGE_NOT_AVAILABLE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994" name="a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994"></a>FINGERPRINT_ILLEGAL_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc"></a>FINGERPRINT_OK&#160;</td><td class="fielddoc"><p>Instruction execution completed. Value: <code>0x00</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d" name="a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d"></a>FINGERPRINT_PACKET_ERROR&#160;</td><td class="fielddoc"><p>Data packet reception error. Value: <code>0x01</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea"></a>FINGERPRINT_NO_FINGER&#160;</td><td class="fielddoc"><p>No finger detected. Value: <code>0x02</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609"></a>FINGERPRINT_IMAGE_FAIL&#160;</td><td class="fielddoc"><p>Failed to enter fingerprint image. Value: <code>0x03</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82"></a>FINGERPRINT_TOO_DRY&#160;</td><td class="fielddoc"><p>Image too dry/light. Value: <code>0x04</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac"></a>FINGERPRINT_TOO_WET&#160;</td><td class="fielddoc"><p>Image too wet/muddy. Value: <code>0x05</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846"></a>FINGERPRINT_TOO_CHAOTIC&#160;</td><td class="fielddoc"><p>Image too chaotic. Value: <code>0x06</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a"></a>FINGERPRINT_TOO_FEW_POINTS&#160;</td><td class="fielddoc"><p>Normal image, but not enough features. Value: <code>0x07</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e"></a>FINGERPRINT_MISMATCH&#160;</td><td class="fielddoc"><p>Fingerprint mismatch. Value: <code>0x08</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9" name="a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9"></a>FINGERPRINT_NOT_FOUND&#160;</td><td class="fielddoc"><p>No fingerprint found. Value: <code>0x09</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74"></a>FINGERPRINT_MERGE_FAIL&#160;</td><td class="fielddoc"><p>Feature merging failed. Value: <code>0x0A</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0"></a>FINGERPRINT_DB_RANGE_ERROR&#160;</td><td class="fielddoc"><p>Address out of range in database. Value: <code>0x0B</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f" name="a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f"></a>FINGERPRINT_READ_TEMPLATE_ERROR&#160;</td><td class="fielddoc"><p>Error reading fingerprint template. Value: <code>0x0C</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300"></a>FINGERPRINT_UPLOAD_FEATURE_FAIL&#160;</td><td class="fielddoc"><p>Failed to upload features. Value: <code>0x0D</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1"></a>FINGERPRINT_DATA_PACKET_ERROR&#160;</td><td class="fielddoc"><p>Cannot receive subsequent data packets. Value: <code>0x0E</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8"></a>FINGERPRINT_UPLOAD_IMAGE_FAIL&#160;</td><td class="fielddoc"><p>Failed to upload image. Value: <code>0x0F</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02"></a>FINGERPRINT_DELETE_TEMPLATE_FAIL&#160;</td><td class="fielddoc"><p>Failed to delete template. Value: <code>0x10</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7"></a>FINGERPRINT_DB_CLEAR_FAIL&#160;</td><td class="fielddoc"><p>Failed to clear database. Value: <code>0x11</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1" name="a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1"></a>FINGERPRINT_LOW_POWER_FAIL&#160;</td><td class="fielddoc"><p>Cannot enter low power mode. Value: <code>0x12</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633"></a>FINGERPRINT_WRONG_PASSWORD&#160;</td><td class="fielddoc"><p>Incorrect password. Value: <code>0x13</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1"></a>FINGERPRINT_NO_VALID_IMAGE&#160;</td><td class="fielddoc"><p>No valid original image in buffer. Value: <code>0x15</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a"></a>FINGERPRINT_UPGRADE_FAIL&#160;</td><td class="fielddoc"><p>Online upgrade failed. Value: <code>0x16</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340"></a>FINGERPRINT_RESIDUAL_FINGER&#160;</td><td class="fielddoc"><p>Residual fingerprint detected. Value: <code>0x17</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e"></a>FINGERPRINT_FLASH_RW_ERROR&#160;</td><td class="fielddoc"><p>Flash read/write error. Value: <code>0x18</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96"></a>FINGERPRINT_RANDOM_GEN_FAIL&#160;</td><td class="fielddoc"><p>Random number generation failed. Value: <code>0x19</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9"></a>FINGERPRINT_INVALID_REGISTER&#160;</td><td class="fielddoc"><p>Invalid register number. Value: <code>0x1A</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8"></a>FINGERPRINT_REGISTER_SETTING_ERROR&#160;</td><td class="fielddoc"><p>Register setting content error. Value: <code>0x1B</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3"></a>FINGERPRINT_NOTEPAD_PAGE_ERROR&#160;</td><td class="fielddoc"><p>Incorrect notepad page number. Value: <code>0x1C</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac"></a>FINGERPRINT_PORT_OP_FAIL&#160;</td><td class="fielddoc"><p>Port operation failed. Value: <code>0x1D</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4"></a>FINGERPRINT_ENROLL_FAIL&#160;</td><td class="fielddoc"><p>Automatic registration failed. Value: <code>0x1E</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb"></a>FINGERPRINT_DB_FULL&#160;</td><td class="fielddoc"><p>Fingerprint database full. Value: <code>0x1F</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51" name="a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51"></a>FINGERPRINT_DEVICE_ADDRESS_ERROR&#160;</td><td class="fielddoc"><p>Device address error. Value: <code>0x20</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df"></a>FINGERPRINT_TEMPLATE_NOT_EMPTY&#160;</td><td class="fielddoc"><p>Template is not empty. Value: <code>0x22</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e"></a>FINGERPRINT_TEMPLATE_EMPTY&#160;</td><td class="fielddoc"><p>Template is empty. Value: <code>0x23</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581" name="a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581"></a>FINGERPRINT_DB_EMPTY&#160;</td><td class="fielddoc"><p>Database is empty. Value: <code>0x24</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03"></a>FINGERPRINT_ENTRY_COUNT_ERROR&#160;</td><td class="fielddoc"><p>Incorrect entry count. Value: <code>0x25</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36"></a>FINGERPRINT_TIMEOUT&#160;</td><td class="fielddoc"><p>Timeout occurred. Value: <code>0x26</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb"></a>FINGERPRINT_ALREADY_EXISTS&#160;</td><td class="fielddoc"><p>Fingerprint already exists. Value: <code>0x27</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef"></a>FINGERPRINT_FEATURES_RELATED&#160;</td><td class="fielddoc"><p>Features are related. Value: <code>0x28</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362"></a>FINGERPRINT_SENSOR_OP_FAIL&#160;</td><td class="fielddoc"><p>Sensor operation failed. Value: <code>0x29</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7" name="a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7"></a>FINGERPRINT_MODULE_INFO_NOT_EMPTY&#160;</td><td class="fielddoc"><p>Module info not empty. Value: <code>0x2A</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932"></a>FINGERPRINT_MODULE_INFO_EMPTY&#160;</td><td class="fielddoc"><p>Module info empty. Value: <code>0x2B</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9"></a>FINGERPRINT_OTP_FAIL&#160;</td><td class="fielddoc"><p>OTP operation failed. Value: <code>0x2C</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596" name="a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596"></a>FINGERPRINT_KEY_GEN_FAIL&#160;</td><td class="fielddoc"><p>Key generation failed. Value: <code>0x2D</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906"></a>FINGERPRINT_KEY_NOT_EXIST&#160;</td><td class="fielddoc"><p>Secret key does not exist. Value: <code>0x2E</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0"></a>FINGERPRINT_SECURITY_ALGO_FAIL&#160;</td><td class="fielddoc"><p>Security algorithm execution failed. Value: <code>0x2F</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf"></a>FINGERPRINT_ENCRYPTION_MISMATCH&#160;</td><td class="fielddoc"><p>Encryption and function mismatch. Value: <code>0x30</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222" name="a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222"></a>FINGERPRINT_KEY_LOCKED&#160;</td><td class="fielddoc"><p>Secret key is locked. Value: <code>0x32</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1"></a>FINGERPRINT_IMAGE_AREA_SMALL&#160;</td><td class="fielddoc"><p>Image area too small. Value: <code>0x33</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385" name="a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385"></a>FINGERPRINT_IMAGE_NOT_AVAILABLE&#160;</td><td class="fielddoc"><p>Image not available. Value: <code>0x34</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994" name="a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994"></a>FINGERPRINT_ILLEGAL_DATA&#160;</td><td class="fielddoc"><p>Illegal data. Value: <code>0x35</code> </p>
+</td></tr>
 </table>
 
 </div>

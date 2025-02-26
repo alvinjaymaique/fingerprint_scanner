@@ -13,6 +13,7 @@
 #include "driver/uart.h"
 #include "string.h"
 #include "driver/gpio.h"
+#include "fingerprint.h"
 
 static const int RX_BUF_SIZE = 1024;
 
@@ -74,4 +75,10 @@ void app_main(void)
     init();
     xTaskCreate(rx_task, "uart_rx_task", CONFIG_EXAMPLE_TASK_STACK_SIZE, NULL, configMAX_PRIORITIES - 1, NULL);
     xTaskCreate(tx_task, "uart_tx_task", CONFIG_EXAMPLE_TASK_STACK_SIZE, NULL, configMAX_PRIORITIES - 2, NULL);
+    esp_err_t err = fingerprint_init();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Fingerprint initialization failed");
+    }else{
+        ESP_LOGI(TAG, "Fingerprint initialization successful");
+    }
 }

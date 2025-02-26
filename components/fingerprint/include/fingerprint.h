@@ -22,9 +22,8 @@
  * ## Event-driven System
  * This system operates on an event-driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. 
  * The following events are generated based on the corresponding system actions.
- */
-
- /**
+ * 
+ *
  * @brief Event handler for processing fingerprint events.
  *
  * This function processes various fingerprint-related events and logs messages 
@@ -76,7 +75,6 @@
  * @endcode
  */
 
-
 #ifndef FINGERPRINT_H
 #define FINGERPRINT_H
 
@@ -127,9 +125,18 @@ typedef struct {
     uint8_t packet_id;    /**< Packet type identifier (e.g., 0x01 for command packets). */
     uint16_t length;      /**< Total length of the packet excluding header and address. */
     uint8_t command;      /**< Command ID (e.g., 0x01 for capturing an image). */
-    uint8_t parameters[4];/**< Command-specific parameters (varies per command). */
+    uint8_t parameters[5];/**< Command-specific parameters (varies per command). */
     uint16_t checksum;    /**< Checksum for packet integrity validation. */
 } FingerprintPacket;
+
+/**
+ * @struct ExtendedPacket
+ * @brief Extends FingerprintPacket with additional data.
+ */
+typedef struct {
+    FingerprintPacket base; /**< Base packet structure. */
+    uint8_t data[32];       /**< Extended data field (e.g., user info). */
+} ExtendedPacket;
 
 /**
  * @brief Captures a fingerprint image from the scanner's sensor.
@@ -153,8 +160,19 @@ extern FingerprintPacket PS_RegModel;
 
 /**
  * @brief Searches for a fingerprint match in the database.
+ * 
+ * This packet structure should be overwritten using fingerprint_set_command()
+ * because its parameters (Buffer ID, Start Page, and Number of Pages) are 
+ * dynamic and depend on the user's or developer's choice.
+ * 
+ * ### Packet Structure:
+ * | Header  | Device Address | Packet ID | Packet Length | Command | Parameters                                           | Checksum             |
+ * |---------|---------------|-----------|---------------|---------|-------------------------------------------------------|----------------------|
+ * | 2 bytes | 4 bytes       | 1 byte    | 2 bytes       | 1 byte  | Buffer ID 1 bytes, Start Page 2 bytes, PageNum 2 bytes| 2 bytes              |
+ * | 0xEF01  | 0xFFFFFFFF    | 0x01      | 0x0008        | 0x04    | Varies (set dynamically)                              | Computed dynamically |
  */
 extern FingerprintPacket PS_Search;
+
 
 /**
  * @brief Matches two fingerprint templates stored in RAM.
@@ -162,9 +180,20 @@ extern FingerprintPacket PS_Search;
 extern FingerprintPacket PS_Match;
 
 /**
- * @brief Stores a fingerprint template from the buffer to the database.
+ * @brief Stores a fingerprint template into the module’s database.
+ * 
+ * This packet structure should be overwritten using fingerprint_set_command()
+ * because its parameters (Buffer ID and Page ID) are dynamic and depend on 
+ * the user's or developer's choice.
+ * 
+ * ### Packet Structure:
+ * | Header  | Device Address | Packet ID | Packet Length | Command | Parameters                                  | Checksum             |
+ * |---------|---------------|-----------|---------------|---------|----------------------------------------------|----------------------|
+ * | 2 bytes | 4 bytes       | 1 byte    | 2 bytes       | 1 byte  | Buffer ID 1 byte, Page ID 2 bytes          | 2 bytes              |
+ * | 0xEF01  | 0xFFFFFFFF    | 0x01      | 0x0006        | 0x06    | Varies (set dynamically)                    | Computed dynamically |
  */
-extern FingerprintPacket PS_StoreChar;
+extern FingerprintPacket PS_Store;
+
 
 /**
  * @brief Deletes a specific fingerprint template from the database.
@@ -187,61 +216,319 @@ extern FingerprintPacket PS_ReadSysPara;
 extern FingerprintPacket PS_SetChipAddr;
 
 /**
+ * @brief Cancels the current fingerprint operation.
+ *
+ * This command has no parameters and is used to stop any ongoing process.
+ */
+extern FingerprintPacket PS_Cancel;
+
+/**
+ * @brief Automatically enrolls a fingerprint template.
+ *
+ * This packet structure should be overwritten using `fingerprint_set_command()`
+ * because its parameters (ID number, number of entries, and additional settings)
+ * are dynamic and depend on the user's choice.
+ *
+ * ### Parameters:
+ * - **ID Number** (1 byte): The fingerprint ID to assign.
+ * - **Number of Entries** (1 byte): The number of fingerprint samples.
+ * - **Parameter** (3 bytes): Additional settings (sensor-specific).
+ */
+extern FingerprintPacket PS_AutoEnroll;
+
+/**
+ * @brief Automatically identifies a fingerprint.
+ *
+ * This packet structure should be overwritten using `fingerprint_set_command()`
+ * because its parameters (score level and ID number) are dynamic.
+ *
+ * ### Parameters:
+ * - **Score Level** (1 byte): The threshold for matching accuracy.
+ * - **ID Number** (2 bytes): The ID range to search.
+ */
+extern FingerprintPacket PS_Autoldentify;
+
+/**
+ * @brief Retrieves the key pair from the fingerprint sensor.
+ *
+ * This command has no parameters.
+ */
+extern FingerprintPacket PS_GetKeyt;
+
+/**
+ * @brief Securely stores a fingerprint template.
+ *
+ * This packet structure should be overwritten using `fingerprint_set_command()`
+ * because its parameters (Buffer ID and Page ID) are dynamic.
+ *
+ * ### Parameters:
+ * - **Buffer ID** (1 byte): Specifies the template buffer (1 or 2).
+ * - **Page ID** (2 bytes): The database location to store the template.
+ */
+extern FingerprintPacket PS_SecurityStoreChar;
+
+/**
+ * @brief Searches for a fingerprint template in secure mode.
+ *
+ * This packet structure should be overwritten using `fingerprint_set_command()`
+ * because its parameters (Buffer ID, Start Page, Number of Pages) are dynamic.
+ *
+ * ### Parameters:
+ * - **Buffer ID** (1 byte): Specifies which buffer to use.
+ * - **Start Page** (2 bytes): The starting page index in the database.
+ * - **Number of Pages** (2 bytes): The range of pages to search.
+ */
+extern FingerprintPacket PS_SecuritySearch;
+
+/**
+ * @brief Uploads the fingerprint image from the sensor.
+ *
+ * This command has no parameters.
+ */
+extern FingerprintPacket PS_Uplmage;
+
+/**
+ * @brief Downloads a fingerprint image to the sensor.
+ *
+ * This command has no parameters.
+ */
+extern FingerprintPacket PS_Downlmage;
+
+/**
+ * @brief Checks the status of the fingerprint sensor.
+ *
+ * This command has no parameters.
+ */
+extern FingerprintPacket PS_CheckSensor;
+
+/**
+ * @brief Restores the fingerprint sensor to factory settings.
+ *
+ * This command has no parameters.
+ */
+extern FingerprintPacket PS_RestSetting;
+
+/**
+ * @brief Reads the fingerprint sensor's flash information page.
+ *
+ * This command has no parameters.
+ */
+extern FingerprintPacket PS_ReadINFpage;
+
+/**
+ * @brief Erases the fingerprint sensor's firmware.
+ *
+ * This packet structure should be overwritten using `fingerprint_set_command()`
+ * because its parameter (Upgrade Mode) is dynamic.
+ *
+ * ### Parameters:
+ * - **Upgrade Mode** (1 byte): Mode for firmware upgrade.
+ */
+extern FingerprintPacket PS_BurnCode;
+
+/**
+ * @brief Sets a password for the fingerprint sensor.
+ *
+ * This packet structure should be overwritten using `fingerprint_set_command()`
+ * because its parameter (Password) is user-defined.
+ *
+ * ### Parameters:
+ * - **Password** (4 bytes): The new password for sensor access.
+ */
+extern FingerprintPacket PS_SetPwd;
+
+/**
+ * @brief Verifies the fingerprint sensor password.
+ *
+ * This packet structure should be overwritten using `fingerprint_set_command()`
+ * because its parameter (Password) is user-defined.
+ *
+ * ### Parameters:
+ * - **Password** (4 bytes): The password to verify.
+ */
+extern FingerprintPacket PS_VfyPwd;
+
+/**
+ * @brief Requests a random number from the fingerprint sensor.
+ *
+ * This command has no parameters.
+ */
+extern FingerprintPacket PS_GetRandomCode;
+
+/**
+ * @brief Reads data from the fingerprint sensor's notepad memory.
+ *
+ * This packet structure should be overwritten using `fingerprint_set_command()`
+ * because its parameter (Page Number) is dynamic.
+ *
+ * ### Parameters:
+ * - **Page Number** (1 byte): Specifies which notepad page to read.
+ */
+extern FingerprintPacket PS_ReadNotepad;
+
+
+/**
  * @brief Fingerprint sensor status codes.
+ *
+ * This enumeration defines various return codes for the fingerprint sensor.
+ * Each value corresponds to a specific error or status condition.
  */
 typedef enum {
-    FINGERPRINT_OK = 0x00,                      // Instruction execution completed
-    FINGERPRINT_PACKET_ERROR = 0x01,            // Data packet reception error
-    FINGERPRINT_NO_FINGER = 0x02,               // No finger detected
-    FINGERPRINT_IMAGE_FAIL = 0x03,              // Failed to enter fingerprint image
-    FINGERPRINT_TOO_DRY = 0x04,                 // Image too dry/light
-    FINGERPRINT_TOO_WET = 0x05,                 // Image too wet/muddy
-    FINGERPRINT_TOO_CHAOTIC = 0x06,             // Image too chaotic
-    FINGERPRINT_TOO_FEW_POINTS = 0x07,          // Normal image, but not enough features
-    FINGERPRINT_MISMATCH = 0x08,                // Fingerprint mismatch
-    FINGERPRINT_NOT_FOUND = 0x09,               // No fingerprint found
-    FINGERPRINT_MERGE_FAIL = 0x0A,              // Feature merging failed
-    FINGERPRINT_DB_RANGE_ERROR = 0x0B,          // Address out of range in database
-    FINGERPRINT_READ_TEMPLATE_ERROR = 0x0C,     // Error reading fingerprint template
-    FINGERPRINT_UPLOAD_FEATURE_FAIL = 0x0D,     // Failed to upload features
-    FINGERPRINT_DATA_PACKET_ERROR = 0x0E,       // Cannot receive subsequent data packets
-    FINGERPRINT_UPLOAD_IMAGE_FAIL = 0x0F,       // Failed to upload image
-    FINGERPRINT_DELETE_TEMPLATE_FAIL = 0x10,    // Failed to delete template
-    FINGERPRINT_DB_CLEAR_FAIL = 0x11,           // Failed to clear database
-    FINGERPRINT_LOW_POWER_FAIL = 0x12,          // Cannot enter low power mode
-    FINGERPRINT_WRONG_PASSWORD = 0x13,          // Incorrect password
-    FINGERPRINT_NO_VALID_IMAGE = 0x15,          // No valid original image in buffer
-    FINGERPRINT_UPGRADE_FAIL = 0x16,            // Online upgrade failed
-    FINGERPRINT_RESIDUAL_FINGER = 0x17,         // Residual fingerprint detected
-    FINGERPRINT_FLASH_RW_ERROR = 0x18,          // Flash read/write error
-    FINGERPRINT_RANDOM_GEN_FAIL = 0x19,         // Random number generation failed
-    FINGERPRINT_INVALID_REGISTER = 0x1A,        // Invalid register number
-    FINGERPRINT_REGISTER_SETTING_ERROR = 0x1B,  // Register setting content error
-    FINGERPRINT_NOTEPAD_PAGE_ERROR = 0x1C,      // Incorrect notepad page number
-    FINGERPRINT_PORT_OP_FAIL = 0x1D,            // Port operation failed
-    FINGERPRINT_ENROLL_FAIL = 0x1E,             // Automatic registration failed
-    FINGERPRINT_DB_FULL = 0x1F,                 // Fingerprint database full
-    FINGERPRINT_DEVICE_ADDRESS_ERROR = 0x20,    // Device address error
-    FINGERPRINT_TEMPLATE_NOT_EMPTY = 0x22,      // Template is not empty
-    FINGERPRINT_TEMPLATE_EMPTY = 0x23,          // Template is empty
-    FINGERPRINT_DB_EMPTY = 0x24,                // Database is empty
-    FINGERPRINT_ENTRY_COUNT_ERROR = 0x25,       // Incorrect entry count
-    FINGERPRINT_TIMEOUT = 0x26,                 // Timeout occurred
-    FINGERPRINT_ALREADY_EXISTS = 0x27,          // Fingerprint already exists
-    FINGERPRINT_FEATURES_RELATED = 0x28,        // Features are related
-    FINGERPRINT_SENSOR_OP_FAIL = 0x29,          // Sensor operation failed
-    FINGERPRINT_MODULE_INFO_NOT_EMPTY = 0x2A,   // Module info not empty
-    FINGERPRINT_MODULE_INFO_EMPTY = 0x2B,       // Module info empty
-    FINGERPRINT_OTP_FAIL = 0x2C,                // OTP operation failed
-    FINGERPRINT_KEY_GEN_FAIL = 0x2D,            // Key generation failed
-    FINGERPRINT_KEY_NOT_EXIST = 0x2E,           // Secret key does not exist
-    FINGERPRINT_SECURITY_ALGO_FAIL = 0x2F,      // Security algorithm execution failed
-    FINGERPRINT_ENCRYPTION_MISMATCH = 0x30,     // Encryption and function mismatch
-    FINGERPRINT_KEY_LOCKED = 0x32,              // Secret key is locked
-    FINGERPRINT_IMAGE_AREA_SMALL = 0x33,        // Image area too small
-    FINGERPRINT_IMAGE_NOT_AVAILABLE = 0x34,     // Image not available
-    FINGERPRINT_ILLEGAL_DATA = 0x35             // Illegal data
+    /** @brief Instruction execution completed. Value: `0x00` */
+    FINGERPRINT_OK = 0x00,                     
+
+    /** @brief Data packet reception error. Value: `0x01` */
+    FINGERPRINT_PACKET_ERROR = 0x01,            
+
+    /** @brief No finger detected. Value: `0x02` */
+    FINGERPRINT_NO_FINGER = 0x02,               
+
+    /** @brief Failed to enter fingerprint image. Value: `0x03` */
+    FINGERPRINT_IMAGE_FAIL = 0x03,              
+
+    /** @brief Image too dry/light. Value: `0x04` */
+    FINGERPRINT_TOO_DRY = 0x04,                 
+
+    /** @brief Image too wet/muddy. Value: `0x05` */
+    FINGERPRINT_TOO_WET = 0x05,                 
+
+    /** @brief Image too chaotic. Value: `0x06` */
+    FINGERPRINT_TOO_CHAOTIC = 0x06,             
+
+    /** @brief Normal image, but not enough features. Value: `0x07` */
+    FINGERPRINT_TOO_FEW_POINTS = 0x07,         
+
+    /** @brief Fingerprint mismatch. Value: `0x08` */
+    FINGERPRINT_MISMATCH = 0x08,                
+
+    /** @brief No fingerprint found. Value: `0x09` */
+    FINGERPRINT_NOT_FOUND = 0x09,               
+
+    /** @brief Feature merging failed. Value: `0x0A` */
+    FINGERPRINT_MERGE_FAIL = 0x0A,              
+
+    /** @brief Address out of range in database. Value: `0x0B` */
+    FINGERPRINT_DB_RANGE_ERROR = 0x0B,          
+
+    /** @brief Error reading fingerprint template. Value: `0x0C` */
+    FINGERPRINT_READ_TEMPLATE_ERROR = 0x0C,     
+
+    /** @brief Failed to upload features. Value: `0x0D` */
+    FINGERPRINT_UPLOAD_FEATURE_FAIL = 0x0D,     
+
+    /** @brief Cannot receive subsequent data packets. Value: `0x0E` */
+    FINGERPRINT_DATA_PACKET_ERROR = 0x0E,       
+
+    /** @brief Failed to upload image. Value: `0x0F` */
+    FINGERPRINT_UPLOAD_IMAGE_FAIL = 0x0F,       
+
+    /** @brief Failed to delete template. Value: `0x10` */
+    FINGERPRINT_DELETE_TEMPLATE_FAIL = 0x10,    
+
+    /** @brief Failed to clear database. Value: `0x11` */
+    FINGERPRINT_DB_CLEAR_FAIL = 0x11,           
+
+    /** @brief Cannot enter low power mode. Value: `0x12` */
+    FINGERPRINT_LOW_POWER_FAIL = 0x12,          
+
+    /** @brief Incorrect password. Value: `0x13` */
+    FINGERPRINT_WRONG_PASSWORD = 0x13,          
+
+    /** @brief No valid original image in buffer. Value: `0x15` */
+    FINGERPRINT_NO_VALID_IMAGE = 0x15,          
+
+    /** @brief Online upgrade failed. Value: `0x16` */
+    FINGERPRINT_UPGRADE_FAIL = 0x16,            
+
+    /** @brief Residual fingerprint detected. Value: `0x17` */
+    FINGERPRINT_RESIDUAL_FINGER = 0x17,         
+
+    /** @brief Flash read/write error. Value: `0x18` */
+    FINGERPRINT_FLASH_RW_ERROR = 0x18,          
+
+    /** @brief Random number generation failed. Value: `0x19` */
+    FINGERPRINT_RANDOM_GEN_FAIL = 0x19,         
+
+    /** @brief Invalid register number. Value: `0x1A` */
+    FINGERPRINT_INVALID_REGISTER = 0x1A,        
+
+    /** @brief Register setting content error. Value: `0x1B` */
+    FINGERPRINT_REGISTER_SETTING_ERROR = 0x1B,  
+
+    /** @brief Incorrect notepad page number. Value: `0x1C` */
+    FINGERPRINT_NOTEPAD_PAGE_ERROR = 0x1C,      
+
+    /** @brief Port operation failed. Value: `0x1D` */
+    FINGERPRINT_PORT_OP_FAIL = 0x1D,            
+
+    /** @brief Automatic registration failed. Value: `0x1E` */
+    FINGERPRINT_ENROLL_FAIL = 0x1E,             
+
+    /** @brief Fingerprint database full. Value: `0x1F` */
+    FINGERPRINT_DB_FULL = 0x1F,                 
+
+    /** @brief Device address error. Value: `0x20` */
+    FINGERPRINT_DEVICE_ADDRESS_ERROR = 0x20,    
+
+    /** @brief Template is not empty. Value: `0x22` */
+    FINGERPRINT_TEMPLATE_NOT_EMPTY = 0x22,      
+
+    /** @brief Template is empty. Value: `0x23` */
+    FINGERPRINT_TEMPLATE_EMPTY = 0x23,          
+
+    /** @brief Database is empty. Value: `0x24` */
+    FINGERPRINT_DB_EMPTY = 0x24,                
+
+    /** @brief Incorrect entry count. Value: `0x25` */
+    FINGERPRINT_ENTRY_COUNT_ERROR = 0x25,       
+
+    /** @brief Timeout occurred. Value: `0x26` */
+    FINGERPRINT_TIMEOUT = 0x26,                 
+
+    /** @brief Fingerprint already exists. Value: `0x27` */
+    FINGERPRINT_ALREADY_EXISTS = 0x27,          
+
+    /** @brief Features are related. Value: `0x28` */
+    FINGERPRINT_FEATURES_RELATED = 0x28,        
+
+    /** @brief Sensor operation failed. Value: `0x29` */
+    FINGERPRINT_SENSOR_OP_FAIL = 0x29,          
+
+    /** @brief Module info not empty. Value: `0x2A` */
+    FINGERPRINT_MODULE_INFO_NOT_EMPTY = 0x2A,   
+
+    /** @brief Module info empty. Value: `0x2B` */
+    FINGERPRINT_MODULE_INFO_EMPTY = 0x2B,       
+
+    /** @brief OTP operation failed. Value: `0x2C` */
+    FINGERPRINT_OTP_FAIL = 0x2C,                
+
+    /** @brief Key generation failed. Value: `0x2D` */
+    FINGERPRINT_KEY_GEN_FAIL = 0x2D,            
+
+    /** @brief Secret key does not exist. Value: `0x2E` */
+    FINGERPRINT_KEY_NOT_EXIST = 0x2E,           
+
+    /** @brief Security algorithm execution failed. Value: `0x2F` */
+    FINGERPRINT_SECURITY_ALGO_FAIL = 0x2F,      
+
+    /** @brief Encryption and function mismatch. Value: `0x30` */
+    FINGERPRINT_ENCRYPTION_MISMATCH = 0x30,     
+
+    /** @brief Secret key is locked. Value: `0x32` */
+    FINGERPRINT_KEY_LOCKED = 0x32,              
+
+    /** @brief Image area too small. Value: `0x33` */
+    FINGERPRINT_IMAGE_AREA_SMALL = 0x33,        
+
+    /** @brief Image not available. Value: `0x34` */
+    FINGERPRINT_IMAGE_NOT_AVAILABLE = 0x34,     
+
+    /** @brief Illegal data. Value: `0x35` */
+    FINGERPRINT_ILLEGAL_DATA = 0x35             
+
 } fingerprint_status_t;
+
 
 /**
  * @brief Initializes the fingerprint scanner.
@@ -251,21 +538,47 @@ typedef enum {
 esp_err_t fingerprint_init(void);
 
 /**
- * @brief Builds a fingerprint command packet.
+ * @brief Sets or modifies a fingerprint command packet.
  *
- * This function initializes a `FingerprintPacket` with the specified command and parameters.
- * It ensures the parameter length does not exceed 4 bytes and calculates the checksum.
+ * This function initializes or updates a `FingerprintPacket` with the specified command and parameters.
+ * It ensures that the parameter length does not exceed 4 bytes and automatically calculates the checksum.
+ * This function is useful for preparing commands before sending them to the fingerprint module.
  *
- * @param[out] cmd Pointer to the `FingerprintPacket` to be populated.
- * @param[in] command Command byte to be included in the packet.
- * @param[in] params Pointer to parameter array (can be NULL if no parameters).
+ * @param[out] cmd Pointer to the `FingerprintPacket` to be populated or modified.
+ * @param[in] command Command byte to be set in the packet.
+ * @param[in] params Pointer to a parameter array (can be NULL if no parameters).
  * @param[in] param_length Number of parameters (max 4).
  * @return 
  *      - `ESP_OK` on success.
  *      - `ESP_ERR_INVALID_ARG` if `cmd` is NULL.
  *      - `ESP_ERR_INVALID_SIZE` if `param_length` exceeds 4.
  */
-esp_err_t fingerprint_build_command(FingerprintPacket *cmd, uint8_t command, uint8_t *params, uint8_t param_length);
+esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8_t *params, uint8_t param_length);
+
+/**
+ * @brief Creates an ExtendedPacket for commands requiring additional data.
+ * 
+ * This function is primarily used for commands like `PS_WriteNotepad`, which require a page number 
+ * and a 32-byte data block to be written to the fingerprint module’s internal storage.
+ * 
+ * @param base_packet Base `FingerprintPacket`.
+ * @param page_number Page number (0-15) where data will be written.
+ * @param data Pointer to 32-byte data.
+ * @param data_size Size of data (must be 32).
+ * @return ExtendedPacket instance.
+ * 
+ * @note This function is used for the `PS_WriteNotepad` command (0x18), which writes user data 
+ * to the fingerprint module's internal storage.
+ * 
+ * @note Example Usage:
+ * @code
+ * // Example: Writing 32 bytes of user data to page 5 using PS_WriteNotepad (0x18)
+ * FingerprintPacket base = {0xEF01, 0xFFFFFFFF, 0x01, 0x24, 0x18, {0}, 0};
+ * uint8_t user_data[32] = { \/* 32-byte data *\/  };
+ * ExtendedPacket PS_WriteNotepad = createExtendedPacket(base, 5, user_data, sizeof(user_data));
+ * @endcode
+ */
+ExtendedPacket createExtendedPacket(FingerprintPacket base_packet, uint8_t page_number, const uint8_t *data, size_t data_size);
 
 /**
  * @brief Computes the checksum for a given FingerprintPacket structure.
