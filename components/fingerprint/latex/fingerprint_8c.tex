@@ -54,6 +54,8 @@ static int \mbox{\hyperlink{fingerprint_8c_a219fb0cecab94c438944338382716e4d}{rx
 \item 
 static int \mbox{\hyperlink{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}{baud\+\_\+rate}} = 57600
 \item 
+static uint8\+\_\+t \mbox{\hyperlink{fingerprint_8c_a5c0f8def90025d6e94cd117f278e975e}{last\+\_\+sent\+\_\+command}} = 0x00
+\begin{DoxyCompactList}\small\item\em Stores the last fingerprint command sent to the module. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} \mbox{\hyperlink{fingerprint_8c_ac1bc88ca9eeff4bcae8ac419f8653c07}{g\+\_\+fingerprint\+\_\+event\+\_\+handler}} = NULL
 \begin{DoxyCompactList}\small\item\em Global pointer to the fingerprint event handler function. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_adaa0f83cf286650e928b5a4ed88ef1ae}{PS\+\_\+\+Get\+Image}}
@@ -135,7 +137,11 @@ static int \mbox{\hyperlink{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}{ba
 \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_afc475b21fe147ae6a5a87075ed1ce6c5}{PS\+\_\+\+Write\+Reg}}
 \begin{DoxyCompactList}\small\item\em Writes to the fingerprint module\textquotesingle{}s system register. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_a013246c7b412ad6777655f5e9aab3d06}{PS\+\_\+\+Read\+Index\+Table}}
-\begin{DoxyCompactList}\small\item\em Reads the fingerprint template index table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Reads the fingerprint template index table. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_a7704dbb198c160338884a15a3ef01203}{PS\+\_\+\+Up\+Char}}
+\begin{DoxyCompactList}\small\item\em Uploads a stored fingerprint template from the module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{fingerprint_8c_a105683cebbfd541df8ba50d6df3b37a8}{PS\+\_\+\+Down\+Char}}
+\begin{DoxyCompactList}\small\item\em Downloads a fingerprint template to the module. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Macro Definition Documentation}
@@ -458,7 +464,17 @@ int baud\+\_\+rate = 57600\hspace{0.3cm}{\ttfamily [static]}}
 
 Global pointer to the fingerprint event handler function. 
 
-This pointer is used to assign a function that will handle fingerprint-\/related events. The function should be defined by the user and should match the {\ttfamily \doxylink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} callback type. The event handler is called whenever a fingerprint-\/related event occurs, such as detection, image capture, or match results. \Hypertarget{fingerprint_8c_a14662050a710495e6c9125a02ee17fd5}\index{fingerprint.c@{fingerprint.c}!PS\_AutoEnroll@{PS\_AutoEnroll}}
+This pointer is used to assign a function that will handle fingerprint-\/related events. The function should be defined by the user and should match the {\ttfamily \doxylink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} callback type. The event handler is called whenever a fingerprint-\/related event occurs, such as detection, image capture, or match results. \Hypertarget{fingerprint_8c_a5c0f8def90025d6e94cd117f278e975e}\index{fingerprint.c@{fingerprint.c}!last\_sent\_command@{last\_sent\_command}}
+\index{last\_sent\_command@{last\_sent\_command}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{last\_sent\_command}{last\_sent\_command}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a5c0f8def90025d6e94cd117f278e975e} 
+uint8\+\_\+t last\+\_\+sent\+\_\+command = 0x00\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Stores the last fingerprint command sent to the module. 
+
+This variable helps in identifying the type of response received from the fingerprint module, as response packets do not include an explicit command field. \Hypertarget{fingerprint_8c_a14662050a710495e6c9125a02ee17fd5}\index{fingerprint.c@{fingerprint.c}!PS\_AutoEnroll@{PS\_AutoEnroll}}
 \index{PS\_AutoEnroll@{PS\_AutoEnroll}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_AutoEnroll}{PS\_AutoEnroll}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a14662050a710495e6c9125a02ee17fd5} 
@@ -471,7 +487,7 @@ This pointer is used to assign a function that will handle fingerprint-\/related
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0008,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x31,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6}{FINGERPRINT\_CMD\_AUTO\_ENROLL}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x003A\ }
 \DoxyCodeLine{\}}
@@ -500,7 +516,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0006,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x32,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391}{FINGERPRINT\_CMD\_AUTO\_IDENTIFY}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x003F\ }
 \DoxyCodeLine{\}}
@@ -528,8 +544,8 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x1A,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x01\},\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5}{FINGERPRINT\_CMD\_BURN\_CODE}},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x001F\ }
 \DoxyCodeLine{\}}
 
@@ -557,7 +573,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x30,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910}{FINGERPRINT\_CMD\_CANCEL}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0033\ }
 \DoxyCodeLine{\}}
@@ -580,7 +596,7 @@ This command has no parameters and is used to stop any ongoing process. \Hyperta
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x36,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d}{FINGERPRINT\_CMD\_CHECK\_SENSOR}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0039\ }
 \DoxyCodeLine{\}}
@@ -603,7 +619,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_a8fe0e76ceb799b2fc34
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x3C,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900}{FINGERPRINT\_CMD\_CONTROL\_LED}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0046\ }
 \DoxyCodeLine{\}}
@@ -633,7 +649,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0C,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645}{FINGERPRINT\_CMD\_DELETE\_CHAR}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0015\ }
 \DoxyCodeLine{\}}
@@ -643,7 +659,32 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 
 Deletes a specific fingerprint template from the database. 
 
-\Hypertarget{fingerprint_8c_a57f7aea72d53a3f124d00628e2841af6}\index{fingerprint.c@{fingerprint.c}!PS\_Downlmage@{PS\_Downlmage}}
+\Hypertarget{fingerprint_8c_a105683cebbfd541df8ba50d6df3b37a8}\index{fingerprint.c@{fingerprint.c}!PS\_DownChar@{PS\_DownChar}}
+\index{PS\_DownChar@{PS\_DownChar}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_DownChar}{PS\_DownChar}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a105683cebbfd541df8ba50d6df3b37a8} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Down\+Char}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6}{FINGERPRINT\_CMD\_DOWN\_CHAR}},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x000E\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Downloads a fingerprint template to the module. 
+
+Download template to buffer.
+
+This command allows the master device to download a fingerprint template to the module’s template buffer. The function is supported when the encryption level is set to 0. \Hypertarget{fingerprint_8c_a57f7aea72d53a3f124d00628e2841af6}\index{fingerprint.c@{fingerprint.c}!PS\_Downlmage@{PS\_Downlmage}}
 \index{PS\_Downlmage@{PS\_Downlmage}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_Downlmage}{PS\_Downlmage}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a57f7aea72d53a3f124d00628e2841af6} 
@@ -656,7 +697,7 @@ Deletes a specific fingerprint template from the database.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0B,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770}{FINGERPRINT\_CMD\_DOWNLOAD\_IMAGE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x000E\ }
 \DoxyCodeLine{\}}
@@ -679,7 +720,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_ab02b3ece2bf54d92b9c
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0D,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907}{FINGERPRINT\_CMD\_EMPTY\_DATABASE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0011\ }
 \DoxyCodeLine{\}}
@@ -702,7 +743,7 @@ Clears all stored fingerprints (factory reset).
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x02,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18}{FINGERPRINT\_CMD\_GEN\_CHAR}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0008\ }
 \DoxyCodeLine{\}}
@@ -725,7 +766,7 @@ Generates a character file in Buffer 1.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x02,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18}{FINGERPRINT\_CMD\_GEN\_CHAR}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0009\ }
 \DoxyCodeLine{\}}
@@ -748,7 +789,7 @@ Generates a character file in Buffer 2.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x13,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d}{FINGERPRINT\_CMD\_GETCHIP\_SN}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0016\ }
 \DoxyCodeLine{\}}
@@ -771,7 +812,7 @@ Retrieves the fingerprint module\textquotesingle{}s unique serial number.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0xE2,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49}{FINGERPRINT\_CMD\_GET\_CIPHER\_TEXT}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00E5\ }
 \DoxyCodeLine{\}}
@@ -794,7 +835,7 @@ Retrieves an encrypted random number from the fingerprint module.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x29,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4}{FINGERPRINT\_CMD\_GET\_ENROLL\_IMAGE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x002D\ }
 \DoxyCodeLine{\}}
@@ -817,7 +858,7 @@ Captures an image for fingerprint enrollment.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x01,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83}{FINGERPRINT\_CMD\_GET\_IMAGE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0005\ }
 \DoxyCodeLine{\}}
@@ -840,7 +881,7 @@ Captures a fingerprint image from the scanner\textquotesingle{}s sensor.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x3D,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c}{FINGERPRINT\_CMD\_GET\_IMAGE\_INFO}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0041\ }
 \DoxyCodeLine{\}}
@@ -863,7 +904,7 @@ This command requests metadata about the fingerprint image stored in the buffer.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0xE0,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036}{FINGERPRINT\_CMD\_GETKEYT}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00E3\ }
 \DoxyCodeLine{\}}
@@ -886,7 +927,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_a3a555d20d18c66cabfd
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x14,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b}{FINGERPRINT\_CMD\_GET\_RANDOM\_CODE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0017\ }
 \DoxyCodeLine{\}}
@@ -909,7 +950,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_ae243d24ce9fa25ead1f
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x35,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296}{FINGERPRINT\_CMD\_HANDSHAKE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0039\ }
 \DoxyCodeLine{\}}
@@ -932,7 +973,7 @@ Used to verify communication with the fingerprint module. \Hypertarget{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0xE1,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8}{FINGERPRINT\_CMD\_LOCKEYT}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00E4\ }
 \DoxyCodeLine{\}}
@@ -955,7 +996,7 @@ Locks the fingerprint module\textquotesingle{}s key pair.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x03,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a}{FINGERPRINT\_CMD\_MATCH}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0007\ }
 \DoxyCodeLine{\}}
@@ -978,7 +1019,7 @@ Matches two fingerprint templates stored in RAM.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x1F,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8}{FINGERPRINT\_CMD\_READ\_INDEX\_TABLE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0023\ }
 \DoxyCodeLine{\}}
@@ -1005,7 +1046,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x16,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9}{FINGERPRINT\_CMD\_READ\_INF\_PAGE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0019\ }
 \DoxyCodeLine{\}}
@@ -1030,7 +1071,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_ace4f99c616f2c9a5a61
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x19,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330}{FINGERPRINT\_CMD\_READ\_NOTEPAD}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x00\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x001E\ }
 \DoxyCodeLine{\}}
@@ -1057,7 +1098,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0F,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516}{FINGERPRINT\_CMD\_READ\_SYS\_PARA}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0013\ }
 \DoxyCodeLine{\}}
@@ -1080,7 +1121,7 @@ Reads system parameters from the fingerprint module.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x05,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717}{FINGERPRINT\_CMD\_REG\_MODEL}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0009\ }
 \DoxyCodeLine{\}}
@@ -1103,7 +1144,7 @@ Combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerp
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x3B,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b}{FINGERPRINT\_CMD\_FACTORY\_RESET}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x003E\ }
 \DoxyCodeLine{\}}
@@ -1126,7 +1167,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_aad1f05a6bbac30c9f3e
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0008,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x04,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4}{FINGERPRINT\_CMD\_SEARCH}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00\ }
 \DoxyCodeLine{\}}
@@ -1163,7 +1204,7 @@ This packet structure should be overwritten using \doxylink{fingerprint_8h_aa621
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x3E,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee}{FINGERPRINT\_CMD\_SEARCH\_NOW}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0046\ }
 \DoxyCodeLine{\}}
@@ -1191,7 +1232,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0008,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0xF4,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55}{FINGERPRINT\_CMD\_SECURITY\_SEARCH}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00FD\ }
 \DoxyCodeLine{\}}
@@ -1221,7 +1262,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0006,}
 \DoxyCodeLine{\ \ \ \ .command\ =\ 0xF2,\ }
-\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0x01,\ 0x00,\ 0x01\},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x00FB\ }
 \DoxyCodeLine{\}}
 
@@ -1248,7 +1289,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x15,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c}{FINGERPRINT\_CMD\_SET\_CHIP\_ADDR}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0020\ }
 \DoxyCodeLine{\}}
@@ -1271,7 +1312,7 @@ Sets the fingerprint scanner\textquotesingle{}s device address.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x12,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97}{FINGERPRINT\_CMD\_SET\_PASSWORD}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0019\ }
 \DoxyCodeLine{\}}
@@ -1298,7 +1339,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x33,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2}{FINGERPRINT\_CMD\_SLEEP}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0037\ }
 \DoxyCodeLine{\}}
@@ -1321,13 +1362,38 @@ Puts the fingerprint module into sleep mode.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0006,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x06,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b}{FINGERPRINT\_CMD\_STORE\_CHAR}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x000F\ }
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
-\Hypertarget{fingerprint_8c_a8d25f5cf1e5e1c6b6415485947add3d6}\index{fingerprint.c@{fingerprint.c}!PS\_Uplmage@{PS\_Uplmage}}
+\Hypertarget{fingerprint_8c_a7704dbb198c160338884a15a3ef01203}\index{fingerprint.c@{fingerprint.c}!PS\_UpChar@{PS\_UpChar}}
+\index{PS\_UpChar@{PS\_UpChar}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{PS\_UpChar}{PS\_UpChar}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a7704dbb198c160338884a15a3ef01203} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} PS\+\_\+\+Up\+Char}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .header\ =\ 0xEF01,}
+\DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
+\DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
+\DoxyCodeLine{\ \ \ \ .length\ =\ 0x0004,}
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884}{FINGERPRINT\_CMD\_UP\_CHAR}},\ }
+\DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
+\DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x000D\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Uploads a stored fingerprint template from the module. 
+
+Upload template from buffer to main control.
+
+This command uploads the fingerprint template stored in the buffer to the main control unit. The function is supported when the encryption level is set to 0. \Hypertarget{fingerprint_8c_a8d25f5cf1e5e1c6b6415485947add3d6}\index{fingerprint.c@{fingerprint.c}!PS\_Uplmage@{PS\_Uplmage}}
 \index{PS\_Uplmage@{PS\_Uplmage}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{PS\_Uplmage}{PS\_Uplmage}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a8d25f5cf1e5e1c6b6415485947add3d6} 
@@ -1340,7 +1406,7 @@ Puts the fingerprint module into sleep mode.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0A,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed}{FINGERPRINT\_CMD\_UPLOAD\_IMAGE}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x000D\ }
 \DoxyCodeLine{\}}
@@ -1363,7 +1429,7 @@ This command has no parameters. \Hypertarget{fingerprint_8c_ab42f2079ba5448cddcd
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0003,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x1D,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4}{FINGERPRINT\_CMD\_VALID\_TEMPLATE\_NUM}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0021\ }
 \DoxyCodeLine{\}}
@@ -1386,7 +1452,7 @@ Retrieves the number of valid fingerprint templates stored in the module.
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0007,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x13,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c}{FINGERPRINT\_CMD\_VERIFY\_PASSWORD}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x001A\ }
 \DoxyCodeLine{\}}
@@ -1413,7 +1479,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0023,\ }
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x18,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8}{FINGERPRINT\_CMD\_WRITE\_NOTEPAD}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x003B\ }
 \DoxyCodeLine{\}}
@@ -1432,7 +1498,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \DoxyCodeLine{\ \ \ \ .address\ =\ 0xFFFFFFFF\ ,}
 \DoxyCodeLine{\ \ \ \ .packet\_id\ =\ 0x01,}
 \DoxyCodeLine{\ \ \ \ .length\ =\ 0x0005,}
-\DoxyCodeLine{\ \ \ \ .command\ =\ 0x0E,\ }
+\DoxyCodeLine{\ \ \ \ .command\ =\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c}{FINGERPRINT\_CMD\_WRITE\_REG}},\ }
 \DoxyCodeLine{\ \ \ \ .parameters\ =\ \{0\},\ }
 \DoxyCodeLine{\ \ \ \ .checksum\ =\ 0x0013\ }
 \DoxyCodeLine{\}}

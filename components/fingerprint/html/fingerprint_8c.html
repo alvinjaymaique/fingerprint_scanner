@@ -176,6 +176,9 @@ Variables</h2></td></tr>
 <tr class="separator:a219fb0cecab94c438944338382716e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a784e73e1ce3f90fbcbb0a78d72a053ff" id="r_a784e73e1ce3f90fbcbb0a78d72a053ff"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a784e73e1ce3f90fbcbb0a78d72a053ff">baud_rate</a> = 57600</td></tr>
 <tr class="separator:a784e73e1ce3f90fbcbb0a78d72a053ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c0f8def90025d6e94cd117f278e975e" id="r_a5c0f8def90025d6e94cd117f278e975e"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c0f8def90025d6e94cd117f278e975e">last_sent_command</a> = 0x00</td></tr>
+<tr class="memdesc:a5c0f8def90025d6e94cd117f278e975e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the last fingerprint command sent to the module.  <br /></td></tr>
+<tr class="separator:a5c0f8def90025d6e94cd117f278e975e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1bc88ca9eeff4bcae8ac419f8653c07" id="r_ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fingerprint_8h.html#a658eb2a1aea7e912aabef713b69d6789">fingerprint_event_handler_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1bc88ca9eeff4bcae8ac419f8653c07">g_fingerprint_event_handler</a> = NULL</td></tr>
 <tr class="memdesc:ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global pointer to the fingerprint event handler function.  <br /></td></tr>
 <tr class="separator:ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -297,6 +300,12 @@ Variables</h2></td></tr>
 <tr class="memitem:a013246c7b412ad6777655f5e9aab3d06" id="r_a013246c7b412ad6777655f5e9aab3d06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a013246c7b412ad6777655f5e9aab3d06">PS_ReadIndexTable</a></td></tr>
 <tr class="memdesc:a013246c7b412ad6777655f5e9aab3d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the fingerprint template index table.  <br /></td></tr>
 <tr class="separator:a013246c7b412ad6777655f5e9aab3d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7704dbb198c160338884a15a3ef01203" id="r_a7704dbb198c160338884a15a3ef01203"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7704dbb198c160338884a15a3ef01203">PS_UpChar</a></td></tr>
+<tr class="memdesc:a7704dbb198c160338884a15a3ef01203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a stored fingerprint template from the module.  <br /></td></tr>
+<tr class="separator:a7704dbb198c160338884a15a3ef01203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a105683cebbfd541df8ba50d6df3b37a8" id="r_a105683cebbfd541df8ba50d6df3b37a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a105683cebbfd541df8ba50d6df3b37a8">PS_DownChar</a></td></tr>
+<tr class="memdesc:a105683cebbfd541df8ba50d6df3b37a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a fingerprint template to the module.  <br /></td></tr>
+<tr class="separator:a105683cebbfd541df8ba50d6df3b37a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a690f985c933da2ce6fe62b6c61dfa662" name="a690f985c933da2ce6fe62b6c61dfa662"></a>
@@ -799,6 +808,31 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a5c0f8def90025d6e94cd117f278e975e" name="a5c0f8def90025d6e94cd117f278e975e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c0f8def90025d6e94cd117f278e975e">&#9670;&#160;</a></span>last_sent_command</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t last_sent_command = 0x00</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stores the last fingerprint command sent to the module. </p>
+<p>This variable helps in identifying the type of response received from the fingerprint module, as response packets do not include an explicit command field. </p>
+
+</div>
+</div>
 <a id="a14662050a710495e6c9125a02ee17fd5" name="a14662050a710495e6c9125a02ee17fd5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a14662050a710495e6c9125a02ee17fd5">&#9670;&#160;</a></span>PS_AutoEnroll</h2>
 
@@ -815,10 +849,11 @@ Variables</h2></td></tr>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0008,</div>
-<div class="line">    .command = 0x31, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6">FINGERPRINT_CMD_AUTO_ENROLL</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x003A </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6">FINGERPRINT_CMD_AUTO_ENROLL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_AUTO_ENROLL</div><div class="ttdef"><b>Definition</b> fingerprint.h:258</div></div>
 </div><!-- fragment -->
 <p>Automatically enrolls a fingerprint template. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (ID number, number of entries, and additional settings) are dynamic and depend on the user's choice.</p>
@@ -848,10 +883,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0006,</div>
-<div class="line">    .command = 0x32, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391">FINGERPRINT_CMD_AUTO_IDENTIFY</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x003F </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391">FINGERPRINT_CMD_AUTO_IDENTIFY</a></div><div class="ttdeci">@ FINGERPRINT_CMD_AUTO_IDENTIFY</div><div class="ttdef"><b>Definition</b> fingerprint.h:261</div></div>
 </div><!-- fragment -->
 <p>Automatically identifies a fingerprint. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (score level and ID number) are dynamic.</p>
@@ -880,10 +916,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0004,</div>
-<div class="line">    .command = 0x1A, </div>
-<div class="line">    .parameters = {0x01}, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5">FINGERPRINT_CMD_BURN_CODE</a>, </div>
+<div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x001F </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5">FINGERPRINT_CMD_BURN_CODE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_BURN_CODE</div><div class="ttdef"><b>Definition</b> fingerprint.h:273</div></div>
 </div><!-- fragment -->
 <p>Erases the fingerprint sensor's firmware. </p>
 <p>Erases the module firmware and enters upgrade mode.</p>
@@ -912,10 +949,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x30, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910">FINGERPRINT_CMD_CANCEL</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0033 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910">FINGERPRINT_CMD_CANCEL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CANCEL</div><div class="ttdef"><b>Definition</b> fingerprint.h:255</div></div>
 </div><!-- fragment -->
 <p>Cancels the current fingerprint operation. </p>
 <p>This command has no parameters and is used to stop any ongoing process. </p>
@@ -938,10 +976,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x36, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d">FINGERPRINT_CMD_CHECK_SENSOR</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0039 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d">FINGERPRINT_CMD_CHECK_SENSOR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CHECK_SENSOR</div><div class="ttdef"><b>Definition</b> fingerprint.h:264</div></div>
 </div><!-- fragment -->
 <p>Checks the status of the fingerprint sensor. </p>
 <p>This command has no parameters. </p>
@@ -964,10 +1003,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0007,</div>
-<div class="line">    .command = 0x3C, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900">FINGERPRINT_CMD_CONTROL_LED</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0046 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900">FINGERPRINT_CMD_CONTROL_LED</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CONTROL_LED</div><div class="ttdef"><b>Definition</b> fingerprint.h:291</div></div>
 </div><!-- fragment -->
 <p>Controls the fingerprint sensor's LED light mode. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Function, Start Color, End Color, Cycles) are dynamic.</p>
@@ -998,12 +1038,41 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0007,</div>
-<div class="line">    .command = 0x0C, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645">FINGERPRINT_CMD_DELETE_CHAR</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0015 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645">FINGERPRINT_CMD_DELETE_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DELETE_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:234</div></div>
 </div><!-- fragment -->
 <p>Deletes a specific fingerprint template from the database. </p>
+
+</div>
+</div>
+<a id="a105683cebbfd541df8ba50d6df3b37a8" name="a105683cebbfd541df8ba50d6df3b37a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a105683cebbfd541df8ba50d6df3b37a8">&#9670;&#160;</a></span>PS_DownChar</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_DownChar</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    .header = 0xEF01,</div>
+<div class="line">    .address = 0xFFFFFFFF ,</div>
+<div class="line">    .packet_id = 0x01,</div>
+<div class="line">    .length = 0x0004,</div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6">FINGERPRINT_CMD_DOWN_CHAR</a>, </div>
+<div class="line">    .parameters = {0}, </div>
+<div class="line">    .checksum = 0x000E </div>
+<div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6">FINGERPRINT_CMD_DOWN_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DOWN_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:333</div></div>
+</div><!-- fragment -->
+<p>Downloads a fingerprint template to the module. </p>
+<p>Download template to buffer.</p>
+<p>This command allows the master device to download a fingerprint template to the module’s template buffer. The function is supported when the encryption level is set to 0. </p>
 
 </div>
 </div>
@@ -1023,10 +1092,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x0B, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770">FINGERPRINT_CMD_DOWNLOAD_IMAGE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x000E </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770">FINGERPRINT_CMD_DOWNLOAD_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DOWNLOAD_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:243</div></div>
 </div><!-- fragment -->
 <p>Downloads a fingerprint image to the sensor. </p>
 <p>This command has no parameters. </p>
@@ -1049,10 +1119,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x0D, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907">FINGERPRINT_CMD_EMPTY_DATABASE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0011 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907">FINGERPRINT_CMD_EMPTY_DATABASE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_EMPTY_DATABASE</div><div class="ttdef"><b>Definition</b> fingerprint.h:237</div></div>
 </div><!-- fragment -->
 <p>Clears all stored fingerprints (factory reset). </p>
 
@@ -1074,10 +1145,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0004,</div>
-<div class="line">    .command = 0x02, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18">FINGERPRINT_CMD_GEN_CHAR</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0008 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18">FINGERPRINT_CMD_GEN_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GEN_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:219</div></div>
 </div><!-- fragment -->
 <p>Generates a character file in Buffer 1. </p>
 
@@ -1099,7 +1171,7 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0004,</div>
-<div class="line">    .command = 0x02, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18">FINGERPRINT_CMD_GEN_CHAR</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0009 </div>
 <div class="line">}</div>
@@ -1124,10 +1196,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x13, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d">FINGERPRINT_CMD_GETCHIP_SN</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0016 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d">FINGERPRINT_CMD_GETCHIP_SN</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GETCHIP_SN</div><div class="ttdef"><b>Definition</b> fingerprint.h:318</div></div>
 </div><!-- fragment -->
 <p>Retrieves the fingerprint module's unique serial number. </p>
 
@@ -1149,10 +1222,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0xE2, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49">FINGERPRINT_CMD_GET_CIPHER_TEXT</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00E5 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49">FINGERPRINT_CMD_GET_CIPHER_TEXT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_CIPHER_TEXT</div><div class="ttdef"><b>Definition</b> fingerprint.h:315</div></div>
 </div><!-- fragment -->
 <p>Retrieves an encrypted random number from the fingerprint module. </p>
 
@@ -1174,10 +1248,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x29, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4">FINGERPRINT_CMD_GET_ENROLL_IMAGE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x002D </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4">FINGERPRINT_CMD_GET_ENROLL_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_ENROLL_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:321</div></div>
 </div><!-- fragment -->
 <p>Captures an image for fingerprint enrollment. </p>
 
@@ -1199,10 +1274,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x01, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83">FINGERPRINT_CMD_GET_IMAGE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0005 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83">FINGERPRINT_CMD_GET_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:216</div></div>
 </div><!-- fragment -->
 <p>Captures a fingerprint image from the scanner's sensor. </p>
 
@@ -1224,10 +1300,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x3D, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c">FINGERPRINT_CMD_GET_IMAGE_INFO</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0041 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c">FINGERPRINT_CMD_GET_IMAGE_INFO</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_IMAGE_INFO</div><div class="ttdef"><b>Definition</b> fingerprint.h:294</div></div>
 </div><!-- fragment -->
 <p>Retrieves information about the current fingerprint image. </p>
 <p>This command requests metadata about the fingerprint image stored in the buffer. </p>
@@ -1250,10 +1327,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0xE0, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036">FINGERPRINT_CMD_GETKEYT</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00E3 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036">FINGERPRINT_CMD_GETKEYT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GETKEYT</div><div class="ttdef"><b>Definition</b> fingerprint.h:306</div></div>
 </div><!-- fragment -->
 <p>Retrieves the key pair from the fingerprint sensor. </p>
 <p>This command has no parameters. </p>
@@ -1276,10 +1354,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x14, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b">FINGERPRINT_CMD_GET_RANDOM_CODE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0017 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b">FINGERPRINT_CMD_GET_RANDOM_CODE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_RANDOM_CODE</div><div class="ttdef"><b>Definition</b> fingerprint.h:282</div></div>
 </div><!-- fragment -->
 <p>Requests a random number from the fingerprint sensor. </p>
 <p>This command has no parameters. </p>
@@ -1302,10 +1381,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x35, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296">FINGERPRINT_CMD_HANDSHAKE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0039 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296">FINGERPRINT_CMD_HANDSHAKE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_HANDSHAKE</div><div class="ttdef"><b>Definition</b> fingerprint.h:252</div></div>
 </div><!-- fragment -->
 <p>Performs a handshake with the fingerprint module. </p>
 <p>Used to verify communication with the fingerprint module. </p>
@@ -1328,10 +1408,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0xE1, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8">FINGERPRINT_CMD_LOCKEYT</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00E4 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8">FINGERPRINT_CMD_LOCKEYT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_LOCKEYT</div><div class="ttdef"><b>Definition</b> fingerprint.h:312</div></div>
 </div><!-- fragment -->
 <p>Locks the fingerprint module's key pair. </p>
 
@@ -1353,10 +1434,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x03, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a">FINGERPRINT_CMD_MATCH</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0007 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a">FINGERPRINT_CMD_MATCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_MATCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:222</div></div>
 </div><!-- fragment -->
 <p>Matches two fingerprint templates stored in RAM. </p>
 
@@ -1378,10 +1460,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0004,</div>
-<div class="line">    .command = 0x1F, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8">FINGERPRINT_CMD_READ_INDEX_TABLE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0023 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8">FINGERPRINT_CMD_READ_INDEX_TABLE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_INDEX_TABLE</div><div class="ttdef"><b>Definition</b> fingerprint.h:327</div></div>
 </div><!-- fragment -->
 <p>Reads the fingerprint template index table. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Page Number) is dynamic.</p>
@@ -1409,10 +1492,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x16, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9">FINGERPRINT_CMD_READ_INF_PAGE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0019 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9">FINGERPRINT_CMD_READ_INF_PAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_INF_PAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:270</div></div>
 </div><!-- fragment -->
 <p>Reads the fingerprint sensor's flash information page. </p>
 <p>Reads the flash information page of the fingerprint module.</p>
@@ -1436,10 +1520,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0004,</div>
-<div class="line">    .command = 0x19, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330">FINGERPRINT_CMD_READ_NOTEPAD</a>, </div>
 <div class="line">    .parameters = {0x00}, </div>
 <div class="line">    .checksum = 0x001E </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330">FINGERPRINT_CMD_READ_NOTEPAD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_NOTEPAD</div><div class="ttdef"><b>Definition</b> fingerprint.h:288</div></div>
 </div><!-- fragment -->
 <p>Reads data from the fingerprint sensor's notepad memory. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Page Number) is dynamic.</p>
@@ -1467,10 +1552,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x0F, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516">FINGERPRINT_CMD_READ_SYS_PARA</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0013 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516">FINGERPRINT_CMD_READ_SYS_PARA</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_SYS_PARA</div><div class="ttdef"><b>Definition</b> fingerprint.h:246</div></div>
 </div><!-- fragment -->
 <p>Reads system parameters from the fingerprint module. </p>
 
@@ -1492,10 +1578,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x05, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717">FINGERPRINT_CMD_REG_MODEL</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0009 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717">FINGERPRINT_CMD_REG_MODEL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_REG_MODEL</div><div class="ttdef"><b>Definition</b> fingerprint.h:228</div></div>
 </div><!-- fragment -->
 <p>Combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerprint model. </p>
 
@@ -1517,10 +1604,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x3B, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b">FINGERPRINT_CMD_FACTORY_RESET</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x003E </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b">FINGERPRINT_CMD_FACTORY_RESET</a></div><div class="ttdeci">@ FINGERPRINT_CMD_FACTORY_RESET</div><div class="ttdef"><b>Definition</b> fingerprint.h:267</div></div>
 </div><!-- fragment -->
 <p>Restores the fingerprint sensor to factory settings. </p>
 <p>This command has no parameters. </p>
@@ -1543,10 +1631,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0008,</div>
-<div class="line">    .command = 0x04, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4">FINGERPRINT_CMD_SEARCH</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4">FINGERPRINT_CMD_SEARCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SEARCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:225</div></div>
 </div><!-- fragment -->
 <p>Searches for a fingerprint match in the database. </p>
 <p>This packet structure should be overwritten using <a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a> because its parameters (Buffer ID, Start Page, and Number of Pages) are dynamic and depend on the user's or developer's choice.</p>
@@ -1579,10 +1668,11 @@ Packet Structure:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0007,</div>
-<div class="line">    .command = 0x3E, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee">FINGERPRINT_CMD_SEARCH_NOW</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0046 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee">FINGERPRINT_CMD_SEARCH_NOW</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SEARCH_NOW</div><div class="ttdef"><b>Definition</b> fingerprint.h:297</div></div>
 </div><!-- fragment -->
 <p>Performs an immediate fingerprint search in the database. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Start Page, Number of Pages) are dynamic.</p>
@@ -1611,10 +1701,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0008,</div>
-<div class="line">    .command = 0xF4, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55">FINGERPRINT_CMD_SECURITY_SEARCH</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00FD </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55">FINGERPRINT_CMD_SECURITY_SEARCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SECURITY_SEARCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:309</div></div>
 </div><!-- fragment -->
 <p>Searches for a fingerprint template in secure mode. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Buffer ID, Start Page, Number of Pages) are dynamic.</p>
@@ -1645,7 +1736,7 @@ Parameters:</h3>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0006,</div>
 <div class="line">    .command = 0xF2, </div>
-<div class="line">    .parameters = {0x01, 0x00, 0x01}, </div>
+<div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00FB </div>
 <div class="line">}</div>
 </div><!-- fragment -->
@@ -1676,10 +1767,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0007,</div>
-<div class="line">    .command = 0x15, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c">FINGERPRINT_CMD_SET_CHIP_ADDR</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0020 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c">FINGERPRINT_CMD_SET_CHIP_ADDR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SET_CHIP_ADDR</div><div class="ttdef"><b>Definition</b> fingerprint.h:249</div></div>
 </div><!-- fragment -->
 <p>Sets the fingerprint scanner's device address. </p>
 
@@ -1701,10 +1793,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0007,</div>
-<div class="line">    .command = 0x12, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97">FINGERPRINT_CMD_SET_PASSWORD</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0019 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97">FINGERPRINT_CMD_SET_PASSWORD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SET_PASSWORD</div><div class="ttdef"><b>Definition</b> fingerprint.h:276</div></div>
 </div><!-- fragment -->
 <p>Sets a password for the fingerprint sensor. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Password) is user-defined.</p>
@@ -1732,10 +1825,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x33, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2">FINGERPRINT_CMD_SLEEP</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0037 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2">FINGERPRINT_CMD_SLEEP</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SLEEP</div><div class="ttdef"><b>Definition</b> fingerprint.h:303</div></div>
 </div><!-- fragment -->
 <p>Puts the fingerprint module into sleep mode. </p>
 
@@ -1757,11 +1851,40 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0006,</div>
-<div class="line">    .command = 0x06, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b">FINGERPRINT_CMD_STORE_CHAR</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x000F </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b">FINGERPRINT_CMD_STORE_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_STORE_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:231</div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a7704dbb198c160338884a15a3ef01203" name="a7704dbb198c160338884a15a3ef01203"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7704dbb198c160338884a15a3ef01203">&#9670;&#160;</a></span>PS_UpChar</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> PS_UpChar</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    .header = 0xEF01,</div>
+<div class="line">    .address = 0xFFFFFFFF ,</div>
+<div class="line">    .packet_id = 0x01,</div>
+<div class="line">    .length = 0x0004,</div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884">FINGERPRINT_CMD_UP_CHAR</a>, </div>
+<div class="line">    .parameters = {0}, </div>
+<div class="line">    .checksum = 0x000D </div>
+<div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884">FINGERPRINT_CMD_UP_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_UP_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:330</div></div>
+</div><!-- fragment -->
+<p>Uploads a stored fingerprint template from the module. </p>
+<p>Upload template from buffer to main control.</p>
+<p>This command uploads the fingerprint template stored in the buffer to the main control unit. The function is supported when the encryption level is set to 0. </p>
+
 </div>
 </div>
 <a id="a8d25f5cf1e5e1c6b6415485947add3d6" name="a8d25f5cf1e5e1c6b6415485947add3d6"></a>
@@ -1780,10 +1903,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x0A, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed">FINGERPRINT_CMD_UPLOAD_IMAGE</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x000D </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed">FINGERPRINT_CMD_UPLOAD_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_UPLOAD_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:240</div></div>
 </div><!-- fragment -->
 <p>Uploads the fingerprint image from the sensor. </p>
 <p>This command has no parameters. </p>
@@ -1806,10 +1930,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0003,</div>
-<div class="line">    .command = 0x1D, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4">FINGERPRINT_CMD_VALID_TEMPLATE_NUM</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0021 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4">FINGERPRINT_CMD_VALID_TEMPLATE_NUM</a></div><div class="ttdeci">@ FINGERPRINT_CMD_VALID_TEMPLATE_NUM</div><div class="ttdef"><b>Definition</b> fingerprint.h:300</div></div>
 </div><!-- fragment -->
 <p>Retrieves the number of valid fingerprint templates stored in the module. </p>
 
@@ -1831,10 +1956,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0007,</div>
-<div class="line">    .command = 0x13, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c">FINGERPRINT_CMD_VERIFY_PASSWORD</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x001A </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c">FINGERPRINT_CMD_VERIFY_PASSWORD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_VERIFY_PASSWORD</div><div class="ttdef"><b>Definition</b> fingerprint.h:279</div></div>
 </div><!-- fragment -->
 <p>Verifies the fingerprint sensor password. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Password) is user-defined.</p>
@@ -1862,10 +1988,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0023, </div>
-<div class="line">    .command = 0x18, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8">FINGERPRINT_CMD_WRITE_NOTEPAD</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x003B </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8">FINGERPRINT_CMD_WRITE_NOTEPAD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_WRITE_NOTEPAD</div><div class="ttdef"><b>Definition</b> fingerprint.h:285</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1885,10 +2012,11 @@ Parameters:</h3>
 <div class="line">    .address = 0xFFFFFFFF ,</div>
 <div class="line">    .packet_id = 0x01,</div>
 <div class="line">    .length = 0x0005,</div>
-<div class="line">    .command = 0x0E, </div>
+<div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c">FINGERPRINT_CMD_WRITE_REG</a>, </div>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0013 </div>
 <div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c">FINGERPRINT_CMD_WRITE_REG</a></div><div class="ttdeci">@ FINGERPRINT_CMD_WRITE_REG</div><div class="ttdef"><b>Definition</b> fingerprint.h:324</div></div>
 </div><!-- fragment -->
 <p>Writes to the fingerprint module's system register. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Register Number, Value) are dynamic.</p>
