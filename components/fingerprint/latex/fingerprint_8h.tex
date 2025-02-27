@@ -29,7 +29,11 @@ struct \mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\
 \#define \mbox{\hyperlink{fingerprint_8h_a69d1c616ae544899c43fd1dbfcbaa086}{UART\+\_\+\+READ\+\_\+\+TIMEOUT}}~100
 \begin{DoxyCompactList}\small\item\em Timeout value for UART read operations. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{fingerprint_8h_a68c7f0498bb1932350eb092be1b5e912}{MAX\+\_\+\+PARAMETERS}}~32
-\begin{DoxyCompactList}\small\item\em Maximum number of parameters supported in a fingerprint packet. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Maximum number of parameters supported in a fingerprint packet. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{fingerprint_8h_af02cae8acf76dab97688c8fa80ebff3e}{FINGERPRINT\+\_\+\+PACKET\+\_\+\+HEADER}}~0x\+EF01
+\begin{DoxyCompactList}\small\item\em Packet header identifier for fingerprint module communication. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{fingerprint_8h_a85421db489877ff7378a1e706d0d8d71}{FINGERPRINT\+\_\+\+PACKET\+\_\+\+ID\+\_\+\+CMD}}~0x01
+\begin{DoxyCompactList}\small\item\em Packet ID indicating a command packet. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -495,7 +499,33 @@ Default UART pins (modifiable at runtime).
 
 Default fingerprint module header identifier. 
 
-\Hypertarget{fingerprint_8h_a68c7f0498bb1932350eb092be1b5e912}\index{fingerprint.h@{fingerprint.h}!MAX\_PARAMETERS@{MAX\_PARAMETERS}}
+\Hypertarget{fingerprint_8h_af02cae8acf76dab97688c8fa80ebff3e}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_PACKET\_HEADER@{FINGERPRINT\_PACKET\_HEADER}}
+\index{FINGERPRINT\_PACKET\_HEADER@{FINGERPRINT\_PACKET\_HEADER}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{FINGERPRINT\_PACKET\_HEADER}{FINGERPRINT\_PACKET\_HEADER}}
+{\footnotesize\ttfamily \label{fingerprint_8h_af02cae8acf76dab97688c8fa80ebff3e} 
+\#define FINGERPRINT\+\_\+\+PACKET\+\_\+\+HEADER~0x\+EF01}
+
+
+
+Packet header identifier for fingerprint module communication. 
+
+The header is a fixed 2-\/byte value used to indicate the start of a fingerprint module packet. \Hypertarget{fingerprint_8h_a85421db489877ff7378a1e706d0d8d71}\index{fingerprint.h@{fingerprint.h}!FINGERPRINT\_PACKET\_ID\_CMD@{FINGERPRINT\_PACKET\_ID\_CMD}}
+\index{FINGERPRINT\_PACKET\_ID\_CMD@{FINGERPRINT\_PACKET\_ID\_CMD}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{FINGERPRINT\_PACKET\_ID\_CMD}{FINGERPRINT\_PACKET\_ID\_CMD}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a85421db489877ff7378a1e706d0d8d71} 
+\#define FINGERPRINT\+\_\+\+PACKET\+\_\+\+ID\+\_\+\+CMD~0x01}
+
+
+
+Packet ID indicating a command packet. 
+
+The packet ID is a 1-\/byte value that defines the type of packet being sent.
+\begin{DoxyItemize}
+\item 0x01\+: Command packet
+\item 0x02\+: Data packet
+\item 0x03\+: Acknowledgment packet
+\item 0x04\+: End of data packet 
+\end{DoxyItemize}\Hypertarget{fingerprint_8h_a68c7f0498bb1932350eb092be1b5e912}\index{fingerprint.h@{fingerprint.h}!MAX\_PARAMETERS@{MAX\_PARAMETERS}}
 \index{MAX\_PARAMETERS@{MAX\_PARAMETERS}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{MAX\_PARAMETERS}{MAX\_PARAMETERS}}
 {\footnotesize\ttfamily \label{fingerprint_8h_a68c7f0498bb1932350eb092be1b5e912} 

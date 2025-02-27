@@ -7,6 +7,8 @@ var fingerprint_8h =
     [ "DEFAULT_RX_PIN", "fingerprint_8h.html#aef44023d85418b6b89d8e8492f4feb81", null ],
     [ "DEFAULT_TX_PIN", "fingerprint_8h.html#a906d33234fc0a208973dee29efb12336", null ],
     [ "FINGERPRINT_HEADER", "fingerprint_8h.html#a3213a1f8aac63fb5a1e7fba62b6c14c9", null ],
+    [ "FINGERPRINT_PACKET_HEADER", "fingerprint_8h.html#af02cae8acf76dab97688c8fa80ebff3e", null ],
+    [ "FINGERPRINT_PACKET_ID_CMD", "fingerprint_8h.html#a85421db489877ff7378a1e706d0d8d71", null ],
     [ "MAX_PARAMETERS", "fingerprint_8h.html#a68c7f0498bb1932350eb092be1b5e912", null ],
     [ "UART_READ_TIMEOUT", "fingerprint_8h.html#a69d1c616ae544899c43fd1dbfcbaa086", null ],
     [ "fingerprint_event_handler_t", "fingerprint_8h.html#a658eb2a1aea7e912aabef713b69d6789", null ],

@@ -204,6 +204,24 @@
 #define MAX_PARAMETERS 32  /**< Adjust based on the largest required parameter size. */
 
 /**
+ * @brief Packet header identifier for fingerprint module communication.
+ * 
+ * The header is a fixed 2-byte value used to indicate the start of a fingerprint module packet.
+ */
+#define FINGERPRINT_PACKET_HEADER 0xEF01
+
+/**
+ * @brief Packet ID indicating a command packet.
+ * 
+ * The packet ID is a 1-byte value that defines the type of packet being sent.
+ * - 0x01: Command packet
+ * - 0x02: Data packet
+ * - 0x03: Acknowledgment packet
+ * - 0x04: End of data packet
+ */
+#define FINGERPRINT_PACKET_ID_CMD 0x01
+
+/**
  * @enum fingerprint_command_t
  * @brief Enumeration of fingerprint module commands.
  *
