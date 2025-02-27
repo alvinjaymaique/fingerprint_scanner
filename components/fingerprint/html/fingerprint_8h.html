@@ -413,32 +413,61 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Fingerprint sensor driver (ZW111) for ESP32. </p>
 <h2><a class="anchor" id="autotoc_md0"></a>
-1. Hardware Interface Description</h2>
+1. Introduction</h2>
+<p>This driver provides an interface for the ZW111 fingerprint sensor, enabling fingerprint enrollment, matching, and template storage. It is designed for embedded systems using the ESP32 microcontroller, providing an event-driven architecture for efficient processing.</p>
 <h3><a class="anchor" id="autotoc_md1"></a>
-1.1 UART</h3>
+1.1 Supported Platforms</h3>
+<ul>
+<li>ESP32-based development boards</li>
+<li>ESP-IDF (Espressif IoT Development Framework)</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md2"></a>
+1.2 Compiler and Toolchain</h3>
+<ul>
+<li>GCC (ESP32 toolchain)</li>
+<li>Compatible with ESP-IDF v4.x or later</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md3"></a>
+1.3 Dependencies</h3>
+<p>This driver requires the following ESP-IDF components:</p><ul>
+<li><code>esp_log.h</code> – Logging utilities for debugging and event tracking</li>
+<li><code>driver/uart.h</code> – UART driver for serial communication with the fingerprint module</li>
+<li><code>esp_err.h</code> – Standard ESP-IDF error handling</li>
+<li><code>freertos/FreeRTOS.h</code> and <code>freertos/task.h</code> – FreeRTOS support for asynchronous processing</li>
+<li><code>string.h</code> – Standard C library for string manipulation</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md4"></a>
+1.4 License</h3>
+<p>This driver is released under the MIT License. See the LICENSE file for details.</p>
+<h2><a class="anchor" id="autotoc_md5"></a>
+2. Hardware Interface Description</h2>
+<h3><a class="anchor" id="autotoc_md6"></a>
+2.1 UART</h3>
 <ul>
 <li>Default baud rate: 57600 bps (8 data bits, 1 stop bit, no parity)</li>
 <li>Baud rate adjustable: 9600 to 115200 bps</li>
 <li>Direct connection to MCU (3.3V) or use RS232 level converter for PC</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md2"></a>
-1.2 Power-on Sequence:</h3>
+<h3><a class="anchor" id="autotoc_md7"></a>
+2.2 Power-on Sequence:</h3>
 <ol type="1">
 <li>Host receives fingerprint module (FPM) interrupt wake-up signal.</li>
 <li>Host powers on Vmcu (MCU power supply) <b>before</b> initializing UART.</li>
 <li>After communication completes, pull down serial signal lines <b>before</b> powering off Vmcu.</li>
 </ol>
-<h3><a class="anchor" id="autotoc_md3"></a>
-1.3 Connection</h3>
+<h3><a class="anchor" id="autotoc_md8"></a>
+2.3 Connection</h3>
 <ul>
 <li><b>TX</b> → ESP32 GPIO17</li>
 <li><b>RX</b> → ESP32 GPIO16</li>
 <li><b>VCC</b> → 3.3V</li>
 <li><b>GND</b> → GND</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md4"></a>
-Event-driven System</h2>
+<h2><a class="anchor" id="autotoc_md9"></a>
+3. Event-driven System</h2>
 <p>This system operates on an event-driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. The following events are generated based on the corresponding system actions.</p>
+<h3><a class="anchor" id="autotoc_md10"></a>
+3.1 Event Handler</h3>
 <p>Event handler for processing fingerprint events.</p>
 <p>This function processes various fingerprint-related events and logs messages based on the event type. It can be used as a sample for handling fingerprint events in the application. The events are processed based on the <code><a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae" title="Enum to define various fingerprint events.">fingerprint_event_type_t</a></code> enumeration, and corresponding messages are logged using the ESP-IDF logging system.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -483,15 +512,67 @@ Event-driven System</h2>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a></div><div class="ttdeci">@ EVENT_FEATURE_EXTRACTED</div><div class="ttdoc">Event triggered when fingerprint features are successfully extracted.</div><div class="ttdef"><b>Definition</b> fingerprint.h:811</div></div>
-<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a></div><div class="ttdeci">@ EVENT_FINGER_DETECTED</div><div class="ttdoc">Event triggered when a finger is detected.</div><div class="ttdef"><b>Definition</b> fingerprint.h:797</div></div>
-<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a></div><div class="ttdeci">@ EVENT_ERROR</div><div class="ttdoc">A general error event, used for unexpected failures.</div><div class="ttdef"><b>Definition</b> fingerprint.h:832</div></div>
-<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a></div><div class="ttdeci">@ EVENT_MATCH_FAIL</div><div class="ttdoc">Event triggered when a fingerprint mismatch occurs.</div><div class="ttdef"><b>Definition</b> fingerprint.h:825</div></div>
-<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a></div><div class="ttdeci">@ EVENT_IMAGE_CAPTURED</div><div class="ttdoc">Event triggered when a fingerprint image is captured successfully.</div><div class="ttdef"><b>Definition</b> fingerprint.h:804</div></div>
-<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a></div><div class="ttdeci">@ EVENT_MATCH_SUCCESS</div><div class="ttdoc">Event triggered when a fingerprint match is successful.</div><div class="ttdef"><b>Definition</b> fingerprint.h:818</div></div>
-<div class="ttc" id="astructfingerprint__event__t_html"><div class="ttname"><a href="structfingerprint__event__t.html">fingerprint_event_t</a></div><div class="ttdoc">Structure representing a fingerprint event.</div><div class="ttdef"><b>Definition</b> fingerprint.h:869</div></div>
-<div class="ttc" id="astructfingerprint__event__t_html_a15fc199bc56b30eae6653d50a4b270b2"><div class="ttname"><a href="structfingerprint__event__t.html#a15fc199bc56b30eae6653d50a4b270b2">fingerprint_event_t::type</a></div><div class="ttdeci">fingerprint_event_type_t type</div><div class="ttdef"><b>Definition</b> fingerprint.h:870</div></div>
-<div class="ttc" id="astructfingerprint__event__t_html_a4ee37a20269bfe63d726a010ab9447a7"><div class="ttname"><a href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">fingerprint_event_t::status</a></div><div class="ttdeci">fingerprint_status_t status</div><div class="ttdef"><b>Definition</b> fingerprint.h:871</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a></div><div class="ttdeci">@ EVENT_FEATURE_EXTRACTED</div><div class="ttdoc">Event triggered when fingerprint features are successfully extracted.</div><div class="ttdef"><b>Definition</b> fingerprint.h:894</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a></div><div class="ttdeci">@ EVENT_FINGER_DETECTED</div><div class="ttdoc">Event triggered when a finger is detected.</div><div class="ttdef"><b>Definition</b> fingerprint.h:880</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a></div><div class="ttdeci">@ EVENT_ERROR</div><div class="ttdoc">A general error event, used for unexpected failures.</div><div class="ttdef"><b>Definition</b> fingerprint.h:915</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a></div><div class="ttdeci">@ EVENT_MATCH_FAIL</div><div class="ttdoc">Event triggered when a fingerprint mismatch occurs.</div><div class="ttdef"><b>Definition</b> fingerprint.h:908</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a></div><div class="ttdeci">@ EVENT_IMAGE_CAPTURED</div><div class="ttdoc">Event triggered when a fingerprint image is captured successfully.</div><div class="ttdef"><b>Definition</b> fingerprint.h:887</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a></div><div class="ttdeci">@ EVENT_MATCH_SUCCESS</div><div class="ttdoc">Event triggered when a fingerprint match is successful.</div><div class="ttdef"><b>Definition</b> fingerprint.h:901</div></div>
+<div class="ttc" id="astructfingerprint__event__t_html"><div class="ttname"><a href="structfingerprint__event__t.html">fingerprint_event_t</a></div><div class="ttdoc">Structure representing a fingerprint event.</div><div class="ttdef"><b>Definition</b> fingerprint.h:952</div></div>
+<div class="ttc" id="astructfingerprint__event__t_html_a15fc199bc56b30eae6653d50a4b270b2"><div class="ttname"><a href="structfingerprint__event__t.html#a15fc199bc56b30eae6653d50a4b270b2">fingerprint_event_t::type</a></div><div class="ttdeci">fingerprint_event_type_t type</div><div class="ttdef"><b>Definition</b> fingerprint.h:953</div></div>
+<div class="ttc" id="astructfingerprint__event__t_html_a4ee37a20269bfe63d726a010ab9447a7"><div class="ttname"><a href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">fingerprint_event_t::status</a></div><div class="ttdeci">fingerprint_status_t status</div><div class="ttdef"><b>Definition</b> fingerprint.h:954</div></div>
+</div><!-- fragment --><ul>
+<li>## 4. Usage Guide This section provides an overview of how to use the fingerprint library in an ESP-IDF project.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md11"></a>
+4.1 Initialization</h3>
+<p>Before sending commands, initialize the fingerprint module:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="fingerprint_8h.html">fingerprint.h</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> app_main() {</div>
+<div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="#a759d58795c9a87a5d2fa233e52e5d580">fingerprint_init</a>() == ESP_OK) {</div>
+<div class="line">        ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Module initialized.&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html"><div class="ttname"><a href="fingerprint_8h.html">fingerprint.h</a></div><div class="ttdoc">Fingerprint sensor driver (ZW111) for ESP32.</div></div>
+<div class="ttc" id="afingerprint_8h_html_a759d58795c9a87a5d2fa233e52e5d580"><div class="ttname"><a href="#a759d58795c9a87a5d2fa233e52e5d580">fingerprint_init</a></div><div class="ttdeci">esp_err_t fingerprint_init(void)</div><div class="ttdoc">Initializes the fingerprint scanner.</div><div class="ttdef"><b>Definition</b> fingerprint.c:450</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md12"></a>
+4.2 Sending Commands</h3>
+<p>Use <code><a class="el" href="#a25d10be1c372a32ba6e9ff2eb7cc60cb" title="Sends a fingerprint command packet to the fingerprint module.">fingerprint_send_command()</a></code> with predefined <code>PS_*</code> packets to communicate with the sensor.</p>
+<p><b>Example: Capturing a fingerprint image</b> </p><div class="fragment"><div class="line"><a class="code hl_function" href="#a25d10be1c372a32ba6e9ff2eb7cc60cb">fingerprint_send_command</a>(&amp;<a class="code hl_variable" href="#adaa0f83cf286650e928b5a4ed88ef1ae">PS_GetImage</a>, <a class="code hl_define" href="#a5d7dc57da1b15b90f236d89912b2d95a">DEFAULT_FINGERPRINT_ADDRESS</a>);</div>
+<div class="ttc" id="afingerprint_8h_html_a25d10be1c372a32ba6e9ff2eb7cc60cb"><div class="ttname"><a href="#a25d10be1c372a32ba6e9ff2eb7cc60cb">fingerprint_send_command</a></div><div class="ttdeci">esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address)</div><div class="ttdoc">Sends a fingerprint command packet to the fingerprint module.</div><div class="ttdef"><b>Definition</b> fingerprint.c:529</div></div>
+<div class="ttc" id="afingerprint_8h_html_a5d7dc57da1b15b90f236d89912b2d95a"><div class="ttname"><a href="#a5d7dc57da1b15b90f236d89912b2d95a">DEFAULT_FINGERPRINT_ADDRESS</a></div><div class="ttdeci">#define DEFAULT_FINGERPRINT_ADDRESS</div><div class="ttdoc">Default fingerprint module address (broadcast address).</div><div class="ttdef"><b>Definition</b> fingerprint.h:189</div></div>
+<div class="ttc" id="afingerprint_8h_html_adaa0f83cf286650e928b5a4ed88ef1ae"><div class="ttname"><a href="#adaa0f83cf286650e928b5a4ed88ef1ae">PS_GetImage</a></div><div class="ttdeci">FingerprintPacket PS_GetImage</div><div class="ttdoc">Captures a fingerprint image from the scanner&#39;s sensor.</div><div class="ttdef"><b>Definition</b> fingerprint.c:28</div></div>
+</div><!-- fragment --><p><b>Example: Searching for a fingerprint</b> </p><div class="fragment"><div class="line"><a class="code hl_variable" href="#aad1f05a6bbac30c9f3ee6ebf1b03739f">PS_Search</a>.parameters[0] = 0x01;  <span class="comment">// Buffer ID</span></div>
+<div class="line"><a class="code hl_variable" href="#aad1f05a6bbac30c9f3ee6ebf1b03739f">PS_Search</a>.parameters[1] = 0x00;  <span class="comment">// Start Page</span></div>
+<div class="line"><a class="code hl_variable" href="#aad1f05a6bbac30c9f3ee6ebf1b03739f">PS_Search</a>.parameters[2] = 0x02;  <span class="comment">// Number of Pages</span></div>
+<div class="line"><a class="code hl_variable" href="#aad1f05a6bbac30c9f3ee6ebf1b03739f">PS_Search</a>.checksum = <a class="code hl_function" href="#a0d5b756311c0909b7f123085fb54e5b5">fingerprint_calculate_checksum</a>(&amp;<a class="code hl_variable" href="#aad1f05a6bbac30c9f3ee6ebf1b03739f">PS_Search</a>);</div>
+<div class="line"><a class="code hl_function" href="#a25d10be1c372a32ba6e9ff2eb7cc60cb">fingerprint_send_command</a>(&amp;<a class="code hl_variable" href="#aad1f05a6bbac30c9f3ee6ebf1b03739f">PS_Search</a>, <a class="code hl_define" href="#a5d7dc57da1b15b90f236d89912b2d95a">DEFAULT_FINGERPRINT_ADDRESS</a>);</div>
+<div class="ttc" id="afingerprint_8h_html_a0d5b756311c0909b7f123085fb54e5b5"><div class="ttname"><a href="#a0d5b756311c0909b7f123085fb54e5b5">fingerprint_calculate_checksum</a></div><div class="ttdeci">uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd)</div><div class="ttdoc">Computes the checksum for a given FingerprintPacket structure.</div><div class="ttdef"><b>Definition</b> fingerprint.c:508</div></div>
+<div class="ttc" id="afingerprint_8h_html_aad1f05a6bbac30c9f3ee6ebf1b03739f"><div class="ttname"><a href="#aad1f05a6bbac30c9f3ee6ebf1b03739f">PS_Search</a></div><div class="ttdeci">FingerprintPacket PS_Search</div><div class="ttdoc">Searches for a fingerprint match in the database.</div><div class="ttdef"><b>Definition</b> fingerprint.c:68</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md13"></a>
+4.3 Reading Responses</h3>
+<p>Use <code><a class="el" href="#a18e8b2af7dd860c312d730b5d1d30b7f" title="Reads the response packet from UART and returns a dynamically allocated FingerprintPacket.">fingerprint_read_response()</a></code> to retrieve the sensor’s response.</p>
+<div class="fragment"><div class="line"><a class="code hl_struct" href="struct_fingerprint_packet.html">FingerprintPacket</a> *response = <a class="code hl_function" href="#a18e8b2af7dd860c312d730b5d1d30b7f">fingerprint_read_response</a>();</div>
+<div class="line"><span class="keywordflow">if</span> (response) {</div>
+<div class="line">    ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Received status: 0x%02X&quot;</span>, response-&gt;<a class="code hl_variable" href="struct_fingerprint_packet.html#a5afd9daf69457c9b2588a5489905dc43">command</a>);</div>
+<div class="line">    free(response);  <span class="comment">// Free allocated memory</span></div>
+<div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a18e8b2af7dd860c312d730b5d1d30b7f"><div class="ttname"><a href="#a18e8b2af7dd860c312d730b5d1d30b7f">fingerprint_read_response</a></div><div class="ttdeci">FingerprintPacket * fingerprint_read_response(void)</div><div class="ttdoc">Reads the response packet from UART and returns a dynamically allocated FingerprintPacket.</div><div class="ttdef"><b>Definition</b> fingerprint.c:588</div></div>
+<div class="ttc" id="astruct_fingerprint_packet_html"><div class="ttname"><a href="struct_fingerprint_packet.html">FingerprintPacket</a></div><div class="ttdoc">Structure representing a command or response packet for the fingerprint module.</div><div class="ttdef"><b>Definition</b> fingerprint.h:216</div></div>
+<div class="ttc" id="astruct_fingerprint_packet_html_a5afd9daf69457c9b2588a5489905dc43"><div class="ttname"><a href="struct_fingerprint_packet.html#a5afd9daf69457c9b2588a5489905dc43">FingerprintPacket::command</a></div><div class="ttdeci">uint8_t command</div><div class="ttdef"><b>Definition</b> fingerprint.h:221</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md14"></a>
+4.4 Handling Events</h3>
+<p>The system maps fingerprint sensor status codes to higher-level events. <br  />
+ To handle events dynamically, register a callback function:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> my_event_handler(<a class="code hl_struct" href="structfingerprint__event__t.html">fingerprint_event_t</a> event) {</div>
+<div class="line">    ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Event: %d, Status: 0x%02X&quot;</span>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a15fc199bc56b30eae6653d50a4b270b2">type</a>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">status</a>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> app_main() {</div>
+<div class="line">    <a class="code hl_function" href="#a86d6b1d39068b909eee4faad5e006f16">register_fingerprint_event_handler</a>(my_event_handler);</div>
+<div class="line">}</div>
+<div class="ttc" id="afingerprint_8h_html_a86d6b1d39068b909eee4faad5e006f16"><div class="ttname"><a href="#a86d6b1d39068b909eee4faad5e006f16">register_fingerprint_event_handler</a></div><div class="ttdeci">void register_fingerprint_event_handler(void(*handler)(fingerprint_event_t))</div><div class="ttdoc">Function to register an event handler for fingerprint events.</div><div class="ttdef"><b>Definition</b> fingerprint.c:738</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a68654b05f39a5e88db0453de6f7fd726" name="a68654b05f39a5e88db0453de6f7fd726"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a68654b05f39a5e88db0453de6f7fd726">&#9670;&#160;</a></span>DEFAULT_BAUD_RATE</h2>
@@ -1190,7 +1271,7 @@ Event-driven System</h2>
 
 <p>Automatically enrolls a fingerprint template. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (ID number, number of entries, and additional settings) are dynamic and depend on the user's choice.</p>
-<h3><a class="anchor" id="autotoc_md7"></a>
+<h3><a class="anchor" id="autotoc_md17"></a>
 Parameters:</h3>
 <ul>
 <li><b>ID Number</b> (1 byte): The fingerprint ID to assign.</li>
@@ -1222,7 +1303,7 @@ Parameters:</h3>
 
 <p>Automatically identifies a fingerprint. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (score level and ID number) are dynamic.</p>
-<h3><a class="anchor" id="autotoc_md8"></a>
+<h3><a class="anchor" id="autotoc_md18"></a>
 Parameters:</h3>
 <ul>
 <li><b>Score Level</b> (1 byte): The threshold for matching accuracy.</li>
@@ -1254,7 +1335,7 @@ Parameters:</h3>
 <p>Erases the fingerprint sensor's firmware. </p>
 <p>Erases the module firmware and enters upgrade mode.</p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Upgrade Mode) is dynamic.</p>
-<h3><a class="anchor" id="autotoc_md11"></a>
+<h3><a class="anchor" id="autotoc_md21"></a>
 Parameters:</h3>
 <ul>
 <li><b>Upgrade Mode</b> (1 byte): Mode for firmware upgrade. </li>
@@ -1334,7 +1415,7 @@ Parameters:</h3>
 
 <p>Controls the fingerprint sensor's LED light mode. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Function, Start Color, End Color, Cycles) are dynamic.</p>
-<h3><a class="anchor" id="autotoc_md15"></a>
+<h3><a class="anchor" id="autotoc_md25"></a>
 Parameters:</h3>
 <ul>
 <li><b>Function</b> (1 byte): Specifies LED function.</li>
@@ -1756,7 +1837,7 @@ Parameters:</h3>
 
 <p>Reads the fingerprint template index table. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Page Number) is dynamic.</p>
-<h3><a class="anchor" id="autotoc_md18"></a>
+<h3><a class="anchor" id="autotoc_md28"></a>
 Parameters:</h3>
 <ul>
 <li><b>Page Number</b> (1 byte): Specifies which index table page to read. </li>
@@ -1812,7 +1893,7 @@ Parameters:</h3>
 
 <p>Reads data from the fingerprint sensor's notepad memory. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Page Number) is dynamic.</p>
-<h3><a class="anchor" id="autotoc_md14"></a>
+<h3><a class="anchor" id="autotoc_md24"></a>
 Parameters:</h3>
 <ul>
 <li><b>Page Number</b> (1 byte): Specifies which notepad page to read. </li>
@@ -1915,7 +1996,7 @@ Parameters:</h3>
 
 <p>Searches for a fingerprint match in the database. </p>
 <p>This packet structure should be overwritten using <a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a> because its parameters (Buffer ID, Start Page, and Number of Pages) are dynamic and depend on the user's or developer's choice.</p>
-<h3><a class="anchor" id="autotoc_md5"></a>
+<h3><a class="anchor" id="autotoc_md15"></a>
 Packet Structure:</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -1950,7 +2031,7 @@ Packet Structure:</h3>
 
 <p>Performs an immediate fingerprint search in the database. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Start Page, Number of Pages) are dynamic.</p>
-<h3><a class="anchor" id="autotoc_md16"></a>
+<h3><a class="anchor" id="autotoc_md26"></a>
 Parameters:</h3>
 <ul>
 <li><b>Start Page</b> (2 bytes): Page to start searching from.</li>
@@ -1981,7 +2062,7 @@ Parameters:</h3>
 
 <p>Searches for a fingerprint template in secure mode. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Buffer ID, Start Page, Number of Pages) are dynamic.</p>
-<h3><a class="anchor" id="autotoc_md10"></a>
+<h3><a class="anchor" id="autotoc_md20"></a>
 Parameters:</h3>
 <ul>
 <li><b>Buffer ID</b> (1 byte): Specifies which buffer to use.</li>
@@ -2013,7 +2094,7 @@ Parameters:</h3>
 
 <p>Securely stores a fingerprint template. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Buffer ID and Page ID) are dynamic.</p>
-<h3><a class="anchor" id="autotoc_md9"></a>
+<h3><a class="anchor" id="autotoc_md19"></a>
 Parameters:</h3>
 <ul>
 <li><b>Buffer ID</b> (1 byte): Specifies the template buffer (1 or 2).</li>
@@ -2068,7 +2149,7 @@ Parameters:</h3>
 
 <p>Sets a password for the fingerprint sensor. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Password) is user-defined.</p>
-<h3><a class="anchor" id="autotoc_md12"></a>
+<h3><a class="anchor" id="autotoc_md22"></a>
 Parameters:</h3>
 <ul>
 <li><b>Password</b> (4 bytes): The new password for sensor access. </li>
@@ -2122,7 +2203,7 @@ Parameters:</h3>
 
 <p>Stores a fingerprint template into the module’s database. </p>
 <p>This packet structure should be overwritten using <a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a> because its parameters (Buffer ID and Page ID) are dynamic and depend on the user's or developer's choice.</p>
-<h3><a class="anchor" id="autotoc_md6"></a>
+<h3><a class="anchor" id="autotoc_md16"></a>
 Packet Structure:</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2230,7 +2311,7 @@ Packet Structure:</h3>
 
 <p>Verifies the fingerprint sensor password. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Password) is user-defined.</p>
-<h3><a class="anchor" id="autotoc_md13"></a>
+<h3><a class="anchor" id="autotoc_md23"></a>
 Parameters:</h3>
 <ul>
 <li><b>Password</b> (4 bytes): The password to verify. </li>
@@ -2260,7 +2341,7 @@ Parameters:</h3>
 
 <p>Writes to the fingerprint module's system register. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Register Number, Value) are dynamic.</p>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 Parameters:</h3>
 <ul>
 <li><b>Register Number</b> (1 byte): Specifies which register to write to.</li>

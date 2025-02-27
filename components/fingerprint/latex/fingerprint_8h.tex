@@ -236,29 +236,48 @@ void \mbox{\hyperlink{fingerprint_8h_a2b019e6b09dcc91ad10bcb6c2784e360}{trigger\
 \doxysubsection{Detailed Description}
 Fingerprint sensor driver (ZW111) for ESP32. 
 
-\hypertarget{fingerprint_8h_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{1. Hardware Interface Description}{1. Hardware Interface Description}}\label{fingerprint_8h_autotoc_md0}
-\hypertarget{fingerprint_8h_autotoc_md1}{}\doxysubsubsubsection{\texorpdfstring{1.\+1 UART}{1.\+1 UART}}\label{fingerprint_8h_autotoc_md1}
+\hypertarget{fingerprint_8h_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{1. Introduction}{1. Introduction}}\label{fingerprint_8h_autotoc_md0}
+This driver provides an interface for the ZW111 fingerprint sensor, enabling fingerprint enrollment, matching, and template storage. It is designed for embedded systems using the ESP32 microcontroller, providing an event-\/driven architecture for efficient processing.\hypertarget{fingerprint_8h_autotoc_md1}{}\doxysubsubsubsection{\texorpdfstring{1.\+1 Supported Platforms}{1.\+1 Supported Platforms}}\label{fingerprint_8h_autotoc_md1}
+
+\begin{DoxyItemize}
+\item ESP32-\/based development boards
+\item ESP-\/\+IDF (Espressif IoT Development Framework)
+\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md2}{}\doxysubsubsubsection{\texorpdfstring{1.\+2 Compiler and Toolchain}{1.\+2 Compiler and Toolchain}}\label{fingerprint_8h_autotoc_md2}
+
+\begin{DoxyItemize}
+\item GCC (ESP32 toolchain)
+\item Compatible with ESP-\/\+IDF v4.\+x or later
+\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md3}{}\doxysubsubsubsection{\texorpdfstring{1.\+3 Dependencies}{1.\+3 Dependencies}}\label{fingerprint_8h_autotoc_md3}
+This driver requires the following ESP-\/\+IDF components\+:
+\begin{DoxyItemize}
+\item {\ttfamily esp\+\_\+log.\+h} – Logging utilities for debugging and event tracking
+\item {\ttfamily driver/uart.\+h} – UART driver for serial communication with the fingerprint module
+\item {\ttfamily esp\+\_\+err.\+h} – Standard ESP-\/\+IDF error handling
+\item {\ttfamily freertos/\+Free\+RTOS.\+h} and {\ttfamily freertos/task.\+h} – Free\+RTOS support for asynchronous processing
+\item {\ttfamily string.\+h} – Standard C library for string manipulation
+\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md4}{}\doxysubsubsubsection{\texorpdfstring{1.\+4 License}{1.\+4 License}}\label{fingerprint_8h_autotoc_md4}
+This driver is released under the MIT License. See the LICENSE file for details.\hypertarget{fingerprint_8h_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{2. Hardware Interface Description}{2. Hardware Interface Description}}\label{fingerprint_8h_autotoc_md5}
+\hypertarget{fingerprint_8h_autotoc_md6}{}\doxysubsubsubsection{\texorpdfstring{2.\+1 UART}{2.\+1 UART}}\label{fingerprint_8h_autotoc_md6}
 
 \begin{DoxyItemize}
 \item Default baud rate\+: 57600 bps (8 data bits, 1 stop bit, no parity)
 \item Baud rate adjustable\+: 9600 to 115200 bps
 \item Direct connection to MCU (3.\+3V) or use RS232 level converter for PC
-\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md2}{}\doxysubsubsubsection{\texorpdfstring{1.\+2 Power-\/on Sequence\+:}{1.\+2 Power-\/on Sequence\+:}}\label{fingerprint_8h_autotoc_md2}
+\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md7}{}\doxysubsubsubsection{\texorpdfstring{2.\+2 Power-\/on Sequence\+:}{2.\+2 Power-\/on Sequence\+:}}\label{fingerprint_8h_autotoc_md7}
 
 \begin{DoxyEnumerate}
 \item Host receives fingerprint module (FPM) interrupt wake-\/up signal.
 \item Host powers on Vmcu (MCU power supply) {\bfseries{before}} initializing UART.
 \item After communication completes, pull down serial signal lines {\bfseries{before}} powering off Vmcu.
-\end{DoxyEnumerate}\hypertarget{fingerprint_8h_autotoc_md3}{}\doxysubsubsubsection{\texorpdfstring{1.\+3 Connection}{1.\+3 Connection}}\label{fingerprint_8h_autotoc_md3}
+\end{DoxyEnumerate}\hypertarget{fingerprint_8h_autotoc_md8}{}\doxysubsubsubsection{\texorpdfstring{2.\+3 Connection}{2.\+3 Connection}}\label{fingerprint_8h_autotoc_md8}
 
 \begin{DoxyItemize}
 \item {\bfseries{TX}} → ESP32 GPIO17
 \item {\bfseries{RX}} → ESP32 GPIO16
 \item {\bfseries{VCC}} → 3.\+3V
 \item {\bfseries{GND}} → GND
-\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Event-\/driven System}{Event-\/driven System}}\label{fingerprint_8h_autotoc_md4}
-This system operates on an event-\/driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. The following events are generated based on the corresponding system actions.
-
+\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{3. Event-\/driven System}{3. Event-\/driven System}}\label{fingerprint_8h_autotoc_md9}
+This system operates on an event-\/driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. The following events are generated based on the corresponding system actions.\hypertarget{fingerprint_8h_autotoc_md10}{}\doxysubsubsubsection{\texorpdfstring{3.\+1 Event Handler}{3.\+1 Event Handler}}\label{fingerprint_8h_autotoc_md10}
 Event handler for processing fingerprint events.
 
 This function processes various fingerprint-\/related events and logs messages based on the event type. It can be used as a sample for handling fingerprint events in the application. The events are processed based on the {\ttfamily \doxylink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\+\_\+event\+\_\+type\+\_\+t}} enumeration, and corresponding messages are logged using the ESP-\/\+IDF logging system.
@@ -308,6 +327,71 @@ To use this function in the application, assign it to the global event handler {
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Unknown\ event\ triggered.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item \#\# 4. Usage Guide This section provides an overview of how to use the fingerprint library in an ESP-\/\+IDF project.
+\end{DoxyItemize}\hypertarget{fingerprint_8h_autotoc_md11}{}\doxysubsubsubsection{\texorpdfstring{4.\+1 Initialization}{4.\+1 Initialization}}\label{fingerprint_8h_autotoc_md11}
+Before sending commands, initialize the fingerprint module\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fingerprint_8h}{fingerprint.h}}"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ app\_main()\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\_init}}()\ ==\ ESP\_OK)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Module\ initialized."{}});}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{fingerprint_8h_autotoc_md12}{}\doxysubsubsubsection{\texorpdfstring{4.\+2 Sending Commands}{4.\+2 Sending Commands}}\label{fingerprint_8h_autotoc_md12}
+Use {\ttfamily \doxylink{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}{fingerprint\+\_\+send\+\_\+command()}} with predefined {\ttfamily PS\+\_\+\texorpdfstring{$\ast$}{*}} packets to communicate with the sensor.
+
+{\bfseries{Example\+: Capturing a fingerprint image}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}{fingerprint\_send\_command}}(\&\mbox{\hyperlink{fingerprint_8h_adaa0f83cf286650e928b5a4ed88ef1ae}{PS\_GetImage}},\ \mbox{\hyperlink{fingerprint_8h_a5d7dc57da1b15b90f236d89912b2d95a}{DEFAULT\_FINGERPRINT\_ADDRESS}});}
+
+\end{DoxyCode}
+
+
+{\bfseries{Example\+: Searching for a fingerprint}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\_Search}}.parameters[0]\ =\ 0x01;\ \ \textcolor{comment}{//\ Buffer\ ID}}
+\DoxyCodeLine{\mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\_Search}}.parameters[1]\ =\ 0x00;\ \ \textcolor{comment}{//\ Start\ Page}}
+\DoxyCodeLine{\mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\_Search}}.parameters[2]\ =\ 0x02;\ \ \textcolor{comment}{//\ Number\ of\ Pages}}
+\DoxyCodeLine{\mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\_Search}}.checksum\ =\ \mbox{\hyperlink{fingerprint_8h_a0d5b756311c0909b7f123085fb54e5b5}{fingerprint\_calculate\_checksum}}(\&\mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\_Search}});}
+\DoxyCodeLine{\mbox{\hyperlink{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}{fingerprint\_send\_command}}(\&\mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\_Search}},\ \mbox{\hyperlink{fingerprint_8h_a5d7dc57da1b15b90f236d89912b2d95a}{DEFAULT\_FINGERPRINT\_ADDRESS}});}
+
+\end{DoxyCode}
+\hypertarget{fingerprint_8h_autotoc_md13}{}\doxysubsubsubsection{\texorpdfstring{4.\+3 Reading Responses}{4.\+3 Reading Responses}}\label{fingerprint_8h_autotoc_md13}
+Use {\ttfamily \doxylink{fingerprint_8h_a18e8b2af7dd860c312d730b5d1d30b7f}{fingerprint\+\_\+read\+\_\+response()}} to retrieve the sensor’s response.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *response\ =\ \mbox{\hyperlink{fingerprint_8h_a18e8b2af7dd860c312d730b5d1d30b7f}{fingerprint\_read\_response}}();}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (response)\ \{}
+\DoxyCodeLine{\ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Received\ status:\ 0x\%02X"{}},\ response-\/>\mbox{\hyperlink{struct_fingerprint_packet_a5afd9daf69457c9b2588a5489905dc43}{command}});}
+\DoxyCodeLine{\ \ \ \ free(response);\ \ \textcolor{comment}{//\ Free\ allocated\ memory}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{fingerprint_8h_autotoc_md14}{}\doxysubsubsubsection{\texorpdfstring{4.\+4 Handling Events}{4.\+4 Handling Events}}\label{fingerprint_8h_autotoc_md14}
+The system maps fingerprint sensor status codes to higher-\/level events. ~\newline
+ To handle events dynamically, register a callback function\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ my\_event\_handler(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}\ event)\ \{}
+\DoxyCodeLine{\ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Event:\ \%d,\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}{type}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ app\_main()\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16}{register\_fingerprint\_event\_handler}}(my\_event\_handler);}
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
@@ -943,7 +1027,7 @@ This pointer is used to assign a function that will handle fingerprint-\/related
 
 Automatically enrolls a fingerprint template. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (ID number, number of entries, and additional settings) are dynamic and depend on the user\textquotesingle{}s choice.\hypertarget{fingerprint_8h_autotoc_md7}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md7}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (ID number, number of entries, and additional settings) are dynamic and depend on the user\textquotesingle{}s choice.\hypertarget{fingerprint_8h_autotoc_md17}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md17}
 
 \begin{DoxyItemize}
 \item {\bfseries{ID Number}} (1 byte)\+: The fingerprint ID to assign.
@@ -959,7 +1043,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 
 Automatically identifies a fingerprint. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (score level and ID number) are dynamic.\hypertarget{fingerprint_8h_autotoc_md8}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md8}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (score level and ID number) are dynamic.\hypertarget{fingerprint_8h_autotoc_md18}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md18}
 
 \begin{DoxyItemize}
 \item {\bfseries{Score Level}} (1 byte)\+: The threshold for matching accuracy.
@@ -976,7 +1060,7 @@ Erases the fingerprint sensor\textquotesingle{}s firmware.
 
 Erases the module firmware and enters upgrade mode.
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Upgrade Mode) is dynamic.\hypertarget{fingerprint_8h_autotoc_md11}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md11}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Upgrade Mode) is dynamic.\hypertarget{fingerprint_8h_autotoc_md21}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md21}
 
 \begin{DoxyItemize}
 \item {\bfseries{Upgrade Mode}} (1 byte)\+: Mode for firmware upgrade. 
@@ -1010,7 +1094,7 @@ This command has no parameters. \Hypertarget{fingerprint_8h_a8fe0e76ceb799b2fc34
 
 Controls the fingerprint sensor\textquotesingle{}s LED light mode. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Function, Start Color, End Color, Cycles) are dynamic.\hypertarget{fingerprint_8h_autotoc_md15}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md15}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Function, Start Color, End Color, Cycles) are dynamic.\hypertarget{fingerprint_8h_autotoc_md25}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md25}
 
 \begin{DoxyItemize}
 \item {\bfseries{Function}} (1 byte)\+: Specifies LED function.
@@ -1187,7 +1271,7 @@ Matches two fingerprint templates stored in RAM.
 
 Reads the fingerprint template index table. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Page Number) is dynamic.\hypertarget{fingerprint_8h_autotoc_md18}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md18}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Page Number) is dynamic.\hypertarget{fingerprint_8h_autotoc_md28}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md28}
 
 \begin{DoxyItemize}
 \item {\bfseries{Page Number}} (1 byte)\+: Specifies which index table page to read. 
@@ -1213,7 +1297,7 @@ This command has no parameters. \Hypertarget{fingerprint_8h_ace4f99c616f2c9a5a61
 
 Reads data from the fingerprint sensor\textquotesingle{}s notepad memory. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Page Number) is dynamic.\hypertarget{fingerprint_8h_autotoc_md14}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md14}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Page Number) is dynamic.\hypertarget{fingerprint_8h_autotoc_md24}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md24}
 
 \begin{DoxyItemize}
 \item {\bfseries{Page Number}} (1 byte)\+: Specifies which notepad page to read. 
@@ -1257,7 +1341,7 @@ This command has no parameters. \Hypertarget{fingerprint_8h_aad1f05a6bbac30c9f3e
 
 Searches for a fingerprint match in the database. 
 
-This packet structure should be overwritten using \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()} because its parameters (Buffer ID, Start Page, and Number of Pages) are dynamic and depend on the user\textquotesingle{}s or developer\textquotesingle{}s choice.\hypertarget{fingerprint_8h_autotoc_md5}{}\doxysubsubsubsection{\texorpdfstring{Packet Structure\+:}{Packet Structure\+:}}\label{fingerprint_8h_autotoc_md5}
+This packet structure should be overwritten using \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()} because its parameters (Buffer ID, Start Page, and Number of Pages) are dynamic and depend on the user\textquotesingle{}s or developer\textquotesingle{}s choice.\hypertarget{fingerprint_8h_autotoc_md15}{}\doxysubsubsubsection{\texorpdfstring{Packet Structure\+:}{Packet Structure\+:}}\label{fingerprint_8h_autotoc_md15}
 \tabulinesep=1mm
 \begin{longtabu}spread 0pt [c]{*{7}{|X[-1]}|}
 \hline
@@ -1281,7 +1365,7 @@ This packet structure should be overwritten using \doxylink{fingerprint_8h_aa621
 
 Performs an immediate fingerprint search in the database. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Start Page, Number of Pages) are dynamic.\hypertarget{fingerprint_8h_autotoc_md16}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md16}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Start Page, Number of Pages) are dynamic.\hypertarget{fingerprint_8h_autotoc_md26}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md26}
 
 \begin{DoxyItemize}
 \item {\bfseries{Start Page}} (2 bytes)\+: Page to start searching from.
@@ -1296,7 +1380,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 
 Searches for a fingerprint template in secure mode. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Buffer ID, Start Page, Number of Pages) are dynamic.\hypertarget{fingerprint_8h_autotoc_md10}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md10}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Buffer ID, Start Page, Number of Pages) are dynamic.\hypertarget{fingerprint_8h_autotoc_md20}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md20}
 
 \begin{DoxyItemize}
 \item {\bfseries{Buffer ID}} (1 byte)\+: Specifies which buffer to use.
@@ -1312,7 +1396,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 
 Securely stores a fingerprint template. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Buffer ID and Page ID) are dynamic.\hypertarget{fingerprint_8h_autotoc_md9}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md9}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Buffer ID and Page ID) are dynamic.\hypertarget{fingerprint_8h_autotoc_md19}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md19}
 
 \begin{DoxyItemize}
 \item {\bfseries{Buffer ID}} (1 byte)\+: Specifies the template buffer (1 or 2).
@@ -1337,7 +1421,7 @@ Sets the fingerprint scanner\textquotesingle{}s device address.
 
 Sets a password for the fingerprint sensor. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Password) is user-\/defined.\hypertarget{fingerprint_8h_autotoc_md12}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md12}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Password) is user-\/defined.\hypertarget{fingerprint_8h_autotoc_md22}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md22}
 
 \begin{DoxyItemize}
 \item {\bfseries{Password}} (4 bytes)\+: The new password for sensor access. 
@@ -1361,7 +1445,7 @@ Puts the fingerprint module into sleep mode.
 
 Stores a fingerprint template into the module’s database. 
 
-This packet structure should be overwritten using \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()} because its parameters (Buffer ID and Page ID) are dynamic and depend on the user\textquotesingle{}s or developer\textquotesingle{}s choice.\hypertarget{fingerprint_8h_autotoc_md6}{}\doxysubsubsubsection{\texorpdfstring{Packet Structure\+:}{Packet Structure\+:}}\label{fingerprint_8h_autotoc_md6}
+This packet structure should be overwritten using \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()} because its parameters (Buffer ID and Page ID) are dynamic and depend on the user\textquotesingle{}s or developer\textquotesingle{}s choice.\hypertarget{fingerprint_8h_autotoc_md16}{}\doxysubsubsubsection{\texorpdfstring{Packet Structure\+:}{Packet Structure\+:}}\label{fingerprint_8h_autotoc_md16}
 \tabulinesep=1mm
 \begin{longtabu}spread 0pt [c]{*{7}{|X[-1]}|}
 \hline
@@ -1415,7 +1499,7 @@ Retrieves the number of valid fingerprint templates stored in the module.
 
 Verifies the fingerprint sensor password. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Password) is user-\/defined.\hypertarget{fingerprint_8h_autotoc_md13}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md13}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameter (Password) is user-\/defined.\hypertarget{fingerprint_8h_autotoc_md23}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md23}
 
 \begin{DoxyItemize}
 \item {\bfseries{Password}} (4 bytes)\+: The password to verify. 
@@ -1429,7 +1513,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 
 Writes to the fingerprint module\textquotesingle{}s system register. 
 
-This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Register Number, Value) are dynamic.\hypertarget{fingerprint_8h_autotoc_md17}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md17}
+This packet structure should be overwritten using {\ttfamily \doxylink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command()}} because its parameters (Register Number, Value) are dynamic.\hypertarget{fingerprint_8h_autotoc_md27}{}\doxysubsubsubsection{\texorpdfstring{Parameters\+:}{Parameters\+:}}\label{fingerprint_8h_autotoc_md27}
 
 \begin{DoxyItemize}
 \item {\bfseries{Register Number}} (1 byte)\+: Specifies which register to write to.

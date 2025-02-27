@@ -2,28 +2,52 @@
  * @file fingerprint.h
  * @brief Fingerprint sensor driver (ZW111) for ESP32
  *
- * ## 1. Hardware Interface Description
- * ### 1.1 UART
+ * ## 1. Introduction
+ * This driver provides an interface for the ZW111 fingerprint sensor, enabling fingerprint 
+ * enrollment, matching, and template storage. It is designed for embedded systems using the 
+ * ESP32 microcontroller, providing an event-driven architecture for efficient processing.
+ *
+ * ### 1.1 Supported Platforms
+ * - ESP32-based development boards
+ * - ESP-IDF (Espressif IoT Development Framework)
+ *
+ * ### 1.2 Compiler and Toolchain
+ * - GCC (ESP32 toolchain)
+ * - Compatible with ESP-IDF v4.x or later
+ *
+ * ### 1.3 Dependencies
+ * This driver requires the following ESP-IDF components:
+ * - `esp_log.h` – Logging utilities for debugging and event tracking
+ * - `driver/uart.h` – UART driver for serial communication with the fingerprint module
+ * - `esp_err.h` – Standard ESP-IDF error handling
+ * - `freertos/FreeRTOS.h` and `freertos/task.h` – FreeRTOS support for asynchronous processing
+ * - `string.h` – Standard C library for string manipulation
+ *
+ * ### 1.4 License
+ * This driver is released under the MIT License. See the LICENSE file for details.
+ *
+ * ## 2. Hardware Interface Description
+ * ### 2.1 UART
  * - Default baud rate: 57600 bps (8 data bits, 1 stop bit, no parity)
  * - Baud rate adjustable: 9600 to 115200 bps
  * - Direct connection to MCU (3.3V) or use RS232 level converter for PC
  * 
- * ### 1.2 Power-on Sequence:
+ * ### 2.2 Power-on Sequence:
  * 1. Host receives fingerprint module (FPM) interrupt wake-up signal.
  * 2. Host powers on Vmcu (MCU power supply) **before** initializing UART.
  * 3. After communication completes, pull down serial signal lines **before** powering off Vmcu.
  * 
- * ### 1.3 Connection
+ * ### 2.3 Connection
  * - **TX** → ESP32 GPIO17
  * - **RX** → ESP32 GPIO16
  * - **VCC** → 3.3V
  * - **GND** → GND
  *
- * ## Event-driven System
+ * ## 3. Event-driven System
  * This system operates on an event-driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. 
  * The following events are generated based on the corresponding system actions.
- * 
  *
+ * ### 3.1 Event Handler
  * @brief Event handler for processing fingerprint events.
  *
  * This function processes various fingerprint-related events and logs messages 
@@ -73,7 +97,66 @@
  *     }
  * }
  * @endcode
+ * 
+ *  * ## 4. Usage Guide
+ * This section provides an overview of how to use the fingerprint library in an ESP-IDF project.
+ *
+ * ### 4.1 Initialization
+ * Before sending commands, initialize the fingerprint module:
+ *
+ * @code
+ * #include "fingerprint.h"
+ *
+ * void app_main() {
+ *     if (fingerprint_init() == ESP_OK) {
+ *         ESP_LOGI("Fingerprint", "Module initialized.");
+ *     }
+ * }
+ * @endcode
+ *
+ * ### 4.2 Sending Commands
+ * Use `fingerprint_send_command()` with predefined `PS_*` packets to communicate with the sensor.
+ *
+ * **Example: Capturing a fingerprint image**
+ * @code
+ * fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
+ * @endcode
+ *
+ * **Example: Searching for a fingerprint**
+ * @code
+ * PS_Search.parameters[0] = 0x01;  // Buffer ID
+ * PS_Search.parameters[1] = 0x00;  // Start Page
+ * PS_Search.parameters[2] = 0x02;  // Number of Pages
+ * PS_Search.checksum = fingerprint_calculate_checksum(&PS_Search);
+ * fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
+ * @endcode
+ *
+ * ### 4.3 Reading Responses
+ * Use `fingerprint_read_response()` to retrieve the sensor’s response.
+ *
+ * @code
+ * FingerprintPacket *response = fingerprint_read_response();
+ * if (response) {
+ *     ESP_LOGI("Fingerprint", "Received status: 0x%02X", response->command);
+ *     free(response);  // Free allocated memory
+ * }
+ * @endcode
+ *
+ * ### 4.4 Handling Events
+ * The system maps fingerprint sensor status codes to higher-level events.  
+ * To handle events dynamically, register a callback function:
+ *
+ * @code
+ * void my_event_handler(fingerprint_event_t event) {
+ *     ESP_LOGI("Fingerprint", "Event: %d, Status: 0x%02X", event.type, event.status);
+ * }
+ *
+ * void app_main() {
+ *     register_fingerprint_event_handler(my_event_handler);
+ * }
+ * @endcode
  */
+
 
  #ifndef FINGERPRINT_H
  #define FINGERPRINT_H
