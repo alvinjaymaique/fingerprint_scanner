@@ -706,12 +706,14 @@ void fingerprint_status_event_handler(fingerprint_status_t status);
  esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address);
  
  
- /**
-  * @brief Reads the response packet from UART and returns a dynamically allocated FingerprintPacket.
-  *
-  * @return Pointer to the received FingerprintPacket, or NULL on failure.
-  *         The caller is responsible for freeing the allocated memory using `free()`.
-  */
+/**
+ * @brief Reads the response packet from UART and returns a dynamically allocated FingerprintPacket.
+ *
+ * @note The caller is responsible for freeing the allocated memory using `free()`
+ *       after processing the response to avoid memory leaks.
+ *
+ * @return Pointer to the received FingerprintPacket, or NULL on failure.
+ */
  FingerprintPacket* fingerprint_read_response(void);
  
  /**

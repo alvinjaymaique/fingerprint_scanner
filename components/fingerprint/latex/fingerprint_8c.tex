@@ -265,8 +265,11 @@ ESP\+\_\+\+OK on success, error code otherwise.
 
 Reads the response packet from UART and returns a dynamically allocated \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}. 
 
+\begin{DoxyNote}{Note}
+The caller is responsible for freeing the allocated memory using {\ttfamily free()} after processing the response to avoid memory leaks.
+\end{DoxyNote}
 \begin{DoxyReturn}{Returns}
-Pointer to the received \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}, or NULL on failure. The caller is responsible for freeing the allocated memory using {\ttfamily free()}. 
+Pointer to the received \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}, or NULL on failure. 
 \end{DoxyReturn}
 \texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.
 
