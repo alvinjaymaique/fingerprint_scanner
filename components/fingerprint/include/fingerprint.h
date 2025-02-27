@@ -23,8 +23,6 @@
  * - `freertos/FreeRTOS.h` and `freertos/task.h` – FreeRTOS support for asynchronous processing
  * - `string.h` – Standard C library for string manipulation
  *
- * ### 1.4 License
- * This driver is released under the MIT License. See the LICENSE file for details.
  *
  * ## 2. Hardware Interface Description
  * ### 2.1 UART
