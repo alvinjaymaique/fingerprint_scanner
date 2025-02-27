@@ -18,7 +18,7 @@ var fingerprint_8c =
     [ "max", "fingerprint_8c.html#a6134c859d385b972b7c0716784a20a2d", null ],
     [ "min", "fingerprint_8c.html#a5777230ba3f52101f5caf39a070f2aeb", null ],
     [ "register_fingerprint_event_handler", "fingerprint_8c.html#acdb139ac079afac098d142b4cf7a8b7f", null ],
-    [ "trigger_fingerprint_event", "fingerprint_8c.html#af94c8bea84a1e0b7efff92d7c3a2624f", null ],
+    [ "trigger_fingerprint_event", "fingerprint_8c.html#a2b019e6b09dcc91ad10bcb6c2784e360", null ],
     [ "baud_rate", "fingerprint_8c.html#a784e73e1ce3f90fbcbb0a78d72a053ff", null ],
     [ "g_fingerprint_event_handler", "fingerprint_8c.html#ac1bc88ca9eeff4bcae8ac419f8653c07", null ],
     [ "PS_AutoEnroll", "fingerprint_8c.html#a14662050a710495e6c9125a02ee17fd5", null ],

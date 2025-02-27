@@ -124,6 +124,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure representing a command or response packet for the fingerprint module.  <a href="struct_fingerprint_packet.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfingerprint__event__t.html">fingerprint_event_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure representing a fingerprint event.  <a href="structfingerprint__event__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
@@ -150,7 +153,7 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a658eb2a1aea7e912aabef713b69d6789" id="r_a658eb2a1aea7e912aabef713b69d6789"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a658eb2a1aea7e912aabef713b69d6789">fingerprint_event_handler_t</a>) (<a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a> event)</td></tr>
+<tr class="memitem:a658eb2a1aea7e912aabef713b69d6789" id="r_a658eb2a1aea7e912aabef713b69d6789"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a658eb2a1aea7e912aabef713b69d6789">fingerprint_event_handler_t</a>) (<a class="el" href="structfingerprint__event__t.html">fingerprint_event_t</a> event)</td></tr>
 <tr class="memdesc:a658eb2a1aea7e912aabef713b69d6789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for the fingerprint event handler callback.  <br /></td></tr>
 <tr class="separator:a658eb2a1aea7e912aabef713b69d6789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -224,28 +227,28 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a4fa0db2c9622e0d4cbaa1e1c64c16364"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fingerprint sensor status codes.  <a href="#a4fa0db2c9622e0d4cbaa1e1c64c16364">More...</a><br /></td></tr>
 <tr class="separator:a4fa0db2c9622e0d4cbaa1e1c64c16364"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5124f307680e5a9210e3cfc06566d5a" id="r_ae5124f307680e5a9210e3cfc06566d5a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a> { <br />
-&#160;&#160;<a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a>
-, <a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a>
-, <a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a>
-, <a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a>
+<tr class="memitem:a6a07f45ee6da95e2ccbcbb0e0699f5ae" id="r_a6a07f45ee6da95e2ccbcbb0e0699f5ae"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae">fingerprint_event_type_t</a> { <br />
+&#160;&#160;<a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a>
+, <a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a>
+, <a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a>
+, <a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a>
 , <br />
-&#160;&#160;<a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a>
-, <a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a>
-, <a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aa7ba4dbb06dfd6e55e77531a98e45382a">EVENT_IMAGE_FAIL</a>
-, <a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aad081bd29ae5c73e876ada30fba4aa662">EVENT_FEATURE_EXTRACT_FAIL</a>
+&#160;&#160;<a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a>
+, <a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a>
+, <a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea7ba4dbb06dfd6e55e77531a98e45382a">EVENT_IMAGE_FAIL</a>
+, <a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aead081bd29ae5c73e876ada30fba4aa662">EVENT_FEATURE_EXTRACT_FAIL</a>
 , <br />
-&#160;&#160;<a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aa8ac0d84de03764aaacb0d296b7aaeb19">EVENT_DB_FULL</a>
-, <a class="el" href="#ae5124f307680e5a9210e3cfc06566d5aab213512d60aa61fb662ae5ceaa26a791">EVENT_SENSOR_ERROR</a>
+&#160;&#160;<a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea8ac0d84de03764aaacb0d296b7aaeb19">EVENT_DB_FULL</a>
+, <a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeab213512d60aa61fb662ae5ceaa26a791">EVENT_SENSOR_ERROR</a>
 <br />
  }</td></tr>
-<tr class="memdesc:ae5124f307680e5a9210e3cfc06566d5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to define various fingerprint events.  <a href="#ae5124f307680e5a9210e3cfc06566d5a">More...</a><br /></td></tr>
-<tr class="separator:ae5124f307680e5a9210e3cfc06566d5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a6a07f45ee6da95e2ccbcbb0e0699f5ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to define various fingerprint events.  <a href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae">More...</a><br /></td></tr>
+<tr class="separator:a6a07f45ee6da95e2ccbcbb0e0699f5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a7db574152ca5af75df9adf2da5504a8e" id="r_a7db574152ca5af75df9adf2da5504a8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7db574152ca5af75df9adf2da5504a8e">fingerprint_status_event_handler</a> (<a class="el" href="#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> status)</td></tr>
-<tr class="memdesc:a7db574152ca5af75df9adf2da5504a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event handler for the fingerprint sensor status.  <br /></td></tr>
+<tr class="memdesc:a7db574152ca5af75df9adf2da5504a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles fingerprint status events and triggers corresponding high-level events.  <br /></td></tr>
 <tr class="separator:a7db574152ca5af75df9adf2da5504a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a759d58795c9a87a5d2fa233e52e5d580" id="r_a759d58795c9a87a5d2fa233e52e5d580"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a759d58795c9a87a5d2fa233e52e5d580">fingerprint_init</a> (void)</td></tr>
 <tr class="memdesc:a759d58795c9a87a5d2fa233e52e5d580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the fingerprint scanner.  <br /></td></tr>
@@ -280,12 +283,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a0b31fe5ffffcc895863a47bd7000c337" id="r_a0b31fe5ffffcc895863a47bd7000c337"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b31fe5ffffcc895863a47bd7000c337">fingerprint_set_baudrate</a> (int baud)</td></tr>
 <tr class="memdesc:a0b31fe5ffffcc895863a47bd7000c337"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the baud rate for fingerprint module communication.  <br /></td></tr>
 <tr class="separator:a0b31fe5ffffcc895863a47bd7000c337"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86d6b1d39068b909eee4faad5e006f16" id="r_a86d6b1d39068b909eee4faad5e006f16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86d6b1d39068b909eee4faad5e006f16">register_fingerprint_event_handler</a> (void(*handler)(<a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a>))</td></tr>
+<tr class="memitem:a86d6b1d39068b909eee4faad5e006f16" id="r_a86d6b1d39068b909eee4faad5e006f16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86d6b1d39068b909eee4faad5e006f16">register_fingerprint_event_handler</a> (void(*handler)(<a class="el" href="structfingerprint__event__t.html">fingerprint_event_t</a>))</td></tr>
 <tr class="memdesc:a86d6b1d39068b909eee4faad5e006f16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to register an event handler for fingerprint events.  <br /></td></tr>
 <tr class="separator:a86d6b1d39068b909eee4faad5e006f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af94c8bea84a1e0b7efff92d7c3a2624f" id="r_af94c8bea84a1e0b7efff92d7c3a2624f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af94c8bea84a1e0b7efff92d7c3a2624f">trigger_fingerprint_event</a> (<a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a> event)</td></tr>
-<tr class="memdesc:af94c8bea84a1e0b7efff92d7c3a2624f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to trigger a fingerprint event.  <br /></td></tr>
-<tr class="separator:af94c8bea84a1e0b7efff92d7c3a2624f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b019e6b09dcc91ad10bcb6c2784e360" id="r_a2b019e6b09dcc91ad10bcb6c2784e360"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b019e6b09dcc91ad10bcb6c2784e360">trigger_fingerprint_event</a> (<a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae">fingerprint_event_type_t</a> event_type, <a class="el" href="#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> status)</td></tr>
+<tr class="memdesc:a2b019e6b09dcc91ad10bcb6c2784e360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers a fingerprint event and processes it.  <br /></td></tr>
+<tr class="separator:a2b019e6b09dcc91ad10bcb6c2784e360"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -446,7 +449,7 @@ Variables</h2></td></tr>
 Event-driven System</h2>
 <p>This system operates on an event-driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. The following events are generated based on the corresponding system actions.</p>
 <p>Event handler for processing fingerprint events.</p>
-<p>This function processes various fingerprint-related events and logs messages based on the event type. It can be used as a sample for handling fingerprint events in the application. The events are processed based on the <code><a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a" title="Enum to define various fingerprint events.">fingerprint_event_t</a></code> enumeration, and corresponding messages are logged using the ESP-IDF logging system.</p>
+<p>This function processes various fingerprint-related events and logs messages based on the event type. It can be used as a sample for handling fingerprint events in the application. The events are processed based on the <code><a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae" title="Enum to define various fingerprint events.">fingerprint_event_type_t</a></code> enumeration, and corresponding messages are logged using the ESP-IDF logging system.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">event</td><td>The fingerprint event that occurred. This can be one of the following:<ul>
@@ -464,38 +467,40 @@ Event-driven System</h2>
 <p>This function logs the corresponding message for each event. It can be modified or extended as needed for custom event handling in the application.</p>
 <dl class="section note"><dt>Note</dt><dd>To use this function in the application, assign it to the global event handler <code>g_fingerprint_event_handler</code> in the <code>app_main.c</code>.</dd></dl>
 <div class="fragment"><div class="line"><span class="comment">// Sample code for event handler</span></div>
-<div class="line"><span class="keywordtype">void</span> handle_fingerprint_event(<a class="code hl_enumeration" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a> event) {</div>
-<div class="line">    <span class="keywordflow">switch</span> (event) {</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a>:</div>
-<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Finger detected!&quot;</span>);</div>
+<div class="line"><span class="keywordtype">void</span> handle_fingerprint_event(<a class="code hl_struct" href="structfingerprint__event__t.html">fingerprint_event_t</a> event) {</div>
+<div class="line">    <span class="keywordflow">switch</span> (event.<a class="code hl_variable" href="structfingerprint__event__t.html#a15fc199bc56b30eae6653d50a4b270b2">type</a>) {</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a>:</div>
+<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Finger detected! Status: 0x%02X&quot;</span>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">status</a>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a>:</div>
-<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Fingerprint image captured successfully!&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a>:</div>
+<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Fingerprint image captured successfully! Status: 0x%02X&quot;</span>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">status</a>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a>:</div>
-<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Fingerprint features extracted successfully!&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a>:</div>
+<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Fingerprint features extracted successfully! Status: 0x%02X&quot;</span>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">status</a>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a>:</div>
-<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Fingerprint match successful!&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a>:</div>
+<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Fingerprint match successful! Status: 0x%02X&quot;</span>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">status</a>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a>:</div>
-<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Fingerprint mismatch.&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a>:</div>
+<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Fingerprint mismatch. Status: 0x%02X&quot;</span>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">status</a>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
-<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a>:</div>
-<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;An error occurred during fingerprint processing.&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a>:</div>
+<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;An error occurred during fingerprint processing. Status: 0x%02X&quot;</span>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">status</a>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">        <span class="keywordflow">default</span>:</div>
-<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Unknown event triggered.&quot;</span>);</div>
+<div class="line">            ESP_LOGI(<span class="stringliteral">&quot;Fingerprint&quot;</span>, <span class="stringliteral">&quot;Unknown event triggered. Status: 0x%02X&quot;</span>, event.<a class="code hl_variable" href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">status</a>);</div>
 <div class="line">            <span class="keywordflow">break</span>;</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a></div><div class="ttdeci">fingerprint_event_t</div><div class="ttdoc">Enum to define various fingerprint events.</div><div class="ttdef"><b>Definition</b> fingerprint.h:791</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a></div><div class="ttdeci">@ EVENT_FEATURE_EXTRACTED</div><div class="ttdoc">Event triggered when fingerprint features are successfully extracted.</div><div class="ttdef"><b>Definition</b> fingerprint.h:811</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a></div><div class="ttdeci">@ EVENT_FINGER_DETECTED</div><div class="ttdoc">Event triggered when a finger is detected.</div><div class="ttdef"><b>Definition</b> fingerprint.h:797</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a></div><div class="ttdeci">@ EVENT_ERROR</div><div class="ttdoc">A general error event, used for unexpected failures.</div><div class="ttdef"><b>Definition</b> fingerprint.h:832</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a></div><div class="ttdeci">@ EVENT_MATCH_FAIL</div><div class="ttdoc">Event triggered when a fingerprint mismatch occurs.</div><div class="ttdef"><b>Definition</b> fingerprint.h:825</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a></div><div class="ttdeci">@ EVENT_IMAGE_CAPTURED</div><div class="ttdoc">Event triggered when a fingerprint image is captured successfully.</div><div class="ttdef"><b>Definition</b> fingerprint.h:804</div></div>
-<div class="ttc" id="afingerprint_8h_html_ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6"><div class="ttname"><a href="#ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a></div><div class="ttdeci">@ EVENT_MATCH_SUCCESS</div><div class="ttdoc">Event triggered when a fingerprint match is successful.</div><div class="ttdef"><b>Definition</b> fingerprint.h:818</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b">EVENT_FEATURE_EXTRACTED</a></div><div class="ttdeci">@ EVENT_FEATURE_EXTRACTED</div><div class="ttdoc">Event triggered when fingerprint features are successfully extracted.</div><div class="ttdef"><b>Definition</b> fingerprint.h:812</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b">EVENT_FINGER_DETECTED</a></div><div class="ttdeci">@ EVENT_FINGER_DETECTED</div><div class="ttdoc">Event triggered when a finger is detected.</div><div class="ttdef"><b>Definition</b> fingerprint.h:798</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a">EVENT_ERROR</a></div><div class="ttdeci">@ EVENT_ERROR</div><div class="ttdoc">A general error event, used for unexpected failures.</div><div class="ttdef"><b>Definition</b> fingerprint.h:833</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63">EVENT_MATCH_FAIL</a></div><div class="ttdeci">@ EVENT_MATCH_FAIL</div><div class="ttdoc">Event triggered when a fingerprint mismatch occurs.</div><div class="ttdef"><b>Definition</b> fingerprint.h:826</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9">EVENT_IMAGE_CAPTURED</a></div><div class="ttdeci">@ EVENT_IMAGE_CAPTURED</div><div class="ttdoc">Event triggered when a fingerprint image is captured successfully.</div><div class="ttdef"><b>Definition</b> fingerprint.h:805</div></div>
+<div class="ttc" id="afingerprint_8h_html_a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6"><div class="ttname"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6">EVENT_MATCH_SUCCESS</a></div><div class="ttdeci">@ EVENT_MATCH_SUCCESS</div><div class="ttdoc">Event triggered when a fingerprint match is successful.</div><div class="ttdef"><b>Definition</b> fingerprint.h:819</div></div>
+<div class="ttc" id="astructfingerprint__event__t_html"><div class="ttname"><a href="structfingerprint__event__t.html">fingerprint_event_t</a></div><div class="ttdoc">Structure representing a fingerprint event.</div><div class="ttdef"><b>Definition</b> fingerprint.h:870</div></div>
+<div class="ttc" id="astructfingerprint__event__t_html_a15fc199bc56b30eae6653d50a4b270b2"><div class="ttname"><a href="structfingerprint__event__t.html#a15fc199bc56b30eae6653d50a4b270b2">fingerprint_event_t::type</a></div><div class="ttdeci">fingerprint_event_type_t type</div><div class="ttdef"><b>Definition</b> fingerprint.h:871</div></div>
+<div class="ttc" id="astructfingerprint__event__t_html_a4ee37a20269bfe63d726a010ab9447a7"><div class="ttname"><a href="structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7">fingerprint_event_t::status</a></div><div class="ttdeci">fingerprint_status_t status</div><div class="ttdef"><b>Definition</b> fingerprint.h:872</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a68654b05f39a5e88db0453de6f7fd726" name="a68654b05f39a5e88db0453de6f7fd726"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a68654b05f39a5e88db0453de6f7fd726">&#9670;&#160;</a></span>DEFAULT_BAUD_RATE</h2>
@@ -617,16 +622,16 @@ Event-driven System</h2>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* fingerprint_event_handler_t) (<a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a> event)</td>
+          <td class="memname">typedef void(* fingerprint_event_handler_t) (<a class="el" href="structfingerprint__event__t.html">fingerprint_event_t</a> event)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Typedef for the fingerprint event handler callback. </p>
-<p>This type is used to define a function pointer for handling fingerprint-related events. The function pointed to by the callback should take a single parameter of type <code><a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a" title="Enum to define various fingerprint events.">fingerprint_event_t</a></code>, representing the specific event that occurred.</p>
+<p>This type is used to define a function pointer for handling fingerprint-related events. The function pointed to by the callback should take a single parameter of type <code><a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae" title="Enum to define various fingerprint events.">fingerprint_event_type_t</a></code>, representing the specific event that occurred.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">event</td><td>The fingerprint event that occurred. This is an enumeration value of type <code><a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a" title="Enum to define various fingerprint events.">fingerprint_event_t</a></code>. </td></tr>
+    <tr><td class="paramname">event</td><td>The fingerprint event that occurred. This is an enumeration value of type <code><a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae" title="Enum to define various fingerprint events.">fingerprint_event_type_t</a></code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -634,14 +639,14 @@ Event-driven System</h2>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ae5124f307680e5a9210e3cfc06566d5a" name="ae5124f307680e5a9210e3cfc06566d5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5124f307680e5a9210e3cfc06566d5a">&#9670;&#160;</a></span>fingerprint_event_t</h2>
+<a id="a6a07f45ee6da95e2ccbcbb0e0699f5ae" name="a6a07f45ee6da95e2ccbcbb0e0699f5ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae">&#9670;&#160;</a></span>fingerprint_event_type_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a></td>
+          <td class="memname">enum <a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae">fingerprint_event_type_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -651,34 +656,34 @@ Event-driven System</h2>
 <p>Each event is triggered when a certain action or error occurs, making it easier for the application to respond to changes in the system state.</p>
 <dl class="section note"><dt>Note</dt><dd>The event codes are used in an event handler system where functions can subscribe and react to specific events. </dd></dl>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b" name="ae5124f307680e5a9210e3cfc06566d5aa603fb16ec367104f40d98dea5d710e2b"></a>EVENT_FINGER_DETECTED&#160;</td><td class="fielddoc"><p>Event triggered when a finger is detected. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b" name="a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b"></a>EVENT_FINGER_DETECTED&#160;</td><td class="fielddoc"><p>Event triggered when a finger is detected. </p>
 <p>Indicates that a finger has been placed on the fingerprint scanner. Finger detected </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9" name="ae5124f307680e5a9210e3cfc06566d5aaeaeb81c0ee77f9345d3b965abc2387f9"></a>EVENT_IMAGE_CAPTURED&#160;</td><td class="fielddoc"><p>Event triggered when a fingerprint image is captured successfully. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9" name="a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9"></a>EVENT_IMAGE_CAPTURED&#160;</td><td class="fielddoc"><p>Event triggered when a fingerprint image is captured successfully. </p>
 <p>Indicates that the fingerprint sensor has successfully captured an image. Image captured </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b" name="ae5124f307680e5a9210e3cfc06566d5aa1f5eb993d59aba8c41d37b86320efc1b"></a>EVENT_FEATURE_EXTRACTED&#160;</td><td class="fielddoc"><p>Event triggered when fingerprint features are successfully extracted. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b" name="a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b"></a>EVENT_FEATURE_EXTRACTED&#160;</td><td class="fielddoc"><p>Event triggered when fingerprint features are successfully extracted. </p>
 <p>This event is generated after the sensor extracts features from the fingerprint image. Feature extraction completed </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6" name="ae5124f307680e5a9210e3cfc06566d5aafaa6b739c7ab8f0f0120f4697cc3a9e6"></a>EVENT_MATCH_SUCCESS&#160;</td><td class="fielddoc"><p>Event triggered when a fingerprint match is successful. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6" name="a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6"></a>EVENT_MATCH_SUCCESS&#160;</td><td class="fielddoc"><p>Event triggered when a fingerprint match is successful. </p>
 <p>Indicates that a fingerprint match has been found in the database. Fingerprint matched </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63" name="ae5124f307680e5a9210e3cfc06566d5aac16d33bd72e724f022d365db1ea16e63"></a>EVENT_MATCH_FAIL&#160;</td><td class="fielddoc"><p>Event triggered when a fingerprint mismatch occurs. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63" name="a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63"></a>EVENT_MATCH_FAIL&#160;</td><td class="fielddoc"><p>Event triggered when a fingerprint mismatch occurs. </p>
 <p>Occurs when no matching fingerprint is found in the database. Fingerprint mismatch </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a" name="ae5124f307680e5a9210e3cfc06566d5aaa45fa5ecff86270d410d4c89c527898a"></a>EVENT_ERROR&#160;</td><td class="fielddoc"><p>A general error event, used for unexpected failures. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a" name="a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a"></a>EVENT_ERROR&#160;</td><td class="fielddoc"><p>A general error event, used for unexpected failures. </p>
 <p>This event signifies a general failure in the fingerprint system. General error </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aa7ba4dbb06dfd6e55e77531a98e45382a" name="ae5124f307680e5a9210e3cfc06566d5aa7ba4dbb06dfd6e55e77531a98e45382a"></a>EVENT_IMAGE_FAIL&#160;</td><td class="fielddoc"><p>Event triggered when the fingerprint image capture fails. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aea7ba4dbb06dfd6e55e77531a98e45382a" name="a6a07f45ee6da95e2ccbcbb0e0699f5aea7ba4dbb06dfd6e55e77531a98e45382a"></a>EVENT_IMAGE_FAIL&#160;</td><td class="fielddoc"><p>Event triggered when the fingerprint image capture fails. </p>
 <p>This event corresponds to the status <code>FINGERPRINT_IMAGE_FAIL</code>. Image capture failure (FINGERPRINT_IMAGE_FAIL) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aad081bd29ae5c73e876ada30fba4aa662" name="ae5124f307680e5a9210e3cfc06566d5aad081bd29ae5c73e876ada30fba4aa662"></a>EVENT_FEATURE_EXTRACT_FAIL&#160;</td><td class="fielddoc"><p>Event triggered when feature extraction fails. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aead081bd29ae5c73e876ada30fba4aa662" name="a6a07f45ee6da95e2ccbcbb0e0699f5aead081bd29ae5c73e876ada30fba4aa662"></a>EVENT_FEATURE_EXTRACT_FAIL&#160;</td><td class="fielddoc"><p>Event triggered when feature extraction fails. </p>
 <p>This event corresponds to the status <code>FINGERPRINT_TOO_FEW_POINTS</code>. Feature extraction failure (FINGERPRINT_TOO_FEW_POINTS) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aa8ac0d84de03764aaacb0d296b7aaeb19" name="ae5124f307680e5a9210e3cfc06566d5aa8ac0d84de03764aaacb0d296b7aaeb19"></a>EVENT_DB_FULL&#160;</td><td class="fielddoc"><p>Event triggered when the fingerprint database is full. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aea8ac0d84de03764aaacb0d296b7aaeb19" name="a6a07f45ee6da95e2ccbcbb0e0699f5aea8ac0d84de03764aaacb0d296b7aaeb19"></a>EVENT_DB_FULL&#160;</td><td class="fielddoc"><p>Event triggered when the fingerprint database is full. </p>
 <p>This event corresponds to the status <code>FINGERPRINT_DB_FULL</code>. Database full (FINGERPRINT_DB_FULL) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae5124f307680e5a9210e3cfc06566d5aab213512d60aa61fb662ae5ceaa26a791" name="ae5124f307680e5a9210e3cfc06566d5aab213512d60aa61fb662ae5ceaa26a791"></a>EVENT_SENSOR_ERROR&#160;</td><td class="fielddoc"><p>Event triggered when there is a sensor operation failure. </p>
+<tr><td class="fieldname"><a id="a6a07f45ee6da95e2ccbcbb0e0699f5aeab213512d60aa61fb662ae5ceaa26a791" name="a6a07f45ee6da95e2ccbcbb0e0699f5aeab213512d60aa61fb662ae5ceaa26a791"></a>EVENT_SENSOR_ERROR&#160;</td><td class="fielddoc"><p>Event triggered when there is a sensor operation failure. </p>
 <p>This event corresponds to the status <code>FINGERPRINT_SENSOR_OP_FAIL</code>. Sensor operation failure (FINGERPRINT_SENSOR_OP_FAIL) </p>
 </td></tr>
 </table>
@@ -1135,11 +1140,11 @@ Event-driven System</h2>
       </table>
 </div><div class="memdoc">
 
-<p>Event handler for the fingerprint sensor status. </p>
-<p>This function triggers a high-level event based on the received fingerprint status.</p>
+<p>Handles fingerprint status events and triggers corresponding high-level events. </p>
+<p>This function maps low-level fingerprint status codes to high-level events and triggers them using the event handler.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">status</td><td>The current fingerprint status code. </td></tr>
+    <tr><td class="paramname">status</td><td>The fingerprint status received from the sensor. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1155,7 +1160,7 @@ Event-driven System</h2>
         <tr>
           <td class="memname">void register_fingerprint_event_handler </td>
           <td>(</td>
-          <td class="paramtype">void(*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a>)</td><td>)</td>
+          <td class="paramtype">void(*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="structfingerprint__event__t.html">fingerprint_event_t</a>)</td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1172,8 +1177,8 @@ Event-driven System</h2>
 
 </div>
 </div>
-<a id="af94c8bea84a1e0b7efff92d7c3a2624f" name="af94c8bea84a1e0b7efff92d7c3a2624f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af94c8bea84a1e0b7efff92d7c3a2624f">&#9670;&#160;</a></span>trigger_fingerprint_event()</h2>
+<a id="a2b019e6b09dcc91ad10bcb6c2784e360" name="a2b019e6b09dcc91ad10bcb6c2784e360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b019e6b09dcc91ad10bcb6c2784e360">&#9670;&#160;</a></span>trigger_fingerprint_event()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1181,20 +1186,26 @@ Event-driven System</h2>
         <tr>
           <td class="memname">void trigger_fingerprint_event </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a></td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a6a07f45ee6da95e2ccbcbb0e0699f5ae">fingerprint_event_type_t</a></td>          <td class="paramname"><span class="paramname"><em>event_type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a></td>          <td class="paramname"><span class="paramname"><em>status</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Function to trigger a fingerprint event. </p>
-<p>This function is called to trigger a specific fingerprint event. It will invoke the registered event handler (if any) with the specified event.</p>
+<p>Triggers a fingerprint event and processes it. </p>
+<p>This function initializes a fingerprint event structure with the given event type and status, then passes it to the event handler.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">event</td><td>The fingerprint event to trigger. </td></tr>
+    <tr><td class="paramname">event_type</td><td>The high-level event type to trigger. </td></tr>
+    <tr><td class="paramname">status</td><td>The original fingerprint status that caused the event. </td></tr>
   </table>
   </dd>
 </dl>
+<p>&lt; Call the registered event handler.</p>
 
 </div>
 </div>

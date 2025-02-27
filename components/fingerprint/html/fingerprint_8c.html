@@ -168,14 +168,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a907879b40b181a5643873afad0d96952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes a stored fingerprint.  <br /></td></tr>
 <tr class="separator:a907879b40b181a5643873afad0d96952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7db574152ca5af75df9adf2da5504a8e" id="r_a7db574152ca5af75df9adf2da5504a8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7db574152ca5af75df9adf2da5504a8e">fingerprint_status_event_handler</a> (<a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> status)</td></tr>
-<tr class="memdesc:a7db574152ca5af75df9adf2da5504a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event handler for the fingerprint sensor status.  <br /></td></tr>
+<tr class="memdesc:a7db574152ca5af75df9adf2da5504a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles fingerprint status events and triggers corresponding high-level events.  <br /></td></tr>
 <tr class="separator:a7db574152ca5af75df9adf2da5504a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdb139ac079afac098d142b4cf7a8b7f" id="r_acdb139ac079afac098d142b4cf7a8b7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdb139ac079afac098d142b4cf7a8b7f">register_fingerprint_event_handler</a> (<a class="el" href="fingerprint_8h.html#a658eb2a1aea7e912aabef713b69d6789">fingerprint_event_handler_t</a> handler)</td></tr>
 <tr class="memdesc:acdb139ac079afac098d142b4cf7a8b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to register an event handler for fingerprint events.  <br /></td></tr>
 <tr class="separator:acdb139ac079afac098d142b4cf7a8b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af94c8bea84a1e0b7efff92d7c3a2624f" id="r_af94c8bea84a1e0b7efff92d7c3a2624f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af94c8bea84a1e0b7efff92d7c3a2624f">trigger_fingerprint_event</a> (<a class="el" href="fingerprint_8h.html#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a> event)</td></tr>
-<tr class="memdesc:af94c8bea84a1e0b7efff92d7c3a2624f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to trigger a fingerprint event.  <br /></td></tr>
-<tr class="separator:af94c8bea84a1e0b7efff92d7c3a2624f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b019e6b09dcc91ad10bcb6c2784e360" id="r_a2b019e6b09dcc91ad10bcb6c2784e360"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b019e6b09dcc91ad10bcb6c2784e360">trigger_fingerprint_event</a> (<a class="el" href="fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5ae">fingerprint_event_type_t</a> event_type, <a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> status)</td></tr>
+<tr class="memdesc:a2b019e6b09dcc91ad10bcb6c2784e360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers a fingerprint event and processes it.  <br /></td></tr>
+<tr class="separator:a2b019e6b09dcc91ad10bcb6c2784e360"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -679,11 +679,11 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Event handler for the fingerprint sensor status. </p>
-<p>This function triggers a high-level event based on the received fingerprint status.</p>
+<p>Handles fingerprint status events and triggers corresponding high-level events. </p>
+<p>This function maps low-level fingerprint status codes to high-level events and triggers them using the event handler.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">status</td><td>The current fingerprint status code. </td></tr>
+    <tr><td class="paramname">status</td><td>The fingerprint status received from the sensor. </td></tr>
   </table>
   </dd>
 </dl>
@@ -777,7 +777,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void register_fingerprint_event_handler </td>
           <td>(</td>
-          <td class="paramtype">void(*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="fingerprint_8h.html#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a>)</td><td>)</td>
+          <td class="paramtype">void(*</td>          <td class="paramname"><span class="paramname"><em>handler&#160;</em></span>)(<a class="el" href="structfingerprint__event__t.html">fingerprint_event_t</a>)</td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -794,8 +794,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="af94c8bea84a1e0b7efff92d7c3a2624f" name="af94c8bea84a1e0b7efff92d7c3a2624f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af94c8bea84a1e0b7efff92d7c3a2624f">&#9670;&#160;</a></span>trigger_fingerprint_event()</h2>
+<a id="a2b019e6b09dcc91ad10bcb6c2784e360" name="a2b019e6b09dcc91ad10bcb6c2784e360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b019e6b09dcc91ad10bcb6c2784e360">&#9670;&#160;</a></span>trigger_fingerprint_event()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -803,20 +803,26 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void trigger_fingerprint_event </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="fingerprint_8h.html#ae5124f307680e5a9210e3cfc06566d5a">fingerprint_event_t</a></td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5ae">fingerprint_event_type_t</a></td>          <td class="paramname"><span class="paramname"><em>event_type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a></td>          <td class="paramname"><span class="paramname"><em>status</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Function to trigger a fingerprint event. </p>
-<p>This function is called to trigger a specific fingerprint event. It will invoke the registered event handler (if any) with the specified event.</p>
+<p>Triggers a fingerprint event and processes it. </p>
+<p>This function initializes a fingerprint event structure with the given event type and status, then passes it to the event handler.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">event</td><td>The fingerprint event to trigger. </td></tr>
+    <tr><td class="paramname">event_type</td><td>The high-level event type to trigger. </td></tr>
+    <tr><td class="paramname">status</td><td>The original fingerprint status that caused the event. </td></tr>
   </table>
   </dd>
 </dl>
+<p>&lt; Call the registered event handler.</p>
 
 </div>
 </div>

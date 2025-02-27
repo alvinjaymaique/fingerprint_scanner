@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tx_5fpin_0',['tx_pin',['../fingerprint_8c.html#a10401260df6ab61a4519575c27d3e5c7',1,'fingerprint.c']]]
+  ['status_0',['status',['../structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7',1,'fingerprint_event_t']]]
 ];
