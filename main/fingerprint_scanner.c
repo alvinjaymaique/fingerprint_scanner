@@ -30,7 +30,7 @@ void app_main(void)
         printf("Failed to send combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerprint model.\n");
         return;
     }
-    trigger_fingerprint_event(EVENT_FINGER_DETECTED);
+    // trigger_fingerprint_event(EVENT_FINGER_DETECTED, FINGERPRINT_OK);
 
     FingerprintPacket* response = fingerprint_read_response();
     fingerprint_status_t status = fingerprint_get_status(response);
@@ -40,27 +40,27 @@ void app_main(void)
 
 // Sample code for event handler
 void handle_fingerprint_event(fingerprint_event_t event) {
-    switch (event) {
+    switch (event.type) {
         case EVENT_FINGER_DETECTED:
-            ESP_LOGI("Fingerprint", "Finger detected!");
+            ESP_LOGI("Fingerprint", "Finger detected! Status: 0x%02X", event.status);
             break;
         case EVENT_IMAGE_CAPTURED:
-            ESP_LOGI("Fingerprint", "Fingerprint image captured successfully!");
+            ESP_LOGI("Fingerprint", "Fingerprint image captured successfully! Status: 0x%02X", event.status);
             break;
         case EVENT_FEATURE_EXTRACTED:
-            ESP_LOGI("Fingerprint", "Fingerprint features extracted successfully!");
+            ESP_LOGI("Fingerprint", "Fingerprint features extracted successfully! Status: 0x%02X", event.status);
             break;
         case EVENT_MATCH_SUCCESS:
-            ESP_LOGI("Fingerprint", "Fingerprint match successful!");
+            ESP_LOGI("Fingerprint", "Fingerprint match successful! Status: 0x%02X", event.status);
             break;
         case EVENT_MATCH_FAIL:
-            ESP_LOGI("Fingerprint", "Fingerprint mismatch.");
+            ESP_LOGI("Fingerprint", "Fingerprint mismatch. Status: 0x%02X", event.status);
             break;
         case EVENT_ERROR:
-            ESP_LOGI("Fingerprint", "An error occurred during fingerprint processing.");
+            ESP_LOGI("Fingerprint", "An error occurred during fingerprint processing. Status: 0x%02X", event.status);
             break;
         default:
-            ESP_LOGI("Fingerprint", "Unknown event triggered.");
+            ESP_LOGI("Fingerprint", "Unknown event triggered. Status: 0x%02X", event.status);
             break;
     }
 }

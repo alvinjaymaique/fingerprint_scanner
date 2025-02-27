@@ -28,7 +28,7 @@
  *
  * This function processes various fingerprint-related events and logs messages 
  * based on the event type. It can be used as a sample for handling fingerprint events 
- * in the application. The events are processed based on the `fingerprint_event_t` 
+ * in the application. The events are processed based on the `fingerprint_event_type_t` 
  * enumeration, and corresponding messages are logged using the ESP-IDF logging system.
  *
  * @param event The fingerprint event that occurred. This can be one of the following:
@@ -47,7 +47,7 @@
  *
  * @code
  * // Sample code for event handler
- * void handle_fingerprint_event(fingerprint_event_t event) {
+ * void handle_fingerprint_event(fingerprint_event_type_t event) {
  *     switch (event) {
  *         case EVENT_FINGER_DETECTED:
  *             ESP_LOGI("Fingerprint", "Finger detected!");
@@ -644,12 +644,13 @@ extern FingerprintPacket PS_ReadIndexTable;
  
  } fingerprint_status_t;
 
- /**
- * @brief Event handler for the fingerprint sensor status.
- *
- * This function triggers a high-level event based on the received fingerprint status.
- *
- * @param status The current fingerprint status code.
+/**
+ * @brief Handles fingerprint status events and triggers corresponding high-level events.
+ * 
+ * This function maps low-level fingerprint status codes to high-level events and 
+ * triggers them using the event handler.
+ * 
+ * @param status The fingerprint status received from the sensor.
  */
 void fingerprint_status_event_handler(fingerprint_status_t status);
  
@@ -858,16 +859,27 @@ void fingerprint_status_event_handler(fingerprint_status_t status);
       * This event corresponds to the status `FINGERPRINT_SENSOR_OP_FAIL`.
       */
      EVENT_SENSOR_ERROR              /**< Sensor operation failure (FINGERPRINT_SENSOR_OP_FAIL) */
- } fingerprint_event_t;
+ } fingerprint_event_type_t;
+
+ /**
+ * @brief Structure representing a fingerprint event.
+ * 
+ * This structure contains the high-level event type and the original
+ * fingerprint status that triggered the event.
+ */
+typedef struct {
+    fingerprint_event_type_t type;  /**< The high-level fingerprint event type. */
+    fingerprint_status_t status;    /**< The original fingerprint status code. */
+} fingerprint_event_t;
  
  /**
   * @brief Typedef for the fingerprint event handler callback.
   *
   * This type is used to define a function pointer for handling fingerprint-related events.
-  * The function pointed to by the callback should take a single parameter of type `fingerprint_event_t`,
+  * The function pointed to by the callback should take a single parameter of type `fingerprint_event_type_t`,
   * representing the specific event that occurred.
   *
-  * @param event The fingerprint event that occurred. This is an enumeration value of type `fingerprint_event_t`.
+  * @param event The fingerprint event that occurred. This is an enumeration value of type `fingerprint_event_type_t`.
   */
  typedef void (*fingerprint_event_handler_t)(fingerprint_event_t event);
  
@@ -891,15 +903,16 @@ void fingerprint_status_event_handler(fingerprint_status_t status);
   */
  void register_fingerprint_event_handler(void (*handler)(fingerprint_event_t));
  
- /**
-  * @brief Function to trigger a fingerprint event.
-  * 
-  * This function is called to trigger a specific fingerprint event. It will invoke
-  * the registered event handler (if any) with the specified event.
-  * 
-  * @param event The fingerprint event to trigger.
-  */
- void trigger_fingerprint_event(fingerprint_event_t event);
+/**
+ * @brief Triggers a fingerprint event and processes it.
+ * 
+ * This function initializes a fingerprint event structure with the given 
+ * event type and status, then passes it to the event handler.
+ * 
+ * @param event_type The high-level event type to trigger.
+ * @param status The original fingerprint status that caused the event.
+ */
+void trigger_fingerprint_event(fingerprint_event_type_t event_type, fingerprint_status_t status);
  
  #ifdef __cplusplus
  }
