@@ -174,7 +174,7 @@
   * @brief Default UART pins (modifiable at runtime).
   */
  #define DEFAULT_TX_PIN 17
- #define DEFAULT_RX_PIN 16
+ #define DEFAULT_RX_PIN 18
  
  /**
   * @brief Default fingerprint module header identifier.

@@ -4,10 +4,11 @@
 #include "esp_err.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "driver/gpio.h"
 #include <string.h>
 
 #define TAG "FINGERPRINT"
-#define UART_NUM UART_NUM_2  // Change based on your wiring
+#define UART_NUM UART_NUM_1  // Change based on your wiring
 #define RX_BUF_SIZE 128  // Adjust based on fingerprint module response
 
 static int tx_pin = DEFAULT_TX_PIN; // Default TX pin
@@ -478,31 +479,39 @@ static inline uint16_t max(uint16_t a, uint16_t b) {
 
 esp_err_t fingerprint_init(void) {
     ESP_LOGI(TAG, "Initializing fingerprint scanner...");
-    PS_GenChar1.parameters[0] = FINGERPRINT_PACKET_ID_CMD; // Buffer ID 1
-    PS_GenChar2.parameters[0] = 0x02; // Buffer ID 2
+
+    // UART configuration
     uart_config_t uart_config = {
-        .baud_rate = 57600,  // Adjust based on your fingerprint module
+        .baud_rate = baud_rate,  // Use provided DEFAULT_BAUD_RATE
         .data_bits = UART_DATA_8_BITS,
         .parity = UART_PARITY_DISABLE,
         .stop_bits = UART_STOP_BITS_1,
         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
     };
-    esp_err_t err; 
-    err = uart_driver_install(UART_NUM, RX_BUF_SIZE * 2, 0, 0, NULL, 0);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to install UART driver");
-        return err;
-    }
+
+    esp_err_t err;
+
+    // Configure UART
     err = uart_param_config(UART_NUM, &uart_config);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to configure UART");
         return err;
     }
-    err = uart_set_pin(UART_NUM, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+
+    // Set UART pins
+    err = uart_set_pin(UART_NUM, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE); 
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to set UART pins");
         return err;
     }
+
+    // Install UART driver
+    err = uart_driver_install(UART_NUM, RX_BUF_SIZE * 2, 0, 0, NULL, 0);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to install UART driver");
+        return err;
+    }
+
     ESP_LOGI(TAG, "Fingerprint scanner initialized successfully.");
     return ESP_OK;
 }

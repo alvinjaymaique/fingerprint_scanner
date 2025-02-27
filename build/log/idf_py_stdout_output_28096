@@ -1,0 +1,235 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x8 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (27) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Feb 27 2025 13:14:36[0m
+[0;32mI (27) boot: Multicore bootloader[0m
+[0;32mI (27) boot: chip revision: v0.2[0m
+[0;32mI (30) boot: efuse block revision: v1.3[0m
+[0;32mI (34) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (38) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (41) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (45) boot: Enabling RNG early entropy source...[0m
+[0;32mI (50) boot: Partition Table:[0m
+[0;32mI (52) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (59) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (65) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (72) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b9f0h ( 47600) map[0m
+[0;32mI (97) esp_image: segment 1: paddr=0001ba18 vaddr=3fc93600 size=02a70h ( 10864) load[0m
+[0;32mI (100) esp_image: segment 2: paddr=0001e490 vaddr=40374000 size=01b88h (  7048) load[0m
+[0;32mI (105) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1ae90h (110224) map[0m
+[0;32mI (131) esp_image: segment 4: paddr=0003aeb8 vaddr=40375b88 size=0da10h ( 55824) load[0m
+[0;32mI (143) esp_image: segment 5: paddr=000488d0 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (149) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (149) boot: Disabling RNG early entropy source...[0m
+[0;32mI (161) cpu_start: Multicore app[0m
+[0;32mI (170) cpu_start: Pro cpu start user code[0m
+[0;32mI (170) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (170) app_init: Application information:[0m
+[0;32mI (170) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (175) app_init: App version:      8e7936f-dirty[0m
+[0;32mI (180) app_init: Compile time:     Feb 27 2025 13:14:30[0m
+[0;32mI (185) app_init: ELF file SHA256:  7e1390325...[0m
+[0;32mI (189) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (193) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (197) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (201) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (205) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (211) heap_init: At 3FC96940 len 00052DD0 (331 KiB): RAM[0m
+[0;32mI (216) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (222) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (227) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;32mI (233) spi_flash: detected chip: gd[0m
+[0;32mI (235) spi_flash: flash io: dio[0m
+[0;33mW (238) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (251) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (257) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (264) main_task: Started on CPU0[0m
+[0;32mI (284) main_task: Calling app_main()[0m
+[0;32mI (284) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (284) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (284) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (294) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (304) FINGERPRINT: GetImage command sent successfully.[0m
+[0;32mI (304) main_task: Returned from app_main()[0m
+[1;31mE (1304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (1304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (1304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (1304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (2304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (2304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (2304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (3304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (3304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (3304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (3304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (4304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (4304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (4304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (5304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (5304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (5304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (5304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (6304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (6304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (6304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (7304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (7304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (7304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (7304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (8304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (8304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (8304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (9304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (9304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (9304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (9304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (10304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (10304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (10304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (11304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (11304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (11304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (11304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (12304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (12304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (12304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (13304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (13304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (13304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (13304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (14304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (14304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (14304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (15304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (15304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (15304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (15304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (16304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (16304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (16304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (17304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (17304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (17304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (17304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (18304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (18304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (18304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (19304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (19304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (19304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (19304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (20304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (20304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (20304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (21304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (21304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (21304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (21304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (22304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (22304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (22304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (23304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (23304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (23304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (23304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (24304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (24304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (24304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (25304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (25304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (25304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (25304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (26304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (26304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (26304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (27304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (27304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (27304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (27304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (28304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (28304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (28304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (29304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (29304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (29304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (29304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (30304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (30304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (30304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (31304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (31304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (31304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (31304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (32304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (32304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (32304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (33304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (33304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (33304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (33304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (34304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (34304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (34304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (35304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (35304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (35304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (35304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (36304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (36304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (36304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (37304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (37304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (37304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (37304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (38304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (38304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (38304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (39304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (39304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (39304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (39304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (40304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (40304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (40304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (41304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (41304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (41304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (41304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (42304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (42304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (42304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (43304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (43304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (43304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (43304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (44304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (44304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (44304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (45304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (45304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (45304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (45304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (46304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (46304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (46304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (47304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (47304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (47304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (47304) Fingerprint: Failed to read response from fingerprint module[0m
+[0;32mI (48304) FINGERPRINT: Attempting to send GetImage command...[0m
+[0;32mI (48304) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (48304) FINGERPRINT: GetImage command sent successfully.[0m
+[1;31mE (49304) Fingerprint: Failed to read data from UART[0m
+[0;32mI (49304) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (49304) Fingerprint: Unknown event triggered. Status: 0x29[0m
+[1;31mE (49304) Fingerprint: Failed to read response from fingerprint module[0m
