@@ -136,12 +136,6 @@ esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7c
 \begin{DoxyCompactList}\small\item\em Reads the response packet from UART and returns a dynamically allocated \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \mbox{\hyperlink{fingerprint_8h_a20092401e8301669fc2d595f02dc433d}{fingerprint\+\_\+get\+\_\+status}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}packet)
 \begin{DoxyCompactList}\small\item\em Get the status of the fingerprint operation from the response packet. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \mbox{\hyperlink{fingerprint_8h_a9f8428752fbef75d23833bfd50411091}{fingerprint\+\_\+scan}} (void)
-\begin{DoxyCompactList}\small\item\em Scans for a fingerprint and returns the status. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a511e826c0481490ea7eafe369a219291}{fingerprint\+\_\+enroll}} (int id)
-\begin{DoxyCompactList}\small\item\em Enrolls a fingerprint. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a907879b40b181a5643873afad0d96952}{fingerprint\+\_\+delete}} (int id)
-\begin{DoxyCompactList}\small\item\em Deletes a stored fingerprint. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a}{fingerprint\+\_\+set\+\_\+pins}} (int tx, int rx)
 \begin{DoxyCompactList}\small\item\em Sets the UART TX and RX pins for the fingerprint sensor. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8h_a0b31fe5ffffcc895863a47bd7000c337}{fingerprint\+\_\+set\+\_\+baudrate}} (int baud)
@@ -707,42 +701,6 @@ The checksum is the sum of all bytes from packet\+\_\+id to parameters.
 \begin{DoxyReturn}{Returns}
 The computed checksum. 
 \end{DoxyReturn}
-\Hypertarget{fingerprint_8h_a907879b40b181a5643873afad0d96952}\index{fingerprint.h@{fingerprint.h}!fingerprint\_delete@{fingerprint\_delete}}
-\index{fingerprint\_delete@{fingerprint\_delete}!fingerprint.h@{fingerprint.h}}
-\doxysubsubsection{\texorpdfstring{fingerprint\_delete()}{fingerprint\_delete()}}
-{\footnotesize\ttfamily \label{fingerprint_8h_a907879b40b181a5643873afad0d96952} 
-esp\+\_\+err\+\_\+t fingerprint\+\_\+delete (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
-
-
-
-Deletes a stored fingerprint. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em id} & ID of the fingerprint to delete. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-ESP\+\_\+\+OK on success, error code otherwise. 
-\end{DoxyReturn}
-\Hypertarget{fingerprint_8h_a511e826c0481490ea7eafe369a219291}\index{fingerprint.h@{fingerprint.h}!fingerprint\_enroll@{fingerprint\_enroll}}
-\index{fingerprint\_enroll@{fingerprint\_enroll}!fingerprint.h@{fingerprint.h}}
-\doxysubsubsection{\texorpdfstring{fingerprint\_enroll()}{fingerprint\_enroll()}}
-{\footnotesize\ttfamily \label{fingerprint_8h_a511e826c0481490ea7eafe369a219291} 
-esp\+\_\+err\+\_\+t fingerprint\+\_\+enroll (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
-
-
-
-Enrolls a fingerprint. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em id} & ID of the fingerprint to enroll. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-ESP\+\_\+\+OK on success, error code otherwise. 
-\end{DoxyReturn}
 \Hypertarget{fingerprint_8h_a20092401e8301669fc2d595f02dc433d}\index{fingerprint.h@{fingerprint.h}!fingerprint\_get\_status@{fingerprint\_get\_status}}
 \index{fingerprint\_get\_status@{fingerprint\_get\_status}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_get\_status()}{fingerprint\_get\_status()}}
@@ -794,22 +752,7 @@ Pointer to the received \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet
 \end{DoxyReturn}
 \texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.
 
-\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\Hypertarget{fingerprint_8h_a9f8428752fbef75d23833bfd50411091}\index{fingerprint.h@{fingerprint.h}!fingerprint\_scan@{fingerprint\_scan}}
-\index{fingerprint\_scan@{fingerprint\_scan}!fingerprint.h@{fingerprint.h}}
-\doxysubsubsection{\texorpdfstring{fingerprint\_scan()}{fingerprint\_scan()}}
-{\footnotesize\ttfamily \label{fingerprint_8h_a9f8428752fbef75d23833bfd50411091} 
-\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} fingerprint\+\_\+scan (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
-
-
-
-Scans for a fingerprint and returns the status. 
-
-This function sends a scan command to the fingerprint module, waits for a response, and maps the received status code to the corresponding \doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} value.
-
-\begin{DoxyReturn}{Returns}
-\doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} The status of the fingerprint scan. 
-\end{DoxyReturn}
-\Hypertarget{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}\index{fingerprint.h@{fingerprint.h}!fingerprint\_send\_command@{fingerprint\_send\_command}}
+\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\Hypertarget{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}\index{fingerprint.h@{fingerprint.h}!fingerprint\_send\_command@{fingerprint\_send\_command}}
 \index{fingerprint\_send\_command@{fingerprint\_send\_command}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_send\_command()}{fingerprint\_send\_command()}}
 {\footnotesize\ttfamily \label{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb} 
@@ -919,7 +862,22 @@ void fingerprint\+\_\+status\+\_\+event\+\_\+handler (\begin{DoxyParamCaption}\i
 
 Handles fingerprint status events and triggers corresponding high-\/level events. 
 
-This function maps low-\/level fingerprint status codes to high-\/level events and triggers them using the event handler.
+This function processes status codes received from the fingerprint module and maps them to predefined high-\/level fingerprint events. These events help notify the application about the outcome of fingerprint operations.
+
+The following status codes and their corresponding events are handled\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily FINGERPRINT\+\_\+\+OK} → {\ttfamily EVENT\+\_\+\+FINGER\+\_\+\+DETECTED}
+\item {\ttfamily FINGERPRINT\+\_\+\+NO\+\_\+\+FINGER} → {\ttfamily EVENT\+\_\+\+IMAGE\+\_\+\+CAPTURED}
+\item {\ttfamily FINGERPRINT\+\_\+\+IMAGE\+\_\+\+FAIL}, {\ttfamily FINGERPRINT\+\_\+\+TOO\+\_\+\+DRY}, {\ttfamily FINGERPRINT\+\_\+\+TOO\+\_\+\+WET}, {\ttfamily FINGERPRINT\+\_\+\+TOO\+\_\+\+CHAOTIC}, {\ttfamily FINGERPRINT\+\_\+\+UPLOAD\+\_\+\+IMAGE\+\_\+\+FAIL}, {\ttfamily FINGERPRINT\+\_\+\+IMAGE\+\_\+\+AREA\+\_\+\+SMALL}, {\ttfamily FINGERPRINT\+\_\+\+IMAGE\+\_\+\+NOT\+\_\+\+AVAILABLE} → {\ttfamily EVENT\+\_\+\+IMAGE\+\_\+\+FAIL}
+\item {\ttfamily FINGERPRINT\+\_\+\+TOO\+\_\+\+FEW\+\_\+\+POINTS} → {\ttfamily EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACT\+\_\+\+FAIL}
+\item {\ttfamily FINGERPRINT\+\_\+\+MISMATCH}, {\ttfamily FINGERPRINT\+\_\+\+NOT\+\_\+\+FOUND} → {\ttfamily EVENT\+\_\+\+MATCH\+\_\+\+FAIL}
+\item {\ttfamily FINGERPRINT\+\_\+\+DB\+\_\+\+FULL} → {\ttfamily EVENT\+\_\+\+DB\+\_\+\+FULL}
+\item {\ttfamily FINGERPRINT\+\_\+\+TIMEOUT} → {\ttfamily EVENT\+\_\+\+ERROR}
+\item Various sensor operation failures → {\ttfamily EVENT\+\_\+\+SENSOR\+\_\+\+ERROR}
+\item Other unexpected statuses → {\ttfamily EVENT\+\_\+\+ERROR}
+\end{DoxyItemize}
 
 
 \begin{DoxyParams}{Parameters}

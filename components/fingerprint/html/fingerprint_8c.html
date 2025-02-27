@@ -158,15 +158,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a20092401e8301669fc2d595f02dc433d" id="r_a20092401e8301669fc2d595f02dc433d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20092401e8301669fc2d595f02dc433d">fingerprint_get_status</a> (<a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *packet)</td></tr>
 <tr class="memdesc:a20092401e8301669fc2d595f02dc433d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the status of the fingerprint operation from the response packet.  <br /></td></tr>
 <tr class="separator:a20092401e8301669fc2d595f02dc433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f8428752fbef75d23833bfd50411091" id="r_a9f8428752fbef75d23833bfd50411091"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f8428752fbef75d23833bfd50411091">fingerprint_scan</a> (void)</td></tr>
-<tr class="memdesc:a9f8428752fbef75d23833bfd50411091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scans for a fingerprint and returns the status.  <br /></td></tr>
-<tr class="separator:a9f8428752fbef75d23833bfd50411091"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a511e826c0481490ea7eafe369a219291" id="r_a511e826c0481490ea7eafe369a219291"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a511e826c0481490ea7eafe369a219291">fingerprint_enroll</a> (int id)</td></tr>
-<tr class="memdesc:a511e826c0481490ea7eafe369a219291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enrolls a fingerprint.  <br /></td></tr>
-<tr class="separator:a511e826c0481490ea7eafe369a219291"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a907879b40b181a5643873afad0d96952" id="r_a907879b40b181a5643873afad0d96952"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a907879b40b181a5643873afad0d96952">fingerprint_delete</a> (int id)</td></tr>
-<tr class="memdesc:a907879b40b181a5643873afad0d96952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes a stored fingerprint.  <br /></td></tr>
-<tr class="separator:a907879b40b181a5643873afad0d96952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7db574152ca5af75df9adf2da5504a8e" id="r_a7db574152ca5af75df9adf2da5504a8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7db574152ca5af75df9adf2da5504a8e">fingerprint_status_event_handler</a> (<a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> status)</td></tr>
 <tr class="memdesc:a7db574152ca5af75df9adf2da5504a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles fingerprint status events and triggers corresponding high-level events.  <br /></td></tr>
 <tr class="separator:a7db574152ca5af75df9adf2da5504a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -378,58 +369,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a907879b40b181a5643873afad0d96952" name="a907879b40b181a5643873afad0d96952"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a907879b40b181a5643873afad0d96952">&#9670;&#160;</a></span>fingerprint_delete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">esp_err_t fingerprint_delete </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Deletes a stored fingerprint. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>ID of the fingerprint to delete. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error code otherwise. </dd></dl>
-
-</div>
-</div>
-<a id="a511e826c0481490ea7eafe369a219291" name="a511e826c0481490ea7eafe369a219291"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a511e826c0481490ea7eafe369a219291">&#9670;&#160;</a></span>fingerprint_enroll()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">esp_err_t fingerprint_enroll </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Enrolls a fingerprint. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>ID of the fingerprint to enroll. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error code otherwise. </dd></dl>
-
-</div>
-</div>
 <a id="a20092401e8301669fc2d595f02dc433d" name="a20092401e8301669fc2d595f02dc433d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a20092401e8301669fc2d595f02dc433d">&#9670;&#160;</a></span>fingerprint_get_status()</h2>
 
@@ -497,27 +436,6 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the received <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a>, or NULL on failure. </dd></dl>
 <p>&lt; Adjust based on the largest required parameter size.</p>
 <p>&lt; Adjust based on the largest required parameter size.</p>
-
-</div>
-</div>
-<a id="a9f8428752fbef75d23833bfd50411091" name="a9f8428752fbef75d23833bfd50411091"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f8428752fbef75d23833bfd50411091">&#9670;&#160;</a></span>fingerprint_scan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> fingerprint_scan </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Scans for a fingerprint and returns the status. </p>
-<p>This function sends a scan command to the fingerprint module, waits for a response, and maps the received status code to the corresponding <a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364" title="Fingerprint sensor status codes.">fingerprint_status_t</a> value.</p>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364" title="Fingerprint sensor status codes.">fingerprint_status_t</a> The status of the fingerprint scan. </dd></dl>
 
 </div>
 </div>
@@ -683,7 +601,19 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Handles fingerprint status events and triggers corresponding high-level events. </p>
-<p>This function maps low-level fingerprint status codes to high-level events and triggers them using the event handler.</p>
+<p>This function processes status codes received from the fingerprint module and maps them to predefined high-level fingerprint events. These events help notify the application about the outcome of fingerprint operations.</p>
+<p>The following status codes and their corresponding events are handled:</p>
+<ul>
+<li><code>FINGERPRINT_OK</code> → <code>EVENT_FINGER_DETECTED</code></li>
+<li><code>FINGERPRINT_NO_FINGER</code> → <code>EVENT_IMAGE_CAPTURED</code></li>
+<li><code>FINGERPRINT_IMAGE_FAIL</code>, <code>FINGERPRINT_TOO_DRY</code>, <code>FINGERPRINT_TOO_WET</code>, <code>FINGERPRINT_TOO_CHAOTIC</code>, <code>FINGERPRINT_UPLOAD_IMAGE_FAIL</code>, <code>FINGERPRINT_IMAGE_AREA_SMALL</code>, <code>FINGERPRINT_IMAGE_NOT_AVAILABLE</code> → <code>EVENT_IMAGE_FAIL</code></li>
+<li><code>FINGERPRINT_TOO_FEW_POINTS</code> → <code>EVENT_FEATURE_EXTRACT_FAIL</code></li>
+<li><code>FINGERPRINT_MISMATCH</code>, <code>FINGERPRINT_NOT_FOUND</code> → <code>EVENT_MATCH_FAIL</code></li>
+<li><code>FINGERPRINT_DB_FULL</code> → <code>EVENT_DB_FULL</code></li>
+<li><code>FINGERPRINT_TIMEOUT</code> → <code>EVENT_ERROR</code></li>
+<li>Various sensor operation failures → <code>EVENT_SENSOR_ERROR</code></li>
+<li>Other unexpected statuses → <code>EVENT_ERROR</code></li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">status</td><td>The fingerprint status received from the sensor. </td></tr>

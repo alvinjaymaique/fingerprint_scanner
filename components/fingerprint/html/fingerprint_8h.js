@@ -76,12 +76,9 @@ var fingerprint_8h =
       [ "FINGERPRINT_ILLEGAL_DATA", "fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994", null ]
     ] ],
     [ "fingerprint_calculate_checksum", "fingerprint_8h.html#a0d5b756311c0909b7f123085fb54e5b5", null ],
-    [ "fingerprint_delete", "fingerprint_8h.html#a907879b40b181a5643873afad0d96952", null ],
-    [ "fingerprint_enroll", "fingerprint_8h.html#a511e826c0481490ea7eafe369a219291", null ],
     [ "fingerprint_get_status", "fingerprint_8h.html#a20092401e8301669fc2d595f02dc433d", null ],
     [ "fingerprint_init", "fingerprint_8h.html#a759d58795c9a87a5d2fa233e52e5d580", null ],
     [ "fingerprint_read_response", "fingerprint_8h.html#a18e8b2af7dd860c312d730b5d1d30b7f", null ],
-    [ "fingerprint_scan", "fingerprint_8h.html#a9f8428752fbef75d23833bfd50411091", null ],
     [ "fingerprint_send_command", "fingerprint_8h.html#a25d10be1c372a32ba6e9ff2eb7cc60cb", null ],
     [ "fingerprint_set_baudrate", "fingerprint_8h.html#a0b31fe5ffffcc895863a47bd7000c337", null ],
     [ "fingerprint_set_command", "fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655", null ],

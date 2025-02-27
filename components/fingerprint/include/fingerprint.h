@@ -646,10 +646,25 @@ extern FingerprintPacket PS_ReadIndexTable;
 
 /**
  * @brief Handles fingerprint status events and triggers corresponding high-level events.
+ *
+ * This function processes status codes received from the fingerprint module and
+ * maps them to predefined high-level fingerprint events. These events help notify
+ * the application about the outcome of fingerprint operations.
+ *
+ * The following status codes and their corresponding events are handled:
  * 
- * This function maps low-level fingerprint status codes to high-level events and 
- * triggers them using the event handler.
- * 
+ * - `FINGERPRINT_OK` → `EVENT_FINGER_DETECTED`
+ * - `FINGERPRINT_NO_FINGER` → `EVENT_IMAGE_CAPTURED`
+ * - `FINGERPRINT_IMAGE_FAIL`, `FINGERPRINT_TOO_DRY`, `FINGERPRINT_TOO_WET`,
+ *   `FINGERPRINT_TOO_CHAOTIC`, `FINGERPRINT_UPLOAD_IMAGE_FAIL`, 
+ *   `FINGERPRINT_IMAGE_AREA_SMALL`, `FINGERPRINT_IMAGE_NOT_AVAILABLE` → `EVENT_IMAGE_FAIL`
+ * - `FINGERPRINT_TOO_FEW_POINTS` → `EVENT_FEATURE_EXTRACT_FAIL`
+ * - `FINGERPRINT_MISMATCH`, `FINGERPRINT_NOT_FOUND` → `EVENT_MATCH_FAIL`
+ * - `FINGERPRINT_DB_FULL` → `EVENT_DB_FULL`
+ * - `FINGERPRINT_TIMEOUT` → `EVENT_ERROR`
+ * - Various sensor operation failures → `EVENT_SENSOR_ERROR`
+ * - Other unexpected statuses → `EVENT_ERROR`
+ *
  * @param status The fingerprint status received from the sensor.
  */
 void fingerprint_status_event_handler(fingerprint_status_t status);
@@ -736,33 +751,6 @@ void fingerprint_status_event_handler(fingerprint_status_t status);
   * @return fingerprint_status_t Status code representing the operation result.
   */
  fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet);
- 
- /**
-  * @brief Scans for a fingerprint and returns the status.
-  *
-  * This function sends a scan command to the fingerprint module,
-  * waits for a response, and maps the received status code to the
-  * corresponding fingerprint_status_t value.
-  *
-  * @return fingerprint_status_t The status of the fingerprint scan.
-  */
- fingerprint_status_t fingerprint_scan(void);
- 
- /**
-  * @brief Enrolls a fingerprint.
-  *
-  * @param id ID of the fingerprint to enroll.
-  * @return ESP_OK on success, error code otherwise.
-  */
- esp_err_t fingerprint_enroll(int id);
- 
- /**
-  * @brief Deletes a stored fingerprint.
-  *
-  * @param id ID of the fingerprint to delete.
-  * @return ESP_OK on success, error code otherwise.
-  */
- esp_err_t fingerprint_delete(int id);
  
  /**
   * @brief Sets the UART TX and RX pins for the fingerprint sensor.
