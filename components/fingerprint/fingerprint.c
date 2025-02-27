@@ -14,6 +14,15 @@ static int tx_pin = DEFAULT_TX_PIN; // Default TX pin
 static int rx_pin = DEFAULT_RX_PIN; // Default RX pin
 static int baud_rate = DEFAULT_BAUD_RATE; // Default baud rate
 
+/**
+ * @brief Stores the last fingerprint command sent to the module.
+ * 
+ * This variable helps in identifying the type of response received
+ * from the fingerprint module, as response packets do not include
+ * an explicit command field.
+ */
+static uint8_t last_sent_command = 0x00;
+
 // Define the global event handler function pointer
 fingerprint_event_handler_t g_fingerprint_event_handler = NULL;
 
@@ -30,7 +39,7 @@ FingerprintPacket PS_GetImage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x01, // Get Image
+    .command = FINGERPRINT_CMD_GET_IMAGE, // Get Image
     .parameters = {0}, // No parameters
     .checksum = 0x0005 // Hardcoded checksum
 };
@@ -40,7 +49,7 @@ FingerprintPacket PS_GenChar1 = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0004,
-    .command = 0x02, // Generate Character
+    .command = FINGERPRINT_CMD_GEN_CHAR, // Generate Character
     .parameters = {0}, // Buffer ID 1
     .checksum = 0x0008 // Hardcoded checksum
 };
@@ -50,7 +59,7 @@ FingerprintPacket PS_GenChar2 = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0004,
-    .command = 0x02, // Generate Character
+    .command = FINGERPRINT_CMD_GEN_CHAR, // Generate Character
     .parameters = {0}, // Buffer ID 2
     .checksum = 0x0009 // Hardcoded checksum
 };
@@ -60,7 +69,7 @@ FingerprintPacket PS_RegModel = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x05, // Register Model
+    .command = FINGERPRINT_CMD_REG_MODEL, // Register Model
     .parameters = {0}, // No parameters
     .checksum = 0x0009 // Hardcoded checksum
 };
@@ -70,7 +79,7 @@ FingerprintPacket PS_Search = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0008,
-    .command = 0x04, // Search
+    .command = FINGERPRINT_CMD_SEARCH, // Search
     .parameters = {0}, // Buffer ID, Start Page, Number of Pages
     .checksum = 0x00 // Hardcoded checksum
 };
@@ -80,7 +89,7 @@ FingerprintPacket PS_Match = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x03, // Match
+    .command = FINGERPRINT_CMD_MATCH, // Match
     .parameters = {0}, // No parameters
     .checksum = 0x0007 // Hardcoded checksum
 };
@@ -90,7 +99,7 @@ FingerprintPacket PS_StoreChar = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0006,
-    .command = 0x06, // Store Character
+    .command = FINGERPRINT_CMD_STORE_CHAR, // Store Character
     .parameters = {0}, // Buffer ID, Page ID
     .checksum = 0x000F // Hardcoded checksum
 };
@@ -100,7 +109,7 @@ FingerprintPacket PS_DeletChar = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0007,
-    .command = 0x0C, // Delete Fingerprint
+    .command = FINGERPRINT_CMD_DELETE_CHAR, // Delete Fingerprint
     .parameters = {0}, // Page ID, Number of Entries
     .checksum = 0x0015 // Hardcoded checksum
 };
@@ -110,7 +119,7 @@ FingerprintPacket PS_Empty = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x0D, // Clear Database
+    .command = FINGERPRINT_CMD_EMPTY_DATABASE, // Clear Database
     .parameters = {0}, // No parameters
     .checksum = 0x0011 // Hardcoded checksum
 };
@@ -120,7 +129,7 @@ FingerprintPacket PS_ReadSysPara = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x0F, // Read System Parameters
+    .command = FINGERPRINT_CMD_READ_SYS_PARA, // Read System Parameters
     .parameters = {0}, // No parameters
     .checksum = 0x0013 // Hardcoded checksum
 };
@@ -130,7 +139,7 @@ FingerprintPacket PS_SetChipAddr = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0007,
-    .command = 0x15, // Set Address
+    .command = FINGERPRINT_CMD_SET_CHIP_ADDR, // Set Address
     .parameters = {0}, // New Address (modifiable)
     .checksum = 0x0020 // Hardcoded checksum
 };
@@ -140,7 +149,7 @@ FingerprintPacket PS_Cancel = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x30, // Cancel command
+    .command = FINGERPRINT_CMD_CANCEL, // Cancel command
     .parameters = {0}, // No parameters
     .checksum = 0x0033 // Needs to be recalculated
 };
@@ -150,7 +159,7 @@ FingerprintPacket PS_AutoEnroll = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0008,
-    .command = 0x31, // AutoEnroll command
+    .command = FINGERPRINT_CMD_AUTO_ENROLL, // AutoEnroll command
     .parameters = {0}, // ID number, number of entries, parameter
     .checksum = 0x003A // Needs to be recalculated
 };
@@ -160,7 +169,7 @@ FingerprintPacket PS_Autoldentify = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0006,
-    .command = 0x32, // AutoIdentify command
+    .command = FINGERPRINT_CMD_AUTO_IDENTIFY, // AutoIdentify command
     .parameters = {0}, // Score level, ID number
     .checksum = 0x003F // Needs to be recalculated
 };
@@ -170,7 +179,7 @@ FingerprintPacket PS_GetKeyt = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0xE0, // Get key pair
+    .command = FINGERPRINT_CMD_GETKEYT, // Get key pair
     .parameters = {0}, // No parameters
     .checksum = 0x00E3 // Needs to be recalculated
 };
@@ -181,7 +190,7 @@ FingerprintPacket PS_SecurityStoreChar = {
     .packet_id = 0x01,
     .length = 0x0006,
     .command = 0xF2, // Secure Store Template
-    .parameters = {0x01, 0x00, 0x01}, // Buffer ID, Page ID
+    .parameters = {0}, // Buffer ID, Page ID
     .checksum = 0x00FB // Needs to be recalculated
 };
 
@@ -190,7 +199,7 @@ FingerprintPacket PS_SecuritySearch = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0008,
-    .command = 0xF4, // Secure Search
+    .command = FINGERPRINT_CMD_SECURITY_SEARCH, // Secure Search
     .parameters = {0}, // Buffer ID, Start Page, Number of Pages
     .checksum = 0x00FD // Needs to be recalculated
 };
@@ -200,7 +209,7 @@ FingerprintPacket PS_Uplmage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x0A, // Upload Image
+    .command = FINGERPRINT_CMD_UPLOAD_IMAGE, // Upload Image
     .parameters = {0}, // No parameters
     .checksum = 0x000D // Needs to be recalculated
 };
@@ -210,7 +219,7 @@ FingerprintPacket PS_Downlmage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x0B, // Download Image
+    .command = FINGERPRINT_CMD_DOWNLOAD_IMAGE, // Download Image
     .parameters = {0}, // No parameters
     .checksum = 0x000E // Needs to be recalculated
 };
@@ -220,7 +229,7 @@ FingerprintPacket PS_CheckSensor = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x36, // Check Sensor
+    .command = FINGERPRINT_CMD_CHECK_SENSOR, // Check Sensor
     .parameters = {0}, // No parameters
     .checksum = 0x0039 // Needs to be recalculated
 };
@@ -230,7 +239,7 @@ FingerprintPacket PS_RestSetting = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x3B, // Restore Factory Settings
+    .command = FINGERPRINT_CMD_FACTORY_RESET, // Restore Factory Settings
     .parameters = {0}, // No parameters
     .checksum = 0x003E // Needs to be recalculated
 };
@@ -240,7 +249,7 @@ FingerprintPacket PS_ReadINFpage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x16, // Read Flash Information Page
+    .command = FINGERPRINT_CMD_READ_INF_PAGE, // Read Flash Information Page
     .parameters = {0}, // No parameters
     .checksum = 0x0019 // Needs to be recalculated
 };
@@ -250,8 +259,8 @@ FingerprintPacket PS_BurnCode = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0004,
-    .command = 0x1A, // Erase Code
-    .parameters = {0x01}, // Default upgrade mode
+    .command = FINGERPRINT_CMD_BURN_CODE, // Erase Code
+    .parameters = {0}, // Default upgrade mode
     .checksum = 0x001F // Needs to be recalculated
 };
 
@@ -260,7 +269,7 @@ FingerprintPacket PS_SetPwd = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0007,
-    .command = 0x12, // Set Password
+    .command = FINGERPRINT_CMD_SET_PASSWORD, // Set Password
     .parameters = {0}, // Password (modifiable)
     .checksum = 0x0019 // Needs to be recalculated
 };
@@ -270,7 +279,7 @@ FingerprintPacket PS_VfyPwd = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0007,
-    .command = 0x13, // Verify Password
+    .command = FINGERPRINT_CMD_VERIFY_PASSWORD, // Verify Password
     .parameters = {0}, // Password
     .checksum = 0x001A // Needs to be recalculated
 };
@@ -280,7 +289,7 @@ FingerprintPacket PS_GetRandomCode = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x14, // Get Random Number
+    .command = FINGERPRINT_CMD_GET_RANDOM_CODE, // Get Random Number
     .parameters = {0}, // No parameters
     .checksum = 0x0017 // Needs to be recalculated
 };
@@ -290,7 +299,7 @@ FingerprintPacket PS_WriteNotepad = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0023, // 32 bytes data
-    .command = 0x18, // Write Notepad
+    .command = FINGERPRINT_CMD_WRITE_NOTEPAD, // Write Notepad
     .parameters = {0}, // Data to write (to be filled)
     .checksum = 0x003B // Needs to be recalculated
 };
@@ -300,7 +309,7 @@ FingerprintPacket PS_ReadNotepad = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0004,
-    .command = 0x19, // Read Notepad
+    .command = FINGERPRINT_CMD_READ_NOTEPAD, // Read Notepad
     .parameters = {0x00}, // Page number
     .checksum = 0x001E // Needs to be recalculated
 };
@@ -310,7 +319,7 @@ FingerprintPacket PS_HandShake = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x35, // Handshake
+    .command = FINGERPRINT_CMD_HANDSHAKE, // Handshake
     .parameters = {0}, // No parameters
     .checksum = 0x0039 // Needs to be recalculated
 };
@@ -320,7 +329,7 @@ FingerprintPacket PS_ControlBLN = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0007,
-    .command = 0x3C, // Control LED
+    .command = FINGERPRINT_CMD_CONTROL_LED, // Control LED
     .parameters = {0}, // Example parameters: function, start color, end color, cycles
     .checksum = 0x0046 // Needs to be recalculated
 };
@@ -330,7 +339,7 @@ FingerprintPacket PS_GetImageInfo = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x3D, // Get Image Information
+    .command = FINGERPRINT_CMD_GET_IMAGE_INFO, // Get Image Information
     .parameters = {0}, // No parameters
     .checksum = 0x0041 // Needs to be recalculated
 };
@@ -340,7 +349,7 @@ FingerprintPacket PS_SearchNow = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0007,
-    .command = 0x3E, // Search Now
+    .command = FINGERPRINT_CMD_SEARCH_NOW, // Search Now
     .parameters = {0}, // Start Page, Number of Pages
     .checksum = 0x0046 // Needs to be recalculated
 };
@@ -350,7 +359,7 @@ FingerprintPacket PS_ValidTempleteNum = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x1D, // Get number of valid templates
+    .command = FINGERPRINT_CMD_VALID_TEMPLATE_NUM, // Get number of valid templates
     .parameters = {0}, // No parameters
     .checksum = 0x0021 // Needs to be recalculated
 };
@@ -360,7 +369,7 @@ FingerprintPacket PS_Sleep = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x33, // Enter sleep mode
+    .command = FINGERPRINT_CMD_SLEEP, // Enter sleep mode
     .parameters = {0}, // No parameters
     .checksum = 0x0037 // Needs to be recalculated
 };
@@ -370,7 +379,7 @@ FingerprintPacket PS_LockKeyt = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0xE1, // Lock Key Pair
+    .command = FINGERPRINT_CMD_LOCKEYT, // Lock Key Pair
     .parameters = {0}, // No parameters
     .checksum = 0x00E4 // Needs to be recalculated
 };
@@ -380,7 +389,7 @@ FingerprintPacket PS_GetCiphertext = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0xE2, // Get Ciphertext Random Number
+    .command = FINGERPRINT_CMD_GET_CIPHER_TEXT, // Get Ciphertext Random Number
     .parameters = {0}, // No parameters
     .checksum = 0x00E5 // Needs to be recalculated
 };
@@ -390,7 +399,7 @@ FingerprintPacket PS_GetChipSN = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x13, // Get Chip Serial Number
+    .command = FINGERPRINT_CMD_GETCHIP_SN, // Get Chip Serial Number
     .parameters = {0}, // No parameters
     .checksum = 0x0016 // Needs to be recalculated
 };
@@ -400,7 +409,7 @@ FingerprintPacket PS_GetEnrollImage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0003,
-    .command = 0x29, // Register Get Image
+    .command = FINGERPRINT_CMD_GET_ENROLL_IMAGE, // Register Get Image
     .parameters = {0}, // No parameters
     .checksum = 0x002D // Needs to be recalculated
 };
@@ -410,7 +419,7 @@ FingerprintPacket PS_WriteReg = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0005,
-    .command = 0x0E, // Write System Register
+    .command = FINGERPRINT_CMD_WRITE_REG, // Write System Register
     .parameters = {0}, // Register Number, Value (modifiable)
     .checksum = 0x0013 // Needs to be recalculated
 };
@@ -420,9 +429,29 @@ FingerprintPacket PS_ReadIndexTable = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = 0x01,
     .length = 0x0004,
-    .command = 0x1F, // Read Index Table
+    .command = FINGERPRINT_CMD_READ_INDEX_TABLE, // Read Index Table
     .parameters = {0}, // Page Number
     .checksum = 0x0023 // Needs to be recalculated
+};
+
+FingerprintPacket PS_UpChar = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0004,
+    .command = FINGERPRINT_CMD_UP_CHAR, // Upload template from buffer
+    .parameters = {0}, // BufferID
+    .checksum = 0x000D // Needs to be recalculated
+};
+
+FingerprintPacket PS_DownChar = {
+    .header = 0xEF01,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = 0x01,
+    .length = 0x0004,
+    .command = FINGERPRINT_CMD_DOWN_CHAR, // Download template to buffer
+    .parameters = {0}, // BufferID
+    .checksum = 0x000E // Needs to be recalculated
 };
 
  /**

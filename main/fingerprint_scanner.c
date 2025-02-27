@@ -34,7 +34,7 @@ void app_main(void)
 
     FingerprintPacket* response = fingerprint_read_response();
     fingerprint_status_t status = fingerprint_get_status(response);
-    printf("Fingerprint status: %d\n", status); // Should print 0 (FINGERPRINT_OK)
+    printf("Fingerprint status: %d\n", status); 
     free(response);
 }
 

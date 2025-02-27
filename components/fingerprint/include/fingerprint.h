@@ -202,6 +202,137 @@
  * sufficient space while maintaining efficient memory usage.
  */
 #define MAX_PARAMETERS 32  /**< Adjust based on the largest required parameter size. */
+
+/**
+ * @enum fingerprint_command_t
+ * @brief Enumeration of fingerprint module commands.
+ *
+ * This enumeration defines the command codes used to communicate with
+ * the fingerprint sensor module. Each command corresponds to a specific
+ * operation that the module can perform.
+ */
+typedef enum {
+    /** Capture a fingerprint image */
+    FINGERPRINT_CMD_GET_IMAGE = 0x01,
+    
+    /** Generate character file from image buffer */
+    FINGERPRINT_CMD_GEN_CHAR = 0x02,
+    
+    /** Match two fingerprint templates */
+    FINGERPRINT_CMD_MATCH = 0x03,
+    
+    /** Search for a fingerprint in the database */
+    FINGERPRINT_CMD_SEARCH = 0x04,
+    
+    /** Generate a model from two fingerprint templates */
+    FINGERPRINT_CMD_REG_MODEL = 0x05,
+    
+    /** Store fingerprint template in the module's database */
+    FINGERPRINT_CMD_STORE_CHAR = 0x06,
+    
+    /** Delete a fingerprint template from the database */
+    FINGERPRINT_CMD_DELETE_CHAR = 0x0C,
+    
+    /** Empty the fingerprint database */
+    FINGERPRINT_CMD_EMPTY_DATABASE = 0x0D,
+    
+    /** Upload fingerprint image from the module */
+    FINGERPRINT_CMD_UPLOAD_IMAGE = 0x0A,
+    
+    /** Download fingerprint image to the module */
+    FINGERPRINT_CMD_DOWNLOAD_IMAGE = 0x0B,
+    
+    /** Read system parameters of the fingerprint module */
+    FINGERPRINT_CMD_READ_SYS_PARA = 0x0F,
+    
+    /** Set fingerprint module's chip address */
+    FINGERPRINT_CMD_SET_CHIP_ADDR = 0x15,
+    
+    /** Perform a handshake with the fingerprint module */
+    FINGERPRINT_CMD_HANDSHAKE = 0x35,
+    
+    /** Cancel current fingerprint operation */
+    FINGERPRINT_CMD_CANCEL = 0x30,
+    
+    /** Perform automatic fingerprint enrollment */
+    FINGERPRINT_CMD_AUTO_ENROLL = 0x31,
+    
+    /** Automatically identify a fingerprint */
+    FINGERPRINT_CMD_AUTO_IDENTIFY = 0x32,
+    
+    /** Check the fingerprint sensor status */
+    FINGERPRINT_CMD_CHECK_SENSOR = 0x36,
+    
+    /** Factory reset the fingerprint module */
+    FINGERPRINT_CMD_FACTORY_RESET = 0x3B,
+    
+    /** Read information page from the module */
+    FINGERPRINT_CMD_READ_INF_PAGE = 0x16,
+    
+    /** Burn code into the fingerprint module */
+    FINGERPRINT_CMD_BURN_CODE = 0x1A,
+    
+    /** Set password for the fingerprint module */
+    FINGERPRINT_CMD_SET_PASSWORD = 0x12,
+    
+    /** Verify password for the fingerprint module */
+    FINGERPRINT_CMD_VERIFY_PASSWORD = 0x13,
+    
+    /** Retrieve a random code from the fingerprint module */
+    FINGERPRINT_CMD_GET_RANDOM_CODE = 0x14,
+    
+    /** Write data to notepad memory of the fingerprint module */
+    FINGERPRINT_CMD_WRITE_NOTEPAD = 0x18,
+    
+    /** Read data from notepad memory of the fingerprint module */
+    FINGERPRINT_CMD_READ_NOTEPAD = 0x19,
+    
+    /** Control the fingerprint module's LED indicator */
+    FINGERPRINT_CMD_CONTROL_LED = 0x3C,
+    
+    /** Retrieve information about the captured fingerprint image */
+    FINGERPRINT_CMD_GET_IMAGE_INFO = 0x3D,
+    
+    /** Search for a fingerprint instantly */
+    FINGERPRINT_CMD_SEARCH_NOW = 0x3E,
+    
+    /** Get the number of valid fingerprint templates stored */
+    FINGERPRINT_CMD_VALID_TEMPLATE_NUM = 0x1D,
+    
+    /** Put the fingerprint module into sleep mode */
+    FINGERPRINT_CMD_SLEEP = 0x33,
+
+    /** Retrieve a random code from the fingerprint module */
+    FINGERPRINT_CMD_GETKEYT = 0xE0,
+
+    /** Perform a security search in the fingerprint database */
+    FINGERPRINT_CMD_SECURITY_SEARCH = 0xF4,
+
+    /** Lock the fingerprint module to prevent unauthorized access */
+    FINGERPRINT_CMD_LOCKEYT = 0xE1,
+
+    /** Retrieve encrypted data from the fingerprint module */
+    FINGERPRINT_CMD_GET_CIPHER_TEXT = 0xE2,
+
+    /** Retrieve the serial number of the fingerprint module */
+    FINGERPRINT_CMD_GETCHIP_SN = 0x34,
+
+    /** Capture an enrollment image from the fingerprint sensor */
+    FINGERPRINT_CMD_GET_ENROLL_IMAGE = 0x29,
+
+    /** Write data to a specific register in the fingerprint module */
+    FINGERPRINT_CMD_WRITE_REG = 0x0E,
+
+    /** Read the index table of stored fingerprint templates */
+    FINGERPRINT_CMD_READ_INDEX_TABLE = 0x1F,
+
+    /** Upload a fingerprint template from the module buffer */
+    FINGERPRINT_CMD_UP_CHAR = 0x08,
+
+    /** Download a fingerprint template to the module buffer */
+    FINGERPRINT_CMD_DOWN_CHAR = 0x09
+} fingerprint_command_t;
+
  
 /**
  * @struct FingerprintPacket
@@ -561,6 +692,24 @@ extern FingerprintPacket PS_WriteReg;
  * - **Page Number** (1 byte): Specifies which index table page to read.
  */
 extern FingerprintPacket PS_ReadIndexTable;
+
+/**
+ * @brief Upload template from buffer to main control.
+ * 
+ * This command uploads the fingerprint template stored in the buffer 
+ * to the main control unit. The function is supported when the 
+ * encryption level is set to 0.
+ */
+extern FingerprintPacket PS_UpChar;
+
+/**
+ * @brief Download template to buffer.
+ * 
+ * This command allows the master device to download a fingerprint 
+ * template to the module’s template buffer. The function is supported 
+ * when the encryption level is set to 0.
+ */
+extern FingerprintPacket PS_DownChar;
 
  
  /**
