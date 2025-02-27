@@ -115,13 +115,14 @@ $(function(){initNavTree('fingerprint_8c.html',''); initResizable(true); });
 <code>#include &quot;esp_err.h&quot;</code><br />
 <code>#include &quot;freertos/FreeRTOS.h&quot;</code><br />
 <code>#include &quot;freertos/task.h&quot;</code><br />
+<code>#include &quot;driver/gpio.h&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:afc3d101f633a076cc1ca84b85b6224b2" id="r_afc3d101f633a076cc1ca84b85b6224b2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc3d101f633a076cc1ca84b85b6224b2">TAG</a>&#160;&#160;&#160;&quot;FINGERPRINT&quot;</td></tr>
 <tr class="separator:afc3d101f633a076cc1ca84b85b6224b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49dcd593bb4dd55620e7c08581f8e2ad" id="r_a49dcd593bb4dd55620e7c08581f8e2ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49dcd593bb4dd55620e7c08581f8e2ad">UART_NUM</a>&#160;&#160;&#160;UART_NUM_2</td></tr>
+<tr class="memitem:a49dcd593bb4dd55620e7c08581f8e2ad" id="r_a49dcd593bb4dd55620e7c08581f8e2ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49dcd593bb4dd55620e7c08581f8e2ad">UART_NUM</a>&#160;&#160;&#160;UART_NUM_1</td></tr>
 <tr class="separator:a49dcd593bb4dd55620e7c08581f8e2ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a690f985c933da2ce6fe62b6c61dfa662" id="r_a690f985c933da2ce6fe62b6c61dfa662"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a690f985c933da2ce6fe62b6c61dfa662">RX_BUF_SIZE</a>&#160;&#160;&#160;128</td></tr>
 <tr class="separator:a690f985c933da2ce6fe62b6c61dfa662"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,7 +173,7 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a10401260df6ab61a4519575c27d3e5c7" id="r_a10401260df6ab61a4519575c27d3e5c7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10401260df6ab61a4519575c27d3e5c7">tx_pin</a> = 17</td></tr>
 <tr class="separator:a10401260df6ab61a4519575c27d3e5c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a219fb0cecab94c438944338382716e4d" id="r_a219fb0cecab94c438944338382716e4d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a219fb0cecab94c438944338382716e4d">rx_pin</a> = 16</td></tr>
+<tr class="memitem:a219fb0cecab94c438944338382716e4d" id="r_a219fb0cecab94c438944338382716e4d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a219fb0cecab94c438944338382716e4d">rx_pin</a> = 18</td></tr>
 <tr class="separator:a219fb0cecab94c438944338382716e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a784e73e1ce3f90fbcbb0a78d72a053ff" id="r_a784e73e1ce3f90fbcbb0a78d72a053ff"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a784e73e1ce3f90fbcbb0a78d72a053ff">baud_rate</a> = 57600</td></tr>
 <tr class="separator:a784e73e1ce3f90fbcbb0a78d72a053ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -343,7 +344,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define UART_NUM&#160;&#160;&#160;UART_NUM_2</td>
+          <td class="memname">#define UART_NUM&#160;&#160;&#160;UART_NUM_1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -2039,7 +2040,7 @@ Parameters:</h3>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int rx_pin = 16</td>
+          <td class="memname">int rx_pin = 18</td>
         </tr>
       </table>
   </td>

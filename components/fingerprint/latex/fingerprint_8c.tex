@@ -6,13 +6,14 @@
 {\ttfamily \#include "{}esp\+\_\+err.\+h"{}}\newline
 {\ttfamily \#include "{}freertos/\+Free\+RTOS.\+h"{}}\newline
 {\ttfamily \#include "{}freertos/task.\+h"{}}\newline
+{\ttfamily \#include "{}driver/gpio.\+h"{}}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
 \#define \mbox{\hyperlink{fingerprint_8c_afc3d101f633a076cc1ca84b85b6224b2}{TAG}}~"{}FINGERPRINT"{}
 \item 
-\#define \mbox{\hyperlink{fingerprint_8c_a49dcd593bb4dd55620e7c08581f8e2ad}{UART\+\_\+\+NUM}}~UART\+\_\+\+NUM\+\_\+2
+\#define \mbox{\hyperlink{fingerprint_8c_a49dcd593bb4dd55620e7c08581f8e2ad}{UART\+\_\+\+NUM}}~UART\+\_\+\+NUM\+\_\+1
 \item 
 \#define \mbox{\hyperlink{fingerprint_8c_a690f985c933da2ce6fe62b6c61dfa662}{RX\+\_\+\+BUF\+\_\+\+SIZE}}~128
 \end{DoxyCompactItemize}
@@ -50,7 +51,7 @@ void \mbox{\hyperlink{fingerprint_8c_a2b019e6b09dcc91ad10bcb6c2784e360}{trigger\
 \item 
 static int \mbox{\hyperlink{fingerprint_8c_a10401260df6ab61a4519575c27d3e5c7}{tx\+\_\+pin}} = 17
 \item 
-static int \mbox{\hyperlink{fingerprint_8c_a219fb0cecab94c438944338382716e4d}{rx\+\_\+pin}} = 16
+static int \mbox{\hyperlink{fingerprint_8c_a219fb0cecab94c438944338382716e4d}{rx\+\_\+pin}} = 18
 \item 
 static int \mbox{\hyperlink{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}{baud\+\_\+rate}} = 57600
 \item 
@@ -161,7 +162,7 @@ static uint8\+\_\+t \mbox{\hyperlink{fingerprint_8c_a5c0f8def90025d6e94cd117f278
 \index{UART\_NUM@{UART\_NUM}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{UART\_NUM}{UART\_NUM}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a49dcd593bb4dd55620e7c08581f8e2ad} 
-\#define UART\+\_\+\+NUM~UART\+\_\+\+NUM\+\_\+2}
+\#define UART\+\_\+\+NUM~UART\+\_\+\+NUM\+\_\+1}
 
 
 
@@ -1517,7 +1518,7 @@ This packet structure should be overwritten using {\ttfamily \doxylink{fingerpri
 \index{rx\_pin@{rx\_pin}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{rx\_pin}{rx\_pin}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a219fb0cecab94c438944338382716e4d} 
-int rx\+\_\+pin = 16\hspace{0.3cm}{\ttfamily [static]}}
+int rx\+\_\+pin = 18\hspace{0.3cm}{\ttfamily [static]}}
 
 \Hypertarget{fingerprint_8c_a10401260df6ab61a4519575c27d3e5c7}\index{fingerprint.c@{fingerprint.c}!tx\_pin@{tx\_pin}}
 \index{tx\_pin@{tx\_pin}!fingerprint.c@{fingerprint.c}}
