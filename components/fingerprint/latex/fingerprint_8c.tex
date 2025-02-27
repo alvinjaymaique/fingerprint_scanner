@@ -30,7 +30,7 @@ static uint16\+\_\+t \mbox{\hyperlink{fingerprint_8c_a6134c859d385b972b7c0716784
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\+\_\+init}} (void)
 \begin{DoxyCompactList}\small\item\em Initializes the fingerprint scanner. \end{DoxyCompactList}\item 
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd, uint8\+\_\+t command, uint8\+\_\+t \texorpdfstring{$\ast$}{*}params, uint8\+\_\+t param\+\_\+length)
-\begin{DoxyCompactList}\small\item\em Sets or modifies a fingerprint command packet. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Initializes or updates a fingerprint command packet. \end{DoxyCompactList}\item 
 uint16\+\_\+t \mbox{\hyperlink{fingerprint_8c_a0d5b756311c0909b7f123085fb54e5b5}{fingerprint\+\_\+calculate\+\_\+checksum}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd)
 \begin{DoxyCompactList}\small\item\em Computes the checksum for a given \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet} structure. \end{DoxyCompactList}\item 
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a25d10be1c372a32ba6e9ff2eb7cc60cb}{fingerprint\+\_\+send\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd, uint32\+\_\+t address)
@@ -340,19 +340,22 @@ esp\+\_\+err\+\_\+t fingerprint\+\_\+set\+\_\+command (\begin{DoxyParamCaption}\
 
 
 
-Sets or modifies a fingerprint command packet. 
+Initializes or updates a fingerprint command packet. 
 
-This function initializes or updates a {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} with the specified command and parameters. It ensures that the parameter length does not exceed 4 bytes and automatically calculates the checksum. This function is useful for preparing commands before sending them to the fingerprint module.
+This function modifies an existing {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} structure to prepare a command before sending it to the fingerprint sensor. It ensures that the parameter length does not exceed the allowed size and automatically computes the checksum.
 
+\begin{DoxyWarning}{Warning}
+This function {\bfseries{modifies}} the provided {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} structure in-\/place. Developers should ensure that any previous data in the structure is not needed before calling this function, unless they create a {\bfseries{new}} {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} instance.
+\end{DoxyWarning}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ out}}  & {\em cmd} & Pointer to the {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} to be populated or modified. \\
+\mbox{\texttt{ out}}  & {\em cmd} & Pointer to the {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} to be modified. \\
 \hline
 \mbox{\texttt{ in}}  & {\em command} & Command byte to be set in the packet. \\
 \hline
 \mbox{\texttt{ in}}  & {\em params} & Pointer to a parameter array (can be NULL if no parameters). \\
 \hline
-\mbox{\texttt{ in}}  & {\em param\+\_\+length} & Number of parameters (max 4). \\
+\mbox{\texttt{ in}}  & {\em param\+\_\+length} & Number of parameters (max {\ttfamily MAX\+\_\+\+PARAMETERS}). \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -360,9 +363,12 @@ This function initializes or updates a {\ttfamily \doxylink{struct_fingerprint_p
 \begin{DoxyItemize}
 \item {\ttfamily ESP\+\_\+\+OK} on success.
 \item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+ARG} if {\ttfamily cmd} is NULL.
-\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+SIZE} if {\ttfamily param\+\_\+length} exceeds 4. 
+\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+INVALID\+\_\+\+SIZE} if {\ttfamily param\+\_\+length} exceeds {\ttfamily MAX\+\_\+\+PARAMETERS}.
 \end{DoxyItemize}
 \end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function does not allocate new memory. The caller is responsible for managing {\ttfamily cmd}. If modification of an existing {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} is not desired, a {\bfseries{new instance}} should be created before calling this function. 
+\end{DoxyNote}
 \texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\Hypertarget{fingerprint_8c_a9d930710d85ff4f3085dd32e2ce89a8a}\index{fingerprint.c@{fingerprint.c}!fingerprint\_set\_pins@{fingerprint\_set\_pins}}
 \index{fingerprint\_set\_pins@{fingerprint\_set\_pins}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_set\_pins()}{fingerprint\_set\_pins()}}

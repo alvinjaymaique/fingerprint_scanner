@@ -661,22 +661,31 @@ void fingerprint_status_event_handler(fingerprint_status_t status);
   */
  esp_err_t fingerprint_init(void);
  
- /**
-  * @brief Sets or modifies a fingerprint command packet.
+/**
+  * @brief Initializes or updates a fingerprint command packet.
   *
-  * This function initializes or updates a `FingerprintPacket` with the specified command and parameters.
-  * It ensures that the parameter length does not exceed 4 bytes and automatically calculates the checksum.
-  * This function is useful for preparing commands before sending them to the fingerprint module.
+  * This function modifies an existing `FingerprintPacket` structure to prepare a command
+  * before sending it to the fingerprint sensor. It ensures that the parameter length 
+  * does not exceed the allowed size and automatically computes the checksum.
   *
-  * @param[out] cmd Pointer to the `FingerprintPacket` to be populated or modified.
+  * @warning This function **modifies** the provided `FingerprintPacket` structure in-place.
+  *          Developers should ensure that any previous data in the structure is not needed 
+  *          before calling this function, unless they create a **new** `FingerprintPacket` instance.
+  *
+  * @param[out] cmd Pointer to the `FingerprintPacket` to be modified.
   * @param[in] command Command byte to be set in the packet.
   * @param[in] params Pointer to a parameter array (can be NULL if no parameters).
-  * @param[in] param_length Number of parameters (max 4).
+  * @param[in] param_length Number of parameters (max `MAX_PARAMETERS`).
   * @return 
   *      - `ESP_OK` on success.
   *      - `ESP_ERR_INVALID_ARG` if `cmd` is NULL.
-  *      - `ESP_ERR_INVALID_SIZE` if `param_length` exceeds 4.
+  *      - `ESP_ERR_INVALID_SIZE` if `param_length` exceeds `MAX_PARAMETERS`.
+  *
+  * @note This function does not allocate new memory. The caller is responsible for managing `cmd`.
+  *       If modification of an existing `FingerprintPacket` is not desired, a **new instance**
+  *       should be created before calling this function.
   */
+
  esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8_t *params, uint8_t param_length);
  
  /**
