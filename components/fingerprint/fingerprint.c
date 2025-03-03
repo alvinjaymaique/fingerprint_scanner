@@ -4,8 +4,11 @@
 #include "esp_err.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/queue.h"     // Required for QueueHandle_t
+#include "freertos/timers.h"    // Required for TickType_t
 #include "driver/gpio.h"
 #include <string.h>
+#include <stdbool.h>   // Fixes unknown type name 'bool'
 
 #define TAG "FINGERPRINT"
 #define UART_NUM UART_NUM_1  // Change based on your wiring
@@ -27,6 +30,9 @@ static uint8_t last_sent_command = 0x00;
 // Define the global event handler function pointer
 fingerprint_event_handler_t g_fingerprint_event_handler = NULL;
 
+static TaskHandle_t fingerprint_task_handle = NULL;
+static QueueHandle_t fingerprint_response_queue;
+
 void fingerprint_set_pins(int tx, int rx) {
     tx_pin = tx;
     rx_pin = rx;
@@ -34,6 +40,16 @@ void fingerprint_set_pins(int tx, int rx) {
 void fingerprint_set_baudrate(int baud) {
     baud_rate = baud;
 }
+
+FingerprintPacket PS_HandShake = {
+    .header = FINGERPRINT_PACKET_HEADER,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = FINGERPRINT_PACKET_ID_CMD,
+    .length = 0x0003,
+    .command = FINGERPRINT_CMD_HANDSHAKE, // Handshake
+    .parameters = {0}, // No parameters
+    .checksum = 0x0039 // Needs to be recalculated
+};
 
 FingerprintPacket PS_GetImage = {
     .header = FINGERPRINT_PACKET_HEADER,
@@ -311,18 +327,8 @@ FingerprintPacket PS_ReadNotepad = {
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0004,
     .command = FINGERPRINT_CMD_READ_NOTEPAD, // Read Notepad
-    .parameters = {0x00}, // Page number
+    .parameters = {0}, // Page number
     .checksum = 0x001E // Needs to be recalculated
-};
-
-FingerprintPacket PS_HandShake = {
-    .header = FINGERPRINT_PACKET_HEADER,
-    .address = DEFAULT_FINGERPRINT_ADDRESS,
-    .packet_id = FINGERPRINT_PACKET_ID_CMD,
-    .length = 0x0003,
-    .command = FINGERPRINT_CMD_HANDSHAKE, // Handshake
-    .parameters = {0}, // No parameters
-    .checksum = 0x0039 // Needs to be recalculated
 };
 
 FingerprintPacket PS_ControlBLN = {
@@ -499,7 +505,7 @@ esp_err_t fingerprint_init(void) {
     }
 
     // Set UART pins
-    err = uart_set_pin(UART_NUM, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE); 
+    err = uart_set_pin(UART_NUM, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to set UART pins");
         return err;
@@ -512,9 +518,40 @@ esp_err_t fingerprint_init(void) {
         return err;
     }
 
+    // Prevent Reinitialization
+    if (fingerprint_task_handle != NULL) {
+        ESP_LOGW(TAG, "Fingerprint library already initialized.");
+        return ESP_OK;
+    }
+
+    // Handshake detection (0x55)
+    uint8_t handshake;
+    int length = uart_read_bytes(UART_NUM, &handshake, 1, pdMS_TO_TICKS(200));  // Timeout 200ms
+
+    if (length > 0 && handshake == 0x55) {
+        ESP_LOGI(TAG, "Fingerprint module handshake received.");
+    } else {
+        ESP_LOGW(TAG, "No handshake received, waiting 200ms before communication.");
+        vTaskDelay(pdMS_TO_TICKS(200));  // Delay to ensure module is ready
+    }
+
+    // Create Queue for Response Handling
+    fingerprint_response_queue = xQueueCreate(RESPONSE_QUEUE_SIZE, sizeof(fingerprint_response_t));
+    if (fingerprint_response_queue == NULL) {
+        ESP_LOGE(TAG, "Failed to create response queue");
+        return ESP_FAIL;
+    }
+
+    // Create Response Handling Task
+    if (xTaskCreate(read_response_task, "FingerprintReadResponse", 4096, NULL, 5, &fingerprint_task_handle) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create fingerprint response task");
+        return ESP_FAIL;
+    }
+
     ESP_LOGI(TAG, "Fingerprint scanner initialized successfully.");
     return ESP_OK;
 }
+
 
 esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8_t *params, uint8_t param_length) {
     if (cmd == NULL) {
@@ -686,6 +723,29 @@ FingerprintPacket* fingerprint_read_response(void) {
     return packet;  // Caller must free this memory after use
 }
 
+// Task to continuously read responses and send to queue
+void read_response_task(void *pvParameter) {
+    while (1) {
+        FingerprintPacket *response = fingerprint_read_response();
+
+        if (response != NULL) {
+            fingerprint_response_t event;
+            event.packet = *response;
+            free(response);  // Free after copying
+
+            if (!xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100))) {
+                ESP_LOGW(TAG, "Response queue full, dropping packet.");
+            }
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(10));  // Avoid excessive CPU usage
+    }
+}
+
+// Function to get the next response from the queue
+bool fingerprint_get_next_response(fingerprint_response_t *response, TickType_t timeout) {
+    return xQueueReceive(fingerprint_response_queue, response, timeout) == pdTRUE;
+}
 
 fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet) {
     if (!packet) {

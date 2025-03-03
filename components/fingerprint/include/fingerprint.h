@@ -163,7 +163,17 @@
  extern "C" {
  #endif
  
- #include "esp_err.h"
+#include "esp_err.h"
+#include "esp_log.h"
+#include "driver/uart.h"
+#include "esp_err.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/queue.h"     // Required for QueueHandle_t
+#include "freertos/timers.h"    // Required for TickType_t
+#include "driver/gpio.h"
+#include <string.h>
+#include <stdbool.h>   // Fixes unknown type name 'bool'
  
  /**
   * @brief Default UART baud rate for fingerprint module.
@@ -173,8 +183,8 @@
  /**
   * @brief Default UART pins (modifiable at runtime).
   */
- #define DEFAULT_TX_PIN 17
- #define DEFAULT_RX_PIN 18
+ #define DEFAULT_TX_PIN 16
+ #define DEFAULT_RX_PIN 17
  
  /**
   * @brief Default fingerprint module header identifier.
@@ -220,6 +230,18 @@
  * - 0x04: End of data packet
  */
 #define FINGERPRINT_PACKET_ID_CMD 0x01
+
+/**
+ * @brief Defines the maximum number of fingerprint response packets in the queue.
+ * 
+ * This value determines the capacity of `fingerprint_response_queue`, 
+ * which stores fingerprint responses for asynchronous processing.
+ * 
+ * @note A larger value increases buffering but consumes more memory. 
+ *       Adjust as needed based on system constraints.
+ */
+#define RESPONSE_QUEUE_SIZE 10
+
 
 /**
  * @enum fingerprint_command_t
@@ -351,7 +373,6 @@ typedef enum {
     FINGERPRINT_CMD_DOWN_CHAR = 0x09
 } fingerprint_command_t;
 
- 
 /**
  * @struct FingerprintPacket
  * @brief Structure representing a command or response packet for the fingerprint module.
@@ -917,12 +938,22 @@ extern FingerprintPacket PS_DownChar;
  */
 void fingerprint_status_event_handler(fingerprint_status_t status);
  
- /**
-  * @brief Initializes the fingerprint scanner.
-  *
-  * @return ESP_OK on success, error code otherwise.
-  */
- esp_err_t fingerprint_init(void);
+/**
+ * @brief Initializes the fingerprint scanner module.
+ *
+ * This function sets up the UART interface, configures the necessary pins, 
+ * installs the UART driver, and checks for the power-on handshake signal (0x55). 
+ * If the handshake is not received, it waits for 200ms before proceeding.
+ * It also initializes a FreeRTOS queue for response handling and creates 
+ * a background task to continuously read responses.
+ *
+ * @return 
+ *  - ESP_OK if initialization is successful.
+ *  - ESP_FAIL if queue creation or task creation fails.
+ *  - UART-related errors if UART initialization fails.
+ */
+esp_err_t fingerprint_init(void);
+
  
 /**
   * @brief Initializes or updates a fingerprint command packet.
@@ -976,7 +1007,25 @@ void fingerprint_status_event_handler(fingerprint_status_t status);
   * - ESP_FAIL if the command could not be fully sent over UART
   */
  esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address);
- 
+
+ /**
+ * @brief Task to continuously read fingerprint responses from UART.
+ * 
+ * This FreeRTOS task reads fingerprint sensor responses and enqueues them 
+ * into the response queue for further processing. It runs indefinitely, 
+ * ensuring that responses are captured asynchronously.
+ * 
+ * @param pvParameter Unused parameter (NULL by default).
+ * 
+ * @note The function reads responses using `fingerprint_read_response()`, 
+ *       validates them, and sends them to `fingerprint_response_queue`. 
+ *       If the queue is full, the response is dropped with a warning log.
+ * 
+ * @warning This task should be created only once during initialization 
+ *          and should not be terminated unexpectedly, as it ensures 
+ *          continuous response handling.
+ */
+void read_response_task(void *pvParameter);
  
 /**
  * @brief Reads the response packet from UART and returns a dynamically allocated FingerprintPacket.
@@ -987,14 +1036,47 @@ void fingerprint_status_event_handler(fingerprint_status_t status);
  * @return Pointer to the received FingerprintPacket, or NULL on failure.
  */
  FingerprintPacket* fingerprint_read_response(void);
- 
+
+ /**
+ * @brief Structure representing a fingerprint module response.
+ *
+ * This structure stores the status of the fingerprint response and the received packet data.
+ * It is used to facilitate communication between tasks via the response queue.
+ */
+typedef struct {
+    fingerprint_status_t status; /**< Status code of the fingerprint response */
+    FingerprintPacket packet;    /**< Data packet received from the fingerprint module */
+} fingerprint_response_t;
+
+ /**
+ * @brief Retrieves the next fingerprint response from the queue.
+ *
+ * This function waits for a response to be available in the fingerprint response queue.
+ * It blocks for the specified timeout duration if no response is immediately available.
+ *
+ * @param[out] response Pointer to a fingerprint_response_t structure to store the received response.
+ * @param[in] timeout The maximum time to wait for a response (in FreeRTOS ticks).
+ * 
+ * @return true if a response was successfully received, false if the timeout occurred.
+ */
+
+bool fingerprint_get_next_response(fingerprint_response_t *response, TickType_t timeout);
+
+// /** 
+//  * @brief Queue handle for storing fingerprint module responses.
+//  *
+//  * This queue is used to store responses received from the fingerprint module.
+//  * Other components can retrieve responses from this queue for processing.
+//  */
+// extern QueueHandle_t fingerprint_response_queue;
+
  /**
   * @brief Get the status of the fingerprint operation from the response packet.
   *
   * This function extracts the confirmation code from the fingerprint sensor's response
   * and maps it to a predefined fingerprint_status_t enumeration.
   *
-  * @param packet Pointer to the FingerprintPacket structure containing the response.
+  * @param packet Pointer to the FingerprintPacket struScture containing the response.
   *
   * @return fingerprint_status_t Status code representing the operation result.
   */
