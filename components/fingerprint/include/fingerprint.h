@@ -183,7 +183,7 @@
  /**
   * @brief Default UART pins (modifiable at runtime).
   */
- #define DEFAULT_TX_PIN 16
+ #define DEFAULT_TX_PIN 18
  #define DEFAULT_RX_PIN 17
  
  /**
@@ -1061,6 +1061,23 @@ typedef struct {
  */
 
 bool fingerprint_get_next_response(fingerprint_response_t *response, TickType_t timeout);
+
+/**
+ * @brief Task to process fingerprint responses from the queue.
+ *
+ * This FreeRTOS task continuously waits for fingerprint responses from the queue
+ * and processes them by triggering the appropriate event handler.
+ *
+ * The function blocks indefinitely (`portMAX_DELAY`) until a response is available,
+ * ensuring real-time processing of fingerprint events without polling.
+ *
+ * @param[in] pvParameter Unused parameter, required for FreeRTOS task signature.
+ *
+ * @note This task should be started during system initialization to ensure
+ * that fingerprint responses are handled properly.
+ */
+void process_fingerprint_responses_task(void *pvParameter);
+
 
 // /** 
 //  * @brief Queue handle for storing fingerprint module responses.

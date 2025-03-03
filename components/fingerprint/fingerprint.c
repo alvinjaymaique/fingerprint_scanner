@@ -548,6 +548,12 @@ esp_err_t fingerprint_init(void) {
         return ESP_FAIL;
     }
 
+    // Create Processing Task (processes responses from queue)
+    if (xTaskCreate(process_fingerprint_responses_task, "FingerprintProcessResponse", 4096, NULL, 5, NULL) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create fingerprint processing task");
+        return ESP_FAIL;
+    }
+
     ESP_LOGI(TAG, "Fingerprint scanner initialized successfully.");
     return ESP_OK;
 }
@@ -719,7 +725,7 @@ FingerprintPacket* fingerprint_read_response(void) {
     packet->checksum = received_checksum;  // Store checksum after validation
 
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
-    fingerprint_status_event_handler((fingerprint_status_t)packet->command);  // Trigger event based on status code
+    // fingerprint_status_event_handler((fingerprint_status_t)packet->command);  // Trigger event based on status code
     return packet;  // Caller must free this memory after use
 }
 
@@ -746,6 +752,21 @@ void read_response_task(void *pvParameter) {
 bool fingerprint_get_next_response(fingerprint_response_t *response, TickType_t timeout) {
     return xQueueReceive(fingerprint_response_queue, response, timeout) == pdTRUE;
 }
+
+// Function to process fingerprint responses
+void process_fingerprint_responses_task(void *pvParameter) {
+    fingerprint_response_t event;
+
+    while (1) {
+        if (fingerprint_get_next_response(&event, portMAX_DELAY)) {  // Wait indefinitely for a response
+            ESP_LOGI("Fingerprint", "Processing queued response: Command 0x%02X", event.packet.command);
+
+            // Trigger the event handler here
+            fingerprint_status_event_handler((fingerprint_status_t)event.packet.command);
+        }
+    }
+}
+
 
 fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet) {
     if (!packet) {
