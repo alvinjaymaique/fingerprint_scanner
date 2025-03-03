@@ -12,7 +12,7 @@
 
 #define TAG "FINGERPRINT"
 #define UART_NUM UART_NUM_1  // Change based on your wiring
-#define RX_BUF_SIZE 128  // Adjust based on fingerprint module response
+#define RX_BUF_SIZE 256  // Adjust based on fingerprint module response
 
 static int tx_pin = DEFAULT_TX_PIN; // Default TX pin
 static int rx_pin = DEFAULT_RX_PIN; // Default RX pin
@@ -32,6 +32,16 @@ fingerprint_event_handler_t g_fingerprint_event_handler = NULL;
 
 static TaskHandle_t fingerprint_task_handle = NULL;
 static QueueHandle_t fingerprint_response_queue;
+static QueueHandle_t fingerprint_command_queue;
+static QueueHandle_t finger_detected_queue;
+
+// ISR handler for fingerprint detection interrupt, sending detection signal to the queue.
+void IRAM_ATTR finger_detected_isr(void* arg) {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    uint8_t finger_detected = 1; // Flag for finger detection
+    xQueueSendFromISR(finger_detected_queue, &finger_detected, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken); // Yield if needed
+}
 
 void fingerprint_set_pins(int tx, int rx) {
     tx_pin = tx;
@@ -497,17 +507,17 @@ esp_err_t fingerprint_init(void) {
 
     esp_err_t err;
 
-    // Configure UART
-    err = uart_param_config(UART_NUM, &uart_config);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to configure UART");
-        return err;
-    }
-
-    // Set UART pins
+    // Set UART pins first
     err = uart_set_pin(UART_NUM, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to set UART pins");
+        return err;
+    }
+
+    // Now configure UART
+    err = uart_param_config(UART_NUM, &uart_config);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to configure UART");
         return err;
     }
 
@@ -524,33 +534,84 @@ esp_err_t fingerprint_init(void) {
         return ESP_OK;
     }
 
-    // Handshake detection (0x55)
-    uint8_t handshake;
-    int length = uart_read_bytes(UART_NUM, &handshake, 1, pdMS_TO_TICKS(200));  // Timeout 200ms
+    // // Handshake detection (0x55)
+    // uint8_t handshake;
+    // int length = uart_read_bytes(UART_NUM, &handshake, 1, pdMS_TO_TICKS(500));  // Timeout 200ms
 
-    if (length > 0 && handshake == 0x55) {
-        ESP_LOGI(TAG, "Fingerprint module handshake received.");
-    } else {
-        ESP_LOGW(TAG, "No handshake received, waiting 200ms before communication.");
-        vTaskDelay(pdMS_TO_TICKS(200));  // Delay to ensure module is ready
+    // if (length > 0 && handshake == 0x55) {
+    //     ESP_LOGI(TAG, "Fingerprint module handshake received.");
+    // } else {
+    //     ESP_LOGW(TAG, "No handshake received, waiting 200ms before communication.");
+    //     vTaskDelay(pdMS_TO_TICKS(200));  // Delay to ensure module is ready
+    // }
+    // Handshake detection loop (0x55)
+    uint8_t handshake;
+    int length;
+    while (1) {
+        length = uart_read_bytes(UART_NUM, &handshake, 1, pdMS_TO_TICKS(200));  // Timeout 500ms
+        if (length > 0 && handshake == 0x55) {
+            ESP_LOGI(TAG, "Fingerprint module handshake received.");
+            break;  // Exit the loop once handshake is received
+        } else {
+            ESP_LOGW(TAG, "No handshake received, retrying...");
+            vTaskDelay(pdMS_TO_TICKS(200));  // Delay to ensure module is ready before retrying
+        }
     }
 
     // Create Queue for Response Handling
-    fingerprint_response_queue = xQueueCreate(RESPONSE_QUEUE_SIZE, sizeof(fingerprint_response_t));
+    fingerprint_response_queue = xQueueCreate(QUEUE_SIZE, sizeof(fingerprint_response_t));
     if (fingerprint_response_queue == NULL) {
         ESP_LOGE(TAG, "Failed to create response queue");
         return ESP_FAIL;
     }
 
-    // Create Response Handling Task
-    if (xTaskCreate(read_response_task, "FingerprintReadResponse", 4096, NULL, 5, &fingerprint_task_handle) != pdPASS) {
-        ESP_LOGE(TAG, "Failed to create fingerprint response task");
-        return ESP_FAIL;
-    }
+    // // Create Queue for Storing Sent Commands
+    // fingerprint_command_queue = xQueueCreate(QUEUE_SIZE, sizeof(FingerprintCommand_t));
+    // if (fingerprint_command_queue == NULL) {
+    //     ESP_LOGE(TAG, "Failed to create command queue");
+    //     return ESP_FAIL;
+    // }
+
+
+    // // Create Response Handling Task
+    // if (xTaskCreate(read_response_task, "FingerprintReadResponse", 4096, NULL, 5, &fingerprint_task_handle) != pdPASS) {
+    //     ESP_LOGE(TAG, "Failed to create fingerprint response task");
+    //     return ESP_FAIL;
+    // }
 
     // Create Processing Task (processes responses from queue)
     if (xTaskCreate(process_fingerprint_responses_task, "FingerprintProcessResponse", 4096, NULL, 5, NULL) != pdPASS) {
         ESP_LOGE(TAG, "Failed to create fingerprint processing task");
+        return ESP_FAIL;
+    }
+
+    // Create the queue for finger detection
+    finger_detected_queue = xQueueCreate(10, sizeof(uint8_t));
+    if (finger_detected_queue == NULL) {
+        ESP_LOGE(TAG, "Failed to create queue");
+        return ESP_FAIL;
+    }
+
+    // Install GPIO ISR service
+    esp_err_t gpio_ret = gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1);
+    if (gpio_ret != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to install GPIO ISR service: %s", esp_err_to_name(gpio_ret));
+        return gpio_ret;
+    }
+
+    // Initialize GPIO for interrupt
+    gpio_set_direction(FINGERPRINT_GPIO_PIN, GPIO_MODE_INPUT);
+    gpio_set_intr_type(FINGERPRINT_GPIO_PIN, GPIO_INTR_POSEDGE); // Trigger on rising edge
+    gpio_isr_handler_add(FINGERPRINT_GPIO_PIN, finger_detected_isr, NULL);
+
+    // Create tasks
+    if (xTaskCreate(finger_detected_task, "finger_detected_task", 4096, NULL, 10, NULL) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create finger_detected_task");
+        return ESP_FAIL;
+    }
+
+    if (xTaskCreate(detect_fingerprint_uart_task, "uart_read_task", 4096, NULL, 10, NULL) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create uart_read_task");
         return ESP_FAIL;
     }
 
@@ -658,11 +719,21 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     // Debug logging
     ESP_LOGI(TAG, "Sent fingerprint command: 0x%02X to address 0x%08X", cmd->command, (unsigned int)address);
 
+    // // Store the sent command in the queue
+    // FingerprintCommand_t sent_cmd;
+    // sent_cmd.command = cmd->command;  // Store command type
+    // sent_cmd.timestamp = xTaskGetTickCount();  // Store timestamp (optional for debugging)
+
+    // if (!xQueueSend(fingerprint_command_queue, &sent_cmd, pdMS_TO_TICKS(100))) {
+    //     ESP_LOGW(TAG, "Command queue full, dropping command 0x%02X.", cmd->command);
+    // }
+
     // Free the allocated buffer
     free(buffer);
     
     return ESP_OK;
 }
+
 
 
 // Function to read the response packet from UART and return the FingerprintPacket structure
@@ -865,5 +936,27 @@ void trigger_fingerprint_event(fingerprint_event_type_t event_type, fingerprint_
         g_fingerprint_event_handler(event);  /**< Call the registered event handler. */
     } else {
         ESP_LOGE("Fingerprint", "No event handler registered.");
+    }
+}
+
+// Task to handle finger detection events and log the detection.
+void finger_detected_task(void* arg) {
+    uint8_t finger_detected;
+    while (1) {
+        if (xQueueReceive(finger_detected_queue, &finger_detected, portMAX_DELAY)) {
+            ESP_LOGI(TAG, "👆 Finger detected!");
+            // Handle the finger detection (send response, etc.)
+        }
+    }
+}
+
+void detect_fingerprint_uart_task(void* arg) {
+    uint8_t data[RX_BUF_SIZE];
+    while (1) {
+        int len = uart_read_bytes(UART_NUM, data, RX_BUF_SIZE, 20 / portTICK_PERIOD_MS);
+        if (len > 0) {
+            ESP_LOGI(TAG, "Received: %s", data);
+            // Handle received data
+        }
     }
 }

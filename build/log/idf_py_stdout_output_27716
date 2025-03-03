@@ -1,0 +1,632 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar  3 2025 11:14:10[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b9a8h ( 47528) map[0m
+[0;32mI (107) esp_image: segment 1: paddr=0001b9d0 vaddr=3fc93300 size=02a40h ( 10816) load[0m
+[0;32mI (110) esp_image: segment 2: paddr=0001e418 vaddr=40374000 size=01c00h (  7168) load[0m
+[0;32mI (113) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1b008h (110600) map[0m
+[0;32mI (144) esp_image: segment 4: paddr=0003b030 vaddr=40375c00 size=0d6e0h ( 55008) load[0m
+[0;32mI (160) esp_image: segment 5: paddr=00048718 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (166) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (166) boot: Disabling RNG early entropy source...[0m
+[0;32mI (178) cpu_start: Multicore app[0m
+[0;32mI (186) cpu_start: Pro cpu start user code[0m
+[0;32mI (186) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (187) app_init: Application information:[0m
+[0;32mI (187) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (191) app_init: App version:      4963aa0-dirty[0m
+[0;32mI (196) app_init: Compile time:     Mar  3 2025 11:37:07[0m
+[0;32mI (201) app_init: ELF file SHA256:  f073aeba7...[0m
+[0;32mI (205) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (209) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (213) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (217) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (221) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (227) heap_init: At 3FC96618 len 000530F8 (332 KiB): RAM[0m
+[0;32mI (233) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (243) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (249) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (258) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (262) spi_flash: flash io: opi_str[0m
+[0;33mW (265) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (278) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (284) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (291) main_task: Started on CPU0[0m
+[0;32mI (301) main_task: Calling app_main()[0m
+[0;32mI (301) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (801) FINGERPRINT: No handshake received, waiting 200ms before communication.[0m
+[0;32mI (1001) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (1101) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1101) main_task: Returned from app_main()[0m
+[1;31mE (2001) Fingerprint: Failed to read data from UART[0m
+[0;32mI (2001) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (2001) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (3011) Fingerprint: Failed to read data from UART[0m
+[0;32mI (3011) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (3011) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (4021) Fingerprint: Failed to read data from UART[0m
+[0;32mI (4021) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (4021) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (5031) Fingerprint: Failed to read data from UART[0m
+[0;32mI (5031) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (5031) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (6041) Fingerprint: Failed to read data from UART[0m
+[0;32mI (6041) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (6041) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (7051) Fingerprint: Failed to read data from UART[0m
+[0;32mI (7051) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (7051) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (8061) Fingerprint: Failed to read data from UART[0m
+[0;32mI (8061) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (8061) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+
+abort() was called at PC 0x40376ab7 on core 0
+
+
+Backtrace: 0x40375b7d:0x3fc93e70 0x4037ab05:0x3fc93e90 0x40381221:0x3fc93eb0 0x40376ab7:0x3fc93f20 0x40376bcd:0x3fc93f50 0x40376c97:0x3fc93f70 0x420105a3:0x3fc93fa0 0x4200fb29:0x3fc942c0 0x4201afa6:0x3fc942f0 0x40381191:0x3fc94320 0x4200b0fd:0x3fc94370 0x40376e62:0x3fc943a0 0x40377515:0x3fc943d0 0x4037758a:0x3fc943f0 0x403772d9:0x3fc94410 0x40378573:0x3fc99630 0x42002b92:0x3fc99650 0x4037c4e9:0x3fc99670 0x4037b571:0x3fc99690
+
+
+
+
+ELF file SHA256: f073aeba7
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x18 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375abc
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar  3 2025 11:14:10[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b9a8h ( 47528) map[0m
+I (111) esp_image: segment 1: paddr=0001b9d0 vaddr=3fc93300 size=02a40h ( 10816) load
+[0;32mI (115) esp_image: segment 2: paddr=0001e418 vaddr=40374000 size=01c00h (  7168) load[0m
+[0;32mI (117) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1b008h (110600) map[0m
+[0;32mI (149) esp_image: segment 4: paddr=0003b030 vaddr=40375c00 size=0d6e0h ( 55008) load[0m
+[0;32mI (164) esp_image: segment 5: paddr=00048718 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (170) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (170) boot: Disabling RNG early entropy source...[0m
+[0;32mI (182) cpu_start: Multicore app[0m
+[0;32mI (191) cpu_start: Pro cpu start user code[0m
+[0;32mI (191) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (191) app_init: Application information:[0m
+[0;32mI (191) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (196) app_init: App version:      4963aa0-dirty[0m
+[0;32mI (200) app_init: Compile time:     Mar  3 2025 11:37:07[0m
+[0;32mI (205) app_init: ELF file SHA256:  f073aeba7...[0m
+[0;32mI (210) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (214) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (218) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (222) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (226) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (232) heap_init: At 3FC96618 len 000530F8 (332 KiB): RAM[0m
+[0;32mI (237) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (247) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (253) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (262) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (266) spi_flash: flash io: opi_str[0m
+[0;33mW (270) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (282) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (288) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (295) main_task: Started on CPU0[0m
+[0;32mI (305) main_task: Calling app_main()[0m
+[0;32mI (305) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (805) FINGERPRINT: No handshake received, waiting 200ms before communication.[0m
+[0;32mI (1005) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (1105) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1105) main_task: Returned from app_main()[0m
+
+abort() was called at PC 0x40376ab7 on core 0
+
+
+Backtrace: 0x40375b7d:0x3fc93e70 0x4037ab05:0x3fc93e90 0x40381221:0x3fc93eb0 0x40376ab7:0x3fc93f20 0x40376bcd:0x3fc93f50 0x40376c97:0x3fc93f70 0x420105a3:0x3fc93fa0 0x4200fb29:0x3fc942c0 0x4201afa6:0x3fc942f0 0x40381191:0x3fc94320 0x4200b0fd:0x3fc94370 0x40376e62:0x3fc943a0 0x40377515:0x3fc943d0 0x4037758a:0x3fc943f0 0x403772d9:0x3fc94410 0x40378573:0x3fc99630 0x42002b92:0x3fc99650 0x4037c4e9:0x3fc99670 0x4037b571:0x3fc99690
+
+
+
+
+ELF file SHA256: f073aeba7
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x18 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375abc
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar  3 2025 11:14:10[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b9a8h ( 47528) map[0m
+[0;32mI (111) esp_image: segment 1: paddr=0001b9d0 vaddr=3fc93300 size=02a40h ( 10816) load[0m
+[0;32mI (115) esp_image: segment 2: paddr=0001e418 vaddr=40374000 size=01c00h (  7168) load[0m
+[0;32mI (117) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1b008h (110600) map[0m
+[0;32mI (149) esp_image: segment 4: paddr=0003b030 vaddr=40375c00 size=0d6e0h ( 55008) load[0m
+[0;32mI (164) esp_image: segment 5: paddr=00048718 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (170) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (170) boot: Disabling RNG early entropy source...[0m
+[0;32mI (182) cpu_start: Multicore app[0m
+[0;32mI (191) cpu_start: Pro cpu start user code[0m
+[0;32mI (191) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (191) app_init: Application information:[0m
+[0;32mI (191) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (196) app_init: App version:      4963aa0-dirty[0m
+[0;32mI (200) app_init: Compile time:     Mar  3 2025 11:37:07[0m
+[0;32mI (205) app_init: ELF file SHA256:  f073aeba7...[0m
+[0;32mI (210) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (214) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (218) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (222) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (226) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (232) heap_init: At 3FC96618 len 000530F8 (332 KiB): RAM[0m
+[0;32mI (237) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (247) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (253) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (262) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (266) spi_flash: flash io: opi_str[0m
+[0;33mW (270) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (282) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (288) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (295) main_task: Started on CPU0[0m
+[0;32mI (305) main_task: Calling app_main()[0m
+[0;32mI (305) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (805) FINGERPRINT: No handshake received, waiting 200ms before communication.[0m
+[0;32mI (1005) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (1105) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1105) main_task: Returned from app_main()[0m
+[1;31mE (2005) Fingerprint: Failed to read data from UART[0m
+[0;32mI (2005) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (2005) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (3015) Fingerprint: Failed to read data from UART[0m
+[0;32mI (3015) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (3015) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (4025) Fingerprint: Failed to read data from UART[0m
+[0;32mI (4025) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (4025) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (5035) Fingerprint: Failed to read data from UART[0m
+[0;32mI (5035) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (5035) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (6045) Fingerprint: Failed to read data from UART[0m
+[0;32mI (6045) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (6045) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+
+abort() was called at PC 0x40376ab7 on core 0
+
+
+Backtrace: 0x40375b7d:0x3fc93e70 0x4037ab05:0x3fc93e90 0x40381221:0x3fc93eb0 0x40376ab7:0x3fc93f20 0x40376bcd:0x3fc93f50 0x40376c97:0x3fc93f70 0x420105a3:0x3fc93fa0 0x4200fb29:0x3fc942c0 0x4201afa6:0x3fc942f0 0x40381191:0x3fc94320 0x4200b0fd:0x3fc94370 0x40376e62:0x3fc943a0 0x40377515:0x3fc943d0 0x4037758a:0x3fc943f0 0x403772d9:0x3fc94410 0x40378573:0x3fc99630 0x42002b92:0x3fc99650 0x4037c4e9:0x3fc99670 0x4037b571:0x3fc99690
+
+
+
+
+ELF file SHA256: f073aeba7
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x18 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375abc
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar  3 2025 11:14:10[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b9a8h ( 47528) map[0m
+[0;32mI (111) esp_image: segment 1: paddr=0001b9d0 vaddr=3fc93300 size=02a40h ( 10816) load[0m
+[0;32mI (115) esp_image: segment 2: paddr=0001e418 vaddr=40374000 size=01c00h (  7168) load[0m
+[0;32mI (117) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1b008h (110600) map[0m
+[0;32mI (149) esp_image: segment 4: paddr=0003b030 vaddr=40375c00 size=0d6e0h ( 55008) load[0m
+[0;32mI (164) esp_image: segment 5: paddr=00048718 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (170) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (170) boot: Disabling RNG early entropy source...[0m
+[0;32mI (182) cpu_start: Multicore app[0m
+[0;32mI (191) cpu_start: Pro cpu start user code[0m
+[0;32mI (191) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (191) app_init: Application information:[0m
+[0;32mI (191) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (196) app_init: App version:      4963aa0-dirty[0m
+[0;32mI (200) app_init: Compile time:     Mar  3 2025 11:37:07[0m
+[0;32mI (205) app_init: ELF file SHA256:  f073aeba7...[0m
+[0;32mI (210) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (214) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (218) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (222) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (226) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (232) heap_init: At 3FC96618 len 000530F8 (332 KiB): RAM[0m
+[0;32mI (237) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (247) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (253) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (262) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (266) spi_flash: flash io: opi_str[0m
+[0;33mW (270) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (282) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (288) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (295) main_task: Started on CPU0[0m
+[0;32mI (305) main_task: Calling app_main()[0m
+[0;32mI (305) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (805) FINGERPRINT: No handshake received, waiting 200ms before communication.[0m
+[0;32mI (1005) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (1105) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1105) main_task: Returned from app_main()[0m
+
+abort() was called at PC 0x40376ab7 on core 0
+
+
+Backtrace: 0x40375b7d:0x3fc93e70 0x4037ab05:0x3fc93e90 0x40381221:0x3fc93eb0 0x40376ab7:0x3fc93f20 0x40376bcd:0x3fc93f50 0x40376c97:0x3fc93f70 0x420105a3:0x3fc93fa0 0x4200fb29:0x3fc942c0 0x4201afa6:0x3fc942f0 0x40381191:0x3fc94320 0x4200b0fd:0x3fc94370 0x40376e62:0x3fc943a0 0x40377515:0x3fc943d0 0x4037758a:0x3fc943f0 0x403772d9:0x3fc94410 0x40378573:0x3fc99630 0x42002b92:0x3fc99650 0x4037c4e9:0x3fc99670 0x4037b571:0x3fc99690
+
+
+
+
+ELF file SHA256: f073aeba7
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x18 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375abc
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar  3 2025 11:14:10[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b9a8h ( 47528) map[0m
+[0;32mI (111) esp_image: segment 1: paddr=0001b9d0 vaddr=3fc93300 size=02a40h ( 10816) load[0m
+[0;32mI (115) esp_image: segment 2: paddr=0001e418 vaddr=40374000 size=01c00h (  7168) load[0m
+[0;32mI (117) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1b008h (110600) map[0m
+[0;32mI (149) esp_image: segment 4: paddr=0003b030 vaddr=40375c00 size=0d6e0h ( 55008) load[0m
+[0;32mI (164) esp_image: segment 5: paddr=00048718 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (170) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (170) boot: Disabling RNG early entropy source...[0m
+[0;32mI (182) cpu_start: Multicore app[0m
+[0;32mI (191) cpu_start: Pro cpu start user code[0m
+[0;32mI (191) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (191) app_init: Application information:[0m
+[0;32mI (191) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (196) app_init: App version:      4963aa0-dirty[0m
+[0;32mI (200) app_init: Compile time:     Mar  3 2025 11:37:07[0m
+[0;32mI (205) app_init: ELF file SHA256:  f073aeba7...[0m
+[0;32mI (210) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (214) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (218) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (222) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (226) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (232) heap_init: At 3FC96618 len 000530F8 (332 KiB): RAM[0m
+[0;32mI (237) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (247) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (253) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (262) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (266) spi_flash: flash io: opi_str[0m
+[0;33mW (270) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (282) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (288) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (295) main_task: Started on CPU0[0m
+[0;32mI (305) main_task: Calling app_main()[0m
+[0;32mI (305) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (695) FINGERPRINT: No handshake received, waiting 200ms before communication.[0m
+[0;32mI (905) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (1005) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1005) main_task: Returned from app_main()[0m
+
+abort() was called at PC 0x40376ab7 on core 0
+
+
+Backtrace: 0x40375b7d:0x3fc93e70 0x4037ab05:0x3fc93e90 0x40381221:0x3fc93eb0 0x40376ab7:0x3fc93f20 0x40376bcd:0x3fc93f50 0x40376c97:0x3fc93f70 0x420105a3:0x3fc93fa0 0x4200fb29:0x3fc942c0 0x4201afa6:0x3fc942f0 0x40381191:0x3fc94320 0x4200b0fd:0x3fc94370 0x40376e62:0x3fc943a0 0x40377515:0x3fc943d0 0x4037758a:0x3fc943f0 0x403772d9:0x3fc94410 0x40378573:0x3fc99630 0x42002b92:0x3fc99650 0x4037c4e9:0x3fc99670 0x4037b571:0x3fc99690
+
+
+
+
+ELF file SHA256: f073aeba7
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x18 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375abc
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar  3 2025 11:14:10[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b9a8h ( 47528) map[0m
+[0;32mI (111) esp_image: segment 1: paddr=0001b9d0 vaddr=3fc93300 size=02a40h ( 10816) load[0m
+[0;32mI (115) esp_image: segment 2: paddr=0001e418 vaddr=40374000 size=01c00h (  7168) load[0m
+[0;32mI (117) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1b008h (110600) map[0m
+[0;32mI (149) esp_image: segment 4: paddr=0003b030 vaddr=40375c00 size=0d6e0h ( 55008) load[0m
+[0;32mI (164) esp_image: segment 5: paddr=00048718 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (170) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (170) boot: Disabling RNG early entropy source...[0m
+[0;32mI (182) cpu_start: Multicore app[0m
+[0;32mI (191) cpu_start: Pro cpu start user code[0m
+[0;32mI (191) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (191) app_init: Application information:[0m
+[0;32mI (191) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (196) app_init: App version:      4963aa0-dirty[0m
+[0;32mI (200) app_init: Compile time:     Mar  3 2025 11:37:07[0m
+[0;32mI (205) app_init: ELF file SHA256:  f073aeba7...[0m
+[0;32mI (210) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (214) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (218) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (222) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (226) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (232) heap_init: At 3FC96618 len 000530F8 (332 KiB): RAM[0m
+[0;32mI (237) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (247) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (253) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (262) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (266) spi_flash: flash io: opi_str[0m
+[0;33mW (270) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (282) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (288) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (295) main_task: Started on CPU0[0m
+[0;32mI (305) main_task: Calling app_main()[0m
+[0;32mI (305) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (805) FINGERPRINT: No handshake received, waiting 200ms before communication.[0m
+[0;32mI (1005) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (1105) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1105) main_task: Returned from app_main()[0m
+[1;31mE (2005) Fingerprint: Failed to read data from UART[0m
+[0;32mI (2005) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (2005) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (3015) Fingerprint: Failed to read data from UART[0m
+[0;32mI (3015) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (3015) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (4025) Fingerprint: Failed to read data from UART[0m
+[0;32mI (4025) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (4025) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (5035) Fingerprint: Failed to read data from UART[0m
+[0;32mI (5035) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (5035) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (6045) Fingerprint: Failed to read data from UART[0m
+[0;32mI (6045) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (6045) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (7055) Fingerprint: Failed to read data from UART[0m
+[0;32mI (7055) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (7055) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (8065) Fingerprint: Failed to read data from UART[0m
+[0;32mI (8065) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (8065) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (9075) Fingerprint: Failed to read data from UART[0m
+[0;32mI (9075) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (9075) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (10085) Fingerprint: Failed to read data from UART[0m
+[0;32mI (10085) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (10085) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (11095) Fingerprint: Failed to read data from UART[0m
+[0;32mI (11095) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (11095) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (12105) Fingerprint: Failed to read data from UART[0m
+[0;32mI (12105) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (12105) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (13115) Fingerprint: Failed to read data from UART[0m
+[0;32mI (13115) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (13115) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (14125) Fingerprint: Failed to read data from UART[0m
+[0;32mI (14125) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (14125) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (15135) Fingerprint: Failed to read data from UART[0m
+[0;32mI (15135) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (15135) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (16145) Fingerprint: Failed to read data from UART[0m
+[0;32mI (16145) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (16145) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (17155) Fingerprint: Failed to read data from UART[0m
+[0;32mI (17155) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (17155) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (18165) Fingerprint: Failed to read data from UART[0m
+[0;32mI (18165) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (18165) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (19175) Fingerprint: Failed to read data from UART[0m
+[0;32mI (19175) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (19175) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (20185) Fingerprint: Failed to read data from UART[0m
+[0;32mI (20185) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (20185) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (21195) Fingerprint: Failed to read data from UART[0m
+[0;32mI (21195) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (21195) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (22205) Fingerprint: Failed to read data from UART[0m
+[0;32mI (22205) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (22205) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (23215) Fingerprint: Failed to read data from UART[0m
+[0;32mI (23215) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (23215) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (24225) Fingerprint: Failed to read data from UART[0m
+[0;32mI (24225) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (24225) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (25235) Fingerprint: Failed to read data from UART[0m
+[0;32mI (25235) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (25235) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (26245) Fingerprint: Failed to read data from UART[0m
+[0;32mI (26245) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (26245) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (27255) Fingerprint: Failed to read data from UART[0m
+[0;32mI (27255) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (27255) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (28265) Fingerprint: Failed to read data from UART[0m
+[0;32mI (28265) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (28265) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (29275) Fingerprint: Failed to read data from UART[0m
+[0;32mI (29275) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (29275) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (30285) Fingerprint: Failed to read data from UART[0m
+[0;32mI (30285) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (30285) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (31295) Fingerprint: Failed to read data from UART[0m
+[0;32mI (31295) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (31295) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (32305) Fingerprint: Failed to read data from UART[0m
+[0;32mI (32305) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (32305) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (33315) Fingerprint: Failed to read data from UART[0m
+[0;32mI (33315) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (33315) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (34325) Fingerprint: Failed to read data from UART[0m
+[0;32mI (34325) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (34325) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (35335) Fingerprint: Failed to read data from UART[0m
+[0;32mI (35335) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (35335) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (36345) Fingerprint: Failed to read data from UART[0m
+[0;32mI (36345) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (36345) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (37355) Fingerprint: Failed to read data from UART[0m
+[0;32mI (37355) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (37355) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (38365) Fingerprint: Failed to read data from UART[0m
+[0;32mI (38365) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (38365) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (39375) Fingerprint: Failed to read data from UART[0m
+[0;32mI (39375) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (39375) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (40385) Fingerprint: Failed to read data from UART[0m
+[0;32mI (40385) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (40385) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (41395) Fingerprint: Failed to read data from UART[0m
+[0;32mI (41395) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (41395) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (42405) Fingerprint: Failed to read data from UART[0m
+[0;32mI (42405) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (42405) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (43415) Fingerprint: Failed to read data from UART[0m
+[0;32mI (43415) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (43415) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (44425) Fingerprint: Failed to read data from UART[0m
+[0;32mI (44425) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (44425) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (45435) Fingerprint: Failed to read data from UART[0m
+[0;32mI (45435) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (45435) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (46445) Fingerprint: Failed to read data from UART[0m
+[0;32mI (46445) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (46445) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (47455) Fingerprint: Failed to read data from UART[0m
+[0;32mI (47455) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (47455) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (48465) Fingerprint: Failed to read data from UART[0m
+[0;32mI (48465) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (48465) FINGERPRINT: Unknown event triggered. Status: 0x29[0m

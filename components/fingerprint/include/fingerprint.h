@@ -183,8 +183,8 @@
  /**
   * @brief Default UART pins (modifiable at runtime).
   */
- #define DEFAULT_TX_PIN 18
- #define DEFAULT_RX_PIN 17
+ #define DEFAULT_TX_PIN 17
+ #define DEFAULT_RX_PIN 18
  
  /**
   * @brief Default fingerprint module header identifier.
@@ -240,7 +240,15 @@
  * @note A larger value increases buffering but consumes more memory. 
  *       Adjust as needed based on system constraints.
  */
-#define RESPONSE_QUEUE_SIZE 10
+#define QUEUE_SIZE 10
+
+/**
+ * @brief GPIO pin for the fingerprint sensor interrupt.
+ * 
+ * This pin is used to detect the interrupt signal from the fingerprint sensor.
+ * When the sensor detects a finger, it triggers an interrupt on this GPIO pin.
+ */
+#define FINGERPRINT_GPIO_PIN  15  // GPIO pin for fingerprint sensor interrupt
 
 
 /**
@@ -937,6 +945,26 @@ extern FingerprintPacket PS_DownChar;
  * @param status The fingerprint status received from the sensor.
  */
 void fingerprint_status_event_handler(fingerprint_status_t status);
+
+/**
+ * @brief Task to handle the finger detection event.
+ * 
+ * This function continuously checks the queue for finger detection events.
+ * Once detected, it logs and processes the detection event.
+ * 
+ * @param arg Unused parameter
+ */
+void finger_detected_task(void* arg);
+
+/**
+ * @brief Task to read data from UART.
+ * 
+ * This task reads data from the fingerprint sensor via UART. It receives data and logs
+ * the received content, which can then be processed as needed.
+ * 
+ * @param arg Unused parameter
+ */
+void detect_fingerprint_uart_task(void* arg);
  
 /**
  * @brief Initializes the fingerprint scanner module.

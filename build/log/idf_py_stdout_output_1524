@@ -1,22 +1,2203 @@
-[1/11] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/fingerprint_scanner.c.obj
-[2/11] Performing build step for 'bootloader'
-[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
-Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
-[3/11] No install step for 'bootloader'
-[4/11] Completed 'bootloader'
-[5/11] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:28:16: warning: 'last_sent_command' defined but not used [-Wunused-variable]
-   28 | static uint8_t last_sent_command = 0x00;
-      |                ^~~~~~~~~~~~~~~~~
-[6/11] Linking C static library esp-idf\fingerprint\libfingerprint.a
-[7/11] Linking C static library esp-idf\main\libmain.a
-[8/11] Generating ld/sections.ld
-[9/11] Linking CXX executable fingerprint_scanner.elf
-[10/11] Generating binary image from built executable
-esptool.py v4.8.1
-Creating esp32s3 image...
-Merged 2 ELF sections
-Successfully created esp32s3 image.
-Generated C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin
-[11/11] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/MELBEN/esp/fingerprint_scanner/build/partition_table/partition-table.bin C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin"
-fingerprint_scanner.bin binary size 0x385e0 bytes. Smallest app partition is 0x100000 bytes. 0xc7a20 bytes (78%) free.
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar  3 2025 11:14:10[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b9f0h ( 47600) map[0m
+[0;32mI (107) esp_image: segment 1: paddr=0001ba18 vaddr=3fc93200 size=02a70h ( 10864) load[0m
+[0;32mI (110) esp_image: segment 2: paddr=0001e490 vaddr=40374000 size=01b88h (  7048) load[0m
+[0;32mI (113) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1af54h (110420) map[0m
+[0;32mI (144) esp_image: segment 4: paddr=0003af7c vaddr=40375b88 size=0d614h ( 54804) load[0m
+[0;32mI (160) esp_image: segment 5: paddr=00048598 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (166) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (166) boot: Disabling RNG early entropy source...[0m
+[0;32mI (178) cpu_start: Multicore app[0m
+[0;32mI (186) cpu_start: Pro cpu start user code[0m
+[0;32mI (186) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (186) app_init: Application information:[0m
+[0;32mI (187) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (191) app_init: App version:      4963aa0-dirty[0m
+[0;32mI (196) app_init: Compile time:     Mar  3 2025 11:37:07[0m
+[0;32mI (201) app_init: ELF file SHA256:  07a478c96...[0m
+[0;32mI (205) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (209) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (213) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (217) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (221) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (227) heap_init: At 3FC96548 len 000531C8 (332 KiB): RAM[0m
+[0;32mI (232) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (243) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (249) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (258) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (262) spi_flash: flash io: opi_str[0m
+[0;33mW (265) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (277) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (284) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (291) main_task: Started on CPU0[0m
+[0;32mI (301) main_task: Calling app_main()[0m
+[0;32mI (301) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (501) FINGERPRINT: No handshake received, waiting 200ms before communication.[0m
+[0;32mI (701) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (801) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (801) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (801) FINGERPRINT: Handshake command sent successfully.[0m
+[0;32mI (801) main_task: Returned from app_main()[0m
+[1;31mE (1701) Fingerprint: Failed to read data from UART[0m
+[0;32mI (1701) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (1701) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (2711) Fingerprint: Failed to read data from UART[0m
+[0;32mI (2711) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (2711) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (2801) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (2801) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (2801) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (3721) Fingerprint: Failed to read data from UART[0m
+[0;32mI (3721) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (3721) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (4731) Fingerprint: Failed to read data from UART[0m
+[0;32mI (4731) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (4731) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (4801) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (4801) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (4801) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (5741) Fingerprint: Failed to read data from UART[0m
+[0;32mI (5741) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (5741) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (6751) Fingerprint: Failed to read data from UART[0m
+[0;32mI (6751) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (6751) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (6801) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (6801) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (6801) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (7761) Fingerprint: Failed to read data from UART[0m
+[0;32mI (7761) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (7761) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (8771) Fingerprint: Failed to read data from UART[0m
+[0;32mI (8771) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (8771) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (8801) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (8801) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (8801) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (9781) Fingerprint: Failed to read data from UART[0m
+[0;32mI (9781) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (9781) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (10791) Fingerprint: Failed to read data from UART[0m
+[0;32mI (10791) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (10791) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (10801) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (10801) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (10801) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (11801) Fingerprint: Failed to read data from UART[0m
+[0;32mI (11801) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (11801) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (12811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (12811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (12811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (12811) Fingerprint: Failed to read data from UART[0m
+[0;32mI (12821) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (12821) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (13841) Fingerprint: Failed to read data from UART[0m
+[0;32mI (13841) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (13841) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (14811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (14811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (14811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (14851) Fingerprint: Failed to read data from UART[0m
+[0;32mI (14851) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (14851) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (15861) Fingerprint: Failed to read data from UART[0m
+[0;32mI (15861) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (15861) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (16811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (16811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (16811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (16871) Fingerprint: Failed to read data from UART[0m
+[0;32mI (16871) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (16871) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (17881) Fingerprint: Failed to read data from UART[0m
+[0;32mI (17881) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (17881) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (18811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (18811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (18811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (18891) Fingerprint: Failed to read data from UART[0m
+[0;32mI (18891) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (18891) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (19901) Fingerprint: Failed to read data from UART[0m
+[0;32mI (19901) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (19901) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (20811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (20811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (20811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (20911) Fingerprint: Failed to read data from UART[0m
+[0;32mI (20911) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (20911) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (21921) Fingerprint: Failed to read data from UART[0m
+[0;32mI (21921) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (21921) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (22811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (22811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (22811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (22931) Fingerprint: Failed to read data from UART[0m
+[0;32mI (22931) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (22931) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (23941) Fingerprint: Failed to read data from UART[0m
+[0;32mI (23941) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (23941) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (24811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (24811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (24811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (24951) Fingerprint: Failed to read data from UART[0m
+[0;32mI (24951) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (24951) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (25961) Fingerprint: Failed to read data from UART[0m
+[0;32mI (25961) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (25961) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (26811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (26811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (26811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (26971) Fingerprint: Failed to read data from UART[0m
+[0;32mI (26971) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (26971) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (27981) Fingerprint: Failed to read data from UART[0m
+[0;32mI (27981) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (27981) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (28811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (28811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (28811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (28991) Fingerprint: Failed to read data from UART[0m
+[0;32mI (28991) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (28991) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (30001) Fingerprint: Failed to read data from UART[0m
+[0;32mI (30001) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (30001) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (30811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (30811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (30811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (31011) Fingerprint: Failed to read data from UART[0m
+[0;32mI (31011) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (31011) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (32021) Fingerprint: Failed to read data from UART[0m
+[0;32mI (32021) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (32021) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (32811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (32811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (32811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (33031) Fingerprint: Failed to read data from UART[0m
+[0;32mI (33031) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (33031) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (34041) Fingerprint: Failed to read data from UART[0m
+[0;32mI (34041) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (34041) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (34811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (34811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (34811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (35051) Fingerprint: Failed to read data from UART[0m
+[0;32mI (35051) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (35051) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (36061) Fingerprint: Failed to read data from UART[0m
+[0;32mI (36061) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (36061) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (36811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (36811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (36811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (37071) Fingerprint: Failed to read data from UART[0m
+[0;32mI (37071) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (37071) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (38081) Fingerprint: Failed to read data from UART[0m
+[0;32mI (38081) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (38081) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (38811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (38811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (38811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (39091) Fingerprint: Failed to read data from UART[0m
+[0;32mI (39091) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (39091) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (40101) Fingerprint: Failed to read data from UART[0m
+[0;32mI (40101) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (40101) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (40811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (40811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (40811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (41111) Fingerprint: Failed to read data from UART[0m
+[0;32mI (41111) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (41111) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (42121) Fingerprint: Failed to read data from UART[0m
+[0;32mI (42121) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (42121) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (42811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (42811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (42811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (43131) Fingerprint: Failed to read data from UART[0m
+[0;32mI (43131) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (43131) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (44141) Fingerprint: Failed to read data from UART[0m
+[0;32mI (44141) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (44141) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (44811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (44811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (44811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (45151) Fingerprint: Failed to read data from UART[0m
+[0;32mI (45151) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (45151) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (46161) Fingerprint: Failed to read data from UART[0m
+[0;32mI (46161) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (46161) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (46811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (46811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (46811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (47171) Fingerprint: Failed to read data from UART[0m
+[0;32mI (47171) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (47171) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (48181) Fingerprint: Failed to read data from UART[0m
+[0;32mI (48181) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (48181) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (48811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (48811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (48811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (49191) Fingerprint: Failed to read data from UART[0m
+[0;32mI (49191) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (49191) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (50201) Fingerprint: Failed to read data from UART[0m
+[0;32mI (50201) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (50201) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (50811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (50811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (50811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (51211) Fingerprint: Failed to read data from UART[0m
+[0;32mI (51211) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (51211) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (52221) Fingerprint: Failed to read data from UART[0m
+[0;32mI (52221) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (52221) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (52811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (52811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (52811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (53231) Fingerprint: Failed to read data from UART[0m
+[0;32mI (53231) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (53231) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (54241) Fingerprint: Failed to read data from UART[0m
+[0;32mI (54241) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (54241) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (54811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (54811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (54811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (55251) Fingerprint: Failed to read data from UART[0m
+[0;32mI (55251) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (55251) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (56261) Fingerprint: Failed to read data from UART[0m
+[0;32mI (56261) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (56261) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (56811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (56811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (56811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (57271) Fingerprint: Failed to read data from UART[0m
+[0;32mI (57271) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (57271) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (58281) Fingerprint: Failed to read data from UART[0m
+[0;32mI (58281) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (58281) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (58811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (58811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (58811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (59291) Fingerprint: Failed to read data from UART[0m
+[0;32mI (59291) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (59291) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (60301) Fingerprint: Failed to read data from UART[0m
+[0;32mI (60301) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (60301) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (60811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (60811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (60811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (61311) Fingerprint: Failed to read data from UART[0m
+[0;32mI (61311) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (61311) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (62321) Fingerprint: Failed to read data from UART[0m
+[0;32mI (62321) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (62321) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (62811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (62811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (62811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (63331) Fingerprint: Failed to read data from UART[0m
+[0;32mI (63331) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (63331) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (64341) Fingerprint: Failed to read data from UART[0m
+[0;32mI (64341) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (64341) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (64811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (64811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (64811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (65351) Fingerprint: Failed to read data from UART[0m
+[0;32mI (65351) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (65351) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (66361) Fingerprint: Failed to read data from UART[0m
+[0;32mI (66361) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (66361) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (66811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (66811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (66811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (67371) Fingerprint: Failed to read data from UART[0m
+[0;32mI (67371) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (67371) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (68381) Fingerprint: Failed to read data from UART[0m
+[0;32mI (68381) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (68381) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (68811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (68811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (68811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (69391) Fingerprint: Failed to read data from UART[0m
+[0;32mI (69391) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (69391) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (70401) Fingerprint: Failed to read data from UART[0m
+[0;32mI (70401) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (70401) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (70811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (70811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (70811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (71411) Fingerprint: Failed to read data from UART[0m
+[0;32mI (71411) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (71411) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (72421) Fingerprint: Failed to read data from UART[0m
+[0;32mI (72421) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (72421) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (72811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (72811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (72811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (73431) Fingerprint: Failed to read data from UART[0m
+[0;32mI (73431) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (73431) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (74441) Fingerprint: Failed to read data from UART[0m
+[0;32mI (74441) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (74441) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (74811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (74811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (74811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (75451) Fingerprint: Failed to read data from UART[0m
+[0;32mI (75451) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (75451) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (76461) Fingerprint: Failed to read data from UART[0m
+[0;32mI (76461) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (76461) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (76811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (76811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (76811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (77471) Fingerprint: Failed to read data from UART[0m
+[0;32mI (77471) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (77471) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (78481) Fingerprint: Failed to read data from UART[0m
+[0;32mI (78481) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (78481) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (78811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (78811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (78811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (79491) Fingerprint: Failed to read data from UART[0m
+[0;32mI (79491) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (79491) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (80501) Fingerprint: Failed to read data from UART[0m
+[0;32mI (80501) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (80501) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (80811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (80811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (80811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (81511) Fingerprint: Failed to read data from UART[0m
+[0;32mI (81511) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (81511) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (82521) Fingerprint: Failed to read data from UART[0m
+[0;32mI (82521) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (82521) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (82811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (82811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (82811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (83531) Fingerprint: Failed to read data from UART[0m
+[0;32mI (83531) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (83531) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (84541) Fingerprint: Failed to read data from UART[0m
+[0;32mI (84541) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (84541) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (84811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (84811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (84811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (85551) Fingerprint: Failed to read data from UART[0m
+[0;32mI (85551) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (85551) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (86561) Fingerprint: Failed to read data from UART[0m
+[0;32mI (86561) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (86561) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (86811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (86811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (86811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (87571) Fingerprint: Failed to read data from UART[0m
+[0;32mI (87571) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (87571) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (88581) Fingerprint: Failed to read data from UART[0m
+[0;32mI (88581) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (88581) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (88811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (88811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (88811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (89591) Fingerprint: Failed to read data from UART[0m
+[0;32mI (89591) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (89591) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (90601) Fingerprint: Failed to read data from UART[0m
+[0;32mI (90601) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (90601) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (90811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (90811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (90811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (91611) Fingerprint: Failed to read data from UART[0m
+[0;32mI (91611) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (91611) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (92621) Fingerprint: Failed to read data from UART[0m
+[0;32mI (92621) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (92621) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (92811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (92811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (92811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (93631) Fingerprint: Failed to read data from UART[0m
+[0;32mI (93631) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (93631) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (94811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (94811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (94811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (95001) Fingerprint: Invalid packet length: 9[0m
+[0;32mI (95001) Fingerprint: Triggering event: 5 for status: 0x01[0m
+[0;32mI (95001) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x01[0m
+[1;31mE (96011) Fingerprint: Failed to read data from UART[0m
+[0;32mI (96011) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (96011) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (96811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (96811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (96811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (97021) Fingerprint: Failed to read data from UART[0m
+[0;32mI (97021) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (97021) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (98031) Fingerprint: Failed to read data from UART[0m
+[0;32mI (98031) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (98031) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (98811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (98811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (98811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (99041) Fingerprint: Failed to read data from UART[0m
+[0;32mI (99041) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (99041) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (100051) Fingerprint: Failed to read data from UART[0m
+[0;32mI (100051) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (100051) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (100811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (100811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (100811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (101061) Fingerprint: Failed to read data from UART[0m
+[0;32mI (101061) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (101061) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (102071) Fingerprint: Failed to read data from UART[0m
+[0;32mI (102071) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (102071) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (102811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (102811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (102811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (103081) Fingerprint: Failed to read data from UART[0m
+[0;32mI (103081) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (103081) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (104091) Fingerprint: Failed to read data from UART[0m
+[0;32mI (104091) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (104091) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (104811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (104811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (104811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (106101) Fingerprint: Invalid packet length: 4[0m
+[0;32mI (106101) Fingerprint: Triggering event: 5 for status: 0x01[0m
+[0;32mI (106101) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x01[0m
+[0;32mI (106811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (106811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (106811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (107111) Fingerprint: Failed to read data from UART[0m
+[0;32mI (107111) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (107111) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (108121) Fingerprint: Failed to read data from UART[0m
+[0;32mI (108121) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (108121) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (108811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (108811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (108811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (109131) Fingerprint: Failed to read data from UART[0m
+[0;32mI (109131) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (109131) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (110141) Fingerprint: Failed to read data from UART[0m
+[0;32mI (110141) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (110141) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (110811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (110811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (110811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (111151) Fingerprint: Failed to read data from UART[0m
+[0;32mI (111151) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (111151) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (112161) Fingerprint: Failed to read data from UART[0m
+[0;32mI (112161) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (112161) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (112811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (112811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (112811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (113171) Fingerprint: Failed to read data from UART[0m
+[0;32mI (113171) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (113171) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (114181) Fingerprint: Failed to read data from UART[0m
+[0;32mI (114181) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (114181) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (114811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (114811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (114811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (115191) Fingerprint: Failed to read data from UART[0m
+[0;32mI (115191) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (115191) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (116201) Fingerprint: Failed to read data from UART[0m
+[0;32mI (116201) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (116201) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (116811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (116811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (116811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (117211) Fingerprint: Failed to read data from UART[0m
+[0;32mI (117211) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (117211) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (118221) Fingerprint: Failed to read data from UART[0m
+[0;32mI (118221) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (118221) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (118811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (118811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (118811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (119231) Fingerprint: Failed to read data from UART[0m
+[0;32mI (119231) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (119231) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (120241) Fingerprint: Failed to read data from UART[0m
+[0;32mI (120241) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (120241) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (120811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (120811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (120811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (121251) Fingerprint: Failed to read data from UART[0m
+[0;32mI (121251) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (121251) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (122261) Fingerprint: Failed to read data from UART[0m
+[0;32mI (122261) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (122261) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (122811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (122811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (122811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (123271) Fingerprint: Failed to read data from UART[0m
+[0;32mI (123271) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (123271) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (124281) Fingerprint: Failed to read data from UART[0m
+[0;32mI (124281) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (124281) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (124811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (124811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (124811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (125291) Fingerprint: Failed to read data from UART[0m
+[0;32mI (125291) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (125291) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (126301) Fingerprint: Failed to read data from UART[0m
+[0;32mI (126301) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (126301) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (126811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (126811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (126811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (127311) Fingerprint: Failed to read data from UART[0m
+[0;32mI (127311) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (127311) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (128321) Fingerprint: Failed to read data from UART[0m
+[0;32mI (128321) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (128321) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (128811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (128811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (128811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (129331) Fingerprint: Failed to read data from UART[0m
+[0;32mI (129331) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (129331) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (130341) Fingerprint: Failed to read data from UART[0m
+[0;32mI (130341) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (130341) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (130811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (130811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (130811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (131351) Fingerprint: Failed to read data from UART[0m
+[0;32mI (131351) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (131351) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (132361) Fingerprint: Failed to read data from UART[0m
+[0;32mI (132361) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (132361) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (132811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (132811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (132811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (133371) Fingerprint: Failed to read data from UART[0m
+[0;32mI (133371) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (133371) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (134381) Fingerprint: Failed to read data from UART[0m
+[0;32mI (134381) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (134381) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (134811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (134811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (134811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (135391) Fingerprint: Failed to read data from UART[0m
+[0;32mI (135391) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (135391) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (136401) Fingerprint: Failed to read data from UART[0m
+[0;32mI (136401) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (136401) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (136811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (136811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (136811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (137411) Fingerprint: Failed to read data from UART[0m
+[0;32mI (137411) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (137411) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (138421) Fingerprint: Failed to read data from UART[0m
+[0;32mI (138421) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (138421) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (138811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (138811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (138811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (139431) Fingerprint: Failed to read data from UART[0m
+[0;32mI (139431) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (139431) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (140441) Fingerprint: Failed to read data from UART[0m
+[0;32mI (140441) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (140441) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (140811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (140811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (140811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (141451) Fingerprint: Failed to read data from UART[0m
+[0;32mI (141451) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (141451) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (142461) Fingerprint: Failed to read data from UART[0m
+[0;32mI (142461) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (142461) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (142811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (142811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (142811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (143471) Fingerprint: Failed to read data from UART[0m
+[0;32mI (143471) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (143471) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (144481) Fingerprint: Failed to read data from UART[0m
+[0;32mI (144481) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (144481) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (144811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (144811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (144811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (145491) Fingerprint: Failed to read data from UART[0m
+[0;32mI (145491) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (145491) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (146501) Fingerprint: Failed to read data from UART[0m
+[0;32mI (146501) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (146501) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (146811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (146811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (146811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (147511) Fingerprint: Failed to read data from UART[0m
+[0;32mI (147511) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (147511) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (148521) Fingerprint: Failed to read data from UART[0m
+[0;32mI (148521) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (148521) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (148811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (148811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (148811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (149531) Fingerprint: Failed to read data from UART[0m
+[0;32mI (149531) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (149531) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (150541) Fingerprint: Failed to read data from UART[0m
+[0;32mI (150541) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (150541) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (150811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (150811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (150811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (151551) Fingerprint: Failed to read data from UART[0m
+[0;32mI (151551) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (151551) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (152561) Fingerprint: Failed to read data from UART[0m
+[0;32mI (152561) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (152561) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (152811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (152811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (152811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (153571) Fingerprint: Failed to read data from UART[0m
+[0;32mI (153571) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (153571) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (154581) Fingerprint: Failed to read data from UART[0m
+[0;32mI (154581) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (154581) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (154811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (154811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (154811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (155591) Fingerprint: Failed to read data from UART[0m
+[0;32mI (155591) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (155591) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (156601) Fingerprint: Failed to read data from UART[0m
+[0;32mI (156601) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (156601) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (156811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (156811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (156811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (157611) Fingerprint: Failed to read data from UART[0m
+[0;32mI (157611) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (157611) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (158621) Fingerprint: Failed to read data from UART[0m
+[0;32mI (158621) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (158621) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (158811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (158811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (158811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (159631) Fingerprint: Failed to read data from UART[0m
+[0;32mI (159631) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (159631) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (160641) Fingerprint: Failed to read data from UART[0m
+[0;32mI (160641) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (160641) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (160811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (160811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (160811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (161651) Fingerprint: Failed to read data from UART[0m
+[0;32mI (161651) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (161651) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (162661) Fingerprint: Failed to read data from UART[0m
+[0;32mI (162661) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (162661) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (162811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (162811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (162811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (163671) Fingerprint: Failed to read data from UART[0m
+[0;32mI (163671) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (163671) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (164681) Fingerprint: Failed to read data from UART[0m
+[0;32mI (164681) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (164681) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (164811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (164811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (164811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (165691) Fingerprint: Failed to read data from UART[0m
+[0;32mI (165691) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (165691) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (166701) Fingerprint: Failed to read data from UART[0m
+[0;32mI (166701) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (166701) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (166811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (166811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (166811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (167711) Fingerprint: Failed to read data from UART[0m
+[0;32mI (167711) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (167711) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (168721) Fingerprint: Failed to read data from UART[0m
+[0;32mI (168721) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (168721) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (168811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (168811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (168811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (169731) Fingerprint: Failed to read data from UART[0m
+[0;32mI (169731) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (169731) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (170741) Fingerprint: Failed to read data from UART[0m
+[0;32mI (170741) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (170741) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (170811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (170811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (170811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (171751) Fingerprint: Failed to read data from UART[0m
+[0;32mI (171751) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (171751) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (172761) Fingerprint: Failed to read data from UART[0m
+[0;32mI (172761) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (172761) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (172811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (172811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (172811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (173771) Fingerprint: Failed to read data from UART[0m
+[0;32mI (173771) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (173771) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (174781) Fingerprint: Failed to read data from UART[0m
+[0;32mI (174781) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (174781) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (174811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (174811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (174811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (175791) Fingerprint: Failed to read data from UART[0m
+[0;32mI (175791) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (175791) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (176801) Fingerprint: Failed to read data from UART[0m
+[0;32mI (176801) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (176801) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (176811) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (176811) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (176811) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (177811) Fingerprint: Failed to read data from UART[0m
+[0;32mI (177811) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (177811) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (178821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (178821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (178821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (178821) Fingerprint: Failed to read data from UART[0m
+[0;32mI (178831) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (178831) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (179851) Fingerprint: Failed to read data from UART[0m
+[0;32mI (179851) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (179851) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (180821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (180821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (180821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (180861) Fingerprint: Failed to read data from UART[0m
+[0;32mI (180861) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (180861) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (181871) Fingerprint: Failed to read data from UART[0m
+[0;32mI (181871) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (181871) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (182821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (182821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (182821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (182881) Fingerprint: Failed to read data from UART[0m
+[0;32mI (182881) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (182881) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (183891) Fingerprint: Failed to read data from UART[0m
+[0;32mI (183891) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (183891) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (184821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (184821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (184821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (184901) Fingerprint: Failed to read data from UART[0m
+[0;32mI (184901) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (184901) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (185911) Fingerprint: Failed to read data from UART[0m
+[0;32mI (185911) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (185911) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (186821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (186821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (186821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (186921) Fingerprint: Failed to read data from UART[0m
+[0;32mI (186921) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (186921) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (187931) Fingerprint: Failed to read data from UART[0m
+[0;32mI (187931) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (187931) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (188821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (188821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (188821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (188941) Fingerprint: Failed to read data from UART[0m
+[0;32mI (188941) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (188941) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (189951) Fingerprint: Failed to read data from UART[0m
+[0;32mI (189951) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (189951) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (190821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (190821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (190821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (190961) Fingerprint: Failed to read data from UART[0m
+[0;32mI (190961) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (190961) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (191971) Fingerprint: Failed to read data from UART[0m
+[0;32mI (191971) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (191971) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (192821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (192821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (192821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (192981) Fingerprint: Failed to read data from UART[0m
+[0;32mI (192981) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (192981) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (193991) Fingerprint: Failed to read data from UART[0m
+[0;32mI (193991) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (193991) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (194821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (194821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (194821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (195001) Fingerprint: Failed to read data from UART[0m
+[0;32mI (195001) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (195001) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (196011) Fingerprint: Failed to read data from UART[0m
+[0;32mI (196011) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (196011) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (196821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (196821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (196821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (197021) Fingerprint: Failed to read data from UART[0m
+[0;32mI (197021) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (197021) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (198031) Fingerprint: Failed to read data from UART[0m
+[0;32mI (198031) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (198031) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (198821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (198821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (198821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (199041) Fingerprint: Failed to read data from UART[0m
+[0;32mI (199041) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (199041) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (200051) Fingerprint: Failed to read data from UART[0m
+[0;32mI (200051) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (200051) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (200821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (200821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (200821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (201061) Fingerprint: Failed to read data from UART[0m
+[0;32mI (201061) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (201061) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (202071) Fingerprint: Failed to read data from UART[0m
+[0;32mI (202071) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (202071) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (202821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (202821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (202821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (203081) Fingerprint: Failed to read data from UART[0m
+[0;32mI (203081) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (203081) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (204091) Fingerprint: Failed to read data from UART[0m
+[0;32mI (204091) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (204091) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (204821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (204821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (204821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (205101) Fingerprint: Failed to read data from UART[0m
+[0;32mI (205101) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (205101) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (206111) Fingerprint: Failed to read data from UART[0m
+[0;32mI (206111) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (206111) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (206821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (206821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (206821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (207121) Fingerprint: Failed to read data from UART[0m
+[0;32mI (207121) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (207121) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (208131) Fingerprint: Failed to read data from UART[0m
+[0;32mI (208131) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (208131) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (208821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (208821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (208821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (209141) Fingerprint: Failed to read data from UART[0m
+[0;32mI (209141) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (209141) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (210151) Fingerprint: Failed to read data from UART[0m
+[0;32mI (210151) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (210151) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (210821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (210821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (210821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (211161) Fingerprint: Failed to read data from UART[0m
+[0;32mI (211161) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (211161) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (212171) Fingerprint: Failed to read data from UART[0m
+[0;32mI (212171) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (212171) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (212821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (212821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (212821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (213181) Fingerprint: Failed to read data from UART[0m
+[0;32mI (213181) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (213181) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (214191) Fingerprint: Failed to read data from UART[0m
+[0;32mI (214191) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (214191) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (214821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (214821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (214821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (215201) Fingerprint: Failed to read data from UART[0m
+[0;32mI (215201) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (215201) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (216211) Fingerprint: Failed to read data from UART[0m
+[0;32mI (216211) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (216211) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (216821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (216821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (216821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (217221) Fingerprint: Failed to read data from UART[0m
+[0;32mI (217221) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (217221) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (218231) Fingerprint: Failed to read data from UART[0m
+[0;32mI (218231) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (218231) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (218821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (218821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (218821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (219241) Fingerprint: Failed to read data from UART[0m
+[0;32mI (219241) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (219241) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (220251) Fingerprint: Failed to read data from UART[0m
+[0;32mI (220251) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (220251) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (220821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (220821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (220821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (221261) Fingerprint: Failed to read data from UART[0m
+[0;32mI (221261) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (221261) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (222271) Fingerprint: Failed to read data from UART[0m
+[0;32mI (222271) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (222271) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (222821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (222821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (222821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (223281) Fingerprint: Failed to read data from UART[0m
+[0;32mI (223281) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (223281) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (224291) Fingerprint: Failed to read data from UART[0m
+[0;32mI (224291) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (224291) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (224821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (224821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (224821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (225301) Fingerprint: Failed to read data from UART[0m
+[0;32mI (225301) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (225301) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (226311) Fingerprint: Failed to read data from UART[0m
+[0;32mI (226311) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (226311) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (226821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (226821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (226821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (227321) Fingerprint: Failed to read data from UART[0m
+[0;32mI (227321) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (227321) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (228331) Fingerprint: Failed to read data from UART[0m
+[0;32mI (228331) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (228331) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (228821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (228821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (228821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (229341) Fingerprint: Failed to read data from UART[0m
+[0;32mI (229341) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (229341) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (230351) Fingerprint: Failed to read data from UART[0m
+[0;32mI (230351) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (230351) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (230821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (230821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (230821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (231361) Fingerprint: Failed to read data from UART[0m
+[0;32mI (231361) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (231361) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (232371) Fingerprint: Failed to read data from UART[0m
+[0;32mI (232371) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (232371) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (232821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (232821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (232821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (233381) Fingerprint: Failed to read data from UART[0m
+[0;32mI (233381) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (233381) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (234391) Fingerprint: Failed to read data from UART[0m
+[0;32mI (234391) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (234391) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (234821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (234821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (234821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (235401) Fingerprint: Failed to read data from UART[0m
+[0;32mI (235401) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (235401) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (236411) Fingerprint: Failed to read data from UART[0m
+[0;32mI (236411) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (236411) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (236821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (236821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (236821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (237421) Fingerprint: Failed to read data from UART[0m
+[0;32mI (237421) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (237421) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (238431) Fingerprint: Failed to read data from UART[0m
+[0;32mI (238431) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (238431) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (238821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (238821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (238821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (239441) Fingerprint: Failed to read data from UART[0m
+[0;32mI (239441) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (239441) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (240451) Fingerprint: Failed to read data from UART[0m
+[0;32mI (240451) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (240451) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (240821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (240821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (240821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (241461) Fingerprint: Failed to read data from UART[0m
+[0;32mI (241461) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (241461) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (242471) Fingerprint: Failed to read data from UART[0m
+[0;32mI (242471) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (242471) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (242821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (242821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (242821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (243481) Fingerprint: Failed to read data from UART[0m
+[0;32mI (243481) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (243481) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (244491) Fingerprint: Failed to read data from UART[0m
+[0;32mI (244491) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (244491) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (244821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (244821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (244821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (245501) Fingerprint: Failed to read data from UART[0m
+[0;32mI (245501) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (245501) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (246511) Fingerprint: Failed to read data from UART[0m
+[0;32mI (246511) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (246511) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (246821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (246821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (246821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (247521) Fingerprint: Failed to read data from UART[0m
+[0;32mI (247521) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (247521) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (248531) Fingerprint: Failed to read data from UART[0m
+[0;32mI (248531) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (248531) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (248821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (248821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (248821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (249541) Fingerprint: Failed to read data from UART[0m
+[0;32mI (249541) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (249541) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (250551) Fingerprint: Failed to read data from UART[0m
+[0;32mI (250551) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (250551) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (250821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (250821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (250821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (251561) Fingerprint: Failed to read data from UART[0m
+[0;32mI (251561) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (251561) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (252571) Fingerprint: Failed to read data from UART[0m
+[0;32mI (252571) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (252571) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (252821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (252821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (252821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (253581) Fingerprint: Failed to read data from UART[0m
+[0;32mI (253581) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (253581) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (254591) Fingerprint: Failed to read data from UART[0m
+[0;32mI (254591) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (254591) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (254821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (254821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (254821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (255601) Fingerprint: Failed to read data from UART[0m
+[0;32mI (255601) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (255601) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (256611) Fingerprint: Failed to read data from UART[0m
+[0;32mI (256611) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (256611) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (256821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (256821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (256821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (257621) Fingerprint: Failed to read data from UART[0m
+[0;32mI (257621) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (257621) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (258631) Fingerprint: Failed to read data from UART[0m
+[0;32mI (258631) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (258631) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (258821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (258821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (258821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (259641) Fingerprint: Failed to read data from UART[0m
+[0;32mI (259641) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (259641) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (260651) Fingerprint: Failed to read data from UART[0m
+[0;32mI (260651) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (260651) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (260821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (260821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (260821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (261661) Fingerprint: Failed to read data from UART[0m
+[0;32mI (261661) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (261661) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (262671) Fingerprint: Failed to read data from UART[0m
+[0;32mI (262671) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (262671) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (262821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (262821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (262821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (263681) Fingerprint: Failed to read data from UART[0m
+[0;32mI (263681) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (263681) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (264691) Fingerprint: Failed to read data from UART[0m
+[0;32mI (264691) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (264691) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (264821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (264821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (264821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (265701) Fingerprint: Failed to read data from UART[0m
+[0;32mI (265701) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (265701) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (266711) Fingerprint: Failed to read data from UART[0m
+[0;32mI (266711) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (266711) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (266821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (266821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (266821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (267721) Fingerprint: Failed to read data from UART[0m
+[0;32mI (267721) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (267721) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (268731) Fingerprint: Failed to read data from UART[0m
+[0;32mI (268731) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (268731) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (268821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (268821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (268821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (269741) Fingerprint: Failed to read data from UART[0m
+[0;32mI (269741) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (269741) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (270751) Fingerprint: Failed to read data from UART[0m
+[0;32mI (270751) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (270751) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (270821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (270821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (270821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (271761) Fingerprint: Failed to read data from UART[0m
+[0;32mI (271761) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (271761) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (272771) Fingerprint: Failed to read data from UART[0m
+[0;32mI (272771) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (272771) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (272821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (272821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (272821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (273781) Fingerprint: Failed to read data from UART[0m
+[0;32mI (273781) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (273781) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (274791) Fingerprint: Failed to read data from UART[0m
+[0;32mI (274791) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (274791) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (274821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (274821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (274821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (275801) Fingerprint: Failed to read data from UART[0m
+[0;32mI (275801) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (275801) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (276811) Fingerprint: Failed to read data from UART[0m
+[0;32mI (276811) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (276811) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (276821) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (276821) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (276821) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (277821) Fingerprint: Failed to read data from UART[0m
+[0;32mI (277821) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (277821) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (278831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (278831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (278831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (278831) Fingerprint: Failed to read data from UART[0m
+[0;32mI (278841) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (278841) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (279861) Fingerprint: Failed to read data from UART[0m
+[0;32mI (279861) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (279861) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (280831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (280831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (280831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (280871) Fingerprint: Failed to read data from UART[0m
+[0;32mI (280871) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (280871) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (281881) Fingerprint: Failed to read data from UART[0m
+[0;32mI (281881) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (281881) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (282831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (282831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (282831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (282891) Fingerprint: Failed to read data from UART[0m
+[0;32mI (282891) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (282891) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (283901) Fingerprint: Failed to read data from UART[0m
+[0;32mI (283901) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (283901) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (284831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (284831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (284831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (284911) Fingerprint: Failed to read data from UART[0m
+[0;32mI (284911) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (284911) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (285921) Fingerprint: Failed to read data from UART[0m
+[0;32mI (285921) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (285921) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (286831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (286831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (286831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (286931) Fingerprint: Failed to read data from UART[0m
+[0;32mI (286931) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (286931) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (287941) Fingerprint: Failed to read data from UART[0m
+[0;32mI (287941) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (287941) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (288831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (288831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (288831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (288951) Fingerprint: Failed to read data from UART[0m
+[0;32mI (288951) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (288951) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (289961) Fingerprint: Failed to read data from UART[0m
+[0;32mI (289961) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (289961) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (290831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (290831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (290831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (290971) Fingerprint: Failed to read data from UART[0m
+[0;32mI (290971) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (290971) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (291981) Fingerprint: Failed to read data from UART[0m
+[0;32mI (291981) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (291981) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (292831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (292831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (292831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (292991) Fingerprint: Failed to read data from UART[0m
+[0;32mI (292991) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (292991) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (294001) Fingerprint: Failed to read data from UART[0m
+[0;32mI (294001) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (294001) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (294831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (294831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (294831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (295011) Fingerprint: Failed to read data from UART[0m
+[0;32mI (295011) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (295011) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (296021) Fingerprint: Failed to read data from UART[0m
+[0;32mI (296021) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (296021) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (296831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (296831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (296831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (297031) Fingerprint: Failed to read data from UART[0m
+[0;32mI (297031) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (297031) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (298041) Fingerprint: Failed to read data from UART[0m
+[0;32mI (298041) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (298041) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (298831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (298831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (298831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (299051) Fingerprint: Failed to read data from UART[0m
+[0;32mI (299051) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (299051) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (300061) Fingerprint: Failed to read data from UART[0m
+[0;32mI (300061) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (300061) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (300831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (300831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (300831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (301071) Fingerprint: Failed to read data from UART[0m
+[0;32mI (301071) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (301071) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (302081) Fingerprint: Failed to read data from UART[0m
+[0;32mI (302081) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (302081) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (302831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (302831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (302831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (303091) Fingerprint: Failed to read data from UART[0m
+[0;32mI (303091) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (303091) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (304101) Fingerprint: Failed to read data from UART[0m
+[0;32mI (304101) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (304101) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (304831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (304831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (304831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (305111) Fingerprint: Failed to read data from UART[0m
+[0;32mI (305111) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (305111) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (306121) Fingerprint: Failed to read data from UART[0m
+[0;32mI (306121) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (306121) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (306831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (306831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (306831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (307131) Fingerprint: Failed to read data from UART[0m
+[0;32mI (307131) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (307131) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (308141) Fingerprint: Failed to read data from UART[0m
+[0;32mI (308141) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (308141) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (308831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (308831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (308831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (309151) Fingerprint: Failed to read data from UART[0m
+[0;32mI (309151) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (309151) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (310161) Fingerprint: Failed to read data from UART[0m
+[0;32mI (310161) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (310161) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (310831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (310831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (310831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (311171) Fingerprint: Failed to read data from UART[0m
+[0;32mI (311171) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (311171) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (312181) Fingerprint: Failed to read data from UART[0m
+[0;32mI (312181) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (312181) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (312831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (312831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (312831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (313191) Fingerprint: Failed to read data from UART[0m
+[0;32mI (313191) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (313191) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (314201) Fingerprint: Failed to read data from UART[0m
+[0;32mI (314201) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (314201) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (314831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (314831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (314831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (315211) Fingerprint: Failed to read data from UART[0m
+[0;32mI (315211) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (315211) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (316221) Fingerprint: Failed to read data from UART[0m
+[0;32mI (316221) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (316221) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (316831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (316831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (316831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (317231) Fingerprint: Failed to read data from UART[0m
+[0;32mI (317231) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (317231) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (318241) Fingerprint: Failed to read data from UART[0m
+[0;32mI (318241) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (318241) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (318831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (318831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (318831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (319251) Fingerprint: Failed to read data from UART[0m
+[0;32mI (319251) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (319251) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (320261) Fingerprint: Failed to read data from UART[0m
+[0;32mI (320261) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (320261) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (320831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (320831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (320831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (321271) Fingerprint: Failed to read data from UART[0m
+[0;32mI (321271) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (321271) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (322281) Fingerprint: Failed to read data from UART[0m
+[0;32mI (322281) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (322281) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (322831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (322831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (322831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (323291) Fingerprint: Failed to read data from UART[0m
+[0;32mI (323291) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (323291) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (324301) Fingerprint: Failed to read data from UART[0m
+[0;32mI (324301) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (324301) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (324831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (324831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (324831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (325311) Fingerprint: Failed to read data from UART[0m
+[0;32mI (325311) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (325311) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (326321) Fingerprint: Failed to read data from UART[0m
+[0;32mI (326321) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (326321) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (326831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (326831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (326831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (327331) Fingerprint: Failed to read data from UART[0m
+[0;32mI (327331) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (327331) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (328341) Fingerprint: Failed to read data from UART[0m
+[0;32mI (328341) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (328341) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (328831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (328831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (328831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (329351) Fingerprint: Failed to read data from UART[0m
+[0;32mI (329351) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (329351) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (330361) Fingerprint: Failed to read data from UART[0m
+[0;32mI (330361) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (330361) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (330831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (330831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (330831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (331371) Fingerprint: Failed to read data from UART[0m
+[0;32mI (331371) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (331371) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (332381) Fingerprint: Failed to read data from UART[0m
+[0;32mI (332381) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (332381) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (332831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (332831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (332831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (333391) Fingerprint: Failed to read data from UART[0m
+[0;32mI (333391) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (333391) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (334401) Fingerprint: Failed to read data from UART[0m
+[0;32mI (334401) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (334401) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (334831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (334831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (334831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (335411) Fingerprint: Failed to read data from UART[0m
+[0;32mI (335411) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (335411) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (336421) Fingerprint: Failed to read data from UART[0m
+[0;32mI (336421) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (336421) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (336831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (336831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (336831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (337431) Fingerprint: Failed to read data from UART[0m
+[0;32mI (337431) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (337431) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (338441) Fingerprint: Failed to read data from UART[0m
+[0;32mI (338441) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (338441) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (338831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (338831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (338831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (339451) Fingerprint: Failed to read data from UART[0m
+[0;32mI (339451) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (339451) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (340461) Fingerprint: Failed to read data from UART[0m
+[0;32mI (340461) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (340461) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (340831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (340831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (340831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (341471) Fingerprint: Failed to read data from UART[0m
+[0;32mI (341471) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (341471) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (342481) Fingerprint: Failed to read data from UART[0m
+[0;32mI (342481) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (342481) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (342831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (342831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (342831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (343491) Fingerprint: Failed to read data from UART[0m
+[0;32mI (343491) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (343491) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (344501) Fingerprint: Failed to read data from UART[0m
+[0;32mI (344501) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (344501) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (344831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (344831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (344831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (345511) Fingerprint: Failed to read data from UART[0m
+[0;32mI (345511) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (345511) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (346521) Fingerprint: Failed to read data from UART[0m
+[0;32mI (346521) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (346521) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (346831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (346831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (346831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (347531) Fingerprint: Failed to read data from UART[0m
+[0;32mI (347531) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (347531) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (348541) Fingerprint: Failed to read data from UART[0m
+[0;32mI (348541) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (348541) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (348831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (348831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (348831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (349551) Fingerprint: Failed to read data from UART[0m
+[0;32mI (349551) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (349551) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (350561) Fingerprint: Failed to read data from UART[0m
+[0;32mI (350561) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (350561) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (350831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (350831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (350831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (351571) Fingerprint: Failed to read data from UART[0m
+[0;32mI (351571) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (351571) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (352581) Fingerprint: Failed to read data from UART[0m
+[0;32mI (352581) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (352581) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (352831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (352831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (352831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (353591) Fingerprint: Failed to read data from UART[0m
+[0;32mI (353591) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (353591) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (354601) Fingerprint: Failed to read data from UART[0m
+[0;32mI (354601) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (354601) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (354831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (354831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (354831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (355611) Fingerprint: Failed to read data from UART[0m
+[0;32mI (355611) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (355611) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (356621) Fingerprint: Failed to read data from UART[0m
+[0;32mI (356621) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (356621) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (356831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (356831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (356831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (357631) Fingerprint: Failed to read data from UART[0m
+[0;32mI (357631) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (357631) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (358641) Fingerprint: Failed to read data from UART[0m
+[0;32mI (358641) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (358641) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (358831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (358831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (358831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (359651) Fingerprint: Failed to read data from UART[0m
+[0;32mI (359651) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (359651) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (360661) Fingerprint: Failed to read data from UART[0m
+[0;32mI (360661) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (360661) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (360831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (360831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (360831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (361671) Fingerprint: Failed to read data from UART[0m
+[0;32mI (361671) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (361671) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (362681) Fingerprint: Failed to read data from UART[0m
+[0;32mI (362681) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (362681) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (362831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (362831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (362831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (363691) Fingerprint: Failed to read data from UART[0m
+[0;32mI (363691) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (363691) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (364701) Fingerprint: Failed to read data from UART[0m
+[0;32mI (364701) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (364701) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (364831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (364831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (364831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (365711) Fingerprint: Failed to read data from UART[0m
+[0;32mI (365711) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (365711) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (366721) Fingerprint: Failed to read data from UART[0m
+[0;32mI (366721) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (366721) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (366831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (366831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (366831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (367731) Fingerprint: Failed to read data from UART[0m
+[0;32mI (367731) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (367731) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (368741) Fingerprint: Failed to read data from UART[0m
+[0;32mI (368741) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (368741) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (368831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (368831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (368831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (369751) Fingerprint: Failed to read data from UART[0m
+[0;32mI (369751) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (369751) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (370761) Fingerprint: Failed to read data from UART[0m
+[0;32mI (370761) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (370761) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (370831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (370831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (370831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (371771) Fingerprint: Failed to read data from UART[0m
+[0;32mI (371771) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (371771) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (372781) Fingerprint: Failed to read data from UART[0m
+[0;32mI (372781) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (372781) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (372831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (372831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (372831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (373791) Fingerprint: Failed to read data from UART[0m
+[0;32mI (373791) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (373791) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (374801) Fingerprint: Failed to read data from UART[0m
+[0;32mI (374801) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (374801) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (374831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (374831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (374831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (375811) Fingerprint: Failed to read data from UART[0m
+[0;32mI (375811) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (375811) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (376821) Fingerprint: Failed to read data from UART[0m
+[0;32mI (376821) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (376821) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (376831) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (376831) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (376831) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (377831) Fingerprint: Failed to read data from UART[0m
+[0;32mI (377831) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (377831) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (378841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (378841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (378841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (378841) Fingerprint: Failed to read data from UART[0m
+[0;32mI (378851) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (378851) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (379871) Fingerprint: Failed to read data from UART[0m
+[0;32mI (379871) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (379871) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (380841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (380841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (380841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (380881) Fingerprint: Failed to read data from UART[0m
+[0;32mI (380881) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (380881) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (381891) Fingerprint: Failed to read data from UART[0m
+[0;32mI (381891) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (381891) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (382841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (382841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (382841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (382901) Fingerprint: Failed to read data from UART[0m
+[0;32mI (382901) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (382901) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (383911) Fingerprint: Failed to read data from UART[0m
+[0;32mI (383911) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (383911) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (384841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (384841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (384841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (384921) Fingerprint: Failed to read data from UART[0m
+[0;32mI (384921) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (384921) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (385931) Fingerprint: Failed to read data from UART[0m
+[0;32mI (385931) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (385931) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (386841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (386841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (386841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (386941) Fingerprint: Failed to read data from UART[0m
+[0;32mI (386941) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (386941) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (387951) Fingerprint: Failed to read data from UART[0m
+[0;32mI (387951) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (387951) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (388841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (388841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (388841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (388961) Fingerprint: Failed to read data from UART[0m
+[0;32mI (388961) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (388961) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (389971) Fingerprint: Failed to read data from UART[0m
+[0;32mI (389971) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (389971) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (390841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (390841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (390841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (390981) Fingerprint: Failed to read data from UART[0m
+[0;32mI (390981) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (390981) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (391991) Fingerprint: Failed to read data from UART[0m
+[0;32mI (391991) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (391991) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (392841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (392841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (392841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (393001) Fingerprint: Failed to read data from UART[0m
+[0;32mI (393001) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (393001) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (394011) Fingerprint: Failed to read data from UART[0m
+[0;32mI (394011) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (394011) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (394841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (394841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (394841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (395021) Fingerprint: Failed to read data from UART[0m
+[0;32mI (395021) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (395021) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (396031) Fingerprint: Failed to read data from UART[0m
+[0;32mI (396031) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (396031) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (396841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (396841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (396841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (397041) Fingerprint: Failed to read data from UART[0m
+[0;32mI (397041) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (397041) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (398051) Fingerprint: Failed to read data from UART[0m
+[0;32mI (398051) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (398051) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (398841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (398841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (398841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (399061) Fingerprint: Failed to read data from UART[0m
+[0;32mI (399061) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (399061) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (400071) Fingerprint: Failed to read data from UART[0m
+[0;32mI (400071) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (400071) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (400841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (400841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (400841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (401081) Fingerprint: Failed to read data from UART[0m
+[0;32mI (401081) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (401081) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (402091) Fingerprint: Failed to read data from UART[0m
+[0;32mI (402091) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (402091) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (402841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (402841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (402841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (403101) Fingerprint: Failed to read data from UART[0m
+[0;32mI (403101) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (403101) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (404111) Fingerprint: Failed to read data from UART[0m
+[0;32mI (404111) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (404111) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (404841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (404841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (404841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (405121) Fingerprint: Failed to read data from UART[0m
+[0;32mI (405121) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (405121) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (406131) Fingerprint: Failed to read data from UART[0m
+[0;32mI (406131) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (406131) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (406841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (406841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (406841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (407141) Fingerprint: Failed to read data from UART[0m
+[0;32mI (407141) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (407141) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (408151) Fingerprint: Failed to read data from UART[0m
+[0;32mI (408151) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (408151) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (408841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (408841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (408841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (409161) Fingerprint: Failed to read data from UART[0m
+[0;32mI (409161) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (409161) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (410171) Fingerprint: Failed to read data from UART[0m
+[0;32mI (410171) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (410171) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (410841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (410841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (410841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (411181) Fingerprint: Failed to read data from UART[0m
+[0;32mI (411181) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (411181) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (412191) Fingerprint: Failed to read data from UART[0m
+[0;32mI (412191) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (412191) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (412841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (412841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (412841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (413201) Fingerprint: Failed to read data from UART[0m
+[0;32mI (413201) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (413201) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (414211) Fingerprint: Failed to read data from UART[0m
+[0;32mI (414211) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (414211) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (414841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (414841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (414841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (415221) Fingerprint: Failed to read data from UART[0m
+[0;32mI (415221) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (415221) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (416231) Fingerprint: Failed to read data from UART[0m
+[0;32mI (416231) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (416231) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (416841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (416841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (416841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (417241) Fingerprint: Failed to read data from UART[0m
+[0;32mI (417241) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (417241) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (418251) Fingerprint: Failed to read data from UART[0m
+[0;32mI (418251) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (418251) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (418841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (418841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (418841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (419261) Fingerprint: Failed to read data from UART[0m
+[0;32mI (419261) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (419261) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (420271) Fingerprint: Failed to read data from UART[0m
+[0;32mI (420271) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (420271) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (420841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (420841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (420841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (421281) Fingerprint: Failed to read data from UART[0m
+[0;32mI (421281) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (421281) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (422291) Fingerprint: Failed to read data from UART[0m
+[0;32mI (422291) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (422291) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (422841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (422841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (422841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (423301) Fingerprint: Failed to read data from UART[0m
+[0;32mI (423301) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (423301) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (424311) Fingerprint: Failed to read data from UART[0m
+[0;32mI (424311) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (424311) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (424841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (424841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (424841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (425321) Fingerprint: Failed to read data from UART[0m
+[0;32mI (425321) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (425321) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (426331) Fingerprint: Failed to read data from UART[0m
+[0;32mI (426331) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (426331) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (426841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (426841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (426841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (427341) Fingerprint: Failed to read data from UART[0m
+[0;32mI (427341) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (427341) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (428351) Fingerprint: Failed to read data from UART[0m
+[0;32mI (428351) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (428351) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (428841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (428841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (428841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (429361) Fingerprint: Failed to read data from UART[0m
+[0;32mI (429361) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (429361) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (430371) Fingerprint: Failed to read data from UART[0m
+[0;32mI (430371) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (430371) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (430841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (430841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (430841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (431381) Fingerprint: Failed to read data from UART[0m
+[0;32mI (431381) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (431381) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (432391) Fingerprint: Failed to read data from UART[0m
+[0;32mI (432391) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (432391) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (432841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (432841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (432841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (433401) Fingerprint: Failed to read data from UART[0m
+[0;32mI (433401) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (433401) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (434411) Fingerprint: Failed to read data from UART[0m
+[0;32mI (434411) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (434411) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (434841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (434841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (434841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (435421) Fingerprint: Failed to read data from UART[0m
+[0;32mI (435421) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (435421) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (436431) Fingerprint: Failed to read data from UART[0m
+[0;32mI (436431) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (436431) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (436841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (436841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (436841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (437441) Fingerprint: Failed to read data from UART[0m
+[0;32mI (437441) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (437441) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (438451) Fingerprint: Failed to read data from UART[0m
+[0;32mI (438451) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (438451) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (438841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (438841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (438841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (439461) Fingerprint: Failed to read data from UART[0m
+[0;32mI (439461) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (439461) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (440471) Fingerprint: Failed to read data from UART[0m
+[0;32mI (440471) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (440471) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (440841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (440841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (440841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (441481) Fingerprint: Failed to read data from UART[0m
+[0;32mI (441481) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (441481) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (442491) Fingerprint: Failed to read data from UART[0m
+[0;32mI (442491) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (442491) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (442841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (442841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (442841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (443501) Fingerprint: Failed to read data from UART[0m
+[0;32mI (443501) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (443501) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (444511) Fingerprint: Failed to read data from UART[0m
+[0;32mI (444511) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (444511) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (444841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (444841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (444841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (445521) Fingerprint: Failed to read data from UART[0m
+[0;32mI (445521) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (445521) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (446531) Fingerprint: Failed to read data from UART[0m
+[0;32mI (446531) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (446531) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (446841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (446841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (446841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (447541) Fingerprint: Failed to read data from UART[0m
+[0;32mI (447541) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (447541) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (448551) Fingerprint: Failed to read data from UART[0m
+[0;32mI (448551) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (448551) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (448841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (448841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (448841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (449561) Fingerprint: Failed to read data from UART[0m
+[0;32mI (449561) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (449561) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (450571) Fingerprint: Failed to read data from UART[0m
+[0;32mI (450571) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (450571) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (450841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (450841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (450841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (451581) Fingerprint: Failed to read data from UART[0m
+[0;32mI (451581) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (451581) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (452591) Fingerprint: Failed to read data from UART[0m
+[0;32mI (452591) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (452591) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (452841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (452841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (452841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (453601) Fingerprint: Failed to read data from UART[0m
+[0;32mI (453601) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (453601) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (454611) Fingerprint: Failed to read data from UART[0m
+[0;32mI (454611) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (454611) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (454841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (454841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (454841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (455621) Fingerprint: Failed to read data from UART[0m
+[0;32mI (455621) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (455621) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (456631) Fingerprint: Failed to read data from UART[0m
+[0;32mI (456631) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (456631) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (456841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (456841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (456841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (457641) Fingerprint: Failed to read data from UART[0m
+[0;32mI (457641) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (457641) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (458651) Fingerprint: Failed to read data from UART[0m
+[0;32mI (458651) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (458651) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (458841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (458841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (458841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (459661) Fingerprint: Failed to read data from UART[0m
+[0;32mI (459661) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (459661) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (460671) Fingerprint: Failed to read data from UART[0m
+[0;32mI (460671) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (460671) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (460841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (460841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (460841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (461681) Fingerprint: Failed to read data from UART[0m
+[0;32mI (461681) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (461681) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (462691) Fingerprint: Failed to read data from UART[0m
+[0;32mI (462691) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (462691) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (462841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (462841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (462841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (463701) Fingerprint: Failed to read data from UART[0m
+[0;32mI (463701) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (463701) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (464711) Fingerprint: Failed to read data from UART[0m
+[0;32mI (464711) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (464711) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (464841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (464841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (464841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (465721) Fingerprint: Failed to read data from UART[0m
+[0;32mI (465721) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (465721) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (466731) Fingerprint: Failed to read data from UART[0m
+[0;32mI (466731) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (466731) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (466841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (466841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (466841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (467741) Fingerprint: Failed to read data from UART[0m
+[0;32mI (467741) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (467741) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (468751) Fingerprint: Failed to read data from UART[0m
+[0;32mI (468751) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (468751) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (468841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (468841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (468841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (469761) Fingerprint: Failed to read data from UART[0m
+[0;32mI (469761) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (469761) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (470771) Fingerprint: Failed to read data from UART[0m
+[0;32mI (470771) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (470771) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (470841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (470841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (470841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (471781) Fingerprint: Failed to read data from UART[0m
+[0;32mI (471781) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (471781) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (472791) Fingerprint: Failed to read data from UART[0m
+[0;32mI (472791) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (472791) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (472841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (472841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (472841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (473801) Fingerprint: Failed to read data from UART[0m
+[0;32mI (473801) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (473801) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (474811) Fingerprint: Failed to read data from UART[0m
+[0;32mI (474811) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (474811) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (474841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (474841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (474841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (475821) Fingerprint: Failed to read data from UART[0m
+[0;32mI (475821) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (475821) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (476831) Fingerprint: Failed to read data from UART[0m
+[0;32mI (476831) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (476831) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (476841) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (476841) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (476841) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (477841) Fingerprint: Failed to read data from UART[0m
+[0;32mI (477841) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (477841) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[0;32mI (478851) FINGERPRINT: Attempting to send Handshake command...[0m
+[0;32mI (478851) FINGERPRINT: Sent fingerprint command: 0x35 to address 0xFFFFFFFF[0m
+[0;32mI (478851) FINGERPRINT: Handshake command sent successfully.[0m
+[1;31mE (478851) Fingerprint: Failed to read data from UART[0m
+[0;32mI (478861) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (478861) FINGERPRINT: Unknown event triggered. Status: 0x29[0m
+[1;31mE (479881) Fingerprint: Failed to read data from UART[0m
+[0;32mI (479881) Fingerprint: Triggering event: 9 for status: 0x29[0m
+[0;32mI (479881) FINGERPRINT: Unknown event triggered. Status: 0x29[0m

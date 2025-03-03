@@ -5,6 +5,7 @@
 #include "fingerprint.h"
 
 #define TAG "FINGERPRINT"
+#define FINGER_IRQ_PIN 7  // GPIO 7 for Finger Sensing Output (IRQ)
 
 void handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
@@ -23,7 +24,9 @@ void app_main(void)
     vTaskDelay(pdMS_TO_TICKS(100));
 
     // Create task for sending commands
-    xTaskCreate(send_command_task, "SendCommandTask", 4096, NULL, 5, NULL);
+    // xTaskCreate(send_command_task, "SendCommandTask", 4096, NULL, 5, NULL);
+
+    ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 }
 
 void send_command_task(void *pvParameter)
