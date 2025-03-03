@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['register_5ffingerprint_5fevent_5fhandler_0',['register_fingerprint_event_handler',['../fingerprint_8h.html#a86d6b1d39068b909eee4faad5e006f16',1,'register_fingerprint_event_handler(void(*handler)(fingerprint_event_t)):&#160;fingerprint.c'],['../fingerprint_8c.html#acdb139ac079afac098d142b4cf7a8b7f',1,'register_fingerprint_event_handler(fingerprint_event_handler_t handler):&#160;fingerprint.c']]]
+  ['max_0',['max',['../fingerprint_8c.html#a6134c859d385b972b7c0716784a20a2d',1,'fingerprint.c']]],
+  ['min_1',['min',['../fingerprint_8c.html#a5777230ba3f52101f5caf39a070f2aeb',1,'fingerprint.c']]]
 ];

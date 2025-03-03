@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tag_0',['TAG',['../fingerprint_8c.html#afc3d101f633a076cc1ca84b85b6224b2',1,'fingerprint.c']]]
+  ['rx_5fbuf_5fsize_0',['RX_BUF_SIZE',['../fingerprint_8c.html#a690f985c933da2ce6fe62b6c61dfa662',1,'fingerprint.c']]]
 ];

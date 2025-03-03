@@ -115,8 +115,11 @@ $(function(){initNavTree('fingerprint_8c.html',''); initResizable(true); });
 <code>#include &quot;esp_err.h&quot;</code><br />
 <code>#include &quot;freertos/FreeRTOS.h&quot;</code><br />
 <code>#include &quot;freertos/task.h&quot;</code><br />
+<code>#include &quot;freertos/queue.h&quot;</code><br />
+<code>#include &quot;freertos/timers.h&quot;</code><br />
 <code>#include &quot;driver/gpio.h&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
@@ -124,11 +127,13 @@ Macros</h2></td></tr>
 <tr class="separator:afc3d101f633a076cc1ca84b85b6224b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49dcd593bb4dd55620e7c08581f8e2ad" id="r_a49dcd593bb4dd55620e7c08581f8e2ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49dcd593bb4dd55620e7c08581f8e2ad">UART_NUM</a>&#160;&#160;&#160;UART_NUM_1</td></tr>
 <tr class="separator:a49dcd593bb4dd55620e7c08581f8e2ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a690f985c933da2ce6fe62b6c61dfa662" id="r_a690f985c933da2ce6fe62b6c61dfa662"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a690f985c933da2ce6fe62b6c61dfa662">RX_BUF_SIZE</a>&#160;&#160;&#160;128</td></tr>
+<tr class="memitem:a690f985c933da2ce6fe62b6c61dfa662" id="r_a690f985c933da2ce6fe62b6c61dfa662"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a690f985c933da2ce6fe62b6c61dfa662">RX_BUF_SIZE</a>&#160;&#160;&#160;256</td></tr>
 <tr class="separator:a690f985c933da2ce6fe62b6c61dfa662"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ae15bba6ade85d740e51d6fe5e644ad0c" id="r_ae15bba6ade85d740e51d6fe5e644ad0c"><td class="memItemLeft" align="right" valign="top">void IRAM_ATTR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae15bba6ade85d740e51d6fe5e644ad0c">finger_detected_isr</a> (void *arg)</td></tr>
+<tr class="separator:ae15bba6ade85d740e51d6fe5e644ad0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d930710d85ff4f3085dd32e2ce89a8a" id="r_a9d930710d85ff4f3085dd32e2ce89a8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d930710d85ff4f3085dd32e2ce89a8a">fingerprint_set_pins</a> (int tx, int rx)</td></tr>
 <tr class="memdesc:a9d930710d85ff4f3085dd32e2ce89a8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the UART TX and RX pins for the fingerprint sensor.  <br /></td></tr>
 <tr class="separator:a9d930710d85ff4f3085dd32e2ce89a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -142,7 +147,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a6134c859d385b972b7c0716784a20a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the larger of two unsigned integers.  <br /></td></tr>
 <tr class="separator:a6134c859d385b972b7c0716784a20a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a759d58795c9a87a5d2fa233e52e5d580" id="r_a759d58795c9a87a5d2fa233e52e5d580"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a759d58795c9a87a5d2fa233e52e5d580">fingerprint_init</a> (void)</td></tr>
-<tr class="memdesc:a759d58795c9a87a5d2fa233e52e5d580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the fingerprint scanner.  <br /></td></tr>
+<tr class="memdesc:a759d58795c9a87a5d2fa233e52e5d580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the fingerprint scanner module.  <br /></td></tr>
 <tr class="separator:a759d58795c9a87a5d2fa233e52e5d580"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa621bd8222b32b5d2245f92e22934655" id="r_aa621bd8222b32b5d2245f92e22934655"><td class="memItemLeft" align="right" valign="top">esp_err_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa621bd8222b32b5d2245f92e22934655">fingerprint_set_command</a> (<a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *cmd, uint8_t command, uint8_t *params, uint8_t param_length)</td></tr>
 <tr class="memdesc:aa621bd8222b32b5d2245f92e22934655"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes or updates a fingerprint command packet.  <br /></td></tr>
@@ -156,8 +161,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a18e8b2af7dd860c312d730b5d1d30b7f" id="r_a18e8b2af7dd860c312d730b5d1d30b7f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18e8b2af7dd860c312d730b5d1d30b7f">fingerprint_read_response</a> (void)</td></tr>
 <tr class="memdesc:a18e8b2af7dd860c312d730b5d1d30b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the response packet from UART and returns a dynamically allocated <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a>.  <br /></td></tr>
 <tr class="separator:a18e8b2af7dd860c312d730b5d1d30b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb364663a6f8cf989e0a0c055dc49de2" id="r_adb364663a6f8cf989e0a0c055dc49de2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb364663a6f8cf989e0a0c055dc49de2">read_response_task</a> (void *pvParameter)</td></tr>
+<tr class="memdesc:adb364663a6f8cf989e0a0c055dc49de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Task to continuously read fingerprint responses from UART.  <br /></td></tr>
+<tr class="separator:adb364663a6f8cf989e0a0c055dc49de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acad8c23f5b4376d47d096cf989286d68" id="r_acad8c23f5b4376d47d096cf989286d68"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acad8c23f5b4376d47d096cf989286d68">fingerprint_get_next_response</a> (<a class="el" href="structfingerprint__response__t.html">fingerprint_response_t</a> *response, TickType_t timeout)</td></tr>
+<tr class="memdesc:acad8c23f5b4376d47d096cf989286d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the next fingerprint response from the queue.  <br /></td></tr>
+<tr class="separator:acad8c23f5b4376d47d096cf989286d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac65070f473460404b979dff8ca75bf2" id="r_aac65070f473460404b979dff8ca75bf2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac65070f473460404b979dff8ca75bf2">process_fingerprint_responses_task</a> (void *pvParameter)</td></tr>
+<tr class="memdesc:aac65070f473460404b979dff8ca75bf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Task to process fingerprint responses from the queue.  <br /></td></tr>
+<tr class="separator:aac65070f473460404b979dff8ca75bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20092401e8301669fc2d595f02dc433d" id="r_a20092401e8301669fc2d595f02dc433d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20092401e8301669fc2d595f02dc433d">fingerprint_get_status</a> (<a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> *packet)</td></tr>
-<tr class="memdesc:a20092401e8301669fc2d595f02dc433d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the status of the fingerprint operation from the response packet.  <br /></td></tr>
+<tr class="memdesc:a20092401e8301669fc2d595f02dc433d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue handle for storing fingerprint module responses.  <br /></td></tr>
 <tr class="separator:a20092401e8301669fc2d595f02dc433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7db574152ca5af75df9adf2da5504a8e" id="r_a7db574152ca5af75df9adf2da5504a8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7db574152ca5af75df9adf2da5504a8e">fingerprint_status_event_handler</a> (<a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> status)</td></tr>
 <tr class="memdesc:a7db574152ca5af75df9adf2da5504a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles fingerprint status events and triggers corresponding high-level events.  <br /></td></tr>
@@ -168,6 +182,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a2b019e6b09dcc91ad10bcb6c2784e360" id="r_a2b019e6b09dcc91ad10bcb6c2784e360"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b019e6b09dcc91ad10bcb6c2784e360">trigger_fingerprint_event</a> (<a class="el" href="fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5ae">fingerprint_event_type_t</a> event_type, <a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a> status)</td></tr>
 <tr class="memdesc:a2b019e6b09dcc91ad10bcb6c2784e360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers a fingerprint event and processes it.  <br /></td></tr>
 <tr class="separator:a2b019e6b09dcc91ad10bcb6c2784e360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fd90f95c606bc3fd8a4ca1975900c07" id="r_a0fd90f95c606bc3fd8a4ca1975900c07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0fd90f95c606bc3fd8a4ca1975900c07">finger_detected_task</a> (void *arg)</td></tr>
+<tr class="memdesc:a0fd90f95c606bc3fd8a4ca1975900c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Task to handle the finger detection event.  <br /></td></tr>
+<tr class="separator:a0fd90f95c606bc3fd8a4ca1975900c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1985d5566b2e8f4f8540903a0aa450c7" id="r_a1985d5566b2e8f4f8540903a0aa450c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1985d5566b2e8f4f8540903a0aa450c7">detect_fingerprint_uart_task</a> (void *arg)</td></tr>
+<tr class="memdesc:a1985d5566b2e8f4f8540903a0aa450c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Task to read data from UART.  <br /></td></tr>
+<tr class="separator:a1985d5566b2e8f4f8540903a0aa450c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -183,6 +203,17 @@ Variables</h2></td></tr>
 <tr class="memitem:ac1bc88ca9eeff4bcae8ac419f8653c07" id="r_ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fingerprint_8h.html#a658eb2a1aea7e912aabef713b69d6789">fingerprint_event_handler_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1bc88ca9eeff4bcae8ac419f8653c07">g_fingerprint_event_handler</a> = NULL</td></tr>
 <tr class="memdesc:ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global pointer to the fingerprint event handler function.  <br /></td></tr>
 <tr class="separator:ac1bc88ca9eeff4bcae8ac419f8653c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53ad8a24a35b01382d110004f42be853" id="r_a53ad8a24a35b01382d110004f42be853"><td class="memItemLeft" align="right" valign="top">static TaskHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53ad8a24a35b01382d110004f42be853">fingerprint_task_handle</a> = NULL</td></tr>
+<tr class="separator:a53ad8a24a35b01382d110004f42be853"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae795d9e8c345b53ce2ea4b76c4329fc" id="r_aae795d9e8c345b53ce2ea4b76c4329fc"><td class="memItemLeft" align="right" valign="top">static QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae795d9e8c345b53ce2ea4b76c4329fc">fingerprint_response_queue</a></td></tr>
+<tr class="separator:aae795d9e8c345b53ce2ea4b76c4329fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9dc30d00a95686f1697e21c85316fb3" id="r_aa9dc30d00a95686f1697e21c85316fb3"><td class="memItemLeft" align="right" valign="top">static QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9dc30d00a95686f1697e21c85316fb3">fingerprint_command_queue</a></td></tr>
+<tr class="separator:aa9dc30d00a95686f1697e21c85316fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a251de6efebc1bbf503a00b7919850c02" id="r_a251de6efebc1bbf503a00b7919850c02"><td class="memItemLeft" align="right" valign="top">static QueueHandle_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a251de6efebc1bbf503a00b7919850c02">finger_detected_queue</a></td></tr>
+<tr class="separator:a251de6efebc1bbf503a00b7919850c02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae243d24ce9fa25ead1f1fccf0c22d806" id="r_ae243d24ce9fa25ead1f1fccf0c22d806"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae243d24ce9fa25ead1f1fccf0c22d806">PS_HandShake</a></td></tr>
+<tr class="memdesc:ae243d24ce9fa25ead1f1fccf0c22d806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a handshake with the fingerprint module.  <br /></td></tr>
+<tr class="separator:ae243d24ce9fa25ead1f1fccf0c22d806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adaa0f83cf286650e928b5a4ed88ef1ae" id="r_adaa0f83cf286650e928b5a4ed88ef1ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adaa0f83cf286650e928b5a4ed88ef1ae">PS_GetImage</a></td></tr>
 <tr class="memdesc:adaa0f83cf286650e928b5a4ed88ef1ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures a fingerprint image from the scanner's sensor.  <br /></td></tr>
 <tr class="separator:adaa0f83cf286650e928b5a4ed88ef1ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -265,9 +296,6 @@ Variables</h2></td></tr>
 <tr class="memitem:ace4f99c616f2c9a5a61d2cc804a72635" id="r_ace4f99c616f2c9a5a61d2cc804a72635"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace4f99c616f2c9a5a61d2cc804a72635">PS_ReadNotepad</a></td></tr>
 <tr class="memdesc:ace4f99c616f2c9a5a61d2cc804a72635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data from the fingerprint sensor's notepad memory.  <br /></td></tr>
 <tr class="separator:ace4f99c616f2c9a5a61d2cc804a72635"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae243d24ce9fa25ead1f1fccf0c22d806" id="r_ae243d24ce9fa25ead1f1fccf0c22d806"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae243d24ce9fa25ead1f1fccf0c22d806">PS_HandShake</a></td></tr>
-<tr class="memdesc:ae243d24ce9fa25ead1f1fccf0c22d806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a handshake with the fingerprint module.  <br /></td></tr>
-<tr class="separator:ae243d24ce9fa25ead1f1fccf0c22d806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fe0e76ceb799b2fc34ab9a90cb80864" id="r_a8fe0e76ceb799b2fc34ab9a90cb80864"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fe0e76ceb799b2fc34ab9a90cb80864">PS_ControlBLN</a></td></tr>
 <tr class="memdesc:a8fe0e76ceb799b2fc34ab9a90cb80864"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls the fingerprint sensor's LED light mode.  <br /></td></tr>
 <tr class="separator:a8fe0e76ceb799b2fc34ab9a90cb80864"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -316,7 +344,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define RX_BUF_SIZE&#160;&#160;&#160;128</td>
+          <td class="memname">#define RX_BUF_SIZE&#160;&#160;&#160;256</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -352,6 +380,75 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a1985d5566b2e8f4f8540903a0aa450c7" name="a1985d5566b2e8f4f8540903a0aa450c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1985d5566b2e8f4f8540903a0aa450c7">&#9670;&#160;</a></span>detect_fingerprint_uart_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void detect_fingerprint_uart_task </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Task to read data from UART. </p>
+<p>This task reads data from the fingerprint sensor via UART. It receives data and logs the received content, which can then be processed as needed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>Unused parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae15bba6ade85d740e51d6fe5e644ad0c" name="ae15bba6ade85d740e51d6fe5e644ad0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae15bba6ade85d740e51d6fe5e644ad0c">&#9670;&#160;</a></span>finger_detected_isr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void IRAM_ATTR finger_detected_isr </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0fd90f95c606bc3fd8a4ca1975900c07" name="a0fd90f95c606bc3fd8a4ca1975900c07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fd90f95c606bc3fd8a4ca1975900c07">&#9670;&#160;</a></span>finger_detected_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void finger_detected_task </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Task to handle the finger detection event. </p>
+<p>This function continuously checks the queue for finger detection events. Once detected, it logs and processes the detection event.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>Unused parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a0d5b756311c0909b7f123085fb54e5b5" name="a0d5b756311c0909b7f123085fb54e5b5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d5b756311c0909b7f123085fb54e5b5">&#9670;&#160;</a></span>fingerprint_calculate_checksum()</h2>
 
@@ -379,6 +476,38 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="acad8c23f5b4376d47d096cf989286d68" name="acad8c23f5b4376d47d096cf989286d68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acad8c23f5b4376d47d096cf989286d68">&#9670;&#160;</a></span>fingerprint_get_next_response()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool fingerprint_get_next_response </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structfingerprint__response__t.html">fingerprint_response_t</a> *</td>          <td class="paramname"><span class="paramname"><em>response</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TickType_t</td>          <td class="paramname"><span class="paramname"><em>timeout</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the next fingerprint response from the queue. </p>
+<p>This function waits for a response to be available in the fingerprint response queue. It blocks for the specified timeout duration if no response is immediately available.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">response</td><td>Pointer to a <a class="el" href="structfingerprint__response__t.html" title="Structure representing a fingerprint module response.">fingerprint_response_t</a> structure to store the received response. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>The maximum time to wait for a response (in FreeRTOS ticks).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if a response was successfully received, false if the timeout occurred. </dd></dl>
+
+</div>
+</div>
 <a id="a20092401e8301669fc2d595f02dc433d" name="a20092401e8301669fc2d595f02dc433d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a20092401e8301669fc2d595f02dc433d">&#9670;&#160;</a></span>fingerprint_get_status()</h2>
 
@@ -394,11 +523,13 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get the status of the fingerprint operation from the response packet. </p>
+<p>Queue handle for storing fingerprint module responses. </p>
+<p>This queue is used to store responses received from the fingerprint module. Other components can retrieve responses from this queue for processing.</p>
+<p>Get the status of the fingerprint operation from the response packet.</p>
 <p>This function extracts the confirmation code from the fingerprint sensor's response and maps it to a predefined <a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364" title="Fingerprint sensor status codes.">fingerprint_status_t</a> enumeration.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">packet</td><td>Pointer to the <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a> structure containing the response.</td></tr>
+    <tr><td class="paramname">packet</td><td>Pointer to the <a class="el" href="struct_fingerprint_packet.html" title="Structure representing a command or response packet for the fingerprint module.">FingerprintPacket</a> struScture containing the response.</td></tr>
   </table>
   </dd>
 </dl>
@@ -421,8 +552,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes the fingerprint scanner. </p>
-<dl class="section return"><dt>Returns</dt><dd>ESP_OK on success, error code otherwise. </dd></dl>
+<p>Initializes the fingerprint scanner module. </p>
+<p>This function sets up the UART interface, configures the necessary pins, installs the UART driver, and checks for the power-on handshake signal (0x55). If the handshake is not received, it waits for 200ms before proceeding. It also initializes a FreeRTOS queue for response handling and creates a background task to continuously read responses.</p>
+<dl class="section return"><dt>Returns</dt><dd><ul>
+<li>ESP_OK if initialization is successful.</li>
+<li>ESP_FAIL if queue creation or task creation fails.</li>
+<li>UART-related errors if UART initialization fails. </li>
+</ul>
+</dd></dl>
 
 </div>
 </div>
@@ -502,7 +639,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the baud rate for fingerprint module communication. </p>
-<p>This function adjusts the baud rate used for UART communication with the fingerprint scanner. It should be called before <code><a class="el" href="fingerprint_8h.html#a759d58795c9a87a5d2fa233e52e5d580" title="Initializes the fingerprint scanner.">fingerprint_init()</a></code> to ensure proper communication settings.</p>
+<p>This function adjusts the baud rate used for UART communication with the fingerprint scanner. It should be called before <code><a class="el" href="fingerprint_8h.html#a759d58795c9a87a5d2fa233e52e5d580" title="Initializes the fingerprint scanner module.">fingerprint_init()</a></code> to ensure proper communication settings.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">baud</td><td>The desired baud rate (e.g., 9600, 57600, 115200). </td></tr>
@@ -711,6 +848,62 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="aac65070f473460404b979dff8ca75bf2" name="aac65070f473460404b979dff8ca75bf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac65070f473460404b979dff8ca75bf2">&#9670;&#160;</a></span>process_fingerprint_responses_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void process_fingerprint_responses_task </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>pvParameter</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Task to process fingerprint responses from the queue. </p>
+<p>This FreeRTOS task continuously waits for fingerprint responses from the queue and processes them by triggering the appropriate event handler.</p>
+<p>The function blocks indefinitely (<code>portMAX_DELAY</code>) until a response is available, ensuring real-time processing of fingerprint events without polling.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pvParameter</td><td>Unused parameter, required for FreeRTOS task signature.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This task should be started during system initialization to ensure that fingerprint responses are handled properly. </dd></dl>
+
+</div>
+</div>
+<a id="adb364663a6f8cf989e0a0c055dc49de2" name="adb364663a6f8cf989e0a0c055dc49de2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb364663a6f8cf989e0a0c055dc49de2">&#9670;&#160;</a></span>read_response_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void read_response_task </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>pvParameter</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Task to continuously read fingerprint responses from UART. </p>
+<p>This FreeRTOS task reads fingerprint sensor responses and enqueues them into the response queue for further processing. It runs indefinitely, ensuring that responses are captured asynchronously.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pvParameter</td><td>Unused parameter (NULL by default).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The function reads responses using <code><a class="el" href="fingerprint_8h.html#a18e8b2af7dd860c312d730b5d1d30b7f" title="Reads the response packet from UART and returns a dynamically allocated FingerprintPacket.">fingerprint_read_response()</a></code>, validates them, and sends them to <code>fingerprint_response_queue</code>. If the queue is full, the response is dropped with a warning log.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>This task should be created only once during initialization and should not be terminated unexpectedly, as it ensures continuous response handling. </dd></dl>
+
+</div>
+</div>
 <a id="acdb139ac079afac098d142b4cf7a8b7f" name="acdb139ac079afac098d142b4cf7a8b7f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acdb139ac079afac098d142b4cf7a8b7f">&#9670;&#160;</a></span>register_fingerprint_event_handler()</h2>
 
@@ -792,6 +985,94 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a251de6efebc1bbf503a00b7919850c02" name="a251de6efebc1bbf503a00b7919850c02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a251de6efebc1bbf503a00b7919850c02">&#9670;&#160;</a></span>finger_detected_queue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QueueHandle_t finger_detected_queue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9dc30d00a95686f1697e21c85316fb3" name="aa9dc30d00a95686f1697e21c85316fb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9dc30d00a95686f1697e21c85316fb3">&#9670;&#160;</a></span>fingerprint_command_queue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QueueHandle_t fingerprint_command_queue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae795d9e8c345b53ce2ea4b76c4329fc" name="aae795d9e8c345b53ce2ea4b76c4329fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae795d9e8c345b53ce2ea4b76c4329fc">&#9670;&#160;</a></span>fingerprint_response_queue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QueueHandle_t fingerprint_response_queue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a53ad8a24a35b01382d110004f42be853" name="a53ad8a24a35b01382d110004f42be853"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53ad8a24a35b01382d110004f42be853">&#9670;&#160;</a></span>fingerprint_task_handle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TaskHandle_t fingerprint_task_handle = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ac1bc88ca9eeff4bcae8ac419f8653c07" name="ac1bc88ca9eeff4bcae8ac419f8653c07"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac1bc88ca9eeff4bcae8ac419f8653c07">&#9670;&#160;</a></span>g_fingerprint_event_handler</h2>
 
@@ -854,7 +1135,7 @@ Variables</h2></td></tr>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x003A </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6">FINGERPRINT_CMD_AUTO_ENROLL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_AUTO_ENROLL</div><div class="ttdef"><b>Definition</b> fingerprint.h:276</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6">FINGERPRINT_CMD_AUTO_ENROLL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_AUTO_ENROLL</div><div class="ttdef"><b>Definition</b> fingerprint.h:306</div></div>
 </div><!-- fragment -->
 <p>Automatically enrolls a fingerprint template. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (ID number, number of entries, and additional settings) are dynamic and depend on the user's choice.</p>
@@ -888,7 +1169,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x003F </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391">FINGERPRINT_CMD_AUTO_IDENTIFY</a></div><div class="ttdeci">@ FINGERPRINT_CMD_AUTO_IDENTIFY</div><div class="ttdef"><b>Definition</b> fingerprint.h:279</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391">FINGERPRINT_CMD_AUTO_IDENTIFY</a></div><div class="ttdeci">@ FINGERPRINT_CMD_AUTO_IDENTIFY</div><div class="ttdef"><b>Definition</b> fingerprint.h:309</div></div>
 </div><!-- fragment -->
 <p>Automatically identifies a fingerprint. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (score level and ID number) are dynamic.</p>
@@ -921,7 +1202,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x001F </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5">FINGERPRINT_CMD_BURN_CODE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_BURN_CODE</div><div class="ttdef"><b>Definition</b> fingerprint.h:291</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5">FINGERPRINT_CMD_BURN_CODE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_BURN_CODE</div><div class="ttdef"><b>Definition</b> fingerprint.h:321</div></div>
 </div><!-- fragment -->
 <p>Erases the fingerprint sensor's firmware. </p>
 <p>Erases the module firmware and enters upgrade mode.</p>
@@ -954,7 +1235,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0033 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910">FINGERPRINT_CMD_CANCEL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CANCEL</div><div class="ttdef"><b>Definition</b> fingerprint.h:273</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910">FINGERPRINT_CMD_CANCEL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CANCEL</div><div class="ttdef"><b>Definition</b> fingerprint.h:303</div></div>
 </div><!-- fragment -->
 <p>Cancels the current fingerprint operation. </p>
 <p>This command has no parameters and is used to stop any ongoing process. </p>
@@ -981,7 +1262,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0039 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d">FINGERPRINT_CMD_CHECK_SENSOR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CHECK_SENSOR</div><div class="ttdef"><b>Definition</b> fingerprint.h:282</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d">FINGERPRINT_CMD_CHECK_SENSOR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CHECK_SENSOR</div><div class="ttdef"><b>Definition</b> fingerprint.h:312</div></div>
 </div><!-- fragment -->
 <p>Checks the status of the fingerprint sensor. </p>
 <p>This command has no parameters. </p>
@@ -1008,7 +1289,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0046 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900">FINGERPRINT_CMD_CONTROL_LED</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CONTROL_LED</div><div class="ttdef"><b>Definition</b> fingerprint.h:309</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900">FINGERPRINT_CMD_CONTROL_LED</a></div><div class="ttdeci">@ FINGERPRINT_CMD_CONTROL_LED</div><div class="ttdef"><b>Definition</b> fingerprint.h:339</div></div>
 </div><!-- fragment -->
 <p>Controls the fingerprint sensor's LED light mode. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Function, Start Color, End Color, Cycles) are dynamic.</p>
@@ -1043,7 +1324,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0015 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645">FINGERPRINT_CMD_DELETE_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DELETE_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:252</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645">FINGERPRINT_CMD_DELETE_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DELETE_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:282</div></div>
 </div><!-- fragment -->
 <p>Deletes a specific fingerprint template from the database. </p>
 
@@ -1069,7 +1350,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x000E </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6">FINGERPRINT_CMD_DOWN_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DOWN_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:351</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6">FINGERPRINT_CMD_DOWN_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DOWN_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:381</div></div>
 </div><!-- fragment -->
 <p>Downloads a fingerprint template to the module. </p>
 <p>Download template to buffer.</p>
@@ -1097,7 +1378,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x000E </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770">FINGERPRINT_CMD_DOWNLOAD_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DOWNLOAD_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:261</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770">FINGERPRINT_CMD_DOWNLOAD_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_DOWNLOAD_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:291</div></div>
 </div><!-- fragment -->
 <p>Downloads a fingerprint image to the sensor. </p>
 <p>This command has no parameters. </p>
@@ -1124,7 +1405,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0011 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907">FINGERPRINT_CMD_EMPTY_DATABASE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_EMPTY_DATABASE</div><div class="ttdef"><b>Definition</b> fingerprint.h:255</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907">FINGERPRINT_CMD_EMPTY_DATABASE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_EMPTY_DATABASE</div><div class="ttdef"><b>Definition</b> fingerprint.h:285</div></div>
 </div><!-- fragment -->
 <p>Clears all stored fingerprints (factory reset). </p>
 
@@ -1150,7 +1431,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0008 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18">FINGERPRINT_CMD_GEN_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GEN_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:237</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18">FINGERPRINT_CMD_GEN_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GEN_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:267</div></div>
 </div><!-- fragment -->
 <p>Generates a character file in Buffer 1. </p>
 
@@ -1201,7 +1482,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0016 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d">FINGERPRINT_CMD_GETCHIP_SN</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GETCHIP_SN</div><div class="ttdef"><b>Definition</b> fingerprint.h:336</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d">FINGERPRINT_CMD_GETCHIP_SN</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GETCHIP_SN</div><div class="ttdef"><b>Definition</b> fingerprint.h:366</div></div>
 </div><!-- fragment -->
 <p>Retrieves the fingerprint module's unique serial number. </p>
 
@@ -1227,7 +1508,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00E5 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49">FINGERPRINT_CMD_GET_CIPHER_TEXT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_CIPHER_TEXT</div><div class="ttdef"><b>Definition</b> fingerprint.h:333</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49">FINGERPRINT_CMD_GET_CIPHER_TEXT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_CIPHER_TEXT</div><div class="ttdef"><b>Definition</b> fingerprint.h:363</div></div>
 </div><!-- fragment -->
 <p>Retrieves an encrypted random number from the fingerprint module. </p>
 
@@ -1253,7 +1534,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x002D </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4">FINGERPRINT_CMD_GET_ENROLL_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_ENROLL_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:339</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4">FINGERPRINT_CMD_GET_ENROLL_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_ENROLL_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:369</div></div>
 </div><!-- fragment -->
 <p>Captures an image for fingerprint enrollment. </p>
 
@@ -1279,7 +1560,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0005 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83">FINGERPRINT_CMD_GET_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:234</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83">FINGERPRINT_CMD_GET_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:264</div></div>
 </div><!-- fragment -->
 <p>Captures a fingerprint image from the scanner's sensor. </p>
 
@@ -1305,7 +1586,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0041 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c">FINGERPRINT_CMD_GET_IMAGE_INFO</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_IMAGE_INFO</div><div class="ttdef"><b>Definition</b> fingerprint.h:312</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c">FINGERPRINT_CMD_GET_IMAGE_INFO</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_IMAGE_INFO</div><div class="ttdef"><b>Definition</b> fingerprint.h:342</div></div>
 </div><!-- fragment -->
 <p>Retrieves information about the current fingerprint image. </p>
 <p>This command requests metadata about the fingerprint image stored in the buffer. </p>
@@ -1332,7 +1613,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00E3 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036">FINGERPRINT_CMD_GETKEYT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GETKEYT</div><div class="ttdef"><b>Definition</b> fingerprint.h:324</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036">FINGERPRINT_CMD_GETKEYT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GETKEYT</div><div class="ttdef"><b>Definition</b> fingerprint.h:354</div></div>
 </div><!-- fragment -->
 <p>Retrieves the key pair from the fingerprint sensor. </p>
 <p>This command has no parameters. </p>
@@ -1359,7 +1640,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0017 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b">FINGERPRINT_CMD_GET_RANDOM_CODE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_RANDOM_CODE</div><div class="ttdef"><b>Definition</b> fingerprint.h:300</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b">FINGERPRINT_CMD_GET_RANDOM_CODE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_GET_RANDOM_CODE</div><div class="ttdef"><b>Definition</b> fingerprint.h:330</div></div>
 </div><!-- fragment -->
 <p>Requests a random number from the fingerprint sensor. </p>
 <p>This command has no parameters. </p>
@@ -1386,7 +1667,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0039 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296">FINGERPRINT_CMD_HANDSHAKE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_HANDSHAKE</div><div class="ttdef"><b>Definition</b> fingerprint.h:270</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296">FINGERPRINT_CMD_HANDSHAKE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_HANDSHAKE</div><div class="ttdef"><b>Definition</b> fingerprint.h:300</div></div>
 </div><!-- fragment -->
 <p>Performs a handshake with the fingerprint module. </p>
 <p>Used to verify communication with the fingerprint module. </p>
@@ -1413,7 +1694,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00E4 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8">FINGERPRINT_CMD_LOCKEYT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_LOCKEYT</div><div class="ttdef"><b>Definition</b> fingerprint.h:330</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8">FINGERPRINT_CMD_LOCKEYT</a></div><div class="ttdeci">@ FINGERPRINT_CMD_LOCKEYT</div><div class="ttdef"><b>Definition</b> fingerprint.h:360</div></div>
 </div><!-- fragment -->
 <p>Locks the fingerprint module's key pair. </p>
 
@@ -1439,7 +1720,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0007 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a">FINGERPRINT_CMD_MATCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_MATCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:240</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a">FINGERPRINT_CMD_MATCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_MATCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:270</div></div>
 </div><!-- fragment -->
 <p>Matches two fingerprint templates stored in RAM. </p>
 
@@ -1465,7 +1746,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0023 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8">FINGERPRINT_CMD_READ_INDEX_TABLE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_INDEX_TABLE</div><div class="ttdef"><b>Definition</b> fingerprint.h:345</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8">FINGERPRINT_CMD_READ_INDEX_TABLE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_INDEX_TABLE</div><div class="ttdef"><b>Definition</b> fingerprint.h:375</div></div>
 </div><!-- fragment -->
 <p>Reads the fingerprint template index table. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Page Number) is dynamic.</p>
@@ -1497,7 +1778,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0019 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9">FINGERPRINT_CMD_READ_INF_PAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_INF_PAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:288</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9">FINGERPRINT_CMD_READ_INF_PAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_INF_PAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:318</div></div>
 </div><!-- fragment -->
 <p>Reads the fingerprint sensor's flash information page. </p>
 <p>Reads the flash information page of the fingerprint module.</p>
@@ -1522,10 +1803,10 @@ Parameters:</h3>
 <div class="line">    .packet_id = 0x01 ,</div>
 <div class="line">    .length = 0x0004,</div>
 <div class="line">    .command = <a class="code hl_enumvalue" href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330">FINGERPRINT_CMD_READ_NOTEPAD</a>, </div>
-<div class="line">    .parameters = {0x00}, </div>
+<div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x001E </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330">FINGERPRINT_CMD_READ_NOTEPAD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_NOTEPAD</div><div class="ttdef"><b>Definition</b> fingerprint.h:306</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330">FINGERPRINT_CMD_READ_NOTEPAD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_NOTEPAD</div><div class="ttdef"><b>Definition</b> fingerprint.h:336</div></div>
 </div><!-- fragment -->
 <p>Reads data from the fingerprint sensor's notepad memory. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Page Number) is dynamic.</p>
@@ -1557,7 +1838,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0013 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516">FINGERPRINT_CMD_READ_SYS_PARA</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_SYS_PARA</div><div class="ttdef"><b>Definition</b> fingerprint.h:264</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516">FINGERPRINT_CMD_READ_SYS_PARA</a></div><div class="ttdeci">@ FINGERPRINT_CMD_READ_SYS_PARA</div><div class="ttdef"><b>Definition</b> fingerprint.h:294</div></div>
 </div><!-- fragment -->
 <p>Reads system parameters from the fingerprint module. </p>
 
@@ -1583,7 +1864,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0009 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717">FINGERPRINT_CMD_REG_MODEL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_REG_MODEL</div><div class="ttdef"><b>Definition</b> fingerprint.h:246</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717">FINGERPRINT_CMD_REG_MODEL</a></div><div class="ttdeci">@ FINGERPRINT_CMD_REG_MODEL</div><div class="ttdef"><b>Definition</b> fingerprint.h:276</div></div>
 </div><!-- fragment -->
 <p>Combines feature templates stored in Buffer 1 and Buffer 2 into a single fingerprint model. </p>
 
@@ -1609,7 +1890,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x003E </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b">FINGERPRINT_CMD_FACTORY_RESET</a></div><div class="ttdeci">@ FINGERPRINT_CMD_FACTORY_RESET</div><div class="ttdef"><b>Definition</b> fingerprint.h:285</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b">FINGERPRINT_CMD_FACTORY_RESET</a></div><div class="ttdeci">@ FINGERPRINT_CMD_FACTORY_RESET</div><div class="ttdef"><b>Definition</b> fingerprint.h:315</div></div>
 </div><!-- fragment -->
 <p>Restores the fingerprint sensor to factory settings. </p>
 <p>This command has no parameters. </p>
@@ -1636,7 +1917,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4">FINGERPRINT_CMD_SEARCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SEARCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:243</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4">FINGERPRINT_CMD_SEARCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SEARCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:273</div></div>
 </div><!-- fragment -->
 <p>Searches for a fingerprint match in the database. </p>
 <p>This packet structure should be overwritten using <a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a> because its parameters (Buffer ID, Start Page, and Number of Pages) are dynamic and depend on the user's or developer's choice.</p>
@@ -1673,7 +1954,7 @@ Packet Structure:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0046 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee">FINGERPRINT_CMD_SEARCH_NOW</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SEARCH_NOW</div><div class="ttdef"><b>Definition</b> fingerprint.h:315</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee">FINGERPRINT_CMD_SEARCH_NOW</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SEARCH_NOW</div><div class="ttdef"><b>Definition</b> fingerprint.h:345</div></div>
 </div><!-- fragment -->
 <p>Performs an immediate fingerprint search in the database. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Start Page, Number of Pages) are dynamic.</p>
@@ -1706,7 +1987,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x00FD </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55">FINGERPRINT_CMD_SECURITY_SEARCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SECURITY_SEARCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:327</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55">FINGERPRINT_CMD_SECURITY_SEARCH</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SECURITY_SEARCH</div><div class="ttdef"><b>Definition</b> fingerprint.h:357</div></div>
 </div><!-- fragment -->
 <p>Searches for a fingerprint template in secure mode. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Buffer ID, Start Page, Number of Pages) are dynamic.</p>
@@ -1772,7 +2053,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0020 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c">FINGERPRINT_CMD_SET_CHIP_ADDR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SET_CHIP_ADDR</div><div class="ttdef"><b>Definition</b> fingerprint.h:267</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c">FINGERPRINT_CMD_SET_CHIP_ADDR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SET_CHIP_ADDR</div><div class="ttdef"><b>Definition</b> fingerprint.h:297</div></div>
 </div><!-- fragment -->
 <p>Sets the fingerprint scanner's device address. </p>
 
@@ -1798,7 +2079,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0019 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97">FINGERPRINT_CMD_SET_PASSWORD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SET_PASSWORD</div><div class="ttdef"><b>Definition</b> fingerprint.h:294</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97">FINGERPRINT_CMD_SET_PASSWORD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SET_PASSWORD</div><div class="ttdef"><b>Definition</b> fingerprint.h:324</div></div>
 </div><!-- fragment -->
 <p>Sets a password for the fingerprint sensor. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Password) is user-defined.</p>
@@ -1830,7 +2111,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0037 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2">FINGERPRINT_CMD_SLEEP</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SLEEP</div><div class="ttdef"><b>Definition</b> fingerprint.h:321</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2">FINGERPRINT_CMD_SLEEP</a></div><div class="ttdeci">@ FINGERPRINT_CMD_SLEEP</div><div class="ttdef"><b>Definition</b> fingerprint.h:351</div></div>
 </div><!-- fragment -->
 <p>Puts the fingerprint module into sleep mode. </p>
 
@@ -1856,7 +2137,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x000F </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b">FINGERPRINT_CMD_STORE_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_STORE_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:249</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b">FINGERPRINT_CMD_STORE_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_STORE_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:279</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1880,7 +2161,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x000D </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884">FINGERPRINT_CMD_UP_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_UP_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:348</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884">FINGERPRINT_CMD_UP_CHAR</a></div><div class="ttdeci">@ FINGERPRINT_CMD_UP_CHAR</div><div class="ttdef"><b>Definition</b> fingerprint.h:378</div></div>
 </div><!-- fragment -->
 <p>Uploads a stored fingerprint template from the module. </p>
 <p>Upload template from buffer to main control.</p>
@@ -1908,7 +2189,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x000D </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed">FINGERPRINT_CMD_UPLOAD_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_UPLOAD_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:258</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed">FINGERPRINT_CMD_UPLOAD_IMAGE</a></div><div class="ttdeci">@ FINGERPRINT_CMD_UPLOAD_IMAGE</div><div class="ttdef"><b>Definition</b> fingerprint.h:288</div></div>
 </div><!-- fragment -->
 <p>Uploads the fingerprint image from the sensor. </p>
 <p>This command has no parameters. </p>
@@ -1935,7 +2216,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0021 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4">FINGERPRINT_CMD_VALID_TEMPLATE_NUM</a></div><div class="ttdeci">@ FINGERPRINT_CMD_VALID_TEMPLATE_NUM</div><div class="ttdef"><b>Definition</b> fingerprint.h:318</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4">FINGERPRINT_CMD_VALID_TEMPLATE_NUM</a></div><div class="ttdeci">@ FINGERPRINT_CMD_VALID_TEMPLATE_NUM</div><div class="ttdef"><b>Definition</b> fingerprint.h:348</div></div>
 </div><!-- fragment -->
 <p>Retrieves the number of valid fingerprint templates stored in the module. </p>
 
@@ -1961,7 +2242,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x001A </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c">FINGERPRINT_CMD_VERIFY_PASSWORD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_VERIFY_PASSWORD</div><div class="ttdef"><b>Definition</b> fingerprint.h:297</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c">FINGERPRINT_CMD_VERIFY_PASSWORD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_VERIFY_PASSWORD</div><div class="ttdef"><b>Definition</b> fingerprint.h:327</div></div>
 </div><!-- fragment -->
 <p>Verifies the fingerprint sensor password. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameter (Password) is user-defined.</p>
@@ -1993,7 +2274,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x003B </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8">FINGERPRINT_CMD_WRITE_NOTEPAD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_WRITE_NOTEPAD</div><div class="ttdef"><b>Definition</b> fingerprint.h:303</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8">FINGERPRINT_CMD_WRITE_NOTEPAD</a></div><div class="ttdeci">@ FINGERPRINT_CMD_WRITE_NOTEPAD</div><div class="ttdef"><b>Definition</b> fingerprint.h:333</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2017,7 +2298,7 @@ Parameters:</h3>
 <div class="line">    .parameters = {0}, </div>
 <div class="line">    .checksum = 0x0013 </div>
 <div class="line">}</div>
-<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c">FINGERPRINT_CMD_WRITE_REG</a></div><div class="ttdeci">@ FINGERPRINT_CMD_WRITE_REG</div><div class="ttdef"><b>Definition</b> fingerprint.h:342</div></div>
+<div class="ttc" id="afingerprint_8h_html_a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c"><div class="ttname"><a href="fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c">FINGERPRINT_CMD_WRITE_REG</a></div><div class="ttdeci">@ FINGERPRINT_CMD_WRITE_REG</div><div class="ttdef"><b>Definition</b> fingerprint.h:372</div></div>
 </div><!-- fragment -->
 <p>Writes to the fingerprint module's system register. </p>
 <p>This packet structure should be overwritten using <code><a class="el" href="fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655" title="Initializes or updates a fingerprint command packet.">fingerprint_set_command()</a></code> because its parameters (Register Number, Value) are dynamic.</p>

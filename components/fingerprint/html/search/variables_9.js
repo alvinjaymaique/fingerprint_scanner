@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['tx_5fpin_0',['tx_pin',['../fingerprint_8c.html#a10401260df6ab61a4519575c27d3e5c7',1,'fingerprint.c']]],
-  ['type_1',['type',['../structfingerprint__event__t.html#a15fc199bc56b30eae6653d50a4b270b2',1,'fingerprint_event_t']]]
+  ['status_0',['status',['../structfingerprint__response__t.html#ab7eb5421fac2d1aa880af62e107eecdc',1,'fingerprint_response_t::status'],['../structfingerprint__event__t.html#a4ee37a20269bfe63d726a010ab9447a7',1,'fingerprint_event_t::status']]]
 ];

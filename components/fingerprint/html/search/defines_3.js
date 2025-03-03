@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rx_5fbuf_5fsize_0',['RX_BUF_SIZE',['../fingerprint_8c.html#a690f985c933da2ce6fe62b6c61dfa662',1,'fingerprint.c']]]
+  ['queue_5fsize_0',['QUEUE_SIZE',['../fingerprint_8h.html#a142810068f1b99cd93d3fc9f0e160e02',1,'fingerprint.h']]]
 ];

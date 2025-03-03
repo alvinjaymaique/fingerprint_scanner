@@ -1,15 +1,18 @@
 var fingerprint_8h =
 [
     [ "FingerprintPacket", "struct_fingerprint_packet.html", "struct_fingerprint_packet" ],
+    [ "fingerprint_response_t", "structfingerprint__response__t.html", "structfingerprint__response__t" ],
     [ "fingerprint_event_t", "structfingerprint__event__t.html", "structfingerprint__event__t" ],
     [ "DEFAULT_BAUD_RATE", "fingerprint_8h.html#a68654b05f39a5e88db0453de6f7fd726", null ],
     [ "DEFAULT_FINGERPRINT_ADDRESS", "fingerprint_8h.html#a5d7dc57da1b15b90f236d89912b2d95a", null ],
     [ "DEFAULT_RX_PIN", "fingerprint_8h.html#aef44023d85418b6b89d8e8492f4feb81", null ],
     [ "DEFAULT_TX_PIN", "fingerprint_8h.html#a906d33234fc0a208973dee29efb12336", null ],
+    [ "FINGERPRINT_GPIO_PIN", "fingerprint_8h.html#a163a9960a6008f5ad012e841ccd3262d", null ],
     [ "FINGERPRINT_HEADER", "fingerprint_8h.html#a3213a1f8aac63fb5a1e7fba62b6c14c9", null ],
     [ "FINGERPRINT_PACKET_HEADER", "fingerprint_8h.html#af02cae8acf76dab97688c8fa80ebff3e", null ],
     [ "FINGERPRINT_PACKET_ID_CMD", "fingerprint_8h.html#a85421db489877ff7378a1e706d0d8d71", null ],
     [ "MAX_PARAMETERS", "fingerprint_8h.html#a68c7f0498bb1932350eb092be1b5e912", null ],
+    [ "QUEUE_SIZE", "fingerprint_8h.html#a142810068f1b99cd93d3fc9f0e160e02", null ],
     [ "UART_READ_TIMEOUT", "fingerprint_8h.html#a69d1c616ae544899c43fd1dbfcbaa086", null ],
     [ "fingerprint_event_handler_t", "fingerprint_8h.html#a658eb2a1aea7e912aabef713b69d6789", null ],
     [ "fingerprint_command_t", "fingerprint_8h.html#a4c9c4a4e70842b49ce794917a355a0d7", [
@@ -119,7 +122,10 @@ var fingerprint_8h =
       [ "FINGERPRINT_IMAGE_NOT_AVAILABLE", "fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385", null ],
       [ "FINGERPRINT_ILLEGAL_DATA", "fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994", null ]
     ] ],
+    [ "detect_fingerprint_uart_task", "fingerprint_8h.html#a1985d5566b2e8f4f8540903a0aa450c7", null ],
+    [ "finger_detected_task", "fingerprint_8h.html#a0fd90f95c606bc3fd8a4ca1975900c07", null ],
     [ "fingerprint_calculate_checksum", "fingerprint_8h.html#a0d5b756311c0909b7f123085fb54e5b5", null ],
+    [ "fingerprint_get_next_response", "fingerprint_8h.html#acad8c23f5b4376d47d096cf989286d68", null ],
     [ "fingerprint_get_status", "fingerprint_8h.html#a20092401e8301669fc2d595f02dc433d", null ],
     [ "fingerprint_init", "fingerprint_8h.html#a759d58795c9a87a5d2fa233e52e5d580", null ],
     [ "fingerprint_read_response", "fingerprint_8h.html#a18e8b2af7dd860c312d730b5d1d30b7f", null ],
@@ -128,6 +134,8 @@ var fingerprint_8h =
     [ "fingerprint_set_command", "fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655", null ],
     [ "fingerprint_set_pins", "fingerprint_8h.html#a9d930710d85ff4f3085dd32e2ce89a8a", null ],
     [ "fingerprint_status_event_handler", "fingerprint_8h.html#a7db574152ca5af75df9adf2da5504a8e", null ],
+    [ "process_fingerprint_responses_task", "fingerprint_8h.html#aac65070f473460404b979dff8ca75bf2", null ],
+    [ "read_response_task", "fingerprint_8h.html#adb364663a6f8cf989e0a0c055dc49de2", null ],
     [ "register_fingerprint_event_handler", "fingerprint_8h.html#a86d6b1d39068b909eee4faad5e006f16", null ],
     [ "trigger_fingerprint_event", "fingerprint_8h.html#a2b019e6b09dcc91ad10bcb6c2784e360", null ],
     [ "g_fingerprint_event_handler", "fingerprint_8h.html#ac1bc88ca9eeff4bcae8ac419f8653c07", null ],
