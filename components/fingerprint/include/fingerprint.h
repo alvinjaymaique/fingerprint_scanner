@@ -183,8 +183,8 @@
  /**
   * @brief Default UART pins (modifiable at runtime).
   */
- #define DEFAULT_TX_PIN 17
- #define DEFAULT_RX_PIN 18
+ #define DEFAULT_TX_PIN (GPIO_NUM_17)
+ #define DEFAULT_RX_PIN (GPIO_NUM_18)
  
  /**
   * @brief Default fingerprint module header identifier.
@@ -248,7 +248,7 @@
  * This pin is used to detect the interrupt signal from the fingerprint sensor.
  * When the sensor detects a finger, it triggers an interrupt on this GPIO pin.
  */
-#define FINGERPRINT_GPIO_PIN  15  // GPIO pin for fingerprint sensor interrupt
+#define FINGERPRINT_GPIO_PIN (GPIO_NUM_15) // 15  // GPIO pin for fingerprint sensor interrupt
 
 
 /**

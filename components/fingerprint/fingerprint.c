@@ -31,9 +31,9 @@ static uint8_t last_sent_command = 0x00;
 fingerprint_event_handler_t g_fingerprint_event_handler = NULL;
 
 static TaskHandle_t fingerprint_task_handle = NULL;
-static QueueHandle_t fingerprint_response_queue;
-static QueueHandle_t fingerprint_command_queue;
-static QueueHandle_t finger_detected_queue;
+static QueueHandle_t fingerprint_response_queue = NULL;
+static QueueHandle_t fingerprint_command_queue = NULL;
+static QueueHandle_t finger_detected_queue = NULL;
 
 // ISR handler for fingerprint detection interrupt, sending detection signal to the queue.
 void IRAM_ATTR finger_detected_isr(void* arg) {
@@ -550,7 +550,7 @@ esp_err_t fingerprint_init(void) {
     while (1) {
         length = uart_read_bytes(UART_NUM, &handshake, 1, pdMS_TO_TICKS(200));  // Timeout 500ms
         if (length > 0 && handshake == 0x55) {
-            ESP_LOGI(TAG, "Fingerprint module handshake received.");
+            ESP_LOGI(TAG, "Fingerprint module handshake received: 0x%02X", handshake);
             break;  // Exit the loop once handshake is received
         } else {
             ESP_LOGW(TAG, "No handshake received, retrying...");
@@ -565,12 +565,12 @@ esp_err_t fingerprint_init(void) {
         return ESP_FAIL;
     }
 
-    // // Create Queue for Storing Sent Commands
-    // fingerprint_command_queue = xQueueCreate(QUEUE_SIZE, sizeof(FingerprintCommand_t));
-    // if (fingerprint_command_queue == NULL) {
-    //     ESP_LOGE(TAG, "Failed to create command queue");
-    //     return ESP_FAIL;
-    // }
+    // Create Queue for Storing Sent Commands
+    fingerprint_command_queue = xQueueCreate(QUEUE_SIZE, sizeof(fingerprint_command_t));
+    if (fingerprint_command_queue == NULL) {
+        ESP_LOGE(TAG, "Failed to create command queue");
+        return ESP_FAIL;
+    }
 
 
     // // Create Response Handling Task
@@ -578,6 +578,12 @@ esp_err_t fingerprint_init(void) {
     //     ESP_LOGE(TAG, "Failed to create fingerprint response task");
     //     return ESP_FAIL;
     // }
+
+    // Create Response Handling Task
+    if (xTaskCreate(read_response_task, "FingerprintReadResponse", 4096, NULL, configMAX_PRIORITIES - 1, &fingerprint_task_handle) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create fingerprint response task");
+        return ESP_FAIL;
+    }
 
     // Create Processing Task (processes responses from queue)
     if (xTaskCreate(process_fingerprint_responses_task, "FingerprintProcessResponse", 4096, NULL, 5, NULL) != pdPASS) {
@@ -610,10 +616,10 @@ esp_err_t fingerprint_init(void) {
         return ESP_FAIL;
     }
 
-    if (xTaskCreate(detect_fingerprint_uart_task, "uart_read_task", 4096, NULL, 10, NULL) != pdPASS) {
-        ESP_LOGE(TAG, "Failed to create uart_read_task");
-        return ESP_FAIL;
-    }
+    // if (xTaskCreate(detect_fingerprint_uart_task, "uart_read_task", 4096, NULL, 10, NULL) != pdPASS) {
+    //     ESP_LOGE(TAG, "Failed to create uart_read_task");
+    //     return ESP_FAIL;
+    // }
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized successfully.");
     return ESP_OK;
@@ -735,52 +741,53 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 }
 
 
-
-// Function to read the response packet from UART and return the FingerprintPacket structure
 FingerprintPacket* fingerprint_read_response(void) {
-    uint8_t buffer[MAX_PARAMETERS + 12];  // Allocate max possible response size dynamically
-    int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), UART_READ_TIMEOUT);
-
+    uint8_t buffer[MAX_PARAMETERS + 12];  // Stack-allocated buffer
+    int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200); //UART_READ_TIMEOUT 200 / portTICK_PERIOD_MS
+ 
     if (length <= 0) {
-        ESP_LOGE("Fingerprint", "Failed to read data from UART");
-        // Trigger an error event for UART read failure
-        fingerprint_status_event_handler(FINGERPRINT_SENSOR_OP_FAIL);  // Error in sensor operation
+        ESP_LOGW("Fingerprint", "No response received from UART");
         return NULL;
     }
 
-    // Check packet length to prevent out-of-bounds errors
     if (length < 12) {  // Minimum valid packet size
         ESP_LOGE("Fingerprint", "Invalid packet length: %d", length);
-        // Trigger an event for invalid packet length
-        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);  // Error in receiving packet
+        ESP_LOG_BUFFER_HEX("Fingerprint", buffer, length);
+        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);
         return NULL;
     }
+
+    // Early validation: Check if packet starts with 0xEF01
+    if (buffer[0] != 0xEF || buffer[1] != 0x01) {
+        ESP_LOGE("Fingerprint", "Invalid packet header: 0x%02X%02X", buffer[0], buffer[1]);
+        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);
+        return NULL;
+    }
+
+    ESP_LOG_BUFFER_HEXDUMP(TAG, buffer, length, ESP_LOG_INFO);
 
     // Compute checksum before allocating memory
     uint16_t received_checksum = (buffer[length - 2] << 8) | buffer[length - 1];
     uint16_t computed_checksum = 0;
-
-    for (int i = 6; i < length - 2; i++) {  // Skip header and address in checksum
+    for (int i = 6; i < length - 3; i++) {
         computed_checksum += buffer[i];
     }
 
     if (computed_checksum != received_checksum) {
         ESP_LOGE("Fingerprint", "Checksum mismatch! Computed: 0x%04X, Received: 0x%04X", computed_checksum, received_checksum);
-        // Trigger an event for checksum mismatch
-        fingerprint_status_event_handler(FINGERPRINT_DATA_PACKET_ERROR);  // Error in data packet
-        return NULL;
+        fingerprint_status_event_handler(FINGERPRINT_DATA_PACKET_ERROR);
+        return NULL;    
     }
 
     // Allocate packet only if checksum is valid
     FingerprintPacket *packet = (FingerprintPacket*)malloc(sizeof(FingerprintPacket));
     if (!packet) {
         ESP_LOGE("Fingerprint", "Memory allocation failed!");
-        // Trigger an event for memory allocation failure
-        fingerprint_status_event_handler(FINGERPRINT_SENSOR_OP_FAIL);  // Sensor operation failure
+        fingerprint_status_event_handler(FINGERPRINT_SENSOR_OP_FAIL);
         return NULL;
     }
 
-    memset(packet, 0, sizeof(FingerprintPacket));  // Initialize allocated memory
+    memset(packet, 0, sizeof(FingerprintPacket));
 
     // Copy response data into the packet structure
     packet->header = (buffer[0] << 8) | buffer[1];
@@ -789,16 +796,24 @@ FingerprintPacket* fingerprint_read_response(void) {
     packet->length = (buffer[7] << 8) | buffer[8];
     packet->command = buffer[9];
 
-    // Copy only valid parameters, prevent buffer overrun
+    // Validate packet length now that packet is allocated
+    if (packet->length + 9 != length) {  
+        ESP_LOGE("Fingerprint", "Packet length mismatch! Expected: %d, Received: %d", packet->length + 9, length);
+        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);
+        free(packet);
+        return NULL;
+    }
+
+    // Prevent buffer overrun
     int param_size = min(packet->length - 3, MAX_PARAMETERS);
     memcpy(packet->parameters, &buffer[10], param_size);
 
-    packet->checksum = received_checksum;  // Store checksum after validation
+    packet->checksum = received_checksum;
 
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
-    // fingerprint_status_event_handler((fingerprint_status_t)packet->command);  // Trigger event based on status code
-    return packet;  // Caller must free this memory after use
+    return packet;
 }
+
 
 // Task to continuously read responses and send to queue
 void read_response_task(void *pvParameter) {
@@ -950,13 +965,14 @@ void finger_detected_task(void* arg) {
     }
 }
 
-void detect_fingerprint_uart_task(void* arg) {
-    uint8_t data[RX_BUF_SIZE];
-    while (1) {
-        int len = uart_read_bytes(UART_NUM, data, RX_BUF_SIZE, 20 / portTICK_PERIOD_MS);
-        if (len > 0) {
-            ESP_LOGI(TAG, "Received: %s", data);
-            // Handle received data
-        }
-    }
-}
+// void detect_fingerprint_uart_task(void* arg) {
+//     uint8_t data[RX_BUF_SIZE];
+//     while (1) {
+//         int len = uart_read_bytes(UART_NUM, data, RX_BUF_SIZE, 20 / portTICK_PERIOD_MS);
+//         if (len > 0) {
+//             ESP_LOGI(TAG, "Received: %d", len);
+//             ESP_LOG_BUFFER_HEX("Fingerprint", data, len);
+//             // Handle received data
+//         }
+//     }
+// }
