@@ -84,6 +84,7 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_FINGER_DETECTED:
             ESP_LOGI(TAG, "Finger detected! Status: 0x%02X", event.status);
+            ESP_LOGI(TAG, "Event address: 0x%02X", event.packet.command);
             // ESP_LOGI(TAG, "Event address: 0x%08lX", (unsigned long)event.packet.address);
             // ESP_LOG_BUFFER_HEX("Event packet address: ", &event.packet, sizeof(FingerprintPacket));
             break;
@@ -104,8 +105,10 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_NO_FINGER_DETECTED:
             ESP_LOGI(TAG, "No finger detected. Status: 0x%02X", event.status);
+            break;
         case EVENT_ENROLL_SUCCESS:
             ESP_LOGI(TAG, "Fingerprint enrollment successful! Status: 0x%02X", event.status);
+            ESP_LOGI("Event Type", "Event: 0x%02X", event.type);
             break;
         case EVENT_ENROLL_FAIL:
             ESP_LOGI(TAG, "Fingerprint enrollment failed. Status: 0x%02X", event.status);

@@ -41,6 +41,7 @@ fingerprint_event_handler_t g_fingerprint_event_handler = NULL;
 static TaskHandle_t fingerprint_task_handle = NULL;
 static QueueHandle_t fingerprint_response_queue = NULL;
 static QueueHandle_t fingerprint_command_queue = NULL;
+static QueueHandle_t finger_detected_queue = NULL;
 
 // ISR handler for fingerprint detection interrupt, sending detection signal to the queue.
 void IRAM_ATTR finger_detected_isr(void* arg) {
@@ -598,6 +599,13 @@ esp_err_t fingerprint_init(void) {
         return ESP_FAIL;
     }
 
+    // Create the queue for finger detection
+    finger_detected_queue = xQueueCreate(10, sizeof(uint8_t));
+    if (finger_detected_queue == NULL) {
+        ESP_LOGE(TAG, "Failed to create queue");
+        return ESP_FAIL;
+    }
+
     // Install GPIO ISR service
     esp_err_t gpio_ret = gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1);
     if (gpio_ret != ESP_OK) {
@@ -803,7 +811,7 @@ FingerprintPacket* fingerprint_read_response(void) {
     memcpy(packet->parameters, &buffer[10], param_size);
 
     packet->checksum = (buffer[length - 2] << 8) | buffer[length - 1];
-    fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
+    // fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
 
     // --- Retrieve last sent command from queue ---
@@ -898,8 +906,6 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         case FINGERPRINT_NO_FINGER:
             if(last_sent_command == FINGERPRINT_CMD_GET_IMAGE){
                 event_type = EVENT_NO_FINGER_DETECTED;
-            } else if (last_sent_command == FINGERPRINT_CMD_AUTO_ENROLL) {
-                event.type = EVENT_ENROLL_SUCCESS;
             } else {
                 event.type = EVENT_SCANNER_READY;
             }
@@ -987,17 +993,6 @@ void trigger_fingerprint_event(fingerprint_event_t event) {
         ESP_LOGE("Fingerprint", "No event handler registered.");
     }
 }
-
-// // Task to handle finger detection events and log the detection.
-// void finger_detected_task(void* arg) {
-//     uint8_t finger_detected;
-//     while (1) {
-//         if (xQueueReceive(finger_detected_queue, &finger_detected, portMAX_DELAY)) {
-//             ESP_LOGI(TAG, "👆 Finger detected!");
-//             // Handle the finger detection (send response, etc.)
-//         }
-//     }
-// }
 
 // Register or store the fingerprint template in the module
 void enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans) {
