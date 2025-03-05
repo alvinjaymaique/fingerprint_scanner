@@ -806,13 +806,13 @@ FingerprintPacket* fingerprint_read_response(void) {
     fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
 
-    // // --- Retrieve last sent command from queue ---
-    // fingerprint_command_info_t last_sent_cmd;
-    // if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, 0)) {
-    //     last_confirmation_code = last_sent_cmd.command;  // Store the last confirmation code
-    // } else {
-    //     ESP_LOGW("Fingerprint", "No matching command found in queue.");
-    // }
+    // --- Retrieve last sent command from queue ---
+    fingerprint_command_info_t last_sent_cmd;
+    if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, 0)) {
+        last_confirmation_code = last_sent_cmd.command;  // Store the last confirmation code
+    } else {
+        ESP_LOGW("Fingerprint", "No matching command found in queue.");
+    }
     
     return packet;
 }

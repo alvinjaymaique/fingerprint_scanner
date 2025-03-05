@@ -50,7 +50,7 @@ void app_main(void)
     vTaskDelay(pdMS_TO_TICKS(100));
 
     fingerprint_set_command(&PS_SetChipAddr, PS_SetChipAddr.command, (uint8_t[]){0xFF, 0xFF, 0xFF, 0xFF}, 4);
-    // fingerprint_send_command(&PS_SetChipAddr, DEFAULT_FINGERPRINT_ADDRESS);
+    fingerprint_send_command(&PS_SetChipAddr, DEFAULT_FINGERPRINT_ADDRESS);
     vTaskDelay(pdMS_TO_TICKS(1000));
     // Create task for sending commands
     xTaskCreate(send_command_task, "SendCommandTask", 4096, NULL, 5, NULL);
