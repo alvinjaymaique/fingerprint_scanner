@@ -717,6 +717,7 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     buffer[packet_size - 2] = (cmd->checksum >> 8) & 0xFF;
     buffer[packet_size - 1] = cmd->checksum & 0xFF;
 
+    uart_flush(UART_NUM);  // Flush UART buffer before sending
     // Send the packet over UART
     int bytes_written = uart_write_bytes(UART_NUM, (const char *)buffer, packet_size);
     if (bytes_written != packet_size) {
@@ -759,14 +760,14 @@ FingerprintPacket* fingerprint_read_response(void) {
     if (length < 12) {  // Minimum valid packet size
         ESP_LOGE("Fingerprint", "Invalid packet length: %d", length);
         ESP_LOG_BUFFER_HEX("Fingerprint", buffer, length);
-        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);
+        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR, NULL);
         return NULL;
     }
 
     // Early validation: Check if packet starts with 0xEF01
     if (buffer[0] != 0xEF || buffer[1] != 0x01) {
         ESP_LOGE("Fingerprint", "Invalid packet header: 0x%02X%02X", buffer[0], buffer[1]);
-        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);
+        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR, NULL);
         return NULL;
     }
     ESP_LOG_BUFFER_HEX("Fingerprint", buffer, length);
@@ -776,7 +777,7 @@ FingerprintPacket* fingerprint_read_response(void) {
     FingerprintPacket *packet = (FingerprintPacket*)malloc(sizeof(FingerprintPacket));
     if (!packet) {
         ESP_LOGE("Fingerprint", "Memory allocation failed!");
-        fingerprint_status_event_handler(FINGERPRINT_SENSOR_OP_FAIL);
+        fingerprint_status_event_handler(FINGERPRINT_SENSOR_OP_FAIL, NULL);
         return NULL;
     }
 
@@ -792,7 +793,7 @@ FingerprintPacket* fingerprint_read_response(void) {
     // Validate packet length now that packet is allocated
     if (packet->length + 9 != length) {  
         ESP_LOGE("Fingerprint", "Packet length mismatch! Expected: %d, Received: %d", packet->length + 9, length);
-        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);
+        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR, NULL);
         free(packet);
         return NULL;
     }
@@ -802,7 +803,7 @@ FingerprintPacket* fingerprint_read_response(void) {
     memcpy(packet->parameters, &buffer[10], param_size);
 
     packet->checksum = (buffer[length - 2] << 8) | buffer[length - 1];
-
+    fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
 
     // --- Retrieve last sent command from queue ---
@@ -854,7 +855,7 @@ void process_fingerprint_responses_task(void *pvParameter) {
             ESP_LOGI("Fingerprint", "Processing queued response: Confirmation code 0x%02X", event.packet.command);
 
             // Trigger the event handler here
-            fingerprint_status_event_handler((fingerprint_status_t)event.packet.command);
+            fingerprint_status_event_handler((fingerprint_status_t)event.packet.command, &event.packet);
         }
     }
 }
@@ -869,8 +870,17 @@ fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet) {
 }
 
 // Event status handler function
-void fingerprint_status_event_handler(fingerprint_status_t status) {
+void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPacket *packet) {
     fingerprint_event_type_t event_type = EVENT_NONE;
+    fingerprint_event_t event;
+    event.status = status;
+    // event.packet = *packet;  // Store full response packet
+
+    if (packet != NULL) {
+        event.packet = *packet;  // Store full response packet
+    } else {
+        memset(&event.packet, 0, sizeof(FingerprintPacket));  // Clear packet structure to avoid garbage values
+    }
 
     switch (status) {
         case FINGERPRINT_OK:
@@ -878,7 +888,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status) {
             break;
 
         case FINGERPRINT_NO_FINGER:
-            if(last_sent_cmd_command == FINGERPRINT_CMD_GET_IMAGE){
+            if(last_sent_command == FINGERPRINT_CMD_GET_IMAGE){
                 event_type = EVENT_NO_FINGER_DETECTED;
             }
             break;
@@ -943,8 +953,9 @@ void fingerprint_status_event_handler(fingerprint_status_t status) {
             break;
     }
     if(event_type != EVENT_NONE){
+        event.type = event_type;
         ESP_LOGI("Fingerprint", "Triggering event: %d for status: 0x%02X", event_type, status);
-        trigger_fingerprint_event(event_type, status);
+        trigger_fingerprint_event(event);
     }
     // ESP_LOGI("Fingerprint", "Triggering event: %d for status: 0x%02X", event_type, status);
     // trigger_fingerprint_event(event_type, status);
@@ -956,14 +967,24 @@ void register_fingerprint_event_handler(fingerprint_event_handler_t handler) {
 }
 
 // Function to trigger the event (you can call this inside your fingerprint processing flow)
-void trigger_fingerprint_event(fingerprint_event_type_t event_type, fingerprint_status_t status) {
+void trigger_fingerprint_event(fingerprint_event_t event) {
     if (g_fingerprint_event_handler != NULL) {
-        fingerprint_event_t event = {event_type, status};
+        // fingerprint_event_t event = {event_type, status};
         g_fingerprint_event_handler(event);  /**< Call the registered event handler. */
     } else {
         ESP_LOGE("Fingerprint", "No event handler registered.");
     }
 }
+
+// // Function to trigger the event (you can call this inside your fingerprint processing flow)
+// void trigger_fingerprint_event(fingerprint_event_type_t event_type, fingerprint_status_t status, FingerprintPacket *packet) {
+//     if (g_fingerprint_event_handler != NULL) {
+//         fingerprint_event_t event = {event_type, status};
+//         g_fingerprint_event_handler(event);  /**< Call the registered event handler. */
+//     } else {
+//         ESP_LOGE("Fingerprint", "No event handler registered.");
+//     }
+// }
 
 // Task to handle finger detection events and log the detection.
 void finger_detected_task(void* arg) {

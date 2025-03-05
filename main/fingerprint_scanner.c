@@ -9,28 +9,18 @@
 void handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
 
-// Task to set GPIO 11 HIGH after 2 seconds
-void set_gpio_high_task(void *pvParameter)
-{
-    vTaskDelay(pdMS_TO_TICKS(2000)); // Non-blocking delay of 2 seconds
-    gpio_set_level(TEST_PIN, 0);
-    ESP_LOGI(TAG, "GPIO 11 set to LOW after 5 seconds.");
-    vTaskDelay(pdMS_TO_TICKS(1000)); // Non-blocking delay of 2 seconds
-    gpio_set_level(TEST_PIN, 1);
-    ESP_LOGI(TAG, "GPIO 11 set to HIGH after 5 seconds.");
+// // Task to set GPIO 11 HIGH after 2 seconds
+// void set_gpio_high_task(void *pvParameter)
+// {
+//     vTaskDelay(pdMS_TO_TICKS(2000)); // Non-blocking delay of 2 seconds
+//     gpio_set_level(TEST_PIN, 0);
+//     ESP_LOGI(TAG, "GPIO 11 set to LOW after 5 seconds.");
+//     vTaskDelay(pdMS_TO_TICKS(1000)); // Non-blocking delay of 2 seconds
+//     gpio_set_level(TEST_PIN, 1);
+//     ESP_LOGI(TAG, "GPIO 11 set to HIGH after 5 seconds.");
 
-    vTaskDelete(NULL); // Delete task after execution
-}
-
-// Task to set GPIO 11 LOW after 2 seconds
-void set_gpio_low_task(void *pvParameter)
-{
-    vTaskDelay(pdMS_TO_TICKS(5000)); // Non-blocking delay of 2 seconds
-    gpio_set_level(TEST_PIN, 0);
-    ESP_LOGI(TAG, "GPIO 11 set to LOW after 5 seconds.");
-
-    vTaskDelete(NULL); // Delete task after execution
-}
+//     vTaskDelete(NULL); // Delete task after execution
+// }
 
 void app_main(void)
 {
@@ -43,12 +33,12 @@ void app_main(void)
     // gpio_set_level(TEST_PIN, 1);
     // ESP_LOGI(TAG, "GPIO 11 set to HIGH after 2 seconds.");
 
-    // Set GPIO 11 as output
-    gpio_set_direction(TEST_PIN, GPIO_MODE_OUTPUT);
-    gpio_set_level(TEST_PIN, 1); // Initially set to HIGH
+    // // Set GPIO 11 as output
+    // gpio_set_direction(TEST_PIN, GPIO_MODE_OUTPUT);
+    // gpio_set_level(TEST_PIN, 1); // Initially set to HIGH
 
-    // Create a non-blocking task to set GPIO 11 LOW after 5 seconds
-    xTaskCreate(set_gpio_high_task, "SetGPIOHighTask", 2048, NULL, 5, NULL);
+    // // Create a non-blocking task to set GPIO 11 LOW after 5 seconds
+    // xTaskCreate(set_gpio_high_task, "SetGPIOHighTask", 2048, NULL, 5, NULL);
 
     esp_err_t err = fingerprint_init();
     if (err != ESP_OK) {

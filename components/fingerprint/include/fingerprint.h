@@ -957,7 +957,7 @@ extern FingerprintPacket PS_DownChar;
  *
  * @param status The fingerprint status received from the sensor.
  */
-void fingerprint_status_event_handler(fingerprint_status_t status);
+void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPacket *packet);
 
 /**
  * @brief Task to handle the finger detection event.
@@ -1305,16 +1305,21 @@ void process_fingerprint_responses_task(void *pvParameter);
 
  } fingerprint_event_type_t;
 
- /**
+/**
  * @brief Structure representing a fingerprint event.
  * 
- * This structure contains the high-level event type and the original
- * fingerprint status that triggered the event.
+ * This structure encapsulates a high-level fingerprint event, along with 
+ * the original status code and the associated response packet data.
+ * It is used to convey meaningful events triggered by the fingerprint module.
+ * 
+ * @struct fingerprint_event_t
  */
 typedef struct {
-    fingerprint_event_type_t type;  /**< The high-level fingerprint event type. */
-    fingerprint_status_t status;    /**< The original fingerprint status code. */
+    fingerprint_event_type_t type;  /**< The high-level fingerprint event type (e.g., EVENT_FINGER_DETECTED, EVENT_MATCH_FAIL). */
+    fingerprint_status_t status;    /**< The original fingerprint status code received from the sensor. */
+    FingerprintPacket packet;       /**< The full response packet received from the fingerprint module. */
 } fingerprint_event_t;
+
  
  /**
   * @brief Typedef for the fingerprint event handler callback.
@@ -1356,7 +1361,7 @@ typedef struct {
  * @param event_type The high-level event type to trigger.
  * @param status The original fingerprint status that caused the event.
  */
-void trigger_fingerprint_event(fingerprint_event_type_t event_type, fingerprint_status_t status);
+void trigger_fingerprint_event(fingerprint_event_t event);
  
  #ifdef __cplusplus
  }
