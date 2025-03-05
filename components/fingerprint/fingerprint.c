@@ -27,6 +27,14 @@ static int baud_rate = DEFAULT_BAUD_RATE; // Default baud rate
  */
 static uint8_t last_sent_command = 0x00;
 
+/**
+ * @brief Stores the last confirmation code received from the fingerprint module.
+ * 
+ * The confirmation code indicates the success or failure of the last operation.
+ * This helps in debugging and handling fingerprint responses correctly.
+ */
+static uint8_t last_confirmation_code = 0x00;
+
 // Define the global event handler function pointer
 fingerprint_event_handler_t g_fingerprint_event_handler = NULL;
 
@@ -750,10 +758,10 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 
 FingerprintPacket* fingerprint_read_response(void) {
     uint8_t buffer[MAX_PARAMETERS + 12];  // Stack-allocated buffer
-    int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200); //UART_READ_TIMEOUT 200 / portTICK_PERIOD_MS
+    int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200 / portTICK_PERIOD_MS); //UART_READ_TIMEOUT 200 / portTICK_PERIOD_MS
  
     if (length <= 0) {
-        ESP_LOGW("Fingerprint", "No response received from UART");
+        // ESP_LOGW("Fingerprint", "No response received from UART");
         return NULL;
     }
 
@@ -809,15 +817,11 @@ FingerprintPacket* fingerprint_read_response(void) {
     // --- Retrieve last sent command from queue ---
     fingerprint_command_info_t last_sent_cmd;
     if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, 0)) {
-        if (last_sent_command == last_sent_cmd.command) {
-            ESP_LOGI("Fingerprint", "Matching response received for command 0x%02X", last_sent_command);
-        } else {
-            ESP_LOGW("Fingerprint", "Mismatched response! Expected 0x%02X, but got 0x%02X", last_sent_cmd.command, last_sent_command);
-        }
+        last_confirmation_code = last_sent_cmd.command;  // Store the last confirmation code
     } else {
         ESP_LOGW("Fingerprint", "No matching command found in queue.");
     }
-
+    
     return packet;
 }
 
@@ -840,6 +844,18 @@ void read_response_task(void *pvParameter) {
         vTaskDelay(pdMS_TO_TICKS(10));  // Avoid excessive CPU usage
     }
 }
+
+void process_fingerprint_command_queue(void) {
+    fingerprint_command_info_t last_sent_cmd;
+
+    if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, 0)) {
+        last_confirmation_code = last_sent_cmd.command;  // Store the last confirmation code
+        ESP_LOGI("Fingerprint", "Processed last sent command: 0x%02X", last_sent_cmd.command);
+    } else {
+        ESP_LOGW("Fingerprint", "No matching command found in queue.");
+    }
+}
+
 
 // Function to get the next response from the queue
 bool fingerprint_get_next_response(fingerprint_response_t *response, TickType_t timeout) {
@@ -890,6 +906,10 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         case FINGERPRINT_NO_FINGER:
             if(last_sent_command == FINGERPRINT_CMD_GET_IMAGE){
                 event_type = EVENT_NO_FINGER_DETECTED;
+            } else if (last_sent_command == FINGERPRINT_CMD_AUTO_ENROLL) {
+                event.type = EVENT_ENROLL_SUCCESS;
+            } else {
+                event.type = EVENT_SCANNER_READY;
             }
             break;
 
@@ -976,16 +996,6 @@ void trigger_fingerprint_event(fingerprint_event_t event) {
     }
 }
 
-// // Function to trigger the event (you can call this inside your fingerprint processing flow)
-// void trigger_fingerprint_event(fingerprint_event_type_t event_type, fingerprint_status_t status, FingerprintPacket *packet) {
-//     if (g_fingerprint_event_handler != NULL) {
-//         fingerprint_event_t event = {event_type, status};
-//         g_fingerprint_event_handler(event);  /**< Call the registered event handler. */
-//     } else {
-//         ESP_LOGE("Fingerprint", "No event handler registered.");
-//     }
-// }
-
 // Task to handle finger detection events and log the detection.
 void finger_detected_task(void* arg) {
     uint8_t finger_detected;
@@ -1008,3 +1018,24 @@ void finger_detected_task(void* arg) {
 //         }
 //     }
 // }
+
+// Register or store the fingerprint template in the module
+void enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans) {
+    uint8_t params[3] = { 
+        (fingerprint_id >> 8) & 0xFF,  // High byte of Fingerprint ID
+        fingerprint_id & 0xFF,         // Low byte of Fingerprint ID
+        num_scans                      // Number of times the finger needs to be scanned
+    };
+
+    // Set the command parameters
+    fingerprint_set_command(&PS_AutoEnroll, FINGERPRINT_CMD_AUTO_ENROLL, params, sizeof(params));
+
+    // Send the AutoEnroll command
+    esp_err_t err = fingerprint_send_command(&PS_AutoEnroll, DEFAULT_FINGERPRINT_ADDRESS);
+
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Enrollment process started for Fingerprint ID: %d", fingerprint_id);
+    } else {
+        ESP_LOGE(TAG, "Failed to start fingerprint enrollment!");
+    }
+}

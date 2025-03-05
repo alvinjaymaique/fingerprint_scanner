@@ -1301,7 +1301,15 @@ void process_fingerprint_responses_task(void *pvParameter);
      *
      * This event corresponds to the status FINGERPRINT_NO_FINGER_DETECTED.
      */
-    EVENT_NO_FINGER_DETECTED           /**< No finger detected (FINGERPRINT_NO_FINGER_DETECTED) */
+    EVENT_NO_FINGER_DETECTED,           /**< No finger detected (FINGERPRINT_NO_FINGER_DETECTED) */
+
+    /**
+     * @brief Event triggered when the fingerprint scanner is ready for operation.
+     *
+     * This event indicates that the fingerprint module has completed initialization
+     * and is ready to process fingerprint-related commands.
+     */
+    EVENT_SCANNER_READY                  /**< Scanner is ready for operation */
 
  } fingerprint_event_type_t;
 
@@ -1362,6 +1370,28 @@ typedef struct {
  * @param status The original fingerprint status that caused the event.
  */
 void trigger_fingerprint_event(fingerprint_event_t event);
+
+/**
+ * @brief Initiates the fingerprint enrollment process.
+ *
+ * This function starts the automatic fingerprint enrollment process by sending the
+ * `PS_AutoEnroll` command to the fingerprint module. The user is required to scan
+ * their finger multiple times for a successful enrollment.
+ *
+ * @param fingerprint_id The unique ID to assign to the enrolled fingerprint.
+ * @param num_scans The number of times the user must scan their finger for enrollment.
+ *
+ * @note The enrollment process requires the user to place and remove their finger
+ *       multiple times until the sensor successfully registers the fingerprint template.
+ *
+ * @return None. The function triggers an event upon enrollment success or failure.
+ *
+ * @example
+ * @code
+ * enroll_fingerprint(1, 3);  // Enroll fingerprint with ID 1, requiring 3 scans
+ * @endcode
+ */
+void enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans);
  
  #ifdef __cplusplus
  }

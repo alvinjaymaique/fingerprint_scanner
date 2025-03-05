@@ -50,7 +50,7 @@ void app_main(void)
     vTaskDelay(pdMS_TO_TICKS(100));
 
     fingerprint_set_command(&PS_SetChipAddr, PS_SetChipAddr.command, (uint8_t[]){0xFF, 0xFF, 0xFF, 0xFF}, 4);
-    fingerprint_send_command(&PS_SetChipAddr, DEFAULT_FINGERPRINT_ADDRESS);
+    // fingerprint_send_command(&PS_SetChipAddr, DEFAULT_FINGERPRINT_ADDRESS);
     vTaskDelay(pdMS_TO_TICKS(1000));
     // Create task for sending commands
     xTaskCreate(send_command_task, "SendCommandTask", 4096, NULL, 5, NULL);
@@ -79,8 +79,13 @@ void send_command_task(void *pvParameter)
 // Event handler function
 void handle_fingerprint_event(fingerprint_event_t event) {
     switch (event.type) {
+        case EVENT_SCANNER_READY:
+            ESP_LOGI(TAG, "Fingerprint scanner is ready for operation. Status: 0x%02X", event.status);
+            break;
         case EVENT_FINGER_DETECTED:
             ESP_LOGI(TAG, "Finger detected! Status: 0x%02X", event.status);
+            // ESP_LOGI(TAG, "Event address: 0x%08lX", (unsigned long)event.packet.address);
+            // ESP_LOG_BUFFER_HEX("Event packet address: ", &event.packet, sizeof(FingerprintPacket));
             break;
         case EVENT_IMAGE_CAPTURED:
             ESP_LOGI(TAG, "Fingerprint image captured successfully! Status: 0x%02X", event.status);
@@ -99,6 +104,12 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_NO_FINGER_DETECTED:
             ESP_LOGI(TAG, "No finger detected. Status: 0x%02X", event.status);
+        case EVENT_ENROLL_SUCCESS:
+            ESP_LOGI(TAG, "Fingerprint enrollment successful! Status: 0x%02X", event.status);
+            break;
+        case EVENT_ENROLL_FAIL:
+            ESP_LOGI(TAG, "Fingerprint enrollment failed. Status: 0x%02X", event.status);
+            break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);
             break;
