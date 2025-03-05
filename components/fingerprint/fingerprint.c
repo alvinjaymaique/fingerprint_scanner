@@ -728,15 +728,18 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     // Debug logging
     ESP_LOGI(TAG, "Sent fingerprint command: 0x%02X to address 0x%08X", cmd->command, (unsigned int)address);
     ESP_LOG_BUFFER_HEX("Fingerprint sent command: ", buffer, packet_size);
-    // // Store the sent command in the queue
-    // FingerprintCommand_t sent_cmd;
-    // sent_cmd.command = cmd->command;  // Store command type
-    // sent_cmd.timestamp = xTaskGetTickCount();  // Store timestamp (optional for debugging)
+    
+    // Store the sent command in the queue
+    fingerprint_command_info_t sent_cmd;
+    sent_cmd.command = cmd->command;  // Store command type
+    sent_cmd.timestamp = xTaskGetTickCount();  // Store timestamp (optional for debugging)
 
-    // if (!xQueueSend(fingerprint_command_queue, &sent_cmd, pdMS_TO_TICKS(100))) {
-    //     ESP_LOGW(TAG, "Command queue full, dropping command 0x%02X.", cmd->command);
-    // }
+    if (!xQueueSend(fingerprint_command_queue, &sent_cmd, pdMS_TO_TICKS(100))) {
+        ESP_LOGW(TAG, "Command queue full, dropping command 0x%02X.", cmd->command);
+    }
 
+    last_sent_command = cmd->command;  // Store the last sent command for reference
+    ESP_LOGI(TAG, "Last sent command: 0x%02X", last_sent_command);
     // Free the allocated buffer
     free(buffer);
     
@@ -768,19 +771,6 @@ FingerprintPacket* fingerprint_read_response(void) {
     }
     ESP_LOG_BUFFER_HEX("Fingerprint", buffer, length);
     // ESP_LOG_BUFFER_HEXDUMP(TAG, buffer, length, ESP_LOG_INFO);
-
-    // // Compute checksum before allocating memory
-    // uint16_t received_checksum = (buffer[length - 2] << 8) | buffer[length - 1];
-    // uint16_t computed_checksum = 0;
-    // for (int i = 6; i < length - 3; i++) {
-    //     computed_checksum += buffer[i];
-    // }
-
-    // if (computed_checksum != received_checksum) {
-    //     ESP_LOGE("Fingerprint", "Checksum mismatch! Computed: 0x%04X, Received: 0x%04X", computed_checksum, received_checksum);
-    //     fingerprint_status_event_handler(FINGERPRINT_DATA_PACKET_ERROR);
-    //     return NULL;    
-    // }
 
     // Allocate packet only if checksum is valid
     FingerprintPacket *packet = (FingerprintPacket*)malloc(sizeof(FingerprintPacket));
@@ -814,6 +804,19 @@ FingerprintPacket* fingerprint_read_response(void) {
     packet->checksum = (buffer[length - 2] << 8) | buffer[length - 1];
 
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
+
+    // --- Retrieve last sent command from queue ---
+    fingerprint_command_info_t last_sent_cmd;
+    if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, 0)) {
+        if (last_sent_command == last_sent_cmd.command) {
+            ESP_LOGI("Fingerprint", "Matching response received for command 0x%02X", last_sent_command);
+        } else {
+            ESP_LOGW("Fingerprint", "Mismatched response! Expected 0x%02X, but got 0x%02X", last_sent_cmd.command, last_sent_command);
+        }
+    } else {
+        ESP_LOGW("Fingerprint", "No matching command found in queue.");
+    }
+
     return packet;
 }
 
@@ -848,7 +851,7 @@ void process_fingerprint_responses_task(void *pvParameter) {
 
     while (1) {
         if (fingerprint_get_next_response(&event, portMAX_DELAY)) {  // Wait indefinitely for a response
-            ESP_LOGI("Fingerprint", "Processing queued response: Command 0x%02X", event.packet.command);
+            ESP_LOGI("Fingerprint", "Processing queued response: Confirmation code 0x%02X", event.packet.command);
 
             // Trigger the event handler here
             fingerprint_status_event_handler((fingerprint_status_t)event.packet.command);
@@ -867,7 +870,7 @@ fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet) {
 
 // Event status handler function
 void fingerprint_status_event_handler(fingerprint_status_t status) {
-    fingerprint_event_type_t event_type;
+    fingerprint_event_type_t event_type = EVENT_NONE;
 
     switch (status) {
         case FINGERPRINT_OK:
@@ -875,7 +878,9 @@ void fingerprint_status_event_handler(fingerprint_status_t status) {
             break;
 
         case FINGERPRINT_NO_FINGER:
-            event_type = EVENT_IMAGE_CAPTURED;
+            if(last_sent_cmd_command == FINGERPRINT_CMD_GET_IMAGE){
+                event_type = EVENT_NO_FINGER_DETECTED;
+            }
             break;
 
         case FINGERPRINT_IMAGE_FAIL:
@@ -937,9 +942,12 @@ void fingerprint_status_event_handler(fingerprint_status_t status) {
             event_type = EVENT_ERROR;
             break;
     }
-
-    ESP_LOGI("Fingerprint", "Triggering event: %d for status: 0x%02X", event_type, status);
-    trigger_fingerprint_event(event_type, status);
+    if(event_type != EVENT_NONE){
+        ESP_LOGI("Fingerprint", "Triggering event: %d for status: 0x%02X", event_type, status);
+        trigger_fingerprint_event(event_type, status);
+    }
+    // ESP_LOGI("Fingerprint", "Triggering event: %d for status: 0x%02X", event_type, status);
+    // trigger_fingerprint_event(event_type, status);
 }
 
 // Function to register the event handler

@@ -107,6 +107,8 @@ void handle_fingerprint_event(fingerprint_event_t event) {
         case EVENT_ERROR:
             ESP_LOGI(TAG, "An error occurred during fingerprint processing. Status: 0x%02X", event.status);
             break;
+        case EVENT_NO_FINGER_DETECTED:
+            ESP_LOGI(TAG, "No finger detected. Status: 0x%02X", event.status);
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);
             break;

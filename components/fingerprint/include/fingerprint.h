@@ -382,6 +382,19 @@ typedef enum {
 } fingerprint_command_t;
 
 /**
+ * @struct fingerprint_command_info_t
+ * @brief Structure to store information about a sent fingerprint command.
+ *
+ * This structure holds metadata related to a fingerprint command, including
+ * the command type and the timestamp when it was sent. It is useful for 
+ * tracking commands in a queue and debugging response mismatches.
+ */
+typedef struct {
+    fingerprint_command_t command;  /**< Command sent to the fingerprint sensor */
+    uint32_t timestamp;             /**< Timestamp when the command was sent (in ticks) */
+} fingerprint_command_info_t;
+
+/**
  * @struct FingerprintPacket
  * @brief Structure representing a command or response packet for the fingerprint module.
  *
@@ -1164,6 +1177,13 @@ void process_fingerprint_responses_task(void *pvParameter);
   * @note The event codes are used in an event handler system where functions can subscribe and react to specific events.
   */
  typedef enum {
+    /**
+     * @brief Event representing no valid fingerprint event.
+     *
+     * This event is used as a default value when no other event is applicable.
+     */
+    EVENT_NONE = -1,                  /**< No event (Default value) */
+
      /**
       * @brief Event triggered when a finger is detected.
       *
@@ -1232,7 +1252,57 @@ void process_fingerprint_responses_task(void *pvParameter);
       *
       * This event corresponds to the status `FINGERPRINT_SENSOR_OP_FAIL`.
       */
-     EVENT_SENSOR_ERROR              /**< Sensor operation failure (FINGERPRINT_SENSOR_OP_FAIL) */
+     EVENT_SENSOR_ERROR,              /**< Sensor operation failure (FINGERPRINT_SENSOR_OP_FAIL) */
+
+    /**
+     * @brief Event triggered when a fingerprint is enrolled successfully.
+     *
+     * This event corresponds to the status FINGERPRINT_ENROLL_SUCCESS.
+     */
+    EVENT_ENROLL_SUCCESS,               /**< Fingerprint enrolled successfully (FINGERPRINT_ENROLL_SUCCESS) */
+
+    /**
+     * @brief Event triggered when fingerprint enrollment fails.
+     *
+     * This event corresponds to the status FINGERPRINT_ENROLL_FAIL.
+     */
+    EVENT_ENROLL_FAIL,                  /**< Fingerprint enrollment failed (FINGERPRINT_ENROLL_FAIL) */
+
+    /**
+     * @brief Event triggered when a fingerprint template is stored.
+     *
+     * This event corresponds to the status FINGERPRINT_TEMPLATE_STORED.
+     */
+    EVENT_TEMPLATE_STORED,              /**< Fingerprint template stored (FINGERPRINT_TEMPLATE_STORED) */
+
+    /**
+     * @brief Event triggered when a fingerprint template is deleted.
+     *
+     * This event corresponds to the status FINGERPRINT_TEMPLATE_DELETED.
+     */
+    EVENT_TEMPLATE_DELETED,             /**< Fingerprint template deleted (FINGERPRINT_TEMPLATE_DELETED) */
+
+    /**
+     * @brief Event triggered when the system enters low power mode.
+     *  
+     * This event corresponds to the status FINGERPRINT_LOW_POWER_MODE.
+     */
+    EVENT_LOW_POWER_MODE,               /**< Entered low power mode (FINGERPRINT_LOW_POWER_MODE) */
+
+    /**
+     * @brief Event triggered when an operation times out.
+     *
+     * This event corresponds to the status FINGERPRINT_TIMEOUT.
+     */
+    EVENT_TIMEOUT,                   /**< Operation timed out (FINGERPRINT_TIMEOUT) */
+
+    /**
+     * @brief Event triggered when no finger is detected on the sensor.
+     *
+     * This event corresponds to the status FINGERPRINT_NO_FINGER_DETECTED.
+     */
+    EVENT_NO_FINGER_DETECTED           /**< No finger detected (FINGERPRINT_NO_FINGER_DETECTED) */
+
  } fingerprint_event_type_t;
 
  /**
