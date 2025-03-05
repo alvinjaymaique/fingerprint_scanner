@@ -5,7 +5,7 @@
 #include "fingerprint.h"
 
 #define TAG "FINGERPRINT"
-#define TEST_PIN (GPIO_NUM_11)
+#define TEST_PIN (GPIO_NUM_19)
 void handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
 

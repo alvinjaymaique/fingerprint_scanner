@@ -1,0 +1,596 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar  4 2025 16:14:42[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0be00h ( 48640) map[0m
+[0;32mI (107) esp_image: segment 1: paddr=0001be28 vaddr=3fc93400 size=02aa0h ( 10912) load[0m
+[0;32mI (110) esp_image: segment 2: paddr=0001e8d0 vaddr=40374000 size=01748h (  5960) load[0m
+[0;32mI (113) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1ba7ch (113276) map[0m
+[0;32mI (145) esp_image: segment 4: paddr=0003baa4 vaddr=40375748 size=0dbc8h ( 56264) load[0m
+[0;32mI (161) esp_image: segment 5: paddr=00049674 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (167) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (167) boot: Disabling RNG early entropy source...[0m
+[0;32mI (179) cpu_start: Multicore app[0m
+[0;32mI (188) cpu_start: Pro cpu start user code[0m
+[0;32mI (188) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (188) app_init: Application information:[0m
+[0;32mI (188) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (193) app_init: App version:      4ff165b-dirty[0m
+[0;32mI (197) app_init: Compile time:     Mar  5 2025 08:24:25[0m
+[0;32mI (202) app_init: ELF file SHA256:  2b4dbc0f0...[0m
+[0;32mI (207) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (211) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (215) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (218) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (222) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (229) heap_init: At 3FC96780 len 00052F90 (331 KiB): RAM[0m
+[0;32mI (234) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (239) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (244) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (250) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (259) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (263) spi_flash: flash io: opi_str[0m
+[0;33mW (266) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (279) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (285) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (292) main_task: Started on CPU0[0m
+[0;32mI (302) main_task: Calling app_main()[0m
+[0;32mI (302) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (502) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (902) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1302) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1702) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (2012) FINGERPRINT: No handshake received, retrying...[0m
+[0;32mI (2212) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
+[0;32mI (2212) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (2302) FINGERPRINT: GPIO 11 set to LOW after 5 seconds.[0m
+[0;32mI (2312) FINGERPRINT: Sent fingerprint command: 0x15 to address 0xFFFFFFFF[0m
+[0;32mI (2312) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 07 15 ff ff ff ff 04 19[0m
+[0;32mI (3302) FINGERPRINT: GPIO 11 set to HIGH after 5 seconds.[0m
+[0;32mI (3312) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (3312) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (3312) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (3312) FINGERPRINT: Get Image command sent successfully.[0m
+[0;32mI (3322) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (3332) main_task: Returned from app_main()[0m
+[0;32mI (5322) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (5322) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (5322) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (5322) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (5392) Fingerprint: Checksum mismatch! Computed: 0x0609, Received: 0x000C[0m
+[0;32mI (5392) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (5392) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (7332) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (7332) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (7332) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (7332) FINGERPRINT: Get Image command sent successfully.[0m
+[0;33mW (7402) Fingerprint: No response received from UART[0m
+[0;32mI (9342) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (9342) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (9342) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (9342) FINGERPRINT: Get Image command sent successfully.[0m
+[0;33mW (9412) Fingerprint: No response received from UART[0m
+[0;32mI (11352) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (11352) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (11352) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (11352) FINGERPRINT: Get Image command sent successfully.[0m
+[0;33mW (11422) Fingerprint: No response received from UART[0m
+[0;32mI (13362) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (13362) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (13362) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (13362) FINGERPRINT: Get Image command sent successfully.[0m
+[0;33mW (13432) Fingerprint: No response received from UART[0m
+[0;32mI (15372) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (15372) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (15372) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (15372) FINGERPRINT: Get Image command sent successfully.[0m
+[0;33mW (15442) Fingerprint: No response received from UART[0m
+[0;32mI (17382) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (17382) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (17382) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (17382) FINGERPRINT: Get Image command sent successfully.[0m
+[0;33mW (17452) Fingerprint: No response received from UART[0m
+[0;32mI (19392) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (19392) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (19392) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (19392) FINGERPRINT: Get Image command sent successfully.[0m
+[0;33mW (19462) Fingerprint: No response received from UART[0m
+[0;32mI (21402) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (21402) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (21402) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (21402) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (21472) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (21472) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (21472) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (23412) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (23412) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (23412) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (23412) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (23482) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (23482) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (23482) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (25422) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (25422) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (25422) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (25422) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (25492) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (25492) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (25492) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (27432) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (27432) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (27432) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (27432) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (27502) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (27502) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (27502) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (29442) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (29442) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (29442) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (29442) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (29512) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (29512) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (29512) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (31452) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (31452) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (31452) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (31452) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (31522) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (31522) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (31522) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (33462) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (33462) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (33462) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (33462) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (33532) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (33532) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (33532) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (35472) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (35472) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (35472) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (35472) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (35542) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (35542) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (35542) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (37482) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (37482) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (37482) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (37482) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (37552) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (37552) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (37552) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (39492) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (39492) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (39492) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (39492) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (39562) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (39562) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (39562) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (41502) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (41502) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (41502) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (41502) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (41572) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (41572) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (41572) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (43512) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (43512) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (43512) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (43512) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (43582) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (43582) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (43582) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (45522) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (45522) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (45522) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (45522) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (45592) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (45592) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (45592) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (47532) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (47532) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (47532) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (47532) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (47602) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (47602) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (47602) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (49542) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (49542) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (49542) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (49542) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (49612) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (49612) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (49612) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (51552) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (51552) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (51552) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (51552) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (51622) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (51622) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (51622) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (53562) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (53562) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (53562) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (53562) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (53632) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (53632) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (53632) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (55572) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (55572) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (55572) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (55572) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (55642) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (55642) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (55642) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (57582) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (57582) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (57582) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (57582) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (57652) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (57652) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (57652) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (59592) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (59592) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (59592) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (59592) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (59662) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (59662) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (59662) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (61602) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (61602) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (61602) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (61602) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (61672) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (61672) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (61672) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (63612) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (63612) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (63612) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (63612) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (63682) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (63682) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (63682) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (65622) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (65622) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (65622) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (65622) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (65692) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (65692) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (65692) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (67632) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (67632) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (67632) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (67632) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (67702) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (67702) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (67702) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (69642) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (69642) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (69642) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (69642) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (69712) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (69712) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (69712) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (71652) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (71652) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (71652) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (71652) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (71722) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (71722) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (71722) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (73662) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (73662) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (73662) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (73662) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (73732) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (73732) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (73732) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (75672) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (75672) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (75672) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (75672) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (75742) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (75742) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (75742) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (77682) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (77682) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (77682) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (77682) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (77752) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (77752) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (77752) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (79692) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (79692) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (79692) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (79692) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (79762) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (79762) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (79762) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (81702) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (81702) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (81702) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (81702) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (81772) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (81772) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (81772) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (83712) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (83712) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (83712) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (83712) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (83782) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (83782) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (83782) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (85722) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (85722) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (85722) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (85722) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (85792) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (85792) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (85792) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (87732) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (87732) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (87732) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (87732) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (87802) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (87802) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (87802) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (89742) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (89742) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (89742) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (89742) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (89812) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (89812) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (89812) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (91752) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (91752) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (91752) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (91752) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (91822) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (91822) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (91822) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (93762) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (93762) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (93762) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (93762) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (93832) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (93832) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (93832) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (95772) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (95772) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (95772) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (95772) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (95842) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (95842) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (95842) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (97782) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (97782) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (97782) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (97782) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (97852) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (97852) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (97852) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (99792) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (99792) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (99792) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (99792) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (99862) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (99862) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (99862) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (101802) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (101802) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (101802) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (101802) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (101872) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (101872) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (101872) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (103812) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (103812) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (103812) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (103812) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (103882) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (103882) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (103882) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (105822) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (105822) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (105822) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (105822) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (105892) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (105892) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (105892) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (107832) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (107832) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (107832) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (107832) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (107902) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (107902) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (107902) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (109842) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (109842) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (109842) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (109842) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (109912) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (109912) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (109912) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (111852) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (111852) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (111852) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (111852) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (111922) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (111922) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (111922) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (113862) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (113862) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (113862) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (113862) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (113932) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (113932) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (113932) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (115872) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (115872) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (115872) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (115872) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (115942) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (115942) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (115942) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (117882) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (117882) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (117882) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (117882) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (117952) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (117952) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (117952) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (119892) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (119892) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (119892) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (119892) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (119962) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (119962) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (119962) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (121902) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (121902) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (121902) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (121902) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (121972) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (121972) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (121972) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (123912) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (123912) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (123912) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (123912) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (123982) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (123982) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (123982) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (125922) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (125922) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (125922) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (125922) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (125992) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (125992) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (125992) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (127932) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (127932) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (127932) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (127932) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (128002) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (128002) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (128002) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (129942) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (129942) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (129942) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (129942) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (130012) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (130012) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (130012) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (131952) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (131952) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (131952) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (131952) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (132022) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (132022) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (132022) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (133962) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (133962) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (133962) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (133962) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (134032) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (134032) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (134032) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (135972) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (135972) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (135972) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (135972) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (136042) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (136042) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (136042) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (137982) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (137982) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (137982) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (137982) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (138052) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (138052) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (138052) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (139992) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (139992) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (139992) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (139992) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (140062) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (140062) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (140062) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (142002) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (142002) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (142002) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (142002) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (142072) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (142072) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (142072) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (144012) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (144012) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (144012) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (144012) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (144082) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (144082) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (144082) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (146022) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (146022) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (146022) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (146022) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (146092) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (146092) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (146092) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (148032) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (148032) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (148032) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (148032) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (148102) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (148102) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (148102) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (150042) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (150042) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (150042) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (150042) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (150112) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (150112) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (150112) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (152052) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (152052) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (152052) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (152052) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (152122) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (152122) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (152122) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (154062) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (154062) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (154062) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (154062) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (154132) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (154132) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (154132) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
+[0;32mI (156072) FINGERPRINT: Attempting to send Get Image command...[0m
+[0;32mI (156072) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (156072) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (156072) FINGERPRINT: Get Image command sent successfully.[0m
+[1;31mE (156142) Fingerprint: Checksum mismatch! Computed: 0x0109, Received: 0x000C[0m
+[0;32mI (156142) Fingerprint: Triggering event: 5 for status: 0x0E[0m
+[0;32mI (156142) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m

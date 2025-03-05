@@ -610,11 +610,11 @@ esp_err_t fingerprint_init(void) {
     gpio_set_intr_type(FINGERPRINT_GPIO_PIN, GPIO_INTR_POSEDGE); // Trigger on rising edge
     gpio_isr_handler_add(FINGERPRINT_GPIO_PIN, finger_detected_isr, NULL);
 
-    // Create tasks
-    if (xTaskCreate(finger_detected_task, "finger_detected_task", 4096, NULL, 10, NULL) != pdPASS) {
-        ESP_LOGE(TAG, "Failed to create finger_detected_task");
-        return ESP_FAIL;
-    }
+    // // Create tasks
+    // if (xTaskCreate(finger_detected_task, "finger_detected_task", 4096, NULL, 10, NULL) != pdPASS) {
+    //     ESP_LOGE(TAG, "Failed to create finger_detected_task");
+    //     return ESP_FAIL;
+    // }
 
     // if (xTaskCreate(detect_fingerprint_uart_task, "uart_read_task", 4096, NULL, 10, NULL) != pdPASS) {
     //     ESP_LOGE(TAG, "Failed to create uart_read_task");
@@ -655,11 +655,11 @@ esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8
 
 uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd) {
     uint16_t sum = 0;
-    // Include address bytes in checksum calculation
-    sum += (cmd->address >> 24) & 0xFF;
-    sum += (cmd->address >> 16) & 0xFF;
-    sum += (cmd->address >> 8) & 0xFF;
-    sum += cmd->address & 0xFF;
+    // // Include address bytes in checksum calculation
+    // sum += (cmd->address >> 24) & 0xFF;
+    // sum += (cmd->address >> 16) & 0xFF;
+    // sum += (cmd->address >> 8) & 0xFF;
+    // sum += cmd->address & 0xFF;
 
     sum += cmd->packet_id;
     sum += (cmd->length >> 8) & 0xFF; // High byte of length
@@ -667,7 +667,9 @@ uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd) {
     sum += cmd->command;
     // Dynamically sum all parameters based on packet length
     for (int i = 0; i < cmd->length - 3; i++) {  // Exclude command + checksum
-        sum += cmd->parameters[i];
+        if(cmd->parameters[i] != 0){
+            sum += cmd->parameters[i];
+        } // Exclude zero bytes
     }
 
     return sum;
@@ -684,11 +686,12 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 
     // Compute the checksum AFTER setting address
     cmd->checksum = fingerprint_calculate_checksum(cmd);
+    // cmd->checksum = cmd->checksum;  // Checksum is already calculated
     
     // Correct packet size calculation
     size_t packet_size = cmd->length + 9; // Header (2) + Address (4) + Packet ID (1) + Length (2) + Data (cmd->length)
 
-    // Allocate buffer dynamically
+    // Allocate buffer dynamicallys
     uint8_t *buffer = (uint8_t *)malloc(packet_size);
     if (!buffer) {
         ESP_LOGE(TAG, "Memory allocation failed for fingerprint command.");
@@ -724,7 +727,7 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 
     // Debug logging
     ESP_LOGI(TAG, "Sent fingerprint command: 0x%02X to address 0x%08X", cmd->command, (unsigned int)address);
-
+    ESP_LOG_BUFFER_HEX("Fingerprint sent command: ", buffer, packet_size);
     // // Store the sent command in the queue
     // FingerprintCommand_t sent_cmd;
     // sent_cmd.command = cmd->command;  // Store command type
@@ -763,21 +766,21 @@ FingerprintPacket* fingerprint_read_response(void) {
         fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR);
         return NULL;
     }
+    ESP_LOG_BUFFER_HEX("Fingerprint", buffer, length);
+    // ESP_LOG_BUFFER_HEXDUMP(TAG, buffer, length, ESP_LOG_INFO);
 
-    ESP_LOG_BUFFER_HEXDUMP(TAG, buffer, length, ESP_LOG_INFO);
+    // // Compute checksum before allocating memory
+    // uint16_t received_checksum = (buffer[length - 2] << 8) | buffer[length - 1];
+    // uint16_t computed_checksum = 0;
+    // for (int i = 6; i < length - 3; i++) {
+    //     computed_checksum += buffer[i];
+    // }
 
-    // Compute checksum before allocating memory
-    uint16_t received_checksum = (buffer[length - 2] << 8) | buffer[length - 1];
-    uint16_t computed_checksum = 0;
-    for (int i = 6; i < length - 3; i++) {
-        computed_checksum += buffer[i];
-    }
-
-    if (computed_checksum != received_checksum) {
-        ESP_LOGE("Fingerprint", "Checksum mismatch! Computed: 0x%04X, Received: 0x%04X", computed_checksum, received_checksum);
-        fingerprint_status_event_handler(FINGERPRINT_DATA_PACKET_ERROR);
-        return NULL;    
-    }
+    // if (computed_checksum != received_checksum) {
+    //     ESP_LOGE("Fingerprint", "Checksum mismatch! Computed: 0x%04X, Received: 0x%04X", computed_checksum, received_checksum);
+    //     fingerprint_status_event_handler(FINGERPRINT_DATA_PACKET_ERROR);
+    //     return NULL;    
+    // }
 
     // Allocate packet only if checksum is valid
     FingerprintPacket *packet = (FingerprintPacket*)malloc(sizeof(FingerprintPacket));
@@ -808,7 +811,7 @@ FingerprintPacket* fingerprint_read_response(void) {
     int param_size = min(packet->length - 3, MAX_PARAMETERS);
     memcpy(packet->parameters, &buffer[10], param_size);
 
-    packet->checksum = received_checksum;
+    packet->checksum = (buffer[length - 2] << 8) | buffer[length - 1];
 
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
     return packet;
