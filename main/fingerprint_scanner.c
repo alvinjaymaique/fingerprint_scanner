@@ -56,6 +56,10 @@ void app_main(void)
     xTaskCreate(send_command_task, "SendCommandTask", 4096, NULL, 5, NULL);
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
+
+    ESP_LOGI(TAG, "Enrolling fingerprint...");
+    // Start the enrollment process
+    enroll_fingerprint(1, 3);
 }
 
 void send_command_task(void *pvParameter)
@@ -84,7 +88,6 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_FINGER_DETECTED:
             ESP_LOGI(TAG, "Finger detected! Status: 0x%02X", event.status);
-            ESP_LOGI(TAG, "Event address: 0x%02X", event.packet.command);
             // ESP_LOGI(TAG, "Event address: 0x%08lX", (unsigned long)event.packet.address);
             // ESP_LOG_BUFFER_HEX("Event packet address: ", &event.packet, sizeof(FingerprintPacket));
             break;
@@ -101,7 +104,8 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Fingerprint mismatch. Status: 0x%02X", event.status);
             break;
         case EVENT_ERROR:
-            ESP_LOGI(TAG, "An error occurred during fingerprint processing. Status: 0x%02X", event.status);
+            ESP_LOGE(TAG, "An error occurred during fingerprint processing. Status: 0x%02X", event.status);
+            ESP_LOGE(TAG, "Command: 0x%02X", event.packet.command);
             break;
         case EVENT_NO_FINGER_DETECTED:
             ESP_LOGI(TAG, "No finger detected. Status: 0x%02X", event.status);
