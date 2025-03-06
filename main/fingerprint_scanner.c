@@ -5,7 +5,8 @@
 #include "fingerprint.h"
 
 #define TAG "FINGERPRINT"
-#define TEST_PIN (GPIO_NUM_19)
+#define TEST_PIN (GPIO_NUM_46)
+#define SCANNER_GPIO GPIO_NUM_46  // Change this if needed (should support 40mA)
 void handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
 
@@ -22,10 +23,27 @@ void send_command_task(void *pvParameter);
 //     vTaskDelete(NULL); // Delete task after execution
 // }
 
+void configure_scanner_gpio() {
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL << SCANNER_GPIO), 
+        .mode = GPIO_MODE_OUTPUT,
+        .pull_up_en = GPIO_PULLUP_DISABLE,   // No internal pull-up
+        .pull_down_en = GPIO_PULLDOWN_DISABLE, // No internal pull-down
+        .intr_type = GPIO_INTR_DISABLE       // No interrupt needed
+    };
+    gpio_config(&io_conf);
+    // Set drive strength to maximum (40mA)
+    gpio_set_drive_capability(SCANNER_GPIO, GPIO_DRIVE_CAP_MAX);
+    // Set initial state (HIGH or LOW as required)
+    gpio_set_level(SCANNER_GPIO, 1);  // Set HIGH if needed
+}
+
+
 void app_main(void)
 {
+    // set_all_pins_high();
     register_fingerprint_event_handler(handle_fingerprint_event);
-
+    configure_scanner_gpio();
     // // Set GPIO 11 as output
     // gpio_set_direction(TEST_PIN, GPIO_MODE_OUTPUT);
     // // Delay 2 seconds before setting GPIO 11 HIGH
@@ -57,9 +75,9 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    ESP_LOGI(TAG, "Enrolling fingerprint...");
-    // Start the enrollment process
-    enroll_fingerprint(1, 3);
+    // ESP_LOGI(TAG, "Enrolling fingerprint...");
+    // // Start the enrollment process
+    // enroll_fingerprint(1, 3);
 }
 
 void send_command_task(void *pvParameter)

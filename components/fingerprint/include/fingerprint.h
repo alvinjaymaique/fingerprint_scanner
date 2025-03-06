@@ -174,6 +174,7 @@
 #include "driver/gpio.h"
 #include <string.h>
 #include <stdbool.h>   // Fixes unknown type name 'bool'
+#include <inttypes.h>
  
  /**
   * @brief Default UART baud rate for fingerprint module.

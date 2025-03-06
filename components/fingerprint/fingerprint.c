@@ -9,6 +9,7 @@
 #include "driver/gpio.h"
 #include <string.h>
 #include <stdbool.h>   // Fixes unknown type name 'bool'
+#include <inttypes.h>
 
 #define TAG "FINGERPRINT"
 #define UART_NUM UART_NUM_1  // Change based on your wiring
@@ -574,7 +575,7 @@ esp_err_t fingerprint_init(void) {
     }
 
     // Create Queue for Storing Sent Commands
-    fingerprint_command_queue = xQueueCreate(QUEUE_SIZE, sizeof(fingerprint_command_t));
+    fingerprint_command_queue = xQueueCreate(QUEUE_SIZE, sizeof(fingerprint_command_info_t));
     if (fingerprint_command_queue == NULL) {
         ESP_LOGE(TAG, "Failed to create command queue");
         return ESP_FAIL;
@@ -683,7 +684,6 @@ uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd) {
     return sum;
 }
 
-
 esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     if (!cmd) {
         return ESP_ERR_INVALID_ARG;  // Check for NULL pointer
@@ -742,9 +742,11 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     fingerprint_command_info_t sent_cmd;
     sent_cmd.command = cmd->command;  // Store command type
     sent_cmd.timestamp = xTaskGetTickCount();  // Store timestamp (optional for debugging)
+    // ESP_LOGI(TAG, "Current Tick Count: %lu", xTaskGetTickCount());
 
-    if (!xQueueSend(fingerprint_command_queue, &sent_cmd, pdMS_TO_TICKS(100))) {
-        ESP_LOGW(TAG, "Command queue full, dropping command 0x%02X.", cmd->command);
+    if (xQueueSend(fingerprint_command_queue, &cmd_info, pdMS_TO_TICKS(100)) != pdPASS) {
+        ESP_LOGE(TAG, "Command queue full, dropping command 0x%02X", cmd->command);
+        return ESP_FAIL;
     }
 
     last_sent_command = cmd->command;  // Store the last sent command for reference
@@ -817,7 +819,10 @@ FingerprintPacket* fingerprint_read_response(void) {
     // --- Retrieve last sent command from queue ---
     fingerprint_command_info_t last_sent_cmd;
     if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, 0)) {
-        last_confirmation_code = last_sent_cmd.command;  // Store the last confirmation code
+        last_sent_command = last_sent_cmd.command;  // Store the last confirmation code
+        ESP_LOGI("Fingerprint", "Inside Queue Recieve in read_response.");
+        ESP_LOGI("Fingerprint", "Last Sent Command: 0x%02X", last_sent_command);
+        ESP_LOGI("Fingerprint", "TimeStamp: %lu", last_sent_cmd.timestamp);
     } else {
         ESP_LOGW("Fingerprint", "No matching command found in queue.");
     }
@@ -825,32 +830,47 @@ FingerprintPacket* fingerprint_read_response(void) {
     return packet;
 }
 
-
-// Task to continuously read responses and send to queue
 void read_response_task(void *pvParameter) {
+    fingerprint_response_t response;
+
     while (1) {
-        FingerprintPacket *response = fingerprint_read_response();
+        int bytes_read = uart_read_bytes(UART_NUM, &response.packet, sizeof(FingerprintPacket), pdMS_TO_TICKS(500));
 
-        if (response != NULL) {
-            fingerprint_response_t event;
-            event.packet = *response;
-            free(response);  // Free after copying
+        if (bytes_read > 0) {
+            response.timestamp = xTaskGetTickCount();
+            ESP_LOGI(TAG, "Received fingerprint response: Command 0x%02X", response.packet.command);
 
-            if (!xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100))) {
-                ESP_LOGW(TAG, "Response queue full, dropping packet.");
+            if (xQueueSend(fingerprint_response_queue, &response, pdMS_TO_TICKS(100)) != pdPASS) {
+                ESP_LOGE(TAG, "Failed to queue response");
             }
         }
-
-        vTaskDelay(pdMS_TO_TICKS(10));  // Avoid excessive CPU usage
     }
 }
+
+
+void process_response_task(void *pvParameter) {
+    fingerprint_response_t event;
+
+    while (1) {
+        // Wait indefinitely for a response (blocking call)
+        if (xQueueReceive(fingerprint_response_queue, &event, portMAX_DELAY)) {
+            ESP_LOGI(TAG, "Processing response: Command 0x%02X", event.packet.command);
+
+            // Here you can trigger events, callbacks, or process specific response types
+            fingerprint_status_event_handler((fingerprint_status_t)event.packet.command, &event.packet);
+        }
+    }
+}
+
 
 void process_fingerprint_command_queue(void) {
     fingerprint_command_info_t last_sent_cmd;
 
-    if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, 0)) {
-        last_confirmation_code = last_sent_cmd.command;  // Store the last confirmation code
+    if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, portMAX_DELAY)) {
+        last_sent_command = last_sent_cmd.command;  // Store the last confirmation code
         ESP_LOGI("Fingerprint", "Processed last sent command: 0x%02X", last_sent_cmd.command);
+        ESP_LOGI("Fingerprint", "Last Sent Command: 0x%02X", last_sent_command);
+        ESP_LOGI("Fingerprint", "TimeStamp: %lu", last_sent_cmd.timestamp);
     } else {
         ESP_LOGW("Fingerprint", "No matching command found in queue.");
     }
