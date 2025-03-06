@@ -70,14 +70,14 @@ void app_main(void)
     fingerprint_set_command(&PS_SetChipAddr, PS_SetChipAddr.command, (uint8_t[]){0xFF, 0xFF, 0xFF, 0xFF}, 4);
     fingerprint_send_command(&PS_SetChipAddr, DEFAULT_FINGERPRINT_ADDRESS);
     vTaskDelay(pdMS_TO_TICKS(1000));
-    // Create task for sending commands
-    xTaskCreate(send_command_task, "SendCommandTask", 4096, NULL, 5, NULL);
+    // // Create task for sending commands
+    // xTaskCreate(send_command_task, "SendCommandTask", 4096, NULL, 5, NULL);
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
     // ESP_LOGI(TAG, "Enrolling fingerprint...");
-    // // Start the enrollment process
-    // enroll_fingerprint(1, 3);
+    // Start the enrollment process
+    auto_enroll_fingerprint(1, 3);
 }
 
 void send_command_task(void *pvParameter)

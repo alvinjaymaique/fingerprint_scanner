@@ -704,10 +704,13 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     };
 
     // **Ensure queue is not full before sending**
-    if (xQueueSend(fingerprint_command_queue, &cmd_info, pdMS_TO_TICKS(100)) != pdPASS) {
+    if (xQueueSend(fingerprint_command_queue, &cmd_info, pdMS_TO_TICKS(100)) == pdPASS) {
+        ESP_LOGI(TAG, "Stored command 0x%02X in queue successfully.", cmd->command);
+    } else {
         ESP_LOGE(TAG, "Command queue full, dropping command 0x%02X", cmd->command);
         return ESP_FAIL;
     }
+    
 
     // **Construct packet**
     size_t packet_size = cmd->length + 9;
@@ -803,7 +806,7 @@ FingerprintPacket* fingerprint_read_response(void) {
 
     packet->checksum = (buffer[length - 2] << 8) | buffer[length - 1];
     // fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
-    ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
+    ESP_LOGI("Fingerprint", "Response read successfully: Confirmation Code 0x%02X", packet->command);
     
     return packet;
 }
@@ -834,7 +837,7 @@ void process_response_task(void *pvParameter) {
 
     while (1) {
         if (xQueueReceive(fingerprint_response_queue, &response, portMAX_DELAY) == pdTRUE) {
-            if (xQueueReceive(fingerprint_command_queue, &last_cmd, pdMS_TO_TICKS(500)) == pdTRUE) {
+            if (xQueueReceive(fingerprint_command_queue, &last_cmd, pdMS_TO_TICKS(3000)) == pdTRUE) {
                 uint8_t received_confirmation = response.packet.command; // Confirmation code
                 ESP_LOGI(TAG, "Command 0x%02X executed successfully.", last_cmd.command);
                 ESP_LOGI(TAG, "Confirmation code: 0x%02X", received_confirmation);
@@ -984,7 +987,7 @@ void trigger_fingerprint_event(fingerprint_event_t event) {
 }
 
 // Register or store the fingerprint template in the module
-void enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans) {
+void auto_enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans) {
     uint8_t params[3] = { 
         (fingerprint_id >> 8) & 0xFF,  // High byte of Fingerprint ID
         fingerprint_id & 0xFF,         // Low byte of Fingerprint ID
@@ -1003,3 +1006,74 @@ void enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans) {
         ESP_LOGE(TAG, "Failed to start fingerprint enrollment!");
     }
 }
+
+void manual_enroll_fingerprint_task(void *pvParameter)
+{
+    uint8_t attempts = 0;
+
+    while (1)
+    {
+        ESP_LOGI(TAG, "Waiting for a finger to be placed...");
+
+        // Send Get Image command
+        esp_err_t err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
+
+        if (err != ESP_OK) {
+            ESP_LOGE(TAG, "Failed to send Get Image command! Error: %d", err);
+        } else {
+            // Wait for response
+            FingerprintPacket response;
+            if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(3000)) == pdTRUE)
+            {
+                if (response.command == FINGERPRINT_OK) {
+                    ESP_LOGI(TAG, "Fingerprint image captured successfully!");
+
+                    // Generate fingerprint template in Buffer 1
+                    fingerprint_send_command(&PS_GenChar1, DEFAULT_FINGERPRINT_ADDRESS);
+                    ESP_LOGI(TAG, "Generating fingerprint features...");
+
+                    // Wait for user to remove and place finger again
+                    ESP_LOGI(TAG, "Please remove and place the same finger again...");
+                    vTaskDelay(pdMS_TO_TICKS(2000));
+
+                    // Capture again
+                    fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
+                    if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(3000)) == pdTRUE &&
+                        response.command == FINGERPRINT_OK) {
+                        
+                        // Generate fingerprint template in Buffer 2
+                        fingerprint_send_command(&PS_GenChar2, DEFAULT_FINGERPRINT_ADDRESS);
+                        ESP_LOGI(TAG, "Generating second fingerprint features...");
+
+                        // Merge both templates into a model
+                        fingerprint_send_command(&PS_RegModel, DEFAULT_FINGERPRINT_ADDRESS);
+                        ESP_LOGI(TAG, "Fingerprint merged successfully!");
+
+                        // Store fingerprint in database (ID=1 for example)
+                        uint8_t store_params[] = {1, 0x00, 0x01};  // Buffer ID, Page ID
+                        fingerprint_set_command(&PS_StoreChar, FINGERPRINT_CMD_STORE_CHAR, store_params, 3);
+                        fingerprint_send_command(&PS_StoreChar, DEFAULT_FINGERPRINT_ADDRESS);
+                        ESP_LOGI(TAG, "Fingerprint stored successfully!");
+
+                        break; // Enrollment complete
+                    }
+                }
+                else if (response.command == FINGERPRINT_NO_FINGER) {
+                    ESP_LOGI(TAG, "No finger detected. Retrying...");
+                    vTaskDelay(pdMS_TO_TICKS(500)); // Wait before retrying
+                    attempts++;
+                    if (attempts >= 10) {
+                        ESP_LOGE(TAG, "Too many failed attempts. Enrollment failed.");
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    vTaskDelete(NULL); // End task
+}
+
+
+
+

@@ -15,28 +15,39 @@ Structure representing a fingerprint event.
 \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\+\_\+event\+\_\+type\+\_\+t}} \mbox{\hyperlink{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}{type}}
 \item 
 \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}}
+\item 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Structure representing a fingerprint event. 
 
-This structure contains the high-\/level event type and the original fingerprint status that triggered the event. 
+This structure encapsulates a high-\/level fingerprint event, along with the original status code and the associated response packet data. It is used to convey meaningful events triggered by the fingerprint module. \begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
+
 
 \doxysubsection{Field Documentation}
-\Hypertarget{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!status@{status}}
+\Hypertarget{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!packet@{packet}}
+\index{packet@{packet}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{packet}{packet}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8} 
+\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} fingerprint\+\_\+event\+\_\+t\+::packet}
+
+The full response packet received from the fingerprint module. \Hypertarget{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!status@{status}}
 \index{status@{status}!fingerprint\_event\_t@{fingerprint\_event\_t}}
 \doxysubsubsection{\texorpdfstring{status}{status}}
 {\footnotesize\ttfamily \label{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7} 
 \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::status}
 
-The original fingerprint status code. \Hypertarget{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!type@{type}}
+The original fingerprint status code received from the sensor. \Hypertarget{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!type@{type}}
 \index{type@{type}!fingerprint\_event\_t@{fingerprint\_event\_t}}
 \doxysubsubsection{\texorpdfstring{type}{type}}
 {\footnotesize\ttfamily \label{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2} 
 \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\+\_\+event\+\_\+type\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::type}
 
-The high-\/level fingerprint event type. 
+The high-\/level fingerprint event type (e.\+g., EVENT\+\_\+\+FINGER\+\_\+\+DETECTED, EVENT\+\_\+\+MATCH\+\_\+\+FAIL). 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

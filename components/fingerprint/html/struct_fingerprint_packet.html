@@ -132,7 +132,10 @@ Data Fields</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Structure representing a command or response packet for the fingerprint module. </p>
-<p>This structure is used to send commands to and receive responses from the fingerprint module. It follows the module's communication protocol, containing fields for the header, address, packet type, length, command, parameters, and checksum. </p>
+<p>This structure is used for both sending commands to and receiving responses from the fingerprint module. It follows the module's communication protocol, containing fields for the header, address, packet type, length, command/confirmation code, parameters, and checksum.</p>
+<p>In command packets, the <code>command</code> field specifies the requested operation (e.g., 0x01 for image capture). In response packets, the <code>command</code> field serves as a confirmation code indicating the success or failure of the request. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example.html#_a1">C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h</a>.</dd>
+</dl>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="aa85456b6f3f16befd10d4ce7fc13d80f" name="aa85456b6f3f16befd10d4ce7fc13d80f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa85456b6f3f16befd10d4ce7fc13d80f">&#9670;&#160;</a></span>address</h2>
@@ -175,7 +178,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Command ID specifying the requested operation (e.g., 0x01 for image capture). </p>
+<p>Command ID for requests or confirmation code in responses. </p>
 
 </div>
 </div>

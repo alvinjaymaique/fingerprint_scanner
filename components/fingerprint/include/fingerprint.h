@@ -1386,7 +1386,36 @@ void trigger_fingerprint_event(fingerprint_event_t event);
  * enroll_fingerprint(1, 3);  // Enroll fingerprint with ID 1, requiring 3 scans
  * @endcode
  */
-void enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans);
+void auto_enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans);
+
+/**
+ * @brief Task to enroll a fingerprint into the database.
+ *
+ * This function handles the step-by-step fingerprint enrollment process.
+ * It continuously checks for a finger to be placed on the scanner, captures 
+ * the fingerprint image, extracts features, and stores the fingerprint into 
+ * the module’s database upon successful enrollment.
+ *
+ * ## Enrollment Process:
+ * 1. Send `PS_GetImage` to capture the fingerprint image.
+ * 2. If an image is captured successfully, generate a fingerprint template 
+ *    (`PS_GenChar1`).
+ * 3. Ask the user to remove and place the same finger again.
+ * 4. Capture the fingerprint image again (`PS_GetImage`).
+ * 5. Generate the second fingerprint template (`PS_GenChar2`).
+ * 6. Merge both templates into a fingerprint model (`PS_RegModel`).
+ * 7. Store the fingerprint template into the module’s database (`PS_StoreChar`).
+ *
+ * If no finger is detected, the task retries up to 10 times before failing.
+ *
+ * @note This function runs as a FreeRTOS task and should be created using 
+ *       `xTaskCreate(enroll_fingerprint_task, "EnrollFingerprintTask", 4096, NULL, 5, NULL);`
+ *       in `app_main()`.
+ *
+ * @param pvParameter Unused task parameter (set to NULL).
+ */
+void manual_enroll_fingerprint_task(void *pvParameter);
+
  
  #ifdef __cplusplus
  }

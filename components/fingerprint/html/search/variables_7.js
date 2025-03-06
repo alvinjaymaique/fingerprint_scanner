@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['packet_0',['packet',['../structfingerprint__response__t.html#abf594f5d6b0073a60b382880bb56791b',1,'fingerprint_response_t']]],
+  ['packet_0',['packet',['../structfingerprint__response__t.html#abf594f5d6b0073a60b382880bb56791b',1,'fingerprint_response_t::packet'],['../structfingerprint__event__t.html#a38d851a6a617be596ee82fee9e739ad8',1,'fingerprint_event_t::packet']]],
   ['packet_5fid_1',['packet_id',['../struct_fingerprint_packet.html#a74f0c99563e332f6c518b5da07d057d8',1,'FingerprintPacket']]],
   ['parameters_2',['parameters',['../struct_fingerprint_packet.html#aa901987094b3b84ba5ae18f98201b6ca',1,'FingerprintPacket']]],
   ['ps_5fautoenroll_3',['PS_AutoEnroll',['../fingerprint_8h.html#a14662050a710495e6c9125a02ee17fd5',1,'PS_AutoEnroll:&#160;fingerprint.c'],['../fingerprint_8c.html#a14662050a710495e6c9125a02ee17fd5',1,'PS_AutoEnroll:&#160;fingerprint.c']]],

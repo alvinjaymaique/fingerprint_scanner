@@ -6,6 +6,5 @@ var searchData=
   ['default_5ftx_5fpin_3',['DEFAULT_TX_PIN',['../fingerprint_8h.html#a906d33234fc0a208973dee29efb12336',1,'fingerprint.h']]],
   ['dependencies_4',['1.3 Dependencies',['../fingerprint_8h.html#autotoc_md3',1,'']]],
   ['description_5',['2. Hardware Interface Description',['../fingerprint_8h.html#autotoc_md4',1,'']]],
-  ['detect_5ffingerprint_5fuart_5ftask_6',['detect_fingerprint_uart_task',['../fingerprint_8h.html#a1985d5566b2e8f4f8540903a0aa450c7',1,'detect_fingerprint_uart_task(void *arg):&#160;fingerprint.c'],['../fingerprint_8c.html#a1985d5566b2e8f4f8540903a0aa450c7',1,'detect_fingerprint_uart_task(void *arg):&#160;fingerprint.c']]],
-  ['driven_20system_7',['3. Event-driven System',['../fingerprint_8h.html#autotoc_md8',1,'']]]
+  ['driven_20system_6',['3. Event-driven System',['../fingerprint_8h.html#autotoc_md8',1,'']]]
 ];

@@ -119,11 +119,30 @@ Data Fields</h2></td></tr>
 <tr class="separator:a15fc199bc56b30eae6653d50a4b270b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ee37a20269bfe63d726a010ab9447a7" id="r_a4ee37a20269bfe63d726a010ab9447a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364">fingerprint_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ee37a20269bfe63d726a010ab9447a7">status</a></td></tr>
 <tr class="separator:a4ee37a20269bfe63d726a010ab9447a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38d851a6a617be596ee82fee9e739ad8" id="r_a38d851a6a617be596ee82fee9e739ad8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38d851a6a617be596ee82fee9e739ad8">packet</a></td></tr>
+<tr class="separator:a38d851a6a617be596ee82fee9e739ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Structure representing a fingerprint event. </p>
-<p>This structure contains the high-level event type and the original fingerprint status that triggered the event. </p>
+<p>This structure encapsulates a high-level fingerprint event, along with the original status code and the associated response packet data. It is used to convey meaningful events triggered by the fingerprint module. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example.html#_a16">C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h</a>.</dd>
+</dl>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a id="a38d851a6a617be596ee82fee9e739ad8" name="a38d851a6a617be596ee82fee9e739ad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38d851a6a617be596ee82fee9e739ad8">&#9670;&#160;</a></span>packet</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a> fingerprint_event_t::packet</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The full response packet received from the fingerprint module. </p>
+
+</div>
+</div>
 <a id="a4ee37a20269bfe63d726a010ab9447a7" name="a4ee37a20269bfe63d726a010ab9447a7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4ee37a20269bfe63d726a010ab9447a7">&#9670;&#160;</a></span>status</h2>
 
@@ -135,7 +154,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The original fingerprint status code. </p>
+<p>The original fingerprint status code received from the sensor. </p>
 
 </div>
 </div>
@@ -150,7 +169,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The high-level fingerprint event type. </p>
+<p>The high-level fingerprint event type (e.g., EVENT_FINGER_DETECTED, EVENT_MATCH_FAIL). </p>
 
 </div>
 </div>

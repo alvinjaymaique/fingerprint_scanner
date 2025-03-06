@@ -15,9 +15,12 @@ Fingerprint sensor driver (ZW111) for ESP32.
 {\ttfamily \#include "{}driver/gpio.\+h"{}}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
 \doxysubsubsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
+struct \mbox{\hyperlink{structfingerprint__command__info__t}{fingerprint\+\_\+command\+\_\+info\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure to store information about a sent fingerprint command. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}}
 \begin{DoxyCompactList}\small\item\em Structure representing a command or response packet for the fingerprint module. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structfingerprint__response__t}{fingerprint\+\_\+response\+\_\+t}}
@@ -29,9 +32,9 @@ struct \mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\
 \item 
 \#define \mbox{\hyperlink{fingerprint_8h_a68654b05f39a5e88db0453de6f7fd726}{DEFAULT\+\_\+\+BAUD\+\_\+\+RATE}}~57600
 \begin{DoxyCompactList}\small\item\em Default UART baud rate for fingerprint module. \end{DoxyCompactList}\item 
-\#define \mbox{\hyperlink{fingerprint_8h_a906d33234fc0a208973dee29efb12336}{DEFAULT\+\_\+\+TX\+\_\+\+PIN}}~17
+\#define \mbox{\hyperlink{fingerprint_8h_a906d33234fc0a208973dee29efb12336}{DEFAULT\+\_\+\+TX\+\_\+\+PIN}}~(GPIO\+\_\+\+NUM\+\_\+17)
 \begin{DoxyCompactList}\small\item\em Default UART pins (modifiable at runtime). \end{DoxyCompactList}\item 
-\#define \mbox{\hyperlink{fingerprint_8h_aef44023d85418b6b89d8e8492f4feb81}{DEFAULT\+\_\+\+RX\+\_\+\+PIN}}~18
+\#define \mbox{\hyperlink{fingerprint_8h_aef44023d85418b6b89d8e8492f4feb81}{DEFAULT\+\_\+\+RX\+\_\+\+PIN}}~(GPIO\+\_\+\+NUM\+\_\+18)
 \item 
 \#define \mbox{\hyperlink{fingerprint_8h_a3213a1f8aac63fb5a1e7fba62b6c14c9}{FINGERPRINT\+\_\+\+HEADER}}~0x\+EF01
 \begin{DoxyCompactList}\small\item\em Default fingerprint module header identifier. \end{DoxyCompactList}\item 
@@ -47,7 +50,7 @@ struct \mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\
 \begin{DoxyCompactList}\small\item\em Packet ID indicating a command packet. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{fingerprint_8h_a142810068f1b99cd93d3fc9f0e160e02}{QUEUE\+\_\+\+SIZE}}~10
 \begin{DoxyCompactList}\small\item\em Defines the maximum number of fingerprint response packets in the queue. \end{DoxyCompactList}\item 
-\#define \mbox{\hyperlink{fingerprint_8h_a163a9960a6008f5ad012e841ccd3262d}{FINGERPRINT\+\_\+\+GPIO\+\_\+\+PIN}}~15
+\#define \mbox{\hyperlink{fingerprint_8h_a163a9960a6008f5ad012e841ccd3262d}{FINGERPRINT\+\_\+\+GPIO\+\_\+\+PIN}}~(GPIO\+\_\+\+NUM\+\_\+15)
 \begin{DoxyCompactList}\small\item\em GPIO pin for the fingerprint sensor interrupt. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -176,29 +179,36 @@ enum \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerpr
  \}
 \begin{DoxyCompactList}\small\item\em Fingerprint sensor status codes. \end{DoxyCompactList}\item 
 enum \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\+\_\+event\+\_\+type\+\_\+t}} \{ \newline
-\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b}{EVENT\+\_\+\+FINGER\+\_\+\+DETECTED}}
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea939a6cc6d749a232a23ff324dca6d48c}{EVENT\+\_\+\+NONE}} = -\/1
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b}{EVENT\+\_\+\+FINGER\+\_\+\+DETECTED}}
 , \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9}{EVENT\+\_\+\+IMAGE\+\_\+\+CAPTURED}}
 , \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b}{EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACTED}}
-, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6}{EVENT\+\_\+\+MATCH\+\_\+\+SUCCESS}}
 , \newline
-\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63}{EVENT\+\_\+\+MATCH\+\_\+\+FAIL}}
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6}{EVENT\+\_\+\+MATCH\+\_\+\+SUCCESS}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63}{EVENT\+\_\+\+MATCH\+\_\+\+FAIL}}
 , \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a}{EVENT\+\_\+\+ERROR}}
 , \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea7ba4dbb06dfd6e55e77531a98e45382a}{EVENT\+\_\+\+IMAGE\+\_\+\+FAIL}}
-, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aead081bd29ae5c73e876ada30fba4aa662}{EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACT\+\_\+\+FAIL}}
 , \newline
-\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8ac0d84de03764aaacb0d296b7aaeb19}{EVENT\+\_\+\+DB\+\_\+\+FULL}}
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aead081bd29ae5c73e876ada30fba4aa662}{EVENT\+\_\+\+FEATURE\+\_\+\+EXTRACT\+\_\+\+FAIL}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8ac0d84de03764aaacb0d296b7aaeb19}{EVENT\+\_\+\+DB\+\_\+\+FULL}}
 , \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab213512d60aa61fb662ae5ceaa26a791}{EVENT\+\_\+\+SENSOR\+\_\+\+ERROR}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea2fd7b13651ba5f27bd6ac1f25d758353}{EVENT\+\_\+\+ENROLL\+\_\+\+SUCCESS}}
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea61355a3b589ff4140c09d60f1436e8da}{EVENT\+\_\+\+ENROLL\+\_\+\+FAIL}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa7005226b49c387cd2bf06605f52df84}{EVENT\+\_\+\+TEMPLATE\+\_\+\+STORED}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9b2b1924cf1dc383c7cf7e6721bcf279}{EVENT\+\_\+\+TEMPLATE\+\_\+\+DELETED}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaf3ac6421c515d49b8278c14d9ceb8868}{EVENT\+\_\+\+LOW\+\_\+\+POWER\+\_\+\+MODE}}
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea596dc8c1b60ba4769e5f606b5d75f23c}{EVENT\+\_\+\+TIMEOUT}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafdbee660971b3da1a54885db913c82eb}{EVENT\+\_\+\+NO\+\_\+\+FINGER\+\_\+\+DETECTED}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a}{EVENT\+\_\+\+SCANNER\+\_\+\+READY}}
  \}
 \begin{DoxyCompactList}\small\item\em Enum to define various fingerprint events. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{fingerprint_8h_a7db574152ca5af75df9adf2da5504a8e}{fingerprint\+\_\+status\+\_\+event\+\_\+handler}} (\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} status)
+void \mbox{\hyperlink{fingerprint_8h_ac22bc43cb5b4e21246c6dbf734e6d919}{fingerprint\+\_\+status\+\_\+event\+\_\+handler}} (\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} status, \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}packet)
 \begin{DoxyCompactList}\small\item\em Handles fingerprint status events and triggers corresponding high-\/level events. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{fingerprint_8h_a0fd90f95c606bc3fd8a4ca1975900c07}{finger\+\_\+detected\+\_\+task}} (void \texorpdfstring{$\ast$}{*}arg)
-\begin{DoxyCompactList}\small\item\em Task to handle the finger detection event. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{fingerprint_8h_a1985d5566b2e8f4f8540903a0aa450c7}{detect\+\_\+fingerprint\+\_\+uart\+\_\+task}} (void \texorpdfstring{$\ast$}{*}arg)
-\begin{DoxyCompactList}\small\item\em Task to read data from UART. \end{DoxyCompactList}\item 
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\+\_\+init}} (void)
 \begin{DoxyCompactList}\small\item\em Initializes the fingerprint scanner module. \end{DoxyCompactList}\item 
 esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\+\_\+set\+\_\+command}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}cmd, uint8\+\_\+t command, uint8\+\_\+t \texorpdfstring{$\ast$}{*}params, uint8\+\_\+t param\+\_\+length)
@@ -211,6 +221,8 @@ void \mbox{\hyperlink{fingerprint_8h_adb364663a6f8cf989e0a0c055dc49de2}{read\+\_
 \begin{DoxyCompactList}\small\item\em Task to continuously read fingerprint responses from UART. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{fingerprint_8h_a18e8b2af7dd860c312d730b5d1d30b7f}{fingerprint\+\_\+read\+\_\+response}} (void)
 \begin{DoxyCompactList}\small\item\em Reads the response packet from UART and returns a dynamically allocated \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8h_a000b0ea980a113df1b08387346a7a7fb}{process\+\_\+response\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameter)
+\begin{DoxyCompactList}\small\item\em Task function to process fingerprint scanner responses. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{fingerprint_8h_acad8c23f5b4376d47d096cf989286d68}{fingerprint\+\_\+get\+\_\+next\+\_\+response}} (\mbox{\hyperlink{structfingerprint__response__t}{fingerprint\+\_\+response\+\_\+t}} \texorpdfstring{$\ast$}{*}response, Tick\+Type\+\_\+t timeout)
 \begin{DoxyCompactList}\small\item\em Retrieves the next fingerprint response from the queue. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8h_aac65070f473460404b979dff8ca75bf2}{process\+\_\+fingerprint\+\_\+responses\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameter)
@@ -223,8 +235,12 @@ void \mbox{\hyperlink{fingerprint_8h_a0b31fe5ffffcc895863a47bd7000c337}{fingerpr
 \begin{DoxyCompactList}\small\item\em Sets the baud rate for fingerprint module communication. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16}{register\+\_\+fingerprint\+\_\+event\+\_\+handler}} (void(\texorpdfstring{$\ast$}{*}handler)(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\+t}}))
 \begin{DoxyCompactList}\small\item\em Function to register an event handler for fingerprint events. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{fingerprint_8h_a2b019e6b09dcc91ad10bcb6c2784e360}{trigger\+\_\+fingerprint\+\_\+event}} (\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\+\_\+event\+\_\+type\+\_\+t}} event\+\_\+type, \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} status)
-\begin{DoxyCompactList}\small\item\em Triggers a fingerprint event and processes it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+void \mbox{\hyperlink{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f}{trigger\+\_\+fingerprint\+\_\+event}} (\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\+t}} event)
+\begin{DoxyCompactList}\small\item\em Triggers a fingerprint event and processes it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fingerprint_8h_a9bf9b818513471e8acbaa0fb8573996f}{auto\+\_\+enroll\+\_\+fingerprint}} (uint16\+\_\+t fingerprint\+\_\+id, uint8\+\_\+t num\+\_\+scans)
+\item 
+void \mbox{\hyperlink{fingerprint_8h_aa54d0b63fe19ff558a311d1efd1c351f}{manual\+\_\+enroll\+\_\+fingerprint\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameter)
+\begin{DoxyCompactList}\small\item\em Task to enroll a fingerprint into the database. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -502,13 +518,13 @@ Default fingerprint module address (broadcast address).
 \index{DEFAULT\_RX\_PIN@{DEFAULT\_RX\_PIN}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{DEFAULT\_RX\_PIN}{DEFAULT\_RX\_PIN}}
 {\footnotesize\ttfamily \label{fingerprint_8h_aef44023d85418b6b89d8e8492f4feb81} 
-\#define DEFAULT\+\_\+\+RX\+\_\+\+PIN~18}
+\#define DEFAULT\+\_\+\+RX\+\_\+\+PIN~(GPIO\+\_\+\+NUM\+\_\+18)}
 
 \Hypertarget{fingerprint_8h_a906d33234fc0a208973dee29efb12336}\index{fingerprint.h@{fingerprint.h}!DEFAULT\_TX\_PIN@{DEFAULT\_TX\_PIN}}
 \index{DEFAULT\_TX\_PIN@{DEFAULT\_TX\_PIN}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{DEFAULT\_TX\_PIN}{DEFAULT\_TX\_PIN}}
 {\footnotesize\ttfamily \label{fingerprint_8h_a906d33234fc0a208973dee29efb12336} 
-\#define DEFAULT\+\_\+\+TX\+\_\+\+PIN~17}
+\#define DEFAULT\+\_\+\+TX\+\_\+\+PIN~(GPIO\+\_\+\+NUM\+\_\+17)}
 
 
 
@@ -518,7 +534,7 @@ Default UART pins (modifiable at runtime).
 \index{FINGERPRINT\_GPIO\_PIN@{FINGERPRINT\_GPIO\_PIN}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{FINGERPRINT\_GPIO\_PIN}{FINGERPRINT\_GPIO\_PIN}}
 {\footnotesize\ttfamily \label{fingerprint_8h_a163a9960a6008f5ad012e841ccd3262d} 
-\#define FINGERPRINT\+\_\+\+GPIO\+\_\+\+PIN~15}
+\#define FINGERPRINT\+\_\+\+GPIO\+\_\+\+PIN~(GPIO\+\_\+\+NUM\+\_\+15)}
 
 
 
@@ -808,6 +824,10 @@ Each event is triggered when a certain action or error occurs, making it easier 
 The event codes are used in an event handler system where functions can subscribe and react to specific events. 
 \end{DoxyNote}
 \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_NONE@{EVENT\_NONE}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_NONE@{EVENT\_NONE}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea939a6cc6d749a232a23ff324dca6d48c}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea939a6cc6d749a232a23ff324dca6d48c} 
+EVENT\+\_\+\+NONE&Event representing no valid fingerprint event. This event is used as a default value when no other event is applicable. No event (Default value) \\
+\hline
+
 \raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_FINGER\_DETECTED@{EVENT\_FINGER\_DETECTED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_FINGER\_DETECTED@{EVENT\_FINGER\_DETECTED}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b} 
 EVENT\+\_\+\+FINGER\+\_\+\+DETECTED&Event triggered when a finger is detected. Indicates that a finger has been placed on the fingerprint scanner. Finger detected \\
 \hline
@@ -846,6 +866,38 @@ EVENT\+\_\+\+DB\+\_\+\+FULL&Event triggered when the fingerprint database is ful
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_SENSOR\_ERROR@{EVENT\_SENSOR\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_SENSOR\_ERROR@{EVENT\_SENSOR\_ERROR}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab213512d60aa61fb662ae5ceaa26a791}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab213512d60aa61fb662ae5ceaa26a791} 
 EVENT\+\_\+\+SENSOR\+\_\+\+ERROR&Event triggered when there is a sensor operation failure. This event corresponds to the status {\ttfamily FINGERPRINT\+\_\+\+SENSOR\+\_\+\+OP\+\_\+\+FAIL}. Sensor operation failure (FINGERPRINT\+\_\+\+SENSOR\+\_\+\+OP\+\_\+\+FAIL) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_ENROLL\_SUCCESS@{EVENT\_ENROLL\_SUCCESS}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_ENROLL\_SUCCESS@{EVENT\_ENROLL\_SUCCESS}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea2fd7b13651ba5f27bd6ac1f25d758353}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea2fd7b13651ba5f27bd6ac1f25d758353} 
+EVENT\+\_\+\+ENROLL\+\_\+\+SUCCESS&Event triggered when a fingerprint is enrolled successfully. This event corresponds to the status FINGERPRINT\+\_\+\+ENROLL\+\_\+\+SUCCESS. Fingerprint enrolled successfully (FINGERPRINT\+\_\+\+ENROLL\+\_\+\+SUCCESS) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_ENROLL\_FAIL@{EVENT\_ENROLL\_FAIL}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_ENROLL\_FAIL@{EVENT\_ENROLL\_FAIL}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea61355a3b589ff4140c09d60f1436e8da}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea61355a3b589ff4140c09d60f1436e8da} 
+EVENT\+\_\+\+ENROLL\+\_\+\+FAIL&Event triggered when fingerprint enrollment fails. This event corresponds to the status FINGERPRINT\+\_\+\+ENROLL\+\_\+\+FAIL. Fingerprint enrollment failed (FINGERPRINT\+\_\+\+ENROLL\+\_\+\+FAIL) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_STORED@{EVENT\_TEMPLATE\_STORED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_STORED@{EVENT\_TEMPLATE\_STORED}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa7005226b49c387cd2bf06605f52df84}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa7005226b49c387cd2bf06605f52df84} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+STORED&Event triggered when a fingerprint template is stored. This event corresponds to the status FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+STORED. Fingerprint template stored (FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+STORED) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_DELETED@{EVENT\_TEMPLATE\_DELETED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_DELETED@{EVENT\_TEMPLATE\_DELETED}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9b2b1924cf1dc383c7cf7e6721bcf279}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9b2b1924cf1dc383c7cf7e6721bcf279} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+DELETED&Event triggered when a fingerprint template is deleted. This event corresponds to the status FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+DELETED. Fingerprint template deleted (FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+DELETED) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_LOW\_POWER\_MODE@{EVENT\_LOW\_POWER\_MODE}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_LOW\_POWER\_MODE@{EVENT\_LOW\_POWER\_MODE}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaf3ac6421c515d49b8278c14d9ceb8868}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaf3ac6421c515d49b8278c14d9ceb8868} 
+EVENT\+\_\+\+LOW\+\_\+\+POWER\+\_\+\+MODE&Event triggered when the system enters low power mode. This event corresponds to the status FINGERPRINT\+\_\+\+LOW\+\_\+\+POWER\+\_\+\+MODE. Entered low power mode (FINGERPRINT\+\_\+\+LOW\+\_\+\+POWER\+\_\+\+MODE) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TIMEOUT@{EVENT\_TIMEOUT}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TIMEOUT@{EVENT\_TIMEOUT}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea596dc8c1b60ba4769e5f606b5d75f23c}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea596dc8c1b60ba4769e5f606b5d75f23c} 
+EVENT\+\_\+\+TIMEOUT&Event triggered when an operation times out. This event corresponds to the status FINGERPRINT\+\_\+\+TIMEOUT. Operation timed out (FINGERPRINT\+\_\+\+TIMEOUT) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_NO\_FINGER\_DETECTED@{EVENT\_NO\_FINGER\_DETECTED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_NO\_FINGER\_DETECTED@{EVENT\_NO\_FINGER\_DETECTED}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafdbee660971b3da1a54885db913c82eb}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafdbee660971b3da1a54885db913c82eb} 
+EVENT\+\_\+\+NO\+\_\+\+FINGER\+\_\+\+DETECTED&Event triggered when no finger is detected on the sensor. This event corresponds to the status FINGERPRINT\+\_\+\+NO\+\_\+\+FINGER\+\_\+\+DETECTED. No finger detected (FINGERPRINT\+\_\+\+NO\+\_\+\+FINGER\+\_\+\+DETECTED) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_SCANNER\_READY@{EVENT\_SCANNER\_READY}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_SCANNER\_READY@{EVENT\_SCANNER\_READY}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a} 
+EVENT\+\_\+\+SCANNER\+\_\+\+READY&Event triggered when the fingerprint scanner is ready for operation. This event indicates that the fingerprint module has completed initialization and is ready to process fingerprint-\/related commands. Scanner is ready for operation \\
 \hline
 
 \end{DoxyEnumFields}
@@ -1068,40 +1120,15 @@ FINGERPRINT\+\_\+\+ILLEGAL\+\_\+\+DATA&Illegal data. Value\+: {\ttfamily 0x35} \
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{fingerprint_8h_a1985d5566b2e8f4f8540903a0aa450c7}\index{fingerprint.h@{fingerprint.h}!detect\_fingerprint\_uart\_task@{detect\_fingerprint\_uart\_task}}
-\index{detect\_fingerprint\_uart\_task@{detect\_fingerprint\_uart\_task}!fingerprint.h@{fingerprint.h}}
-\doxysubsubsection{\texorpdfstring{detect\_fingerprint\_uart\_task()}{detect\_fingerprint\_uart\_task()}}
-{\footnotesize\ttfamily \label{fingerprint_8h_a1985d5566b2e8f4f8540903a0aa450c7} 
-void detect\+\_\+fingerprint\+\_\+uart\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+\Hypertarget{fingerprint_8h_a9bf9b818513471e8acbaa0fb8573996f}\index{fingerprint.h@{fingerprint.h}!auto\_enroll\_fingerprint@{auto\_enroll\_fingerprint}}
+\index{auto\_enroll\_fingerprint@{auto\_enroll\_fingerprint}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{auto\_enroll\_fingerprint()}{auto\_enroll\_fingerprint()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a9bf9b818513471e8acbaa0fb8573996f} 
+void auto\+\_\+enroll\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{fingerprint\+\_\+id}{, }\item[{uint8\+\_\+t}]{num\+\_\+scans}{}\end{DoxyParamCaption})}
 
-
-
-Task to read data from UART. 
-
-This task reads data from the fingerprint sensor via UART. It receives data and logs the received content, which can then be processed as needed.
-
-
-\begin{DoxyParams}{Parameters}
-{\em arg} & Unused parameter \\
-\hline
-\end{DoxyParams}
-\Hypertarget{fingerprint_8h_a0fd90f95c606bc3fd8a4ca1975900c07}\index{fingerprint.h@{fingerprint.h}!finger\_detected\_task@{finger\_detected\_task}}
-\index{finger\_detected\_task@{finger\_detected\_task}!fingerprint.h@{fingerprint.h}}
-\doxysubsubsection{\texorpdfstring{finger\_detected\_task()}{finger\_detected\_task()}}
-{\footnotesize\ttfamily \label{fingerprint_8h_a0fd90f95c606bc3fd8a4ca1975900c07} 
-void finger\+\_\+detected\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
-
-
-
-Task to handle the finger detection event. 
-
-This function continuously checks the queue for finger detection events. Once detected, it logs and processes the detection event.
-
-
-\begin{DoxyParams}{Parameters}
-{\em arg} & Unused parameter \\
-\hline
-\end{DoxyParams}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_a0d5b756311c0909b7f123085fb54e5b5}\index{fingerprint.h@{fingerprint.h}!fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}}
 \index{fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_calculate\_checksum()}{fingerprint\_calculate\_checksum()}}
@@ -1122,6 +1149,9 @@ The checksum is the sum of all bytes from packet\+\_\+id to parameters.
 \begin{DoxyReturn}{Returns}
 The computed checksum. 
 \end{DoxyReturn}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_acad8c23f5b4376d47d096cf989286d68}\index{fingerprint.h@{fingerprint.h}!fingerprint\_get\_next\_response@{fingerprint\_get\_next\_response}}
 \index{fingerprint\_get\_next\_response@{fingerprint\_get\_next\_response}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_get\_next\_response()}{fingerprint\_get\_next\_response()}}
@@ -1144,6 +1174,9 @@ This function waits for a response to be available in the fingerprint response q
 \begin{DoxyReturn}{Returns}
 true if a response was successfully received, false if the timeout occurred. 
 \end{DoxyReturn}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_a20092401e8301669fc2d595f02dc433d}\index{fingerprint.h@{fingerprint.h}!fingerprint\_get\_status@{fingerprint\_get\_status}}
 \index{fingerprint\_get\_status@{fingerprint\_get\_status}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_get\_status()}{fingerprint\_get\_status()}}
@@ -1168,6 +1201,9 @@ This function extracts the confirmation code from the fingerprint sensor\textquo
 \begin{DoxyReturn}{Returns}
 \doxylink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t} Status code representing the operation result. 
 \end{DoxyReturn}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}\index{fingerprint.h@{fingerprint.h}!fingerprint\_init@{fingerprint\_init}}
 \index{fingerprint\_init@{fingerprint\_init}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_init()}{fingerprint\_init()}}
@@ -1188,6 +1224,9 @@ This function sets up the UART interface, configures the necessary pins, install
 \item UART-\/related errors if UART initialization fails. 
 \end{DoxyItemize}
 \end{DoxyReturn}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_a18e8b2af7dd860c312d730b5d1d30b7f}\index{fingerprint.h@{fingerprint.h}!fingerprint\_read\_response@{fingerprint\_read\_response}}
 \index{fingerprint\_read\_response@{fingerprint\_read\_response}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_read\_response()}{fingerprint\_read\_response()}}
@@ -1206,7 +1245,10 @@ Pointer to the received \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet
 \end{DoxyReturn}
 \texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.
 
-\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\Hypertarget{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}\index{fingerprint.h@{fingerprint.h}!fingerprint\_send\_command@{fingerprint\_send\_command}}
+\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
+\Hypertarget{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}\index{fingerprint.h@{fingerprint.h}!fingerprint\_send\_command@{fingerprint\_send\_command}}
 \index{fingerprint\_send\_command@{fingerprint\_send\_command}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_send\_command()}{fingerprint\_send\_command()}}
 {\footnotesize\ttfamily \label{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb} 
@@ -1233,6 +1275,9 @@ This function constructs a command packet, calculates its checksum, and sends it
 \item ESP\+\_\+\+FAIL if the command could not be fully sent over UART 
 \end{DoxyItemize}
 \end{DoxyReturn}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_a0b31fe5ffffcc895863a47bd7000c337}\index{fingerprint.h@{fingerprint.h}!fingerprint\_set\_baudrate@{fingerprint\_set\_baudrate}}
 \index{fingerprint\_set\_baudrate@{fingerprint\_set\_baudrate}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_set\_baudrate()}{fingerprint\_set\_baudrate()}}
@@ -1250,6 +1295,9 @@ This function adjusts the baud rate used for UART communication with the fingerp
 \mbox{\texttt{ in}}  & {\em baud} & The desired baud rate (e.\+g., 9600, 57600, 115200). \\
 \hline
 \end{DoxyParams}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}\index{fingerprint.h@{fingerprint.h}!fingerprint\_set\_command@{fingerprint\_set\_command}}
 \index{fingerprint\_set\_command@{fingerprint\_set\_command}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_set\_command()}{fingerprint\_set\_command()}}
@@ -1287,7 +1335,10 @@ This function {\bfseries{modifies}} the provided {\ttfamily \doxylink{struct_fin
 \begin{DoxyNote}{Note}
 This function does not allocate new memory. The caller is responsible for managing {\ttfamily cmd}. If modification of an existing {\ttfamily \doxylink{struct_fingerprint_packet}{Fingerprint\+Packet}} is not desired, a {\bfseries{new instance}} should be created before calling this function. 
 \end{DoxyNote}
-\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\Hypertarget{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a}\index{fingerprint.h@{fingerprint.h}!fingerprint\_set\_pins@{fingerprint\_set\_pins}}
+\texorpdfstring{$<$}{<} Adjust based on the largest required parameter size.\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
+\Hypertarget{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a}\index{fingerprint.h@{fingerprint.h}!fingerprint\_set\_pins@{fingerprint\_set\_pins}}
 \index{fingerprint\_set\_pins@{fingerprint\_set\_pins}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_set\_pins()}{fingerprint\_set\_pins()}}
 {\footnotesize\ttfamily \label{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a} 
@@ -1306,11 +1357,14 @@ This function allows dynamic configuration of the TX and RX pins before initiali
 \mbox{\texttt{ in}}  & {\em rx} & GPIO number for the RX pin. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{fingerprint_8h_a7db574152ca5af75df9adf2da5504a8e}\index{fingerprint.h@{fingerprint.h}!fingerprint\_status\_event\_handler@{fingerprint\_status\_event\_handler}}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
+\Hypertarget{fingerprint_8h_ac22bc43cb5b4e21246c6dbf734e6d919}\index{fingerprint.h@{fingerprint.h}!fingerprint\_status\_event\_handler@{fingerprint\_status\_event\_handler}}
 \index{fingerprint\_status\_event\_handler@{fingerprint\_status\_event\_handler}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_status\_event\_handler()}{fingerprint\_status\_event\_handler()}}
-{\footnotesize\ttfamily \label{fingerprint_8h_a7db574152ca5af75df9adf2da5504a8e} 
-void fingerprint\+\_\+status\+\_\+event\+\_\+handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}}}]{status}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{fingerprint_8h_ac22bc43cb5b4e21246c6dbf734e6d919} 
+void fingerprint\+\_\+status\+\_\+event\+\_\+handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}}}]{status}{, }\item[{\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}}]{packet}{}\end{DoxyParamCaption})}
 
 
 
@@ -1338,6 +1392,44 @@ The following status codes and their corresponding events are handled\+:
 {\em status} & The fingerprint status received from the sensor. \\
 \hline
 \end{DoxyParams}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
+\Hypertarget{fingerprint_8h_aa54d0b63fe19ff558a311d1efd1c351f}\index{fingerprint.h@{fingerprint.h}!manual\_enroll\_fingerprint\_task@{manual\_enroll\_fingerprint\_task}}
+\index{manual\_enroll\_fingerprint\_task@{manual\_enroll\_fingerprint\_task}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{manual\_enroll\_fingerprint\_task()}{manual\_enroll\_fingerprint\_task()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_aa54d0b63fe19ff558a311d1efd1c351f} 
+void manual\+\_\+enroll\+\_\+fingerprint\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pv\+Parameter}{}\end{DoxyParamCaption})}
+
+
+
+Task to enroll a fingerprint into the database. 
+
+This function handles the step-\/by-\/step fingerprint enrollment process. It continuously checks for a finger to be placed on the scanner, captures the fingerprint image, extracts features, and stores the fingerprint into the module’s database upon successful enrollment.\hypertarget{fingerprint_8h_autotoc_md28}{}\doxysubsubsection{\texorpdfstring{Enrollment Process\+:}{Enrollment Process\+:}}\label{fingerprint_8h_autotoc_md28}
+
+\begin{DoxyEnumerate}
+\item Send {\ttfamily PS\+\_\+\+Get\+Image} to capture the fingerprint image.
+\item If an image is captured successfully, generate a fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char1}).
+\item Ask the user to remove and place the same finger again.
+\item Capture the fingerprint image again ({\ttfamily PS\+\_\+\+Get\+Image}).
+\item Generate the second fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char2}).
+\item Merge both templates into a fingerprint model ({\ttfamily PS\+\_\+\+Reg\+Model}).
+\item Store the fingerprint template into the module’s database ({\ttfamily PS\+\_\+\+Store\+Char}).
+\end{DoxyEnumerate}
+
+If no finger is detected, the task retries up to 10 times before failing.
+
+\begin{DoxyNote}{Note}
+This function runs as a Free\+RTOS task and should be created using {\ttfamily x\+Task\+Create(enroll\+\_\+fingerprint\+\_\+task, "{}\+Enroll\+Fingerprint\+Task"{}, 4096, NULL, 5, NULL);} in {\ttfamily app\+\_\+main()}.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameter} & Unused task parameter (set to NULL). \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_aac65070f473460404b979dff8ca75bf2}\index{fingerprint.h@{fingerprint.h}!process\_fingerprint\_responses\_task@{process\_fingerprint\_responses\_task}}
 \index{process\_fingerprint\_responses\_task@{process\_fingerprint\_responses\_task}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{process\_fingerprint\_responses\_task()}{process\_fingerprint\_responses\_task()}}
@@ -1360,6 +1452,29 @@ The function blocks indefinitely ({\ttfamily port\+MAX\+\_\+\+DELAY}) until a re
 \begin{DoxyNote}{Note}
 This task should be started during system initialization to ensure that fingerprint responses are handled properly. 
 \end{DoxyNote}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
+\Hypertarget{fingerprint_8h_a000b0ea980a113df1b08387346a7a7fb}\index{fingerprint.h@{fingerprint.h}!process\_response\_task@{process\_response\_task}}
+\index{process\_response\_task@{process\_response\_task}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{process\_response\_task()}{process\_response\_task()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a000b0ea980a113df1b08387346a7a7fb} 
+void process\+\_\+response\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pv\+Parameter}{}\end{DoxyParamCaption})}
+
+
+
+Task function to process fingerprint scanner responses. 
+
+This Free\+RTOS task continuously reads responses from the fingerprint scanner, dequeues them from the response queue, and processes them accordingly.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pv\+Parameter} & Unused parameter (can be NULL). \\
+\hline
+\end{DoxyParams}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_adb364663a6f8cf989e0a0c055dc49de2}\index{fingerprint.h@{fingerprint.h}!read\_response\_task@{read\_response\_task}}
 \index{read\_response\_task@{read\_response\_task}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{read\_response\_task()}{read\_response\_task()}}
@@ -1383,6 +1498,9 @@ The function reads responses using {\ttfamily \doxylink{fingerprint_8h_a18e8b2af
 \begin{DoxyWarning}{Warning}
 This task should be created only once during initialization and should not be terminated unexpectedly, as it ensures continuous response handling. 
 \end{DoxyWarning}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
 \Hypertarget{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16}\index{fingerprint.h@{fingerprint.h}!register\_fingerprint\_event\_handler@{register\_fingerprint\_event\_handler}}
 \index{register\_fingerprint\_event\_handler@{register\_fingerprint\_event\_handler}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{register\_fingerprint\_event\_handler()}{register\_fingerprint\_event\_handler()}}
@@ -1400,11 +1518,14 @@ This function allows the application to register a callback handler that will be
 {\em handler} & The function pointer to the event handler function. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{fingerprint_8h_a2b019e6b09dcc91ad10bcb6c2784e360}\index{fingerprint.h@{fingerprint.h}!trigger\_fingerprint\_event@{trigger\_fingerprint\_event}}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
+\Hypertarget{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f}\index{fingerprint.h@{fingerprint.h}!trigger\_fingerprint\_event@{trigger\_fingerprint\_event}}
 \index{trigger\_fingerprint\_event@{trigger\_fingerprint\_event}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{trigger\_fingerprint\_event()}{trigger\_fingerprint\_event()}}
-{\footnotesize\ttfamily \label{fingerprint_8h_a2b019e6b09dcc91ad10bcb6c2784e360} 
-void trigger\+\_\+fingerprint\+\_\+event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\+\_\+event\+\_\+type\+\_\+t}}}]{event\+\_\+type}{, }\item[{\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}}}]{status}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f} 
+void trigger\+\_\+fingerprint\+\_\+event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\+t}}}]{event}{}\end{DoxyParamCaption})}
 
 
 
@@ -1419,7 +1540,10 @@ This function initializes a fingerprint event structure with the given event typ
 {\em status} & The original fingerprint status that caused the event. \\
 \hline
 \end{DoxyParams}
-\texorpdfstring{$<$}{<} Call the registered event handler.
+\texorpdfstring{$<$}{<} Call the registered event handler.\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example}{C\+:/\+Users/\+MELBEN/esp/fingerprint\+\_\+scanner/components/fingerprint/include/fingerprint.\+h}}.\end{Desc}
+
 
 \doxysubsection{Variable Documentation}
 \Hypertarget{fingerprint_8h_ac1bc88ca9eeff4bcae8ac419f8653c07}\index{fingerprint.h@{fingerprint.h}!g\_fingerprint\_event\_handler@{g\_fingerprint\_event\_handler}}
