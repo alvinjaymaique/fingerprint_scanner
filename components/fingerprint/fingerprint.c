@@ -751,65 +751,72 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 
 
 FingerprintPacket* fingerprint_read_response(void) {
-    uint8_t buffer[MAX_PARAMETERS + 12];  // Stack-allocated buffer
-    int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200 / portTICK_PERIOD_MS); //UART_READ_TIMEOUT 200 / portTICK_PERIOD_MS
- 
+    uint8_t buffer[MAX_PARAMETERS + 32];  // Increased buffer size to handle multiple packets
+    int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200 / portTICK_PERIOD_MS);
+
     if (length <= 0) {
-        // ESP_LOGW("Fingerprint", "No response received from UART");
-        return NULL;
+        return NULL; // No data received
     }
 
-    if (length < 12) {  // Minimum valid packet size
-        ESP_LOGE("Fingerprint", "Invalid packet length: %d", length);
-        ESP_LOG_BUFFER_HEX("Fingerprint", buffer, length);
-        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR, NULL);
-        return NULL;
-    }
-
-    // Early validation: Check if packet starts with 0xEF01
-    if (buffer[0] != 0xEF || buffer[1] != 0x01) {
-        ESP_LOGE("Fingerprint", "Invalid packet header: 0x%02X%02X", buffer[0], buffer[1]);
-        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR, NULL);
-        return NULL;
-    }
+    ESP_LOGI("Fingerprint", "Received %d bytes from UART", length);
     ESP_LOG_BUFFER_HEX("Fingerprint", buffer, length);
-    // ESP_LOG_BUFFER_HEXDUMP(TAG, buffer, length, ESP_LOG_INFO);
 
-    // Allocate packet only if checksum is valid
-    FingerprintPacket *packet = (FingerprintPacket*)malloc(sizeof(FingerprintPacket));
-    if (!packet) {
-        ESP_LOGE("Fingerprint", "Memory allocation failed!");
-        fingerprint_status_event_handler(FINGERPRINT_SENSOR_OP_FAIL, NULL);
-        return NULL;
+    int offset = 0;
+    FingerprintPacket *packet = NULL;
+
+    while (offset < length) {
+        // Look for the start of a valid fingerprint packet
+        if (offset + 12 > length || buffer[offset] != 0xEF || buffer[offset + 1] != 0x01) {
+            ESP_LOGW("Fingerprint", "Skipping invalid data at offset %d", offset);
+            offset++;  // Move to next byte and re-check
+            continue;
+        }
+
+        // Allocate memory for the packet
+        packet = (FingerprintPacket*)malloc(sizeof(FingerprintPacket));
+        if (!packet) {
+            ESP_LOGE("Fingerprint", "Memory allocation failed!");
+            return NULL;
+        }
+        memset(packet, 0, sizeof(FingerprintPacket));
+
+        // Extract packet header
+        packet->header = (buffer[offset] << 8) | buffer[offset + 1];
+        packet->address = (buffer[offset + 2] << 24) | (buffer[offset + 3] << 16) |
+                          (buffer[offset + 4] << 8) | buffer[offset + 5];
+        packet->packet_id = buffer[offset + 6];
+        packet->length = (buffer[offset + 7] << 8) | buffer[offset + 8];
+        packet->command = buffer[offset + 9];
+
+        // Validate packet length
+        uint16_t expected_length = packet->length + 9;
+        if (offset + expected_length > length) {
+            ESP_LOGE("Fingerprint", "Incomplete packet at offset %d! Expected: %d, Available: %d",
+                     offset, expected_length, length - offset);
+            free(packet);
+            return NULL;
+        }
+
+        // Copy parameters
+        int param_size = min(packet->length - 3, MAX_PARAMETERS);
+        memcpy(packet->parameters, &buffer[offset + 10], param_size);
+
+        // Extract checksum
+        packet->checksum = (buffer[offset + expected_length - 2] << 8) | buffer[offset + expected_length - 1];
+
+        // Log successful packet extraction
+        ESP_LOGI("Fingerprint", "Extracted packet at offset %d: Command 0x%02X", offset, packet->command);
+
+        // Process the extracted packet
+        fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
+
+        // Move to the next packet
+        offset += expected_length;
     }
 
-    memset(packet, 0, sizeof(FingerprintPacket));
-
-    // Copy response data into the packet structure
-    packet->header = (buffer[0] << 8) | buffer[1];
-    packet->address = (buffer[2] << 24) | (buffer[3] << 16) | (buffer[4] << 8) | buffer[5];
-    packet->packet_id = buffer[6];
-    packet->length = (buffer[7] << 8) | buffer[8];
-    packet->command = buffer[9];
-
-    // Validate packet length now that packet is allocated
-    if (packet->length + 9 != length) {  
-        ESP_LOGE("Fingerprint", "Packet length mismatch! Expected: %d, Received: %d", packet->length + 9, length);
-        fingerprint_status_event_handler(FINGERPRINT_PACKET_ERROR, NULL);
-        free(packet);
-        return NULL;
-    }
-
-    // Prevent buffer overrun
-    int param_size = min(packet->length - 3, MAX_PARAMETERS);
-    memcpy(packet->parameters, &buffer[10], param_size);
-
-    packet->checksum = (buffer[length - 2] << 8) | buffer[length - 1];
-    // fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
-    ESP_LOGI("Fingerprint", "Response read successfully: Confirmation Code 0x%02X", packet->command);
-    
     return packet;
 }
+
 
 
 // Task to continuously read responses and send to queue
@@ -841,6 +848,7 @@ void process_response_task(void *pvParameter) {
                 uint8_t received_confirmation = response.packet.command; // Confirmation code
                 ESP_LOGI(TAG, "Command 0x%02X executed successfully.", last_cmd.command);
                 ESP_LOGI(TAG, "Confirmation code: 0x%02X", received_confirmation);
+                fingerprint_status_event_handler((fingerprint_status_t)received_confirmation, &response.packet);
             } else {
                 ESP_LOGW(TAG, "No corresponding command found for response!");
             }
