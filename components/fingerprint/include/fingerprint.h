@@ -399,19 +399,23 @@ typedef struct {
  * @struct FingerprintPacket
  * @brief Structure representing a command or response packet for the fingerprint module.
  *
- * This structure is used to send commands to and receive responses from the fingerprint module.
- * It follows the module's communication protocol, containing fields for the header, address,
- * packet type, length, command, parameters, and checksum.
+ * This structure is used for both sending commands to and receiving responses from the fingerprint module.
+ * It follows the module's communication protocol, containing fields for the header, address, packet type, 
+ * length, command/confirmation code, parameters, and checksum.
+ *
+ * In command packets, the `command` field specifies the requested operation (e.g., 0x01 for image capture).
+ * In response packets, the `command` field serves as a confirmation code indicating the success or failure of the request.
  */
 typedef struct {
     uint16_t header;      /**< Fixed packet header (0xEF01) indicating the start of a fingerprint packet. */
     uint32_t address;     /**< Address of the fingerprint module (default: 0xFFFFFFFF). */
     uint8_t packet_id;    /**< Packet identifier (e.g., 0x01 for command packets, 0x07 for responses). */
     uint16_t length;      /**< Length of the packet, excluding the header and address. */
-    uint8_t command;      /**< Command ID specifying the requested operation (e.g., 0x01 for image capture). */
+    uint8_t command;      /**< Command ID for requests or confirmation code in responses. */
     uint8_t parameters[MAX_PARAMETERS]; /**< Command-specific parameters (variable length, up to MAX_PARAMETERS bytes). */
     uint16_t checksum;    /**< Checksum for packet integrity verification. */
 } FingerprintPacket;
+
  
  /**
   * @brief Captures a fingerprint image from the scanner's sensor.
@@ -959,26 +963,6 @@ extern FingerprintPacket PS_DownChar;
  * @param status The fingerprint status received from the sensor.
  */
 void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPacket *packet);
-
-/**
- * @brief Task to handle the finger detection event.
- * 
- * This function continuously checks the queue for finger detection events.
- * Once detected, it logs and processes the detection event.
- * 
- * @param arg Unused parameter
- */
-void finger_detected_task(void* arg);
-
-/**
- * @brief Task to read data from UART.
- * 
- * This task reads data from the fingerprint sensor via UART. It receives data and logs
- * the received content, which can then be processed as needed.
- * 
- * @param arg Unused parameter
- */
-void detect_fingerprint_uart_task(void* arg);
  
 /**
  * @brief Initializes the fingerprint scanner module.
@@ -1078,6 +1062,16 @@ void read_response_task(void *pvParameter);
  * @return Pointer to the received FingerprintPacket, or NULL on failure.
  */
  FingerprintPacket* fingerprint_read_response(void);
+
+/**
+ * @brief Task function to process fingerprint scanner responses.
+ *
+ * This FreeRTOS task continuously reads responses from the fingerprint scanner,
+ * dequeues them from the response queue, and processes them accordingly.
+ *
+ * @param[in] pvParameter Unused parameter (can be NULL).
+ */
+void process_response_task(void *pvParameter);
 
  /**
  * @brief Structure representing a fingerprint module response.

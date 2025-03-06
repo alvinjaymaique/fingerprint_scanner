@@ -589,16 +589,22 @@ esp_err_t fingerprint_init(void) {
     // }
 
     // Create Response Handling Task
-    if (xTaskCreate(read_response_task, "FingerprintReadResponse", 4096, NULL, configMAX_PRIORITIES - 1, &fingerprint_task_handle) != pdPASS) {
+    if (xTaskCreate(read_response_task, "FingerprintReadResponse", 4096, NULL, configMAX_PRIORITIES - 2, &fingerprint_task_handle) != pdPASS) {
         ESP_LOGE(TAG, "Failed to create fingerprint response task");
         return ESP_FAIL;
     }
 
-    // Create Processing Task (processes responses from queue)
-    if (xTaskCreate(process_fingerprint_responses_task, "FingerprintProcessResponse", 4096, NULL, 5, NULL) != pdPASS) {
-        ESP_LOGE(TAG, "Failed to create fingerprint processing task");
+    // Create Response Handling Task
+    if (xTaskCreate(process_response_task, "FingerprintProcessResponse", 4096, NULL, configMAX_PRIORITIES - 1, NULL) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create fingerprint response task");
         return ESP_FAIL;
     }
+
+    // // Create Processing Task (processes responses from queue)
+    // if (xTaskCreate(process_fingerprint_responses_task, "FingerprintProcessResponse", 4096, NULL, 5, NULL) != pdPASS) {
+    //     ESP_LOGE(TAG, "Failed to create fingerprint processing task");
+    //     return ESP_FAIL;
+    // }
 
     // Create the queue for finger detection
     finger_detected_queue = xQueueCreate(10, sizeof(uint8_t));
@@ -684,29 +690,30 @@ uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd) {
     return sum;
 }
 
+
 esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
-    if (!cmd) {
-        return ESP_ERR_INVALID_ARG;  // Check for NULL pointer
-    }
+    if (!cmd) return ESP_ERR_INVALID_ARG;  
 
-    // Set the correct address before computing checksum
     cmd->address = address;
-
-    // Compute the checksum AFTER setting address
     cmd->checksum = fingerprint_calculate_checksum(cmd);
-    // cmd->checksum = cmd->checksum;  // Checksum is already calculated
-    
-    // Correct packet size calculation
-    size_t packet_size = cmd->length + 9; // Header (2) + Address (4) + Packet ID (1) + Length (2) + Data (cmd->length)
 
-    // Allocate buffer dynamicallys
-    uint8_t *buffer = (uint8_t *)malloc(packet_size);
-    if (!buffer) {
-        ESP_LOGE(TAG, "Memory allocation failed for fingerprint command.");
-        return ESP_ERR_NO_MEM;
+    // Store command info **before** sending
+    fingerprint_command_info_t cmd_info = {
+        .command = cmd->command,
+        .timestamp = xTaskGetTickCount()
+    };
+
+    // **Ensure queue is not full before sending**
+    if (xQueueSend(fingerprint_command_queue, &cmd_info, pdMS_TO_TICKS(100)) != pdPASS) {
+        ESP_LOGE(TAG, "Command queue full, dropping command 0x%02X", cmd->command);
+        return ESP_FAIL;
     }
 
-    // Construct the packet
+    // **Construct packet**
+    size_t packet_size = cmd->length + 9;
+    uint8_t *buffer = malloc(packet_size);
+    if (!buffer) return ESP_ERR_NO_MEM;
+
     buffer[0] = (cmd->header >> 8) & 0xFF;
     buffer[1] = cmd->header & 0xFF;
     buffer[2] = (cmd->address >> 24) & 0xFF;
@@ -717,43 +724,25 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     buffer[7] = (cmd->length >> 8) & 0xFF;
     buffer[8] = cmd->length & 0xFF;
     buffer[9] = cmd->command;
-
-    // Copy only the required parameters (not limited to 4 bytes)
     memcpy(&buffer[10], cmd->parameters, cmd->length - 3);
-
-    // Append checksum
     buffer[packet_size - 2] = (cmd->checksum >> 8) & 0xFF;
     buffer[packet_size - 1] = cmd->checksum & 0xFF;
 
-    uart_flush(UART_NUM);  // Flush UART buffer before sending
-    // Send the packet over UART
+    // **Flush UART to prevent old data interference**
+    uart_flush(UART_NUM);
+
+    // **Send packet**
     int bytes_written = uart_write_bytes(UART_NUM, (const char *)buffer, packet_size);
+    free(buffer);
+
     if (bytes_written != packet_size) {
         ESP_LOGE(TAG, "Failed to send the complete fingerprint command.");
-        free(buffer);
         return ESP_FAIL;
     }
 
-    // Debug logging
     ESP_LOGI(TAG, "Sent fingerprint command: 0x%02X to address 0x%08X", cmd->command, (unsigned int)address);
     ESP_LOG_BUFFER_HEX("Fingerprint sent command: ", buffer, packet_size);
-    
-    // Store the sent command in the queue
-    fingerprint_command_info_t sent_cmd;
-    sent_cmd.command = cmd->command;  // Store command type
-    sent_cmd.timestamp = xTaskGetTickCount();  // Store timestamp (optional for debugging)
-    // ESP_LOGI(TAG, "Current Tick Count: %lu", xTaskGetTickCount());
 
-    if (xQueueSend(fingerprint_command_queue, &cmd_info, pdMS_TO_TICKS(100)) != pdPASS) {
-        ESP_LOGE(TAG, "Command queue full, dropping command 0x%02X", cmd->command);
-        return ESP_FAIL;
-    }
-
-    last_sent_command = cmd->command;  // Store the last sent command for reference
-    ESP_LOGI(TAG, "Last sent command: 0x%02X", last_sent_command);
-    // Free the allocated buffer
-    free(buffer);
-    
     return ESP_OK;
 }
 
@@ -815,64 +804,44 @@ FingerprintPacket* fingerprint_read_response(void) {
     packet->checksum = (buffer[length - 2] << 8) | buffer[length - 1];
     // fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
     ESP_LOGI("Fingerprint", "Response read successfully: Command 0x%02X", packet->command);
-
-    // --- Retrieve last sent command from queue ---
-    fingerprint_command_info_t last_sent_cmd;
-    if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, 0)) {
-        last_sent_command = last_sent_cmd.command;  // Store the last confirmation code
-        ESP_LOGI("Fingerprint", "Inside Queue Recieve in read_response.");
-        ESP_LOGI("Fingerprint", "Last Sent Command: 0x%02X", last_sent_command);
-        ESP_LOGI("Fingerprint", "TimeStamp: %lu", last_sent_cmd.timestamp);
-    } else {
-        ESP_LOGW("Fingerprint", "No matching command found in queue.");
-    }
     
     return packet;
 }
 
+
+// Task to continuously read responses and send to queue
 void read_response_task(void *pvParameter) {
+    while (1) {
+        FingerprintPacket *response = fingerprint_read_response();
+
+        if (response != NULL) {
+            fingerprint_response_t event;
+            event.packet = *response;
+            free(response);  // Free after copying
+
+            if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
+                ESP_LOGW(TAG, "Response queue full, dropping packet.");
+            }
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(10));  // Avoid excessive CPU usage
+    }
+}
+
+void process_response_task(void *pvParameter) {
+    fingerprint_command_info_t last_cmd;
     fingerprint_response_t response;
 
     while (1) {
-        int bytes_read = uart_read_bytes(UART_NUM, &response.packet, sizeof(FingerprintPacket), pdMS_TO_TICKS(500));
-
-        if (bytes_read > 0) {
-            response.timestamp = xTaskGetTickCount();
-            ESP_LOGI(TAG, "Received fingerprint response: Command 0x%02X", response.packet.command);
-
-            if (xQueueSend(fingerprint_response_queue, &response, pdMS_TO_TICKS(100)) != pdPASS) {
-                ESP_LOGE(TAG, "Failed to queue response");
+        if (xQueueReceive(fingerprint_response_queue, &response, portMAX_DELAY) == pdTRUE) {
+            if (xQueueReceive(fingerprint_command_queue, &last_cmd, pdMS_TO_TICKS(500)) == pdTRUE) {
+                uint8_t received_confirmation = response.packet.command; // Confirmation code
+                ESP_LOGI(TAG, "Command 0x%02X executed successfully.", last_cmd.command);
+                ESP_LOGI(TAG, "Confirmation code: 0x%02X", received_confirmation);
+            } else {
+                ESP_LOGW(TAG, "No corresponding command found for response!");
             }
         }
-    }
-}
-
-
-void process_response_task(void *pvParameter) {
-    fingerprint_response_t event;
-
-    while (1) {
-        // Wait indefinitely for a response (blocking call)
-        if (xQueueReceive(fingerprint_response_queue, &event, portMAX_DELAY)) {
-            ESP_LOGI(TAG, "Processing response: Command 0x%02X", event.packet.command);
-
-            // Here you can trigger events, callbacks, or process specific response types
-            fingerprint_status_event_handler((fingerprint_status_t)event.packet.command, &event.packet);
-        }
-    }
-}
-
-
-void process_fingerprint_command_queue(void) {
-    fingerprint_command_info_t last_sent_cmd;
-
-    if (xQueueReceive(fingerprint_command_queue, &last_sent_cmd, portMAX_DELAY)) {
-        last_sent_command = last_sent_cmd.command;  // Store the last confirmation code
-        ESP_LOGI("Fingerprint", "Processed last sent command: 0x%02X", last_sent_cmd.command);
-        ESP_LOGI("Fingerprint", "Last Sent Command: 0x%02X", last_sent_command);
-        ESP_LOGI("Fingerprint", "TimeStamp: %lu", last_sent_cmd.timestamp);
-    } else {
-        ESP_LOGW("Fingerprint", "No matching command found in queue.");
     }
 }
 
