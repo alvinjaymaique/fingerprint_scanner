@@ -79,7 +79,28 @@ void app_main(void)
     // // Start the enrollment process
     // auto_enroll_fingerprint(1, 3);
     // manual_enroll_fingerprint_task();
-    manual_enroll_fingerprint();
+
+    // uint16_t location = 0x0003;  // Storage location for fingerprint template
+    // enroll_fingerprint(location);
+
+    // esp_err_t out = delete_fingerprint(location);
+    // if (out == ESP_OK) {
+    //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
+    // }
+    
+    ESP_LOGI(TAG, "Starting fingerprint verification...");
+    vTaskDelay(pdMS_TO_TICKS(2000));  // Delay before sending the next command
+    esp_err_t result = verify_fingerprint();
+
+    if (result == ESP_OK) {
+        ESP_LOGI(TAG, "Access granted - fingerprint verified!");
+        // Add your access control logic here
+    } else {
+        ESP_LOGE(TAG, "Access denied - fingerprint not recognized");
+        // Add your failure handling here
+    }
 }
 
 void send_command_task(void *pvParameter)
@@ -104,7 +125,7 @@ void send_command_task(void *pvParameter)
 void handle_fingerprint_event(fingerprint_event_t event) {
     switch (event.type) {
         case EVENT_SCANNER_READY:
-            ESP_LOGI(TAG, "Fingerprint scanner is ready for operation. Status: 0x%02X", event.status);
+            // ESP_LOGI(TAG, "Fingerprint scanner is ready for operation. Status: 0x%02X", event.status);
             break;
         case EVENT_FINGER_DETECTED:
             ESP_LOGI(TAG, "Finger detected! Status: 0x%02X", event.status);
@@ -119,6 +140,10 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_MATCH_SUCCESS:
             ESP_LOGI(TAG, "Fingerprint match successful! Status: 0x%02X", event.status);
+            ESP_LOGI(TAG, "Match found at Page ID: %d", 
+                (event.packet.parameters[1] << 8) | event.packet.parameters[0]);
+            ESP_LOGI(TAG, "Match score: %d", 
+                (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
             break;
         case EVENT_MATCH_FAIL:
             ESP_LOGI(TAG, "Fingerprint mismatch. Status: 0x%02X", event.status);
@@ -139,6 +164,16 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_TEMPLATE_MERGED:
             ESP_LOGI(TAG, "Fingerprint templates merged successfully. Status: 0x%02X", event.status);
+            break;
+        case EVENT_TEMPLATE_STORE_SUCCESS:
+            ESP_LOGI(TAG, "Fingerprint template stored successfully. Status: 0x%02X", event.status);
+            break;
+        case EVENT_SEARCH_SUCCESS:
+            ESP_LOGI(TAG, "Fingerprint search successful. Status: 0x%02X", event.status);
+            ESP_LOGI(TAG, "Match found at Page ID: %d", 
+                (event.packet.parameters[1] << 8) | event.packet.parameters[0]);
+            ESP_LOGI(TAG, "Match score: %d", 
+                (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
             break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);

@@ -1311,7 +1311,60 @@ void process_fingerprint_responses_task(void *pvParameter);
      *
      * This event corresponds to the status FINGERPRINT_TEMPLATE_MERGED.
      */
-    EVENT_TEMPLATE_MERGED              /**< Fingerprint templates merged successfully */
+    EVENT_TEMPLATE_MERGED,              /**< Fingerprint templates merged successfully */
+
+    /**
+     * @brief Event triggered when a fingerprint template is successfully stored in flash memory.
+     *
+     * This event corresponds to the confirmation code 0x00 (successful storage).
+     */
+    EVENT_TEMPLATE_STORE_SUCCESS, /**< Fingerprint template successfully stored */
+
+    /**
+     * @brief Event triggered when an error occurs in receiving the data packet.
+     *
+     * This event corresponds to the confirmation code 0x01 (packet reception error).
+     */
+    EVENT_TEMPLATE_STORE_PACKET_ERROR, /**< Error in receiving the fingerprint storage packet */
+
+    /**
+     * @brief Event triggered when the PageID for storing the fingerprint template is out of range.
+     *
+     * This event corresponds to the confirmation code 0x0B (PageID out of range).
+     */
+    EVENT_TEMPLATE_STORE_OUT_OF_RANGE, /**< PageID is out of range */
+
+    /**
+     * @brief Event triggered when an error occurs while writing the fingerprint template to FLASH memory.
+     *
+     * This event corresponds to the confirmation code 0x18 (FLASH write error).
+     */
+    EVENT_TEMPLATE_STORE_FLASH_ERROR, /**< Error writing to FLASH memory */
+
+    /**
+     * @brief Event triggered when the function does not match the encryption level.
+     *
+     * This event corresponds to the confirmation code 0x31 (encryption level mismatch).
+     */
+    EVENT_TEMPLATE_STORE_ENCRYPTION_MISMATCH, /**< Function does not match encryption level */
+
+    /**
+     * @brief Event triggered when illegal data is detected during fingerprint template storage.
+     *
+     * This event corresponds to the confirmation code 0x35 (illegal data).
+     */
+    EVENT_TEMPLATE_STORE_ILLEGAL_DATA, /**< Illegal data detected during storage */
+
+    /**
+     * @brief Event triggered when a fingerprint search operation is successful.
+     *
+     * This event is dispatched when the PS_Search command successfully finds
+     * a matching fingerprint template in the database. It indicates that 
+     * the scanned fingerprint corresponds to an existing stored template.
+     *
+     * @note This event will not be triggered if the search fails or no match is found.
+     */
+    EVENT_SEARCH_SUCCESS  /**< Event code for successful fingerprint search */
 
  } fingerprint_event_type_t;
 
@@ -1374,10 +1427,10 @@ typedef struct {
 void trigger_fingerprint_event(fingerprint_event_t event);
 
 /**
- * @brief Performs manual fingerprint enrollment.
+ * @brief Performs manual fingerprint enrollment at a specified storage location.
  *
  * This function executes a step-by-step fingerprint enrollment process, handling
- * user interaction and ensuring proper fingerprint capture and storage.
+ * user interaction and ensuring proper fingerprint capture and storage at the given location.
  * 
  * ## Enrollment Process:
  * 1. Wait for a finger to be placed on the scanner (`PS_GetImage`).
@@ -1386,7 +1439,7 @@ void trigger_fingerprint_event(fingerprint_event_t event);
  * 4. Once the finger is removed, wait for the same finger to be placed again.
  * 5. Capture the fingerprint again (`PS_GetImage`) and generate the second template (`PS_GenChar2`).
  * 6. Merge both templates into a single fingerprint model (`PS_RegModel`).
- * 7. Store the fingerprint template in the fingerprint module’s database (`PS_StoreChar`).
+ * 7. Store the fingerprint template in the fingerprint module’s database at the specified `location` (`PS_StoreChar`).
  *
  * ## Error Handling:
  * - If a finger is not detected within the allowed retries, the function will return an error.
@@ -1396,12 +1449,14 @@ void trigger_fingerprint_event(fingerprint_event_t event);
  * @note This function does not run as a FreeRTOS task but can be called from one.
  *       It dynamically creates an event group for synchronization and deletes it upon completion.
  *
+ * @param[in] location  The storage location (ID) where the fingerprint template will be saved.
+ *
  * @return
  * - `ESP_OK` if fingerprint enrollment is successful.
  * - `ESP_FAIL` if enrollment fails after the maximum number of attempts.
  * - `ESP_ERR_NO_MEM` if memory allocation for the event group fails.
  */
-esp_err_t manual_enroll_fingerprint(void);
+esp_err_t enroll_fingerprint(uint16_t location);
 
 
 /**
@@ -1428,6 +1483,46 @@ esp_err_t manual_enroll_fingerprint(void);
  */
 static EventGroupHandle_t enroll_event_group = NULL;
 
+/**
+ * @brief Verifies a fingerprint by capturing an image, extracting features, and searching in the database.
+ *
+ * This function attempts to verify a fingerprint up to a maximum number of attempts.
+ * It captures a fingerprint image, processes it, and searches for a match in the database.
+ * If a match is found, the function returns ESP_OK; otherwise, it returns ESP_FAIL after all attempts.
+ *
+ * @return 
+ *      - ESP_OK if the fingerprint matches an entry in the database.
+ *      - ESP_FAIL if verification fails after the maximum attempts.
+ *      - ESP_ERR_NO_MEM if the event group could not be created.
+ */
+esp_err_t verify_fingerprint(void);
+
+/**
+ * @brief Deletes a fingerprint template from the specified storage location.
+ *
+ * This function sends a command to delete a fingerprint stored at the given
+ * location in the fingerprint module. It waits for a response event to confirm success.
+ *
+ * @param[in] location The storage location of the fingerprint template (valid range depends on module).
+ * @return
+ *      - ESP_OK on successful deletion.
+ *      - ESP_ERR_NO_MEM if event group creation fails.
+ *      - ESP_FAIL if deletion is unsuccessful.
+ */
+esp_err_t delete_fingerprint(uint16_t location);
+
+/**
+ * @brief Clears the entire fingerprint database.
+ *
+ * This function sends a command to erase all stored fingerprints in the fingerprint module.
+ * It waits for a response event to confirm success.
+ *
+ * @return
+ *      - ESP_OK on successful database clearance.
+ *      - ESP_ERR_NO_MEM if event group creation fails.
+ *      - ESP_FAIL if clearance fails.
+ */
+esp_err_t clear_database(void);
  
  #ifdef __cplusplus
  }
