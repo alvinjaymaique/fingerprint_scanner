@@ -8,6 +8,8 @@ var fingerprint_8h =
     [ "DEFAULT_FINGERPRINT_ADDRESS", "fingerprint_8h.html#a5d7dc57da1b15b90f236d89912b2d95a", null ],
     [ "DEFAULT_RX_PIN", "fingerprint_8h.html#aef44023d85418b6b89d8e8492f4feb81", null ],
     [ "DEFAULT_TX_PIN", "fingerprint_8h.html#a906d33234fc0a208973dee29efb12336", null ],
+    [ "ENROLL_BIT_FAIL", "fingerprint_8h.html#a9965c91509f230a00959ac4950c1e326", null ],
+    [ "ENROLL_BIT_SUCCESS", "fingerprint_8h.html#a3723c25498be341d5fcefa4cba964922", null ],
     [ "FINGERPRINT_GPIO_PIN", "fingerprint_8h.html#a163a9960a6008f5ad012e841ccd3262d", null ],
     [ "FINGERPRINT_HEADER", "fingerprint_8h.html#a3213a1f8aac63fb5a1e7fba62b6c14c9", null ],
     [ "FINGERPRINT_PACKET_HEADER", "fingerprint_8h.html#af02cae8acf76dab97688c8fa80ebff3e", null ],
@@ -77,7 +79,8 @@ var fingerprint_8h =
       [ "EVENT_LOW_POWER_MODE", "fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5aeaf3ac6421c515d49b8278c14d9ceb8868", null ],
       [ "EVENT_TIMEOUT", "fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5aea596dc8c1b60ba4769e5f606b5d75f23c", null ],
       [ "EVENT_NO_FINGER_DETECTED", "fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5aeafdbee660971b3da1a54885db913c82eb", null ],
-      [ "EVENT_SCANNER_READY", "fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a", null ]
+      [ "EVENT_SCANNER_READY", "fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a", null ],
+      [ "EVENT_TEMPLATE_MERGED", "fingerprint_8h.html#a6a07f45ee6da95e2ccbcbb0e0699f5aea6cd995e8194e1f0a070095ff8bf38fd5", null ]
     ] ],
     [ "fingerprint_status_t", "fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364", [
       [ "FINGERPRINT_OK", "fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc", null ],
@@ -132,7 +135,6 @@ var fingerprint_8h =
       [ "FINGERPRINT_IMAGE_NOT_AVAILABLE", "fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385", null ],
       [ "FINGERPRINT_ILLEGAL_DATA", "fingerprint_8h.html#a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994", null ]
     ] ],
-    [ "auto_enroll_fingerprint", "fingerprint_8h.html#a9bf9b818513471e8acbaa0fb8573996f", null ],
     [ "fingerprint_calculate_checksum", "fingerprint_8h.html#a0d5b756311c0909b7f123085fb54e5b5", null ],
     [ "fingerprint_get_next_response", "fingerprint_8h.html#acad8c23f5b4376d47d096cf989286d68", null ],
     [ "fingerprint_get_status", "fingerprint_8h.html#a20092401e8301669fc2d595f02dc433d", null ],
@@ -143,12 +145,13 @@ var fingerprint_8h =
     [ "fingerprint_set_command", "fingerprint_8h.html#aa621bd8222b32b5d2245f92e22934655", null ],
     [ "fingerprint_set_pins", "fingerprint_8h.html#a9d930710d85ff4f3085dd32e2ce89a8a", null ],
     [ "fingerprint_status_event_handler", "fingerprint_8h.html#ac22bc43cb5b4e21246c6dbf734e6d919", null ],
-    [ "manual_enroll_fingerprint_task", "fingerprint_8h.html#aa54d0b63fe19ff558a311d1efd1c351f", null ],
+    [ "manual_enroll_fingerprint", "fingerprint_8h.html#a3a291f2b6a628927071588174b4fe7dc", null ],
     [ "process_fingerprint_responses_task", "fingerprint_8h.html#aac65070f473460404b979dff8ca75bf2", null ],
     [ "process_response_task", "fingerprint_8h.html#a000b0ea980a113df1b08387346a7a7fb", null ],
     [ "read_response_task", "fingerprint_8h.html#adb364663a6f8cf989e0a0c055dc49de2", null ],
     [ "register_fingerprint_event_handler", "fingerprint_8h.html#a86d6b1d39068b909eee4faad5e006f16", null ],
     [ "trigger_fingerprint_event", "fingerprint_8h.html#af94c8bea84a1e0b7efff92d7c3a2624f", null ],
+    [ "enroll_event_group", "fingerprint_8h.html#aeb4fc4aba1a22ae72ee5746099c3a18e", null ],
     [ "g_fingerprint_event_handler", "fingerprint_8h.html#ac1bc88ca9eeff4bcae8ac419f8653c07", null ],
     [ "PS_AutoEnroll", "fingerprint_8h.html#a14662050a710495e6c9125a02ee17fd5", null ],
     [ "PS_Autoldentify", "fingerprint_8h.html#a8de1bbbf35f352bb899e3c9cc689ea04", null ],

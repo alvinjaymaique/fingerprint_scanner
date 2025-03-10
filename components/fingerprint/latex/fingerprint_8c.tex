@@ -48,10 +48,6 @@ void \mbox{\hyperlink{fingerprint_8c_adb364663a6f8cf989e0a0c055dc49de2}{read\+\_
 \begin{DoxyCompactList}\small\item\em Task to continuously read fingerprint responses from UART. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8c_a000b0ea980a113df1b08387346a7a7fb}{process\+\_\+response\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameter)
 \begin{DoxyCompactList}\small\item\em Task function to process fingerprint scanner responses. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{fingerprint_8c_acad8c23f5b4376d47d096cf989286d68}{fingerprint\+\_\+get\+\_\+next\+\_\+response}} (\mbox{\hyperlink{structfingerprint__response__t}{fingerprint\+\_\+response\+\_\+t}} \texorpdfstring{$\ast$}{*}response, Tick\+Type\+\_\+t timeout)
-\begin{DoxyCompactList}\small\item\em Retrieves the next fingerprint response from the queue. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{fingerprint_8c_aac65070f473460404b979dff8ca75bf2}{process\+\_\+fingerprint\+\_\+responses\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameter)
-\begin{DoxyCompactList}\small\item\em Task to process fingerprint responses from the queue. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \mbox{\hyperlink{fingerprint_8c_a20092401e8301669fc2d595f02dc433d}{fingerprint\+\_\+get\+\_\+status}} (\mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}packet)
 \begin{DoxyCompactList}\small\item\em Queue handle for storing fingerprint module responses. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8c_ac22bc43cb5b4e21246c6dbf734e6d919}{fingerprint\+\_\+status\+\_\+event\+\_\+handler}} (\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} status, \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \texorpdfstring{$\ast$}{*}packet)
@@ -60,10 +56,8 @@ void \mbox{\hyperlink{fingerprint_8c_acdb139ac079afac098d142b4cf7a8b7f}{register
 \begin{DoxyCompactList}\small\item\em Function to register an event handler for fingerprint events. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8c_af94c8bea84a1e0b7efff92d7c3a2624f}{trigger\+\_\+fingerprint\+\_\+event}} (\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\+t}} event)
 \begin{DoxyCompactList}\small\item\em Triggers a fingerprint event and processes it. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{fingerprint_8c_a9bf9b818513471e8acbaa0fb8573996f}{auto\+\_\+enroll\+\_\+fingerprint}} (uint16\+\_\+t fingerprint\+\_\+id, uint8\+\_\+t num\+\_\+scans)
-\item 
-void \mbox{\hyperlink{fingerprint_8c_aa54d0b63fe19ff558a311d1efd1c351f}{manual\+\_\+enroll\+\_\+fingerprint\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameter)
-\begin{DoxyCompactList}\small\item\em Task to enroll a fingerprint into the database. \end{DoxyCompactList}\end{DoxyCompactItemize}
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a3a291f2b6a628927071588174b4fe7dc}{manual\+\_\+enroll\+\_\+fingerprint}} (void)
+\begin{DoxyCompactList}\small\item\em Performs manual fingerprint enrollment. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -75,8 +69,6 @@ static int \mbox{\hyperlink{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}{ba
 \item 
 static uint8\+\_\+t \mbox{\hyperlink{fingerprint_8c_a5c0f8def90025d6e94cd117f278e975e}{last\+\_\+sent\+\_\+command}} = 0x00
 \begin{DoxyCompactList}\small\item\em Stores the last fingerprint command sent to the module. \end{DoxyCompactList}\item 
-static uint8\+\_\+t \mbox{\hyperlink{fingerprint_8c_a8119dfe7897cbe3d4dc5454cf30700e1}{last\+\_\+confirmation\+\_\+code}} = 0x00
-\begin{DoxyCompactList}\small\item\em Stores the last confirmation code received from the fingerprint module. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} \mbox{\hyperlink{fingerprint_8c_ac1bc88ca9eeff4bcae8ac419f8653c07}{g\+\_\+fingerprint\+\_\+event\+\_\+handler}} = NULL
 \begin{DoxyCompactList}\small\item\em Global pointer to the fingerprint event handler function. \end{DoxyCompactList}\item 
 static Task\+Handle\+\_\+t \mbox{\hyperlink{fingerprint_8c_a53ad8a24a35b01382d110004f42be853}{fingerprint\+\_\+task\+\_\+handle}} = NULL
@@ -195,12 +187,6 @@ static Queue\+Handle\+\_\+t \mbox{\hyperlink{fingerprint_8c_a251de6efebc1bbf503a
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{fingerprint_8c_a9bf9b818513471e8acbaa0fb8573996f}\index{fingerprint.c@{fingerprint.c}!auto\_enroll\_fingerprint@{auto\_enroll\_fingerprint}}
-\index{auto\_enroll\_fingerprint@{auto\_enroll\_fingerprint}!fingerprint.c@{fingerprint.c}}
-\doxysubsubsection{\texorpdfstring{auto\_enroll\_fingerprint()}{auto\_enroll\_fingerprint()}}
-{\footnotesize\ttfamily \label{fingerprint_8c_a9bf9b818513471e8acbaa0fb8573996f} 
-void auto\+\_\+enroll\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{fingerprint\+\_\+id}{, }\item[{uint8\+\_\+t}]{num\+\_\+scans}{}\end{DoxyParamCaption})}
-
 \Hypertarget{fingerprint_8c_ae15bba6ade85d740e51d6fe5e644ad0c}\index{fingerprint.c@{fingerprint.c}!finger\_detected\_isr@{finger\_detected\_isr}}
 \index{finger\_detected\_isr@{finger\_detected\_isr}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{finger\_detected\_isr()}{finger\_detected\_isr()}}
@@ -226,28 +212,6 @@ The checksum is the sum of all bytes from packet\+\_\+id to parameters.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 The computed checksum. 
-\end{DoxyReturn}
-\Hypertarget{fingerprint_8c_acad8c23f5b4376d47d096cf989286d68}\index{fingerprint.c@{fingerprint.c}!fingerprint\_get\_next\_response@{fingerprint\_get\_next\_response}}
-\index{fingerprint\_get\_next\_response@{fingerprint\_get\_next\_response}!fingerprint.c@{fingerprint.c}}
-\doxysubsubsection{\texorpdfstring{fingerprint\_get\_next\_response()}{fingerprint\_get\_next\_response()}}
-{\footnotesize\ttfamily \label{fingerprint_8c_acad8c23f5b4376d47d096cf989286d68} 
-bool fingerprint\+\_\+get\+\_\+next\+\_\+response (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structfingerprint__response__t}{fingerprint\+\_\+response\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{response}{, }\item[{Tick\+Type\+\_\+t}]{timeout}{}\end{DoxyParamCaption})}
-
-
-
-Retrieves the next fingerprint response from the queue. 
-
-This function waits for a response to be available in the fingerprint response queue. It blocks for the specified timeout duration if no response is immediately available.
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ out}}  & {\em response} & Pointer to a \doxylink{structfingerprint__response__t}{fingerprint\+\_\+response\+\_\+t} structure to store the received response. \\
-\hline
-\mbox{\texttt{ in}}  & {\em timeout} & The maximum time to wait for a response (in Free\+RTOS ticks).\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-true if a response was successfully received, false if the timeout occurred. 
 \end{DoxyReturn}
 \Hypertarget{fingerprint_8c_a20092401e8301669fc2d595f02dc433d}\index{fingerprint.c@{fingerprint.c}!fingerprint\_get\_status@{fingerprint\_get\_status}}
 \index{fingerprint\_get\_status@{fingerprint\_get\_status}!fingerprint.c@{fingerprint.c}}
@@ -443,38 +407,45 @@ The following status codes and their corresponding events are handled\+:
 {\em status} & The fingerprint status received from the sensor. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{fingerprint_8c_aa54d0b63fe19ff558a311d1efd1c351f}\index{fingerprint.c@{fingerprint.c}!manual\_enroll\_fingerprint\_task@{manual\_enroll\_fingerprint\_task}}
-\index{manual\_enroll\_fingerprint\_task@{manual\_enroll\_fingerprint\_task}!fingerprint.c@{fingerprint.c}}
-\doxysubsubsection{\texorpdfstring{manual\_enroll\_fingerprint\_task()}{manual\_enroll\_fingerprint\_task()}}
-{\footnotesize\ttfamily \label{fingerprint_8c_aa54d0b63fe19ff558a311d1efd1c351f} 
-void manual\+\_\+enroll\+\_\+fingerprint\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pv\+Parameter}{}\end{DoxyParamCaption})}
+\Hypertarget{fingerprint_8c_a3a291f2b6a628927071588174b4fe7dc}\index{fingerprint.c@{fingerprint.c}!manual\_enroll\_fingerprint@{manual\_enroll\_fingerprint}}
+\index{manual\_enroll\_fingerprint@{manual\_enroll\_fingerprint}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{manual\_enroll\_fingerprint()}{manual\_enroll\_fingerprint()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a3a291f2b6a628927071588174b4fe7dc} 
+esp\+\_\+err\+\_\+t manual\+\_\+enroll\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
 
 
 
-Task to enroll a fingerprint into the database. 
+Performs manual fingerprint enrollment. 
 
-This function handles the step-\/by-\/step fingerprint enrollment process. It continuously checks for a finger to be placed on the scanner, captures the fingerprint image, extracts features, and stores the fingerprint into the module’s database upon successful enrollment.\hypertarget{fingerprint_8h_autotoc_md28}{}\doxysubsubsection{\texorpdfstring{Enrollment Process\+:}{Enrollment Process\+:}}\label{fingerprint_8h_autotoc_md28}
+This function executes a step-\/by-\/step fingerprint enrollment process, handling user interaction and ensuring proper fingerprint capture and storage.\hypertarget{fingerprint_8h_autotoc_md28}{}\doxysubsubsection{\texorpdfstring{Enrollment Process\+:}{Enrollment Process\+:}}\label{fingerprint_8h_autotoc_md28}
 
 \begin{DoxyEnumerate}
-\item Send {\ttfamily PS\+\_\+\+Get\+Image} to capture the fingerprint image.
-\item If an image is captured successfully, generate a fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char1}).
-\item Ask the user to remove and place the same finger again.
-\item Capture the fingerprint image again ({\ttfamily PS\+\_\+\+Get\+Image}).
-\item Generate the second fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char2}).
-\item Merge both templates into a fingerprint model ({\ttfamily PS\+\_\+\+Reg\+Model}).
-\item Store the fingerprint template into the module’s database ({\ttfamily PS\+\_\+\+Store\+Char}).
-\end{DoxyEnumerate}
+\item Wait for a finger to be placed on the scanner ({\ttfamily PS\+\_\+\+Get\+Image}).
+\item If a fingerprint is detected, generate the first fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char1}).
+\item Prompt the user to remove their finger and wait for confirmation of removal.
+\item Once the finger is removed, wait for the same finger to be placed again.
+\item Capture the fingerprint again ({\ttfamily PS\+\_\+\+Get\+Image}) and generate the second template ({\ttfamily PS\+\_\+\+Gen\+Char2}).
+\item Merge both templates into a single fingerprint model ({\ttfamily PS\+\_\+\+Reg\+Model}).
+\item Store the fingerprint template in the fingerprint module’s database ({\ttfamily PS\+\_\+\+Store\+Char}).
+\end{DoxyEnumerate}\hypertarget{fingerprint_8h_autotoc_md29}{}\doxysubsubsection{\texorpdfstring{Error Handling\+:}{Error Handling\+:}}\label{fingerprint_8h_autotoc_md29}
 
-If no finger is detected, the task retries up to 10 times before failing.
+\begin{DoxyItemize}
+\item If a finger is not detected within the allowed retries, the function will return an error.
+\item If the finger is not removed within a timeout period, the process will restart.
+\item If enrollment fails at any step, it retries up to three times before failing.
+\end{DoxyItemize}
 
 \begin{DoxyNote}{Note}
-This function runs as a Free\+RTOS task and should be created using {\ttfamily x\+Task\+Create(enroll\+\_\+fingerprint\+\_\+task, "{}\+Enroll\+Fingerprint\+Task"{}, 4096, NULL, 5, NULL);} in {\ttfamily app\+\_\+main()}.
+This function does not run as a Free\+RTOS task but can be called from one. It dynamically creates an event group for synchronization and deletes it upon completion.
 \end{DoxyNote}
+\begin{DoxyReturn}{Returns}
 
-\begin{DoxyParams}{Parameters}
-{\em pv\+Parameter} & Unused task parameter (set to NULL). \\
-\hline
-\end{DoxyParams}
+\begin{DoxyItemize}
+\item {\ttfamily ESP\+\_\+\+OK} if fingerprint enrollment is successful.
+\item {\ttfamily ESP\+\_\+\+FAIL} if enrollment fails after the maximum number of attempts.
+\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM} if memory allocation for the event group fails. 
+\end{DoxyItemize}
+\end{DoxyReturn}
 \Hypertarget{fingerprint_8c_a6134c859d385b972b7c0716784a20a2d}\index{fingerprint.c@{fingerprint.c}!max@{max}}
 \index{max@{max}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{max()}{max()}}
@@ -515,28 +486,6 @@ Returns the smaller of two unsigned integers.
 \begin{DoxyReturn}{Returns}
 The minimum of the two numbers 
 \end{DoxyReturn}
-\Hypertarget{fingerprint_8c_aac65070f473460404b979dff8ca75bf2}\index{fingerprint.c@{fingerprint.c}!process\_fingerprint\_responses\_task@{process\_fingerprint\_responses\_task}}
-\index{process\_fingerprint\_responses\_task@{process\_fingerprint\_responses\_task}!fingerprint.c@{fingerprint.c}}
-\doxysubsubsection{\texorpdfstring{process\_fingerprint\_responses\_task()}{process\_fingerprint\_responses\_task()}}
-{\footnotesize\ttfamily \label{fingerprint_8c_aac65070f473460404b979dff8ca75bf2} 
-void process\+\_\+fingerprint\+\_\+responses\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pv\+Parameter}{}\end{DoxyParamCaption})}
-
-
-
-Task to process fingerprint responses from the queue. 
-
-This Free\+RTOS task continuously waits for fingerprint responses from the queue and processes them by triggering the appropriate event handler.
-
-The function blocks indefinitely ({\ttfamily port\+MAX\+\_\+\+DELAY}) until a response is available, ensuring real-\/time processing of fingerprint events without polling.
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em pv\+Parameter} & Unused parameter, required for Free\+RTOS task signature.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyNote}{Note}
-This task should be started during system initialization to ensure that fingerprint responses are handled properly. 
-\end{DoxyNote}
 \Hypertarget{fingerprint_8c_a000b0ea980a113df1b08387346a7a7fb}\index{fingerprint.c@{fingerprint.c}!process\_response\_task@{process\_response\_task}}
 \index{process\_response\_task@{process\_response\_task}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{process\_response\_task()}{process\_response\_task()}}
@@ -656,17 +605,7 @@ Task\+Handle\+\_\+t fingerprint\+\_\+task\+\_\+handle = NULL\hspace{0.3cm}{\ttfa
 
 Global pointer to the fingerprint event handler function. 
 
-This pointer is used to assign a function that will handle fingerprint-\/related events. The function should be defined by the user and should match the {\ttfamily \doxylink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} callback type. The event handler is called whenever a fingerprint-\/related event occurs, such as detection, image capture, or match results. \Hypertarget{fingerprint_8c_a8119dfe7897cbe3d4dc5454cf30700e1}\index{fingerprint.c@{fingerprint.c}!last\_confirmation\_code@{last\_confirmation\_code}}
-\index{last\_confirmation\_code@{last\_confirmation\_code}!fingerprint.c@{fingerprint.c}}
-\doxysubsubsection{\texorpdfstring{last\_confirmation\_code}{last\_confirmation\_code}}
-{\footnotesize\ttfamily \label{fingerprint_8c_a8119dfe7897cbe3d4dc5454cf30700e1} 
-uint8\+\_\+t last\+\_\+confirmation\+\_\+code = 0x00\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Stores the last confirmation code received from the fingerprint module. 
-
-The confirmation code indicates the success or failure of the last operation. This helps in debugging and handling fingerprint responses correctly. \Hypertarget{fingerprint_8c_a5c0f8def90025d6e94cd117f278e975e}\index{fingerprint.c@{fingerprint.c}!last\_sent\_command@{last\_sent\_command}}
+This pointer is used to assign a function that will handle fingerprint-\/related events. The function should be defined by the user and should match the {\ttfamily \doxylink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\+\_\+event\+\_\+handler\+\_\+t}} callback type. The event handler is called whenever a fingerprint-\/related event occurs, such as detection, image capture, or match results. \Hypertarget{fingerprint_8c_a5c0f8def90025d6e94cd117f278e975e}\index{fingerprint.c@{fingerprint.c}!last\_sent\_command@{last\_sent\_command}}
 \index{last\_sent\_command@{last\_sent\_command}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{last\_sent\_command}{last\_sent\_command}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a5c0f8def90025d6e94cd117f278e975e} 

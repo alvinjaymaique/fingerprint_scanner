@@ -43,7 +43,7 @@ void app_main(void)
 {
     // set_all_pins_high();
     register_fingerprint_event_handler(handle_fingerprint_event);
-    configure_scanner_gpio();
+    // configure_scanner_gpio();
     // // Set GPIO 11 as output
     // gpio_set_direction(TEST_PIN, GPIO_MODE_OUTPUT);
     // // Delay 2 seconds before setting GPIO 11 HIGH
@@ -76,8 +76,10 @@ void app_main(void)
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
     // ESP_LOGI(TAG, "Enrolling fingerprint...");
-    // Start the enrollment process
-    auto_enroll_fingerprint(1, 3);
+    // // Start the enrollment process
+    // auto_enroll_fingerprint(1, 3);
+    // manual_enroll_fingerprint_task();
+    manual_enroll_fingerprint();
 }
 
 void send_command_task(void *pvParameter)
@@ -134,6 +136,9 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_ENROLL_FAIL:
             ESP_LOGI(TAG, "Fingerprint enrollment failed. Status: 0x%02X", event.status);
+            break;
+        case EVENT_TEMPLATE_MERGED:
+            ESP_LOGI(TAG, "Fingerprint templates merged successfully. Status: 0x%02X", event.status);
             break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);

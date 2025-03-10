@@ -827,7 +827,7 @@ extern FingerprintPacket PS_DownChar;
      FINGERPRINT_UPLOAD_FEATURE_FAIL = 0x0D,     
  
      /** @brief Cannot receive subsequent data packets. Value: `0x0E` */
-     FINGERPRINT_DATA_PACKET_ERROR = 0x0E,       
+     FINGERPRINT_DATA_PACKET_ERROR = 0x0E,        
  
      /** @brief Failed to upload image. Value: `0x0F` */
      FINGERPRINT_UPLOAD_IMAGE_FAIL = 0x0F,       
@@ -1304,7 +1304,14 @@ void process_fingerprint_responses_task(void *pvParameter);
      * This event indicates that the fingerprint module has completed initialization
      * and is ready to process fingerprint-related commands.
      */
-    EVENT_SCANNER_READY                  /**< Scanner is ready for operation */
+    EVENT_SCANNER_READY,                 /**< Scanner is ready for operation */
+
+    /**
+     * @brief Event triggered when two fingerprint templates are successfully merged.
+     *
+     * This event corresponds to the status FINGERPRINT_TEMPLATE_MERGED.
+     */
+    EVENT_TEMPLATE_MERGED              /**< Fingerprint templates merged successfully */
 
  } fingerprint_event_type_t;
 
@@ -1367,54 +1374,59 @@ typedef struct {
 void trigger_fingerprint_event(fingerprint_event_t event);
 
 /**
- * @brief Initiates the fingerprint enrollment process.
+ * @brief Performs manual fingerprint enrollment.
  *
- * This function starts the automatic fingerprint enrollment process by sending the
- * `PS_AutoEnroll` command to the fingerprint module. The user is required to scan
- * their finger multiple times for a successful enrollment.
+ * This function executes a step-by-step fingerprint enrollment process, handling
+ * user interaction and ensuring proper fingerprint capture and storage.
+ * 
+ * ## Enrollment Process:
+ * 1. Wait for a finger to be placed on the scanner (`PS_GetImage`).
+ * 2. If a fingerprint is detected, generate the first fingerprint template (`PS_GenChar1`).
+ * 3. Prompt the user to remove their finger and wait for confirmation of removal.
+ * 4. Once the finger is removed, wait for the same finger to be placed again.
+ * 5. Capture the fingerprint again (`PS_GetImage`) and generate the second template (`PS_GenChar2`).
+ * 6. Merge both templates into a single fingerprint model (`PS_RegModel`).
+ * 7. Store the fingerprint template in the fingerprint module’s database (`PS_StoreChar`).
  *
- * @param fingerprint_id The unique ID to assign to the enrolled fingerprint.
- * @param num_scans The number of times the user must scan their finger for enrollment.
+ * ## Error Handling:
+ * - If a finger is not detected within the allowed retries, the function will return an error.
+ * - If the finger is not removed within a timeout period, the process will restart.
+ * - If enrollment fails at any step, it retries up to three times before failing.
  *
- * @note The enrollment process requires the user to place and remove their finger
- *       multiple times until the sensor successfully registers the fingerprint template.
+ * @note This function does not run as a FreeRTOS task but can be called from one.
+ *       It dynamically creates an event group for synchronization and deletes it upon completion.
  *
- * @return None. The function triggers an event upon enrollment success or failure.
- *
- * @example
- * @code
- * enroll_fingerprint(1, 3);  // Enroll fingerprint with ID 1, requiring 3 scans
- * @endcode
+ * @return
+ * - `ESP_OK` if fingerprint enrollment is successful.
+ * - `ESP_FAIL` if enrollment fails after the maximum number of attempts.
+ * - `ESP_ERR_NO_MEM` if memory allocation for the event group fails.
  */
-void auto_enroll_fingerprint(uint16_t fingerprint_id, uint8_t num_scans);
+esp_err_t manual_enroll_fingerprint(void);
+
 
 /**
- * @brief Task to enroll a fingerprint into the database.
- *
- * This function handles the step-by-step fingerprint enrollment process.
- * It continuously checks for a finger to be placed on the scanner, captures 
- * the fingerprint image, extracts features, and stores the fingerprint into 
- * the module’s database upon successful enrollment.
- *
- * ## Enrollment Process:
- * 1. Send `PS_GetImage` to capture the fingerprint image.
- * 2. If an image is captured successfully, generate a fingerprint template 
- *    (`PS_GenChar1`).
- * 3. Ask the user to remove and place the same finger again.
- * 4. Capture the fingerprint image again (`PS_GetImage`).
- * 5. Generate the second fingerprint template (`PS_GenChar2`).
- * 6. Merge both templates into a fingerprint model (`PS_RegModel`).
- * 7. Store the fingerprint template into the module’s database (`PS_StoreChar`).
- *
- * If no finger is detected, the task retries up to 10 times before failing.
- *
- * @note This function runs as a FreeRTOS task and should be created using 
- *       `xTaskCreate(enroll_fingerprint_task, "EnrollFingerprintTask", 4096, NULL, 5, NULL);`
- *       in `app_main()`.
- *
- * @param pvParameter Unused task parameter (set to NULL).
+ * @brief Event bit indicating a successful fingerprint enrollment.
+ * 
+ * This bit is set in the `enroll_event_group` when a fingerprint enrollment 
+ * operation completes successfully.
  */
-void manual_enroll_fingerprint_task(void *pvParameter);
+#define ENROLL_BIT_SUCCESS BIT0
+
+/**
+ * @brief Event bit indicating a failed fingerprint enrollment.
+ * 
+ * This bit is set in the `enroll_event_group` when a fingerprint enrollment 
+ * operation fails due to issues such as poor fingerprint quality or sensor errors.
+ */
+#define ENROLL_BIT_FAIL BIT1
+
+/**
+ * @brief Event group handle for fingerprint enrollment status.
+ * 
+ * This FreeRTOS event group is used to synchronize fingerprint enrollment 
+ * operations by setting event bits based on success or failure.
+ */
+static EventGroupHandle_t enroll_event_group = NULL;
 
  
  #ifdef __cplusplus

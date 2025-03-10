@@ -8,7 +8,7 @@ var searchData=
   ['platforms_5',['1.1 Supported Platforms',['../fingerprint_8h.html#autotoc_md1',1,'']]],
   ['power_20on_20sequence_3a_6',['2.2 Power-on Sequence:',['../fingerprint_8h.html#autotoc_md6',1,'']]],
   ['process_3a_7',['Enrollment Process:',['../fingerprint_8h.html#autotoc_md28',1,'']]],
-  ['process_5ffingerprint_5fresponses_5ftask_8',['process_fingerprint_responses_task',['../fingerprint_8h.html#aac65070f473460404b979dff8ca75bf2',1,'process_fingerprint_responses_task(void *pvParameter):&#160;fingerprint.c'],['../fingerprint_8c.html#aac65070f473460404b979dff8ca75bf2',1,'process_fingerprint_responses_task(void *pvParameter):&#160;fingerprint.c']]],
+  ['process_5ffingerprint_5fresponses_5ftask_8',['process_fingerprint_responses_task',['../fingerprint_8h.html#aac65070f473460404b979dff8ca75bf2',1,'fingerprint.h']]],
   ['process_5fresponse_5ftask_9',['process_response_task',['../fingerprint_8h.html#a000b0ea980a113df1b08387346a7a7fb',1,'process_response_task(void *pvParameter):&#160;fingerprint.c'],['../fingerprint_8c.html#a000b0ea980a113df1b08387346a7a7fb',1,'process_response_task(void *pvParameter):&#160;fingerprint.c']]],
   ['ps_5fautoenroll_10',['PS_AutoEnroll',['../fingerprint_8h.html#a14662050a710495e6c9125a02ee17fd5',1,'PS_AutoEnroll:&#160;fingerprint.c'],['../fingerprint_8c.html#a14662050a710495e6c9125a02ee17fd5',1,'PS_AutoEnroll:&#160;fingerprint.c']]],
   ['ps_5fautoldentify_11',['PS_Autoldentify',['../fingerprint_8h.html#a8de1bbbf35f352bb899e3c9cc689ea04',1,'PS_Autoldentify:&#160;fingerprint.c'],['../fingerprint_8c.html#a8de1bbbf35f352bb899e3c9cc689ea04',1,'PS_Autoldentify:&#160;fingerprint.c']]],

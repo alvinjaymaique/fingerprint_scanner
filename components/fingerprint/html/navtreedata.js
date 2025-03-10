@@ -44,15 +44,14 @@ var NAVTREE =
         [ "Enumerator", "globals_eval.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
-    ] ],
-    [ "Examples", "examples.html", "examples" ]
+    ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"_c_1_2_users_2_m_e_l_b_e_n_2esp_2fingerprint_scanner_2components_2fingerprint_2include_2fingerprint_8h-example.html",
-"fingerprint_8h.html#acaf7ef75a6a5378d834a47a003901295"
+"annotated.html",
+"fingerprint_8h.html#adb364663a6f8cf989e0a0c055dc49de2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

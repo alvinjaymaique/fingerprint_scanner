@@ -1,0 +1,229 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar  4 2025 16:14:42[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0c1a0h ( 49568) map[0m
+[0;32mI (107) esp_image: segment 1: paddr=0001c1c8 vaddr=3fc93600 size=02b60h ( 11104) load[0m
+[0;32mI (111) esp_image: segment 2: paddr=0001ed30 vaddr=40374000 size=012e8h (  4840) load[0m
+[0;32mI (113) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1bcc4h (113860) map[0m
+[0;32mI (146) esp_image: segment 4: paddr=0003bcec vaddr=403752e8 size=0e2ech ( 58092) load[0m
+[0;32mI (162) esp_image: segment 5: paddr=00049fe0 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (168) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (168) boot: Disabling RNG early entropy source...[0m
+[0;32mI (180) cpu_start: Multicore app[0m
+[0;32mI (189) cpu_start: Pro cpu start user code[0m
+[0;32mI (189) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (189) app_init: Application information:[0m
+[0;32mI (189) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (194) app_init: App version:      3d487bd-dirty[0m
+[0;32mI (198) app_init: Compile time:     Mar  6 2025 16:50:34[0m
+[0;32mI (203) app_init: ELF file SHA256:  278ceb098...[0m
+[0;32mI (207) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (212) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (215) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (219) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (223) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (230) heap_init: At 3FC96A40 len 00052CD0 (331 KiB): RAM[0m
+[0;32mI (235) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (240) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (245) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (251) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (260) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (264) spi_flash: flash io: opi_str[0m
+[0;33mW (267) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (280) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (286) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (293) main_task: Started on CPU0[0m
+[0;32mI (303) main_task: Calling app_main()[0m
+[0;32mI (303) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (503) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (903) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1303) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1703) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1903) FINGERPRINT: No handshake received, retrying...[0m
+[0;32mI (2103) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
+[0;32mI (2103) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (2203) FINGERPRINT: Stored command 0x15 in queue successfully.[0m
+[0;32mI (2303) FINGERPRINT: Sent fingerprint command: 0x15 to address 0xFFFFFFFF[0m
+[0;32mI (2303) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 07 15 ff ff ff ff 04 19[0m
+[0;32mI (2553) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (2553) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (2553) Fingerprint: Extracted packet at offset 0: Command 0x00[0m
+[0;32mI (2553) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (2553) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (2563) FINGERPRINT: Command 0x15 executed successfully.[0m
+[0;32mI (2563) FINGERPRINT: Confirmation code: 0x00[0m
+[0;32mI (2573) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (2573) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (3303) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (3303) FINGERPRINT: Waiting for a finger to be placed...[0m
+[0;32mI (3303) FINGERPRINT: Stored command 0x01 in queue successfully.[0m
+[0;32mI (3403) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (3403) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (3683) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (3683) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
+[0;32mI (3683) Fingerprint: Extracted packet at offset 0: Command 0x02[0m
+[0;32mI (3683) Fingerprint: Triggering event: 17 for status: 0x02[0m
+[0;32mI (3683) FINGERPRINT: Fingerprint scanner is ready for operation. Status: 0x02[0m
+[0;32mI (3693) FINGERPRINT: Command 0x01 executed successfully.[0m
+[0;32mI (3703) FINGERPRINT: Confirmation code: 0x02[0m
+[0;32mI (3703) Fingerprint: Triggering event: 17 for status: 0x02[0m
+[0;32mI (3713) FINGERPRINT: Fingerprint scanner is ready for operation. Status: 0x02[0m
+[0;32mI (8403) FINGERPRINT: Stored command 0x02 in queue successfully.[0m
+[0;32mI (8533) FINGERPRINT: Sent fingerprint command: 0x02 to address 0xFFFFFFFF[0m
+[0;32mI (8533) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 04 02 01 00 08[0m
+[0;32mI (8753) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (8753) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (8753) Fingerprint: Extracted packet at offset 0: Command 0x00[0m
+[0;32mI (8753) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (8753) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (8763) FINGERPRINT: Command 0x02 executed successfully.[0m
+[0;32mI (8763) FINGERPRINT: Confirmation code: 0x00[0m
+[0;32mI (8773) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (8773) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (13533) FINGERPRINT: Please remove and place the same finger again...[0m
+[0;32mI (15533) FINGERPRINT: Stored command 0x01 in queue successfully.[0m
+[0;32mI (15693) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (15693) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (15983) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (15983) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (15983) Fingerprint: Extracted packet at offset 0: Command 0x00[0m
+[0;32mI (15983) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (15983) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (15993) FINGERPRINT: Command 0x01 executed successfully.[0m
+[0;32mI (15993) FINGERPRINT: Confirmation code: 0x00[0m
+[0;32mI (16003) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (16003) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (20693) FINGERPRINT: Stored command 0x02 in queue successfully.[0m
+[0;32mI (20823) FINGERPRINT: Sent fingerprint command: 0x02 to address 0xFFFFFFFF[0m
+[0;32mI (20823) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 04 02 02 00 09[0m
+[0;32mI (21083) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (21083) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (21083) Fingerprint: Extracted packet at offset 0: Command 0x00[0m
+[0;32mI (21083) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (21083) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (21093) FINGERPRINT: Command 0x02 executed successfully.[0m
+[0;32mI (21093) FINGERPRINT: Confirmation code: 0x00[0m
+[0;32mI (21103) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (21103) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (25823) FINGERPRINT: Stored command 0x05 in queue successfully.[0m
+[0;32mI (25923) FINGERPRINT: Sent fingerprint command: 0x05 to address 0xFFFFFFFF[0m
+[0;32mI (25923) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 05 00 09[0m
+[0;32mI (26133) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (26133) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (26133) Fingerprint: Extracted packet at offset 0: Command 0x00[0m
+[0;32mI (26133) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (26133) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (26143) FINGERPRINT: Command 0x05 executed successfully.[0m
+[0;32mI (26143) FINGERPRINT: Confirmation code: 0x00[0m
+[0;32mI (26153) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (26153) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (30923) FINGERPRINT: Stored command 0x06 in queue successfully.[0m
+[0;32mI (30973) FINGERPRINT: Sent fingerprint command: 0x06 to address 0xFFFFFFFF[0m
+[0;32mI (30973) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 06 06 01 00 01 00 0f[0m
+[0;32mI (35973) FINGERPRINT: Waiting for a finger to be placed...[0m
+[0;32mI (35973) FINGERPRINT: Stored command 0x01 in queue successfully.[0m
+[0;32mI (36013) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (36013) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (41013) FINGERPRINT: Stored command 0x02 in queue successfully.[0m
+[0;32mI (41053) FINGERPRINT: Sent fingerprint command: 0x02 to address 0xFFFFFFFF[0m
+[0;32mI (41053) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 04 02 01 00 08[0m
+[0;32mI (46053) FINGERPRINT: Please remove and place the same finger again...[0m
+[0;32mI (48053) FINGERPRINT: Stored command 0x01 in queue successfully.[0m
+[0;32mI (48193) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (48193) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (53193) FINGERPRINT: Stored command 0x02 in queue successfully.[0m
+[0;32mI (53233) FINGERPRINT: Sent fingerprint command: 0x02 to address 0xFFFFFFFF[0m
+[0;32mI (53233) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 04 02 02 00 09[0m
+[0;32mI (58233) FINGERPRINT: Stored command 0x05 in queue successfully.[0m
+[0;32mI (58273) FINGERPRINT: Sent fingerprint command: 0x05 to address 0xFFFFFFFF[0m
+[0;32mI (58273) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 05 00 09[0m
+[0;32mI (63273) FINGERPRINT: Stored command 0x06 in queue successfully.[0m
+[0;32mI (63313) FINGERPRINT: Sent fingerprint command: 0x06 to address 0xFFFFFFFF[0m
+[0;32mI (63313) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 06 06 01 00 01 00 0f[0m
+[0;32mI (68313) FINGERPRINT: Waiting for a finger to be placed...[0m
+[0;32mI (68313) FINGERPRINT: Stored command 0x01 in queue successfully.[0m
+[0;32mI (68353) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (68353) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (73353) FINGERPRINT: Stored command 0x02 in queue successfully.[0m
+[0;32mI (73393) FINGERPRINT: Sent fingerprint command: 0x02 to address 0xFFFFFFFF[0m
+[0;32mI (73393) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 04 02 01 00 08[0m
+[0;32mI (73603) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (73603) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (73603) Fingerprint: Extracted packet at offset 0: Command 0x00[0m
+[0;32mI (73603) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (73603) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (73613) FINGERPRINT: Command 0x06 executed successfully.[0m
+[0;32mI (73613) FINGERPRINT: Confirmation code: 0x00[0m
+[0;32mI (73623) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (73623) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (78393) FINGERPRINT: Please remove and place the same finger again...[0m
+[0;32mI (80393) FINGERPRINT: Stored command 0x01 in queue successfully.[0m
+[0;32mI (80543) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (80543) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[0;32mI (80813) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (80813) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
+[0;32mI (80813) Fingerprint: Extracted packet at offset 0: Command 0x02[0m
+[0;32mI (80813) Fingerprint: Triggering event: 17 for status: 0x02[0m
+[0;32mI (80813) FINGERPRINT: Fingerprint scanner is ready for operation. Status: 0x02[0m
+[0;32mI (80823) FINGERPRINT: Command 0x01 executed successfully.[0m
+[0;32mI (80833) FINGERPRINT: Confirmation code: 0x02[0m
+[0;32mI (80833) Fingerprint: Triggering event: 17 for status: 0x02[0m
+[0;32mI (80843) FINGERPRINT: Fingerprint scanner is ready for operation. Status: 0x02[0m
+[0;32mI (85543) FINGERPRINT: Stored command 0x02 in queue successfully.[0m
+[0;32mI (85663) FINGERPRINT: Sent fingerprint command: 0x02 to address 0xFFFFFFFF[0m
+[0;32mI (85663) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 04 02 02 00 09[0m
+[0;32mI (85873) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (85873) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (85873) Fingerprint: Extracted packet at offset 0: Command 0x00[0m
+[0;32mI (85873) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (85873) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (85883) FINGERPRINT: Command 0x02 executed successfully.[0m
+[0;32mI (85883) FINGERPRINT: Confirmation code: 0x00[0m
+[0;32mI (85893) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (85893) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (90663) FINGERPRINT: Stored command 0x05 in queue successfully.[0m
+[0;32mI (90713) FINGERPRINT: Sent fingerprint command: 0x05 to address 0xFFFFFFFF[0m
+[0;32mI (90713) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 05 00 09[0m
+[0;32mI (90923) Fingerprint: Received 12 bytes from UART[0m
+[0;32mI (90923) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (90923) Fingerprint: Extracted packet at offset 0: Command 0x00[0m
+[0;32mI (90923) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (90923) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (90933) FINGERPRINT: Command 0x01 executed successfully.[0m
+[0;32mI (90933) FINGERPRINT: Confirmation code: 0x00[0m
+[0;32mI (90943) Fingerprint: Triggering event: 0 for status: 0x00[0m
+[0;32mI (90943) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (95713) FINGERPRINT: Stored command 0x06 in queue successfully.[0m
+[0;32mI (95763) FINGERPRINT: Sent fingerprint command: 0x06 to address 0xFFFFFFFF[0m
+[0;32mI (95763) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 06 06 01 00 01 00 0f[0m
+[0;32mI (100763) FINGERPRINT: Waiting for a finger to be placed...[0m
+[0;32mI (100763) FINGERPRINT: Stored command 0x01 in queue successfully.[0m
+[0;32mI (100803) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
+[0;32mI (100803) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
+[1;31mE (105903) FINGERPRINT: Command queue full, dropping command 0x02[0m
+[1;31mE (105903) FINGERPRINT: Failed to generate first template! Error: -1[0m
+[0;32mI (105903) main_task: Returned from app_main()[0m
