@@ -80,8 +80,15 @@ void app_main(void)
     // auto_enroll_fingerprint(1, 3);
     // manual_enroll_fingerprint_task();
 
-    // uint16_t location = 0x0003;  // Storage location for fingerprint template
-    // enroll_fingerprint(location);
+    uint16_t location = 0x0004;  // Storage location for fingerprint template
+    err = enroll_fingerprint(location);
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Fingerprint Enrolled!");
+        // Add your access control logic here
+    } else {
+        ESP_LOGE(TAG, "Fingeprint not enrolled!");
+        // Add your failure handling here
+    }
 
     // esp_err_t out = delete_fingerprint(location);
     // if (out == ESP_OK) {
@@ -174,6 +181,9 @@ void handle_fingerprint_event(fingerprint_event_t event) {
                 (event.packet.parameters[1] << 8) | event.packet.parameters[0]);
             ESP_LOGI(TAG, "Match score: %d", 
                 (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
+            break;
+        case EVENT_INDEX_TABLE_READ:
+            ESP_LOGI(TAG, "Index table read successful. Status: 0x%02X", event.status);
             break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);

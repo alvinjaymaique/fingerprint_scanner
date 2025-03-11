@@ -1364,7 +1364,50 @@ void process_fingerprint_responses_task(void *pvParameter);
      *
      * @note This event will not be triggered if the search fails or no match is found.
      */
-    EVENT_SEARCH_SUCCESS  /**< Event code for successful fingerprint search */
+    EVENT_SEARCH_SUCCESS,  /**< Event code for successful fingerprint search */
+
+    /**
+     * @brief Event triggered when the template count is updated.
+     *
+     * This event corresponds to the status `FINGERPRINT_TEMPLATE_COUNT`.
+     */
+    EVENT_TEMPLATE_COUNT, /**< Template count updated (FINGERPRINT_TEMPLATE_COUNT) */
+
+    /**
+     * @brief Event triggered when an index table read operation is completed.
+     *
+     * This event corresponds to the status `FINGERPRINT_INDEX_TABLE_READ`.
+     */
+    EVENT_INDEX_TABLE_READ, /**< Index table read completed (FINGERPRINT_INDEX_TABLE_READ) */
+
+    /**
+     * @brief Event triggered when a fingerprint model is successfully created.
+     *
+     * This event corresponds to the status `FINGERPRINT_MODEL_CREATED`.
+     */
+    EVENT_MODEL_CREATED, /**< Fingerprint model successfully created (FINGERPRINT_MODEL_CREATED) */
+
+    /**
+     * @brief Event triggered when a fingerprint template is successfully uploaded from the module.
+     *
+     * This occurs when a stored fingerprint template is transferred to the host.
+     */
+    EVENT_TEMPLATE_UPLOADED,  /**< Template uploaded from module */
+
+    /**
+     * @brief Event triggered when a fingerprint template is successfully downloaded to the module.
+     *
+     * This occurs when a fingerprint template is written into the fingerprint module’s memory.
+     */
+    EVENT_TEMPLATE_DOWNLOADED,  /**< Template downloaded to module */
+
+    /**
+     * @brief Event triggered when the fingerprint database is cleared.
+     *
+     * This confirms that all fingerprint templates have been deleted.
+     */
+    EVENT_DB_CLEARED,  /**< Database emptied successfully */
+
 
  } fingerprint_event_type_t;
 

@@ -903,13 +903,29 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
     // ESP_LOG_BUFFER_HEX(TAG, packet, packet_length);
     switch (status) {
         case FINGERPRINT_OK:
-            // Check if this is a response to a search command
-            ESP_LOGI(TAG, "Fingerprint operation successful: 0x%02X", status);
+            // ESP_LOGI(TAG, "Fingerprint operation successful: 0x%02X", status);
             if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
                 event_type = EVENT_SEARCH_SUCCESS;
                 event.packet = *packet;
-            } else if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE) {
+            } else if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE && enroll_event_group!=NULL) {
                 event_type = EVENT_FINGER_DETECTED;
+            } else if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE) {
+                // event_type = EVENT_IMAGE_VALID;
+            } else if (last_sent_command == FINGERPRINT_CMD_VALID_TEMPLATE_NUM) {
+                event_type = EVENT_TEMPLATE_COUNT;
+                uint16_t template_count = (packet->parameters[0] << 8) | packet->parameters[1];
+                ESP_LOGI(TAG, "Number of valid templates: %d", template_count);
+            } else if (last_sent_command == FINGERPRINT_CMD_READ_INDEX_TABLE) {
+                event_type = EVENT_INDEX_TABLE_READ;
+                if (enroll_event_group) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                }
+            } else if (last_sent_command == FINGERPRINT_CMD_GEN_CHAR) {
+                event_type = EVENT_FEATURE_EXTRACTED;
+            } else if (last_sent_command == FINGERPRINT_CMD_REG_MODEL) {
+                event_type = EVENT_MODEL_CREATED;
+            } else if (last_sent_command == FINGERPRINT_CMD_STORE_CHAR) {
+                event_type = EVENT_TEMPLATE_STORED;
             }
             if (enroll_event_group) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
@@ -974,17 +990,22 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         case FINGERPRINT_DB_EMPTY:
         case FINGERPRINT_ENTRY_COUNT_ERROR:
         case FINGERPRINT_ALREADY_EXISTS:
-        if (last_sent_command == FINGERPRINT_CMD_STORE_CHAR || 
-            last_sent_command == FINGERPRINT_CMD_REG_MODEL ||
-            (last_sent_command == FINGERPRINT_CMD_GEN_CHAR && packet->parameters[0] == 0x01) ||  // Gen Char 1
-            (last_sent_command == FINGERPRINT_CMD_GEN_CHAR && packet->parameters[0] == 0x02))   // Gen Char 2
-            {
-                event_type = EVENT_ENROLL_FAIL;  // ❌ Enrollment failed
-                if (enroll_event_group) {   
-                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
-                }
-            } else {
-                event_type = EVENT_MATCH_FAIL;
+        // if (last_sent_command == FINGERPRINT_CMD_STORE_CHAR || 
+        //     last_sent_command == FINGERPRINT_CMD_REG_MODEL ||
+        //     (last_sent_command == FINGERPRINT_CMD_GEN_CHAR && packet->parameters[0] == 0x01) ||  // Gen Char 1
+        //     (last_sent_command == FINGERPRINT_CMD_GEN_CHAR && packet->parameters[0] == 0x02))   // Gen Char 2
+        //     {
+        //         event_type = EVENT_ENROLL_FAIL;  // ❌ Enrollment failed
+        //         if (enroll_event_group) {   
+        //             xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+        //         }
+        //     } else {
+        //         event_type = EVENT_MATCH_FAIL;
+        //     }
+            ESP_LOGW(TAG, "Template already exists at specified location");
+            // event_type = EVENT_TEMPLATE_EXISTS;
+            if (enroll_event_group) {
+                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
             }
             break;
         case FINGERPRINT_MODULE_INFO_NOT_EMPTY:
@@ -1058,6 +1079,25 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             return ESP_ERR_NO_MEM;
         }
     }
+    
+    // First, validate if the location is available
+    uint8_t index_params[] = {(uint8_t)(location >> 8)};  
+    fingerprint_set_command(&PS_ReadIndexTable, FINGERPRINT_CMD_READ_INDEX_TABLE, index_params, sizeof(index_params));
+    err = fingerprint_send_command(&PS_ReadIndexTable, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to read index table");
+        goto cleanup;
+    }
+
+    bits = xEventGroupWaitBits(enroll_event_group,
+                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                              pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+
+    if (bits & ENROLL_BIT_FAIL) {
+        ESP_LOGE(TAG, "Location %d is already occupied", location);
+        err = ESP_ERR_INVALID_STATE;
+        goto cleanup;
+    }
 
     while (attempts < 3) {
         ESP_LOGI(TAG, "Waiting for a finger to be placed...");
@@ -1080,7 +1120,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             
             if (bits & ENROLL_BIT_SUCCESS) {
                 finger_detected = true;
-                ESP_LOGI(TAG, "Finger detected!");
+                // ESP_LOGI(TAG, "Finger detected!");
             } else {
                 vTaskDelay(pdMS_TO_TICKS(100));
             }
@@ -1204,8 +1244,12 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     }
 
     ESP_LOGE(TAG, "Enrollment failed after %d attempts", attempts);
-    vEventGroupDelete(enroll_event_group);
-    enroll_event_group = NULL;
+    cleanup:
+        if (enroll_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
+    // return err;
     return ESP_FAIL;
 }
 
