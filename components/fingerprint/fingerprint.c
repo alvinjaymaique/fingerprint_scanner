@@ -38,6 +38,8 @@ static QueueHandle_t fingerprint_response_queue = NULL;
 static QueueHandle_t fingerprint_command_queue = NULL;
 static QueueHandle_t finger_detected_queue = NULL;
 
+bool enrollment_in_progress = false;
+
 // ISR handler for fingerprint detection interrupt, sending detection signal to the queue.
 void IRAM_ATTR finger_detected_isr(void* arg) {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -896,26 +898,6 @@ void process_response_task(void *pvParameter) {
 }
 
 
-// // Function to get the next response from the queue
-// bool fingerprint_get_next_response(fingerprint_response_t *response, TickType_t timeout) {
-//     return xQueueReceive(fingerprint_response_queue, response, timeout) == pdTRUE;
-// }
-
-// // Function to process fingerprint responses
-// void process_fingerprint_responses_task(void *pvParameter) {
-//     fingerprint_response_t event;
-
-//     while (1) {
-//         if (fingerprint_get_next_response(&event, portMAX_DELAY)) {  // Wait indefinitely for a response
-//             ESP_LOGI("Fingerprint", "Processing queued response: Confirmation code 0x%02X", event.packet.command);
-
-//             // Trigger the event handler here
-//             fingerprint_status_event_handler((fingerprint_status_t)event.packet.command, &event.packet);
-//         }
-//     }
-// }
-
-
 fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet) {
     if (!packet) {
         return FINGERPRINT_ILLEGAL_DATA; // Return a default error if the packet is NULL
@@ -945,6 +927,9 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
                 event_type = EVENT_SEARCH_SUCCESS;
                 event.packet = *packet;
+                if (enroll_event_group) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);  // Changed from FAIL to SUCCESS
+                }
             } else if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE && enroll_event_group!=NULL) {
                 event_type = EVENT_FINGER_DETECTED;
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
@@ -1038,10 +1023,12 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
 
         case FINGERPRINT_MISMATCH:
         case FINGERPRINT_NOT_FOUND:
-            ESP_LOGW(TAG, "No matching fingerprint found");
-            event_type = EVENT_MATCH_FAIL;
-            if (enroll_event_group) {
-                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+            if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
+                // No match found during search (good for enrollment)
+                event_type = EVENT_MATCH_FAIL;
+                if (enroll_event_group) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                }
             }
             break;
 
@@ -1243,10 +1230,12 @@ esp_err_t enroll_fingerprint(uint16_t location) {
                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
 
-        if (bits & ENROLL_BIT_SUCCESS) {
-        ESP_LOGE(TAG, "Fingerprint already exists in database!");
-        attempts++;
-        continue;
+        if (bits & ENROLL_BIT_SUCCESS) {  // Match found = duplicate exists
+            ESP_LOGE(TAG, "Fingerprint already exists in database!");
+            attempts++;
+            continue;
+        } else if (bits & ENROLL_BIT_FAIL) {  // No match found = good to proceed
+            ESP_LOGI(TAG, "No duplicate found, continuing enrollment...");
         }
 
         ESP_LOGI(TAG, "Remove finger and place it again...");
@@ -1561,4 +1550,47 @@ cleanup:
     vEventGroupDelete(enroll_event_group);
     enroll_event_group = NULL;
     return err;
+}
+
+esp_err_t get_enrolled_count(uint16_t *count) {
+    esp_err_t err;
+    EventBits_t bits;
+    fingerprint_response_t response;
+    
+    if (enroll_event_group == NULL) {
+        enroll_event_group = xEventGroupCreate();
+        if (enroll_event_group == NULL) {
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
+    // Clear states
+    uart_flush(UART_NUM);
+    xQueueReset(fingerprint_command_queue);
+    xQueueReset(fingerprint_response_queue);
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+
+    // Send command to get template count
+    err = fingerprint_send_command(&PS_ValidTempleteNum, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) return err;
+
+    // Wait for response
+    bits = xEventGroupWaitBits(enroll_event_group,
+                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+
+    if (bits & ENROLL_BIT_SUCCESS) {
+        // Get response from queue
+        if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(1000)) == pdTRUE) {
+            *count = (response.packet.parameters[0] << 8) | 
+                     response.packet.parameters[1];
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+            return ESP_OK;
+        }
+    }
+
+    vEventGroupDelete(enroll_event_group);
+    enroll_event_group = NULL;
+    return ESP_FAIL;
 }

@@ -1637,6 +1637,31 @@ esp_err_t check_duplicate_fingerprint(void);
  */
 esp_err_t validate_template_location(uint16_t location);
 
+
+/**
+ * @brief Get the number of enrolled fingerprints.
+ *
+ * This function retrieves the count of fingerprints that have been enrolled in the fingerprint scanner.
+ *
+ * @param[out] count Pointer to a variable where the count of enrolled fingerprints will be stored.
+ *
+ * @return
+ *     - ESP_OK: Successfully retrieved the count.
+ *     - ESP_ERR_INVALID_ARG: The provided argument is invalid.
+ *     - ESP_FAIL: Failed to retrieve the count due to other reasons.
+ */
+esp_err_t get_enrolled_count(uint16_t *count);
+
+/**
+ * @brief Indicates whether an enrollment process is currently in progress.
+ * 
+ * This external boolean variable is used to track the state of the fingerprint
+ * enrollment process. When `true`, it signifies that the enrollment process
+ * is ongoing. When `false`, it indicates that no enrollment is currently
+ * taking place.
+ */
+extern bool enrollment_in_progress;
+
  #ifdef __cplusplus
  }
  #endif

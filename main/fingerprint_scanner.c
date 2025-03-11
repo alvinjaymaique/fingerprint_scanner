@@ -75,18 +75,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    // ESP_LOGI(TAG, "Enrolling fingerprint...");
-    // // Start the enrollment process
-    // auto_enroll_fingerprint(1, 3);
-    // manual_enroll_fingerprint_task();
-    uint16_t location = 0x0005;  // Storage location for fingerprint template
-
-    esp_err_t out = delete_fingerprint(location);
-    if (out == ESP_OK) {
-        ESP_LOGI(TAG, "Fingerprint deleted successfully!");
-    } else {
-        ESP_LOGE(TAG, "Failed to delete fingerprint!");
-    }
+    uint16_t location = 0x000A;  // Storage location for fingerprint template
     
     err = enroll_fingerprint(location);
     if (err == ESP_OK) {
@@ -115,6 +104,14 @@ void app_main(void)
         ESP_LOGE(TAG, "Access denied - fingerprint not recognized");
         // Add your failure handling here
     }
+
+    // Get number of enrolled fingerprints
+    uint16_t enrolled_count;
+    err = get_enrolled_count(&enrolled_count);
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Number of enrolled fingerprints: %d", enrolled_count);
+    }
+
 }
 
 void send_command_task(void *pvParameter)
