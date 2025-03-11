@@ -81,12 +81,12 @@ void app_main(void)
     // manual_enroll_fingerprint_task();
     uint16_t location = 0x0005;  // Storage location for fingerprint template
 
-    // esp_err_t out = delete_fingerprint(location);
-    // if (out == ESP_OK) {
-    //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
-    // }
+    esp_err_t out = delete_fingerprint(location);
+    if (out == ESP_OK) {
+        ESP_LOGI(TAG, "Fingerprint deleted successfully!");
+    } else {
+        ESP_LOGE(TAG, "Failed to delete fingerprint!");
+    }
     
     err = enroll_fingerprint(location);
     if (err == ESP_OK) {
@@ -146,12 +146,14 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             // check_duplicate_fingerprint();
             // ESP_LOGI(TAG, "Event address: 0x%08lX", (unsigned long)event.packet.address);
             // ESP_LOG_BUFFER_HEX("Event packet address: ", &event.packet, sizeof(FingerprintPacket));
+            // ESP_LOG_BUFFER_HEX("Finger Detected Parameters ", event.packet.parameters, sizeof(event.packet.parameters));
             break;
         case EVENT_IMAGE_CAPTURED:
             ESP_LOGI(TAG, "Fingerprint image captured successfully! Status: 0x%02X", event.status);
             break;
         case EVENT_FEATURE_EXTRACTED:
             ESP_LOGI(TAG, "Fingerprint features extracted successfully! Status: 0x%02X", event.status);
+            // ESP_LOG_BUFFER_HEX("Feautre Extracted Parameters ", event.packet.parameters, sizeof(event.packet.parameters));
             break;
         case EVENT_MATCH_SUCCESS:
             ESP_LOGI(TAG, "Fingerprint match successful! Status: 0x%02X", event.status);
@@ -192,6 +194,7 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_INDEX_TABLE_READ:
             ESP_LOGI(TAG, "Index table read successful. Status: 0x%02X", event.status);
+            ESP_LOG_BUFFER_HEX("Index Table Parameters", event.packet.parameters, sizeof(event.packet.parameters));
             break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);

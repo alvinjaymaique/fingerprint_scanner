@@ -966,9 +966,9 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 if (packet != NULL && enroll_event_group) {
                     uint8_t template_exists = 0;
                     
-                    // Debug print the index table data
-                    ESP_LOGI(TAG, "Index Table Response received:");
-                    ESP_LOG_BUFFER_HEX(TAG, packet->parameters, packet->length); // Print all 32 bytes of index data
+                    // // Debug print the index table data
+                    // ESP_LOGI(TAG, "Index Table Response received:");
+                    // ESP_LOG_BUFFER_HEX(TAG, packet->parameters, packet->length); // Print all 32 bytes of index data
                     
                     // The index table response format has 32 bytes of index data
                     // Each bit represents one template location
@@ -976,16 +976,16 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                     uint8_t byte_offset = position / 8;    // Which byte contains our bit
                     uint8_t bit_position = position % 8;   // Which bit in that byte
                     
-                    ESP_LOGI(TAG, "Checking template at position %d (byte %d, bit %d)", 
-                             position, byte_offset, bit_position);
+                    // ESP_LOGI(TAG, "Checking template at position %d (byte %d, bit %d)", 
+                    //          position, byte_offset, bit_position);
                     
                     // Check if the bit is set in the index table
                     if (byte_offset < 32) { // We have 32 bytes of index data
                         if (packet->parameters[byte_offset] & (1 << bit_position)) {
                             template_exists = 1;
-                            ESP_LOGW(TAG, "Template exists at position %d", position);
+                            // ESP_LOGW(TAG, "Template exists at position %d", position);
                         } else {
-                            ESP_LOGI(TAG, "Position %d is free", position);
+                            // ESP_LOGI(TAG, "Position %d is free", position);
                         }
                     }
                     
@@ -1255,24 +1255,27 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         // Wait for finger removal
         finger_removed = false;
         uint8_t no_finger_count = 0;
-        while (!finger_removed && no_finger_count < 20) { // Add timeout counter
+        while (!finger_removed && no_finger_count < 20) { 
             xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
             err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
             if (err != ESP_OK) return err;
             
             bits = xEventGroupWaitBits(enroll_event_group,
-                                     ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                     pdTRUE, pdFALSE, pdMS_TO_TICKS(500));
+                                    ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                    pdTRUE, pdFALSE, pdMS_TO_TICKS(500));
             
-            if (!(bits & ENROLL_BIT_SUCCESS)) {
+            // Check specifically for ENROLL_BIT_FAIL which is set when NO_FINGER is detected
+            if (bits & ENROLL_BIT_FAIL) {  
                 no_finger_count++;
-                if (no_finger_count >= 3) { // Require multiple consecutive no-finger readings
+                if (no_finger_count >= 1) {
                     finger_removed = true;
+                    ESP_LOGI(TAG, "Finger removal confirmed");
                 }
             } else {
                 no_finger_count = 0;
+                ESP_LOGI(TAG, "Please remove your finger...");
             }
-            vTaskDelay(pdMS_TO_TICKS(100));
+            // vTaskDelay(pdMS_TO_TICKS(200)); // Increased delay between checks
         }
 
         if (!finger_removed) {
