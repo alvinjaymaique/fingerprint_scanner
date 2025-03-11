@@ -207,6 +207,23 @@ enum \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerpr
 , \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafdbee660971b3da1a54885db913c82eb}{EVENT\+\_\+\+NO\+\_\+\+FINGER\+\_\+\+DETECTED}}
 , \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a}{EVENT\+\_\+\+SCANNER\+\_\+\+READY}}
 , \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6cd995e8194e1f0a070095ff8bf38fd5}{EVENT\+\_\+\+TEMPLATE\+\_\+\+MERGED}}
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab74564eef4caa759f08965525ac1a488}{EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+SUCCESS}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac5955e01f2a2f8dea94f688dbd80771e}{EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+PACKET\+\_\+\+ERROR}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6749811c1fdb261c8232ed48e94765ad}{EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea4752b0433f37367de8cce6cfc4a90c1e}{EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+FLASH\+\_\+\+ERROR}}
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeae4d3f9b6c168cbe517d4e66663944141}{EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+ENCRYPTION\+\_\+\+MISMATCH}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8abaa386f1b511451aa9dedb45d85c8d}{EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+ILLEGAL\+\_\+\+DATA}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8d1b5cc31ca283c90a8753c567c9d120}{EVENT\+\_\+\+SEARCH\+\_\+\+SUCCESS}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab0334462eeaa056529013dc573e2f8ef}{EVENT\+\_\+\+TEMPLATE\+\_\+\+COUNT}}
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9362cb3423d5fb5f2226467d763cd111}{EVENT\+\_\+\+INDEX\+\_\+\+TABLE\+\_\+\+READ}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeacbc24e6ab59f179f0d266e6b59cac30e}{EVENT\+\_\+\+MODEL\+\_\+\+CREATED}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9f39a06e55c32b00c1d1dca7c88c1ced}{EVENT\+\_\+\+TEMPLATE\+\_\+\+UPLOADED}}
+, \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6bbed6f6e30a4614fd6b72c59ab80f93}{EVENT\+\_\+\+TEMPLATE\+\_\+\+DOWNLOADED}}
+, \newline
+\mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea07eb0413541718460774793e18b0cf11}{EVENT\+\_\+\+DB\+\_\+\+CLEARED}}
  \}
 \begin{DoxyCompactList}\small\item\em Enum to define various fingerprint events. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
@@ -242,8 +259,14 @@ void \mbox{\hyperlink{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16}{register
 \begin{DoxyCompactList}\small\item\em Function to register an event handler for fingerprint events. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f}{trigger\+\_\+fingerprint\+\_\+event}} (\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\+t}} event)
 \begin{DoxyCompactList}\small\item\em Triggers a fingerprint event and processes it. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a3a291f2b6a628927071588174b4fe7dc}{manual\+\_\+enroll\+\_\+fingerprint}} (void)
-\begin{DoxyCompactList}\small\item\em Performs manual fingerprint enrollment. \end{DoxyCompactList}\end{DoxyCompactItemize}
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a7b34c403a57b0b6db25994554ae7fe98}{enroll\+\_\+fingerprint}} (uint16\+\_\+t location)
+\begin{DoxyCompactList}\small\item\em Performs manual fingerprint enrollment at a specified storage location. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_af73611117782f343652a3693d257e951}{verify\+\_\+fingerprint}} (void)
+\begin{DoxyCompactList}\small\item\em Verifies a fingerprint by capturing an image, extracting features, and searching in the database. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a1f48d3dd2566720cfd011998cb0283f7}{delete\+\_\+fingerprint}} (uint16\+\_\+t location)
+\begin{DoxyCompactList}\small\item\em Deletes a fingerprint template from the specified storage location. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8h_a794755b7350e8cb9864948b9b35c0fd9}{clear\+\_\+database}} (void)
+\begin{DoxyCompactList}\small\item\em Clears the entire fingerprint database. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -406,6 +429,9 @@ To use this function in the application, assign it to the global event handler {
 \DoxyCodeLine{\textcolor{comment}{//\ Sample\ code\ for\ event\ handler}}
 \DoxyCodeLine{\textcolor{keywordtype}{void}\ handle\_fingerprint\_event(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}\ event)\ \{}
 \DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{switch}\ (event.\mbox{\hyperlink{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}{type}})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a}{EVENT\_SCANNER\_READY}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ scanner\ is\ ready\ for\ operation.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b}{EVENT\_FINGER\_DETECTED}}:}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Finger\ detected!\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
@@ -417,12 +443,43 @@ To use this function in the application, assign it to the global event handler {
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6}{EVENT\_MATCH\_SUCCESS}}:}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ match\ successful!\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Match\ found\ at\ Page\ ID:\ \%d"{}},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[1]\ <<\ 8)\ |\ event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[0]);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Match\ score:\ \%d"{}},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[3]\ <<\ 8)\ |\ event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[2]);}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63}{EVENT\_MATCH\_FAIL}}:}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ mismatch.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a}{EVENT\_ERROR}}:}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}An\ error\ occurred\ during\ fingerprint\ processing.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGE(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}An\ error\ occurred\ during\ fingerprint\ processing.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGE(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Command:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_a5afd9daf69457c9b2588a5489905dc43}{command}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafdbee660971b3da1a54885db913c82eb}{EVENT\_NO\_FINGER\_DETECTED}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}No\ finger\ detected.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea2fd7b13651ba5f27bd6ac1f25d758353}{EVENT\_ENROLL\_SUCCESS}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ enrollment\ successful!\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Event:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}{type}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea61355a3b589ff4140c09d60f1436e8da}{EVENT\_ENROLL\_FAIL}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ enrollment\ failed.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6cd995e8194e1f0a070095ff8bf38fd5}{EVENT\_TEMPLATE\_MERGED}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ templates\ merged\ successfully.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab74564eef4caa759f08965525ac1a488}{EVENT\_TEMPLATE\_STORE\_SUCCESS}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ template\ stored\ successfully.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8d1b5cc31ca283c90a8753c567c9d120}{EVENT\_SEARCH\_SUCCESS}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Fingerprint\ search\ successful.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Match\ found\ at\ Page\ ID:\ \%d"{}},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[1]\ <<\ 8)\ |\ event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[0]);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Match\ score:\ \%d"{}},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[3]\ <<\ 8)\ |\ event.\mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}.\mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[2]);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9362cb3423d5fb5f2226467d763cd111}{EVENT\_INDEX\_TABLE\_READ}}:}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Index\ table\ read\ successful.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Fingerprint"{}},\ \textcolor{stringliteral}{"{}Unknown\ event\ triggered.\ Status:\ 0x\%02X"{}},\ event.\mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}});}
@@ -929,6 +986,63 @@ EVENT\+\_\+\+SCANNER\+\_\+\+READY&Event triggered when the fingerprint scanner i
 EVENT\+\_\+\+TEMPLATE\+\_\+\+MERGED&Event triggered when two fingerprint templates are successfully merged. This event corresponds to the status FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+MERGED. Fingerprint templates merged successfully \\
 \hline
 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_STORE\_SUCCESS@{EVENT\_TEMPLATE\_STORE\_SUCCESS}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_STORE\_SUCCESS@{EVENT\_TEMPLATE\_STORE\_SUCCESS}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab74564eef4caa759f08965525ac1a488}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab74564eef4caa759f08965525ac1a488} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+SUCCESS&Event triggered when a fingerprint template is successfully stored in flash memory. This event corresponds to the confirmation code 0x00 (successful storage). Fingerprint template successfully stored \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_STORE\_PACKET\_ERROR@{EVENT\_TEMPLATE\_STORE\_PACKET\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_STORE\_PACKET\_ERROR@{EVENT\_TEMPLATE\_STORE\_PACKET\_ERROR}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac5955e01f2a2f8dea94f688dbd80771e}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac5955e01f2a2f8dea94f688dbd80771e} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+PACKET\+\_\+\+ERROR&Event triggered when an error occurs in receiving the data packet. This event corresponds to the confirmation code 0x01 (packet reception error). Error in receiving the fingerprint storage packet \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_STORE\_OUT\_OF\_RANGE@{EVENT\_TEMPLATE\_STORE\_OUT\_OF\_RANGE}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_STORE\_OUT\_OF\_RANGE@{EVENT\_TEMPLATE\_STORE\_OUT\_OF\_RANGE}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6749811c1fdb261c8232ed48e94765ad}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6749811c1fdb261c8232ed48e94765ad} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE&Event triggered when the Page\+ID for storing the fingerprint template is out of range. This event corresponds to the confirmation code 0x0B (Page\+ID out of range). Page\+ID is out of range \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_STORE\_FLASH\_ERROR@{EVENT\_TEMPLATE\_STORE\_FLASH\_ERROR}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_STORE\_FLASH\_ERROR@{EVENT\_TEMPLATE\_STORE\_FLASH\_ERROR}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea4752b0433f37367de8cce6cfc4a90c1e}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea4752b0433f37367de8cce6cfc4a90c1e} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+FLASH\+\_\+\+ERROR&Event triggered when an error occurs while writing the fingerprint template to FLASH memory. This event corresponds to the confirmation code 0x18 (FLASH write error). Error writing to FLASH memory \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_STORE\_ENCRYPTION\_MISMATCH@{EVENT\_TEMPLATE\_STORE\_ENCRYPTION\_MISMATCH}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_STORE\_ENCRYPTION\_MISMATCH@{EVENT\_TEMPLATE\_STORE\_ENCRYPTION\_MISMATCH}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeae4d3f9b6c168cbe517d4e66663944141}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeae4d3f9b6c168cbe517d4e66663944141} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+ENCRYPTION\+\_\+\+MISMATCH&Event triggered when the function does not match the encryption level. This event corresponds to the confirmation code 0x31 (encryption level mismatch). Function does not match encryption level \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_STORE\_ILLEGAL\_DATA@{EVENT\_TEMPLATE\_STORE\_ILLEGAL\_DATA}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_STORE\_ILLEGAL\_DATA@{EVENT\_TEMPLATE\_STORE\_ILLEGAL\_DATA}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8abaa386f1b511451aa9dedb45d85c8d}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8abaa386f1b511451aa9dedb45d85c8d} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+STORE\+\_\+\+ILLEGAL\+\_\+\+DATA&Event triggered when illegal data is detected during fingerprint template storage. This event corresponds to the confirmation code 0x35 (illegal data). Illegal data detected during storage \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_SEARCH\_SUCCESS@{EVENT\_SEARCH\_SUCCESS}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_SEARCH\_SUCCESS@{EVENT\_SEARCH\_SUCCESS}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8d1b5cc31ca283c90a8753c567c9d120}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8d1b5cc31ca283c90a8753c567c9d120} 
+EVENT\+\_\+\+SEARCH\+\_\+\+SUCCESS&Event triggered when a fingerprint search operation is successful. This event is dispatched when the PS\+\_\+\+Search command successfully finds a matching fingerprint template in the database. It indicates that the scanned fingerprint corresponds to an existing stored template.
+
+\begin{DoxyNote}{Note}
+This event will not be triggered if the search fails or no match is found. Event code for successful fingerprint search 
+\end{DoxyNote}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_COUNT@{EVENT\_TEMPLATE\_COUNT}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_COUNT@{EVENT\_TEMPLATE\_COUNT}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab0334462eeaa056529013dc573e2f8ef}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab0334462eeaa056529013dc573e2f8ef} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+COUNT&Event triggered when the template count is updated. This event corresponds to the status {\ttfamily FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+COUNT}. Template count updated (FINGERPRINT\+\_\+\+TEMPLATE\+\_\+\+COUNT) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_INDEX\_TABLE\_READ@{EVENT\_INDEX\_TABLE\_READ}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_INDEX\_TABLE\_READ@{EVENT\_INDEX\_TABLE\_READ}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9362cb3423d5fb5f2226467d763cd111}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9362cb3423d5fb5f2226467d763cd111} 
+EVENT\+\_\+\+INDEX\+\_\+\+TABLE\+\_\+\+READ&Event triggered when an index table read operation is completed. This event corresponds to the status {\ttfamily FINGERPRINT\+\_\+\+INDEX\+\_\+\+TABLE\+\_\+\+READ}. Index table read completed (FINGERPRINT\+\_\+\+INDEX\+\_\+\+TABLE\+\_\+\+READ) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_MODEL\_CREATED@{EVENT\_MODEL\_CREATED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_MODEL\_CREATED@{EVENT\_MODEL\_CREATED}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeacbc24e6ab59f179f0d266e6b59cac30e}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeacbc24e6ab59f179f0d266e6b59cac30e} 
+EVENT\+\_\+\+MODEL\+\_\+\+CREATED&Event triggered when a fingerprint model is successfully created. This event corresponds to the status {\ttfamily FINGERPRINT\+\_\+\+MODEL\+\_\+\+CREATED}. Fingerprint model successfully created (FINGERPRINT\+\_\+\+MODEL\+\_\+\+CREATED) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_UPLOADED@{EVENT\_TEMPLATE\_UPLOADED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_UPLOADED@{EVENT\_TEMPLATE\_UPLOADED}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9f39a06e55c32b00c1d1dca7c88c1ced}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9f39a06e55c32b00c1d1dca7c88c1ced} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+UPLOADED&Event triggered when a fingerprint template is successfully uploaded from the module. This occurs when a stored fingerprint template is transferred to the host. Template uploaded from module \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_TEMPLATE\_DOWNLOADED@{EVENT\_TEMPLATE\_DOWNLOADED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_TEMPLATE\_DOWNLOADED@{EVENT\_TEMPLATE\_DOWNLOADED}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6bbed6f6e30a4614fd6b72c59ab80f93}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6bbed6f6e30a4614fd6b72c59ab80f93} 
+EVENT\+\_\+\+TEMPLATE\+\_\+\+DOWNLOADED&Event triggered when a fingerprint template is successfully downloaded to the module. This occurs when a fingerprint template is written into the fingerprint module’s memory. Template downloaded to module \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVENT\_DB\_CLEARED@{EVENT\_DB\_CLEARED}!fingerprint.h@{fingerprint.h}}\index{fingerprint.h@{fingerprint.h}!EVENT\_DB\_CLEARED@{EVENT\_DB\_CLEARED}}}\Hypertarget{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea07eb0413541718460774793e18b0cf11}\label{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea07eb0413541718460774793e18b0cf11} 
+EVENT\+\_\+\+DB\+\_\+\+CLEARED&Event triggered when the fingerprint database is cleared. This confirms that all fingerprint templates have been deleted. Database emptied successfully \\
+\hline
+
 \end{DoxyEnumFields}
 \Hypertarget{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}\index{fingerprint.h@{fingerprint.h}!fingerprint\_status\_t@{fingerprint\_status\_t}}
 \index{fingerprint\_status\_t@{fingerprint\_status\_t}!fingerprint.h@{fingerprint.h}}
@@ -1149,6 +1263,95 @@ FINGERPRINT\+\_\+\+ILLEGAL\+\_\+\+DATA&Illegal data. Value\+: {\ttfamily 0x35} \
 
 
 \doxysubsection{Function Documentation}
+\Hypertarget{fingerprint_8h_a794755b7350e8cb9864948b9b35c0fd9}\index{fingerprint.h@{fingerprint.h}!clear\_database@{clear\_database}}
+\index{clear\_database@{clear\_database}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{clear\_database()}{clear\_database()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a794755b7350e8cb9864948b9b35c0fd9} 
+esp\+\_\+err\+\_\+t clear\+\_\+database (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Clears the entire fingerprint database. 
+
+This function sends a command to erase all stored fingerprints in the fingerprint module. It waits for a response event to confirm success.
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on successful database clearance.
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM if event group creation fails.
+\item ESP\+\_\+\+FAIL if clearance fails. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a1f48d3dd2566720cfd011998cb0283f7}\index{fingerprint.h@{fingerprint.h}!delete\_fingerprint@{delete\_fingerprint}}
+\index{delete\_fingerprint@{delete\_fingerprint}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{delete\_fingerprint()}{delete\_fingerprint()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a1f48d3dd2566720cfd011998cb0283f7} 
+esp\+\_\+err\+\_\+t delete\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{location}{}\end{DoxyParamCaption})}
+
+
+
+Deletes a fingerprint template from the specified storage location. 
+
+This function sends a command to delete a fingerprint stored at the given location in the fingerprint module. It waits for a response event to confirm success.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em location} & The storage location of the fingerprint template (valid range depends on module). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on successful deletion.
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM if event group creation fails.
+\item ESP\+\_\+\+FAIL if deletion is unsuccessful. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8h_a7b34c403a57b0b6db25994554ae7fe98}\index{fingerprint.h@{fingerprint.h}!enroll\_fingerprint@{enroll\_fingerprint}}
+\index{enroll\_fingerprint@{enroll\_fingerprint}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{enroll\_fingerprint()}{enroll\_fingerprint()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_a7b34c403a57b0b6db25994554ae7fe98} 
+esp\+\_\+err\+\_\+t enroll\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{location}{}\end{DoxyParamCaption})}
+
+
+
+Performs manual fingerprint enrollment at a specified storage location. 
+
+This function executes a step-\/by-\/step fingerprint enrollment process, handling user interaction and ensuring proper fingerprint capture and storage at the given location.\hypertarget{fingerprint_8h_autotoc_md28}{}\doxysubsubsection{\texorpdfstring{Enrollment Process\+:}{Enrollment Process\+:}}\label{fingerprint_8h_autotoc_md28}
+
+\begin{DoxyEnumerate}
+\item Wait for a finger to be placed on the scanner ({\ttfamily PS\+\_\+\+Get\+Image}).
+\item If a fingerprint is detected, generate the first fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char1}).
+\item Prompt the user to remove their finger and wait for confirmation of removal.
+\item Once the finger is removed, wait for the same finger to be placed again.
+\item Capture the fingerprint again ({\ttfamily PS\+\_\+\+Get\+Image}) and generate the second template ({\ttfamily PS\+\_\+\+Gen\+Char2}).
+\item Merge both templates into a single fingerprint model ({\ttfamily PS\+\_\+\+Reg\+Model}).
+\item Store the fingerprint template in the fingerprint module’s database at the specified {\ttfamily location} ({\ttfamily PS\+\_\+\+Store\+Char}).
+\end{DoxyEnumerate}\hypertarget{fingerprint_8h_autotoc_md29}{}\doxysubsubsection{\texorpdfstring{Error Handling\+:}{Error Handling\+:}}\label{fingerprint_8h_autotoc_md29}
+
+\begin{DoxyItemize}
+\item If a finger is not detected within the allowed retries, the function will return an error.
+\item If the finger is not removed within a timeout period, the process will restart.
+\item If enrollment fails at any step, it retries up to three times before failing.
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+This function does not run as a Free\+RTOS task but can be called from one. It dynamically creates an event group for synchronization and deletes it upon completion.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em location} & The storage location (ID) where the fingerprint template will be saved.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily ESP\+\_\+\+OK} if fingerprint enrollment is successful.
+\item {\ttfamily ESP\+\_\+\+FAIL} if enrollment fails after the maximum number of attempts.
+\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM} if memory allocation for the event group fails. 
+\end{DoxyItemize}
+\end{DoxyReturn}
 \Hypertarget{fingerprint_8h_a0d5b756311c0909b7f123085fb54e5b5}\index{fingerprint.h@{fingerprint.h}!fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}}
 \index{fingerprint\_calculate\_checksum@{fingerprint\_calculate\_checksum}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{fingerprint\_calculate\_checksum()}{fingerprint\_calculate\_checksum()}}
@@ -1385,45 +1588,6 @@ The following status codes and their corresponding events are handled\+:
 {\em status} & The fingerprint status received from the sensor. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{fingerprint_8h_a3a291f2b6a628927071588174b4fe7dc}\index{fingerprint.h@{fingerprint.h}!manual\_enroll\_fingerprint@{manual\_enroll\_fingerprint}}
-\index{manual\_enroll\_fingerprint@{manual\_enroll\_fingerprint}!fingerprint.h@{fingerprint.h}}
-\doxysubsubsection{\texorpdfstring{manual\_enroll\_fingerprint()}{manual\_enroll\_fingerprint()}}
-{\footnotesize\ttfamily \label{fingerprint_8h_a3a291f2b6a628927071588174b4fe7dc} 
-esp\+\_\+err\+\_\+t manual\+\_\+enroll\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
-
-
-
-Performs manual fingerprint enrollment. 
-
-This function executes a step-\/by-\/step fingerprint enrollment process, handling user interaction and ensuring proper fingerprint capture and storage.\hypertarget{fingerprint_8h_autotoc_md28}{}\doxysubsubsection{\texorpdfstring{Enrollment Process\+:}{Enrollment Process\+:}}\label{fingerprint_8h_autotoc_md28}
-
-\begin{DoxyEnumerate}
-\item Wait for a finger to be placed on the scanner ({\ttfamily PS\+\_\+\+Get\+Image}).
-\item If a fingerprint is detected, generate the first fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char1}).
-\item Prompt the user to remove their finger and wait for confirmation of removal.
-\item Once the finger is removed, wait for the same finger to be placed again.
-\item Capture the fingerprint again ({\ttfamily PS\+\_\+\+Get\+Image}) and generate the second template ({\ttfamily PS\+\_\+\+Gen\+Char2}).
-\item Merge both templates into a single fingerprint model ({\ttfamily PS\+\_\+\+Reg\+Model}).
-\item Store the fingerprint template in the fingerprint module’s database ({\ttfamily PS\+\_\+\+Store\+Char}).
-\end{DoxyEnumerate}\hypertarget{fingerprint_8h_autotoc_md29}{}\doxysubsubsection{\texorpdfstring{Error Handling\+:}{Error Handling\+:}}\label{fingerprint_8h_autotoc_md29}
-
-\begin{DoxyItemize}
-\item If a finger is not detected within the allowed retries, the function will return an error.
-\item If the finger is not removed within a timeout period, the process will restart.
-\item If enrollment fails at any step, it retries up to three times before failing.
-\end{DoxyItemize}
-
-\begin{DoxyNote}{Note}
-This function does not run as a Free\+RTOS task but can be called from one. It dynamically creates an event group for synchronization and deletes it upon completion.
-\end{DoxyNote}
-\begin{DoxyReturn}{Returns}
-
-\begin{DoxyItemize}
-\item {\ttfamily ESP\+\_\+\+OK} if fingerprint enrollment is successful.
-\item {\ttfamily ESP\+\_\+\+FAIL} if enrollment fails after the maximum number of attempts.
-\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM} if memory allocation for the event group fails. 
-\end{DoxyItemize}
-\end{DoxyReturn}
 \Hypertarget{fingerprint_8h_aac65070f473460404b979dff8ca75bf2}\index{fingerprint.h@{fingerprint.h}!process\_fingerprint\_responses\_task@{process\_fingerprint\_responses\_task}}
 \index{process\_fingerprint\_responses\_task@{process\_fingerprint\_responses\_task}!fingerprint.h@{fingerprint.h}}
 \doxysubsubsection{\texorpdfstring{process\_fingerprint\_responses\_task()}{process\_fingerprint\_responses\_task()}}
@@ -1522,7 +1686,27 @@ This function initializes a fingerprint event structure with the given event typ
 {\em status} & The original fingerprint status that caused the event. \\
 \hline
 \end{DoxyParams}
-\texorpdfstring{$<$}{<} Call the registered event handler.
+\texorpdfstring{$<$}{<} Call the registered event handler.\Hypertarget{fingerprint_8h_af73611117782f343652a3693d257e951}\index{fingerprint.h@{fingerprint.h}!verify\_fingerprint@{verify\_fingerprint}}
+\index{verify\_fingerprint@{verify\_fingerprint}!fingerprint.h@{fingerprint.h}}
+\doxysubsubsection{\texorpdfstring{verify\_fingerprint()}{verify\_fingerprint()}}
+{\footnotesize\ttfamily \label{fingerprint_8h_af73611117782f343652a3693d257e951} 
+esp\+\_\+err\+\_\+t verify\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Verifies a fingerprint by capturing an image, extracting features, and searching in the database. 
+
+This function attempts to verify a fingerprint up to a maximum number of attempts. It captures a fingerprint image, processes it, and searches for a match in the database. If a match is found, the function returns ESP\+\_\+\+OK; otherwise, it returns ESP\+\_\+\+FAIL after all attempts.
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK if the fingerprint matches an entry in the database.
+\item ESP\+\_\+\+FAIL if verification fails after the maximum attempts.
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM if the event group could not be created. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+
 
 \doxysubsection{Variable Documentation}
 \Hypertarget{fingerprint_8h_aeb4fc4aba1a22ae72ee5746099c3a18e}\index{fingerprint.h@{fingerprint.h}!enroll\_event\_group@{enroll\_event\_group}}

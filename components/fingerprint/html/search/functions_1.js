@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['manual_5fenroll_5ffingerprint_0',['manual_enroll_fingerprint',['../fingerprint_8h.html#a3a291f2b6a628927071588174b4fe7dc',1,'manual_enroll_fingerprint(void):&#160;fingerprint.c'],['../fingerprint_8c.html#a3a291f2b6a628927071588174b4fe7dc',1,'manual_enroll_fingerprint(void):&#160;fingerprint.c']]],
-  ['max_1',['max',['../fingerprint_8c.html#a6134c859d385b972b7c0716784a20a2d',1,'fingerprint.c']]],
-  ['min_2',['min',['../fingerprint_8c.html#a5777230ba3f52101f5caf39a070f2aeb',1,'fingerprint.c']]]
+  ['delete_5ffingerprint_0',['delete_fingerprint',['../fingerprint_8h.html#a1f48d3dd2566720cfd011998cb0283f7',1,'delete_fingerprint(uint16_t location):&#160;fingerprint.c'],['../fingerprint_8c.html#a1f48d3dd2566720cfd011998cb0283f7',1,'delete_fingerprint(uint16_t location):&#160;fingerprint.c']]]
 ];

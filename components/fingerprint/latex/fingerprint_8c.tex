@@ -56,8 +56,14 @@ void \mbox{\hyperlink{fingerprint_8c_acdb139ac079afac098d142b4cf7a8b7f}{register
 \begin{DoxyCompactList}\small\item\em Function to register an event handler for fingerprint events. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{fingerprint_8c_af94c8bea84a1e0b7efff92d7c3a2624f}{trigger\+\_\+fingerprint\+\_\+event}} (\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\+\_\+event\+\_\+t}} event)
 \begin{DoxyCompactList}\small\item\em Triggers a fingerprint event and processes it. \end{DoxyCompactList}\item 
-esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a3a291f2b6a628927071588174b4fe7dc}{manual\+\_\+enroll\+\_\+fingerprint}} (void)
-\begin{DoxyCompactList}\small\item\em Performs manual fingerprint enrollment. \end{DoxyCompactList}\end{DoxyCompactItemize}
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a7b34c403a57b0b6db25994554ae7fe98}{enroll\+\_\+fingerprint}} (uint16\+\_\+t location)
+\begin{DoxyCompactList}\small\item\em Performs manual fingerprint enrollment at a specified storage location. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_af73611117782f343652a3693d257e951}{verify\+\_\+fingerprint}} (void)
+\begin{DoxyCompactList}\small\item\em Verifies a fingerprint by capturing an image, extracting features, and searching in the database. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a1f48d3dd2566720cfd011998cb0283f7}{delete\+\_\+fingerprint}} (uint16\+\_\+t location)
+\begin{DoxyCompactList}\small\item\em Deletes a fingerprint template from the specified storage location. \end{DoxyCompactList}\item 
+esp\+\_\+err\+\_\+t \mbox{\hyperlink{fingerprint_8c_a794755b7350e8cb9864948b9b35c0fd9}{clear\+\_\+database}} (void)
+\begin{DoxyCompactList}\small\item\em Clears the entire fingerprint database. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -187,6 +193,95 @@ static Queue\+Handle\+\_\+t \mbox{\hyperlink{fingerprint_8c_a251de6efebc1bbf503a
 
 
 \doxysubsection{Function Documentation}
+\Hypertarget{fingerprint_8c_a794755b7350e8cb9864948b9b35c0fd9}\index{fingerprint.c@{fingerprint.c}!clear\_database@{clear\_database}}
+\index{clear\_database@{clear\_database}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{clear\_database()}{clear\_database()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a794755b7350e8cb9864948b9b35c0fd9} 
+esp\+\_\+err\+\_\+t clear\+\_\+database (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Clears the entire fingerprint database. 
+
+This function sends a command to erase all stored fingerprints in the fingerprint module. It waits for a response event to confirm success.
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on successful database clearance.
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM if event group creation fails.
+\item ESP\+\_\+\+FAIL if clearance fails. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8c_a1f48d3dd2566720cfd011998cb0283f7}\index{fingerprint.c@{fingerprint.c}!delete\_fingerprint@{delete\_fingerprint}}
+\index{delete\_fingerprint@{delete\_fingerprint}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{delete\_fingerprint()}{delete\_fingerprint()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a1f48d3dd2566720cfd011998cb0283f7} 
+esp\+\_\+err\+\_\+t delete\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{location}{}\end{DoxyParamCaption})}
+
+
+
+Deletes a fingerprint template from the specified storage location. 
+
+This function sends a command to delete a fingerprint stored at the given location in the fingerprint module. It waits for a response event to confirm success.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em location} & The storage location of the fingerprint template (valid range depends on module). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK on successful deletion.
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM if event group creation fails.
+\item ESP\+\_\+\+FAIL if deletion is unsuccessful. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\Hypertarget{fingerprint_8c_a7b34c403a57b0b6db25994554ae7fe98}\index{fingerprint.c@{fingerprint.c}!enroll\_fingerprint@{enroll\_fingerprint}}
+\index{enroll\_fingerprint@{enroll\_fingerprint}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{enroll\_fingerprint()}{enroll\_fingerprint()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a7b34c403a57b0b6db25994554ae7fe98} 
+esp\+\_\+err\+\_\+t enroll\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{location}{}\end{DoxyParamCaption})}
+
+
+
+Performs manual fingerprint enrollment at a specified storage location. 
+
+This function executes a step-\/by-\/step fingerprint enrollment process, handling user interaction and ensuring proper fingerprint capture and storage at the given location.\hypertarget{fingerprint_8h_autotoc_md28}{}\doxysubsubsection{\texorpdfstring{Enrollment Process\+:}{Enrollment Process\+:}}\label{fingerprint_8h_autotoc_md28}
+
+\begin{DoxyEnumerate}
+\item Wait for a finger to be placed on the scanner ({\ttfamily PS\+\_\+\+Get\+Image}).
+\item If a fingerprint is detected, generate the first fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char1}).
+\item Prompt the user to remove their finger and wait for confirmation of removal.
+\item Once the finger is removed, wait for the same finger to be placed again.
+\item Capture the fingerprint again ({\ttfamily PS\+\_\+\+Get\+Image}) and generate the second template ({\ttfamily PS\+\_\+\+Gen\+Char2}).
+\item Merge both templates into a single fingerprint model ({\ttfamily PS\+\_\+\+Reg\+Model}).
+\item Store the fingerprint template in the fingerprint module’s database at the specified {\ttfamily location} ({\ttfamily PS\+\_\+\+Store\+Char}).
+\end{DoxyEnumerate}\hypertarget{fingerprint_8h_autotoc_md29}{}\doxysubsubsection{\texorpdfstring{Error Handling\+:}{Error Handling\+:}}\label{fingerprint_8h_autotoc_md29}
+
+\begin{DoxyItemize}
+\item If a finger is not detected within the allowed retries, the function will return an error.
+\item If the finger is not removed within a timeout period, the process will restart.
+\item If enrollment fails at any step, it retries up to three times before failing.
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+This function does not run as a Free\+RTOS task but can be called from one. It dynamically creates an event group for synchronization and deletes it upon completion.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em location} & The storage location (ID) where the fingerprint template will be saved.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily ESP\+\_\+\+OK} if fingerprint enrollment is successful.
+\item {\ttfamily ESP\+\_\+\+FAIL} if enrollment fails after the maximum number of attempts.
+\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM} if memory allocation for the event group fails. 
+\end{DoxyItemize}
+\end{DoxyReturn}
 \Hypertarget{fingerprint_8c_ae15bba6ade85d740e51d6fe5e644ad0c}\index{fingerprint.c@{fingerprint.c}!finger\_detected\_isr@{finger\_detected\_isr}}
 \index{finger\_detected\_isr@{finger\_detected\_isr}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{finger\_detected\_isr()}{finger\_detected\_isr()}}
@@ -407,45 +502,6 @@ The following status codes and their corresponding events are handled\+:
 {\em status} & The fingerprint status received from the sensor. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{fingerprint_8c_a3a291f2b6a628927071588174b4fe7dc}\index{fingerprint.c@{fingerprint.c}!manual\_enroll\_fingerprint@{manual\_enroll\_fingerprint}}
-\index{manual\_enroll\_fingerprint@{manual\_enroll\_fingerprint}!fingerprint.c@{fingerprint.c}}
-\doxysubsubsection{\texorpdfstring{manual\_enroll\_fingerprint()}{manual\_enroll\_fingerprint()}}
-{\footnotesize\ttfamily \label{fingerprint_8c_a3a291f2b6a628927071588174b4fe7dc} 
-esp\+\_\+err\+\_\+t manual\+\_\+enroll\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
-
-
-
-Performs manual fingerprint enrollment. 
-
-This function executes a step-\/by-\/step fingerprint enrollment process, handling user interaction and ensuring proper fingerprint capture and storage.\hypertarget{fingerprint_8h_autotoc_md28}{}\doxysubsubsection{\texorpdfstring{Enrollment Process\+:}{Enrollment Process\+:}}\label{fingerprint_8h_autotoc_md28}
-
-\begin{DoxyEnumerate}
-\item Wait for a finger to be placed on the scanner ({\ttfamily PS\+\_\+\+Get\+Image}).
-\item If a fingerprint is detected, generate the first fingerprint template ({\ttfamily PS\+\_\+\+Gen\+Char1}).
-\item Prompt the user to remove their finger and wait for confirmation of removal.
-\item Once the finger is removed, wait for the same finger to be placed again.
-\item Capture the fingerprint again ({\ttfamily PS\+\_\+\+Get\+Image}) and generate the second template ({\ttfamily PS\+\_\+\+Gen\+Char2}).
-\item Merge both templates into a single fingerprint model ({\ttfamily PS\+\_\+\+Reg\+Model}).
-\item Store the fingerprint template in the fingerprint module’s database ({\ttfamily PS\+\_\+\+Store\+Char}).
-\end{DoxyEnumerate}\hypertarget{fingerprint_8h_autotoc_md29}{}\doxysubsubsection{\texorpdfstring{Error Handling\+:}{Error Handling\+:}}\label{fingerprint_8h_autotoc_md29}
-
-\begin{DoxyItemize}
-\item If a finger is not detected within the allowed retries, the function will return an error.
-\item If the finger is not removed within a timeout period, the process will restart.
-\item If enrollment fails at any step, it retries up to three times before failing.
-\end{DoxyItemize}
-
-\begin{DoxyNote}{Note}
-This function does not run as a Free\+RTOS task but can be called from one. It dynamically creates an event group for synchronization and deletes it upon completion.
-\end{DoxyNote}
-\begin{DoxyReturn}{Returns}
-
-\begin{DoxyItemize}
-\item {\ttfamily ESP\+\_\+\+OK} if fingerprint enrollment is successful.
-\item {\ttfamily ESP\+\_\+\+FAIL} if enrollment fails after the maximum number of attempts.
-\item {\ttfamily ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM} if memory allocation for the event group fails. 
-\end{DoxyItemize}
-\end{DoxyReturn}
 \Hypertarget{fingerprint_8c_a6134c859d385b972b7c0716784a20a2d}\index{fingerprint.c@{fingerprint.c}!max@{max}}
 \index{max@{max}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{max()}{max()}}
@@ -562,7 +618,27 @@ This function initializes a fingerprint event structure with the given event typ
 {\em status} & The original fingerprint status that caused the event. \\
 \hline
 \end{DoxyParams}
-\texorpdfstring{$<$}{<} Call the registered event handler.
+\texorpdfstring{$<$}{<} Call the registered event handler.\Hypertarget{fingerprint_8c_af73611117782f343652a3693d257e951}\index{fingerprint.c@{fingerprint.c}!verify\_fingerprint@{verify\_fingerprint}}
+\index{verify\_fingerprint@{verify\_fingerprint}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{verify\_fingerprint()}{verify\_fingerprint()}}
+{\footnotesize\ttfamily \label{fingerprint_8c_af73611117782f343652a3693d257e951} 
+esp\+\_\+err\+\_\+t verify\+\_\+fingerprint (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Verifies a fingerprint by capturing an image, extracting features, and searching in the database. 
+
+This function attempts to verify a fingerprint up to a maximum number of attempts. It captures a fingerprint image, processes it, and searches for a match in the database. If a match is found, the function returns ESP\+\_\+\+OK; otherwise, it returns ESP\+\_\+\+FAIL after all attempts.
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item ESP\+\_\+\+OK if the fingerprint matches an entry in the database.
+\item ESP\+\_\+\+FAIL if verification fails after the maximum attempts.
+\item ESP\+\_\+\+ERR\+\_\+\+NO\+\_\+\+MEM if the event group could not be created. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+
 
 \doxysubsection{Variable Documentation}
 \Hypertarget{fingerprint_8c_a784e73e1ce3f90fbcbb0a78d72a053ff}\index{fingerprint.c@{fingerprint.c}!baud\_rate@{baud\_rate}}
