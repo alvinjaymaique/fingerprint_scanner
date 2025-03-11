@@ -20,6 +20,7 @@ static int rx_pin = DEFAULT_RX_PIN; // Default RX pin
 static int baud_rate = DEFAULT_BAUD_RATE; // Default baud rate
 
 static uint16_t global_location = 0; // Global variable to store location
+static bool is_fingerprint_validating = false; // Flag to check if fingerprint is validating
 
 /**
  * @brief Stores the last fingerprint command sent to the module.
@@ -1213,30 +1214,6 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             attempts++;
             continue;
         }
-        
-        // Check for duplicate fingerprint
-        uint8_t search_params[] = {0x01,    // BufferID = 1
-            0x00, 0x00, // Start page = 0
-            0x00, 0x64}; // Number of pages = 100
-
-        fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
-        err = fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
-        if (err != ESP_OK) {
-        attempts++;
-        continue;
-        }
-
-        bits = xEventGroupWaitBits(enroll_event_group,
-                            ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                            pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-
-        if (bits & ENROLL_BIT_SUCCESS) {  // Match found = duplicate exists
-            ESP_LOGE(TAG, "Fingerprint already exists in database!");
-            attempts++;
-            continue;
-        } else if (bits & ENROLL_BIT_FAIL) {  // No match found = good to proceed
-            ESP_LOGI(TAG, "No duplicate found, continuing enrollment...");
-        }
 
         ESP_LOGI(TAG, "Remove finger and place it again...");
         vTaskDelay(pdMS_TO_TICKS(2000));
@@ -1320,6 +1297,30 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         if (!(bits & ENROLL_BIT_SUCCESS)) {
             attempts++;
             continue;
+        }
+
+        // Check for duplicate fingerprint
+        uint8_t search_params[] = {0x01,    // BufferID = 1
+            0x00, 0x00, // Start page = 0
+            0x00, 0x64}; // Number of pages = 100
+
+        fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
+        err = fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
+        if (err != ESP_OK) {
+        attempts++;
+        continue;
+        }
+
+        bits = xEventGroupWaitBits(enroll_event_group,
+                            ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                            pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+
+        if (bits & ENROLL_BIT_SUCCESS) {  // Match found = duplicate exists
+            ESP_LOGE(TAG, "Fingerprint already exists in database!");
+            attempts++;
+            continue;
+        } else if (bits & ENROLL_BIT_FAIL) {  // No match found = good to proceed
+            ESP_LOGI(TAG, "No duplicate found, continuing enrollment...");
         }
 
         // Store template at specified location

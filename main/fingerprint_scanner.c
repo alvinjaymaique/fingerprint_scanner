@@ -77,21 +77,21 @@ void app_main(void)
 
     uint16_t location = 0x000A;  // Storage location for fingerprint template
     
-    err = enroll_fingerprint(location);
-    if (err == ESP_OK) {
-        ESP_LOGI(TAG, "Fingerprint Enrolled!");
-        // Add your access control logic here
-    } else {
-        ESP_LOGE(TAG, "Fingeprint not enrolled!");
-        // Add your failure handling here
-    }
-
-    // esp_err_t out = delete_fingerprint(location);
-    // if (out == ESP_OK) {
-    //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
+    // err = enroll_fingerprint(location);
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Fingerprint Enrolled!");
+    //     // Add your access control logic here
     // } else {
-    //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
+    //     ESP_LOGE(TAG, "Fingeprint not enrolled!");
+    //     // Add your failure handling here
     // }
+
+    esp_err_t out = delete_fingerprint(location);
+    if (out == ESP_OK) {
+        ESP_LOGI(TAG, "Fingerprint deleted successfully!");
+    } else {
+        ESP_LOGE(TAG, "Failed to delete fingerprint!");
+    }
     
     ESP_LOGI(TAG, "Starting fingerprint verification...");
     vTaskDelay(pdMS_TO_TICKS(2000));  // Delay before sending the next command
