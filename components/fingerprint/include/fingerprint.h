@@ -1553,6 +1553,16 @@ esp_err_t enroll_fingerprint(uint16_t location);
 #define ENROLL_BIT_FAIL BIT1
 
 /**
+ * @brief Event bit flag for checking if a fingerprint template location is available.
+ * 
+ * This bit is set in the event group to indicate that the system is currently verifying 
+ * whether a specified fingerprint template location is occupied.
+ * 
+ * @note Used in conjunction with `enroll_event_group` to synchronize location checking.
+ */
+#define CHECKING_LOCATION_BIT BIT2
+
+/**
  * @brief Event group handle for fingerprint enrollment status.
  * 
  * This FreeRTOS event group is used to synchronize fingerprint enrollment 
@@ -1600,7 +1610,33 @@ esp_err_t delete_fingerprint(uint16_t location);
  *      - ESP_FAIL if clearance fails.
  */
 esp_err_t clear_database(void);
- 
+
+/**
+ * @brief Checks if the scanned fingerprint already exists in the database.
+ *
+ * This function sends a search command to the fingerprint module to compare 
+ * the scanned fingerprint against stored templates within a predefined range.
+ *
+ * @return 
+ *      - ESP_OK if the search command is sent successfully.
+ *      - ESP_FAIL if there is an error sending the search command.
+ */
+esp_err_t check_duplicate_fingerprint(void);
+
+/**
+ * @brief Validates whether a given template storage location is within range.
+ *
+ * This function sends a command to the fingerprint module to check if the specified 
+ * template location exists in the storage index table.
+ *
+ * @param[in] location The template storage location to validate.
+ *
+ * @return 
+ *      - ESP_OK if the location is valid.
+ *      - ESP_FAIL if the index table read operation fails.
+ */
+esp_err_t validate_template_location(uint16_t location);
+
  #ifdef __cplusplus
  }
  #endif

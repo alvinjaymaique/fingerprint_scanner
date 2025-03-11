@@ -79,8 +79,15 @@ void app_main(void)
     // // Start the enrollment process
     // auto_enroll_fingerprint(1, 3);
     // manual_enroll_fingerprint_task();
-
     uint16_t location = 0x0005;  // Storage location for fingerprint template
+
+    // esp_err_t out = delete_fingerprint(location);
+    // if (out == ESP_OK) {
+    //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
+    // }
+    
     err = enroll_fingerprint(location);
     if (err == ESP_OK) {
         ESP_LOGI(TAG, "Fingerprint Enrolled!");
@@ -136,6 +143,7 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_FINGER_DETECTED:
             ESP_LOGI(TAG, "Finger detected! Status: 0x%02X", event.status);
+            // check_duplicate_fingerprint();
             // ESP_LOGI(TAG, "Event address: 0x%08lX", (unsigned long)event.packet.address);
             // ESP_LOG_BUFFER_HEX("Event packet address: ", &event.packet, sizeof(FingerprintPacket));
             break;

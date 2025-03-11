@@ -19,6 +19,8 @@ static int tx_pin = DEFAULT_TX_PIN; // Default TX pin
 static int rx_pin = DEFAULT_RX_PIN; // Default RX pin
 static int baud_rate = DEFAULT_BAUD_RATE; // Default baud rate
 
+static uint16_t global_location = 0; // Global variable to store location
+
 /**
  * @brief Stores the last fingerprint command sent to the module.
  * 
@@ -472,6 +474,42 @@ FingerprintPacket PS_DownChar = {
     .checksum = 0x000E // Needs to be recalculated
 };
 
+esp_err_t check_duplicate_fingerprint(void) {
+    esp_err_t err;
+    // EventBits_t bits;
+
+    uint8_t search_params[] = {
+        0x01,         // BufferID = 1
+        0x00, 0x00,   // Start page = 0
+        0x00, 0x64    // Number of pages = 100
+    };
+
+    fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
+    err = fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) {
+        return ESP_FAIL;
+    }
+
+    return ESP_OK;
+}
+
+esp_err_t validate_template_location(uint16_t location) {
+    esp_err_t err;
+    // EventBits_t bits;
+
+    uint8_t index_params[] = {(uint8_t)(location >> 8)};
+    fingerprint_set_command(&PS_ReadIndexTable, FINGERPRINT_CMD_READ_INDEX_TABLE, 
+                          index_params, sizeof(index_params));
+    
+    err = fingerprint_send_command(&PS_ReadIndexTable, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to read index table");
+        return ESP_FAIL;
+    }
+
+    return ESP_OK;
+}
+
  /**
  * @brief Returns the smaller of two unsigned integers.
  *
@@ -909,6 +947,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 event.packet = *packet;
             } else if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE && enroll_event_group!=NULL) {
                 event_type = EVENT_FINGER_DETECTED;
+                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
             } else if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE) {
                 // event_type = EVENT_IMAGE_VALID;
             } else if (last_sent_command == FINGERPRINT_CMD_VALID_TEMPLATE_NUM) {
@@ -917,27 +956,42 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 ESP_LOGI(TAG, "Number of valid templates: %d", template_count);
             } else if (last_sent_command == FINGERPRINT_CMD_READ_INDEX_TABLE) {
                 event_type = EVENT_INDEX_TABLE_READ;
+                // if (enroll_event_group) {
+                //     EventBits_t flags = xEventGroupGetBits(enroll_event_group);
+                //     if (flags & CHECKING_LOCATION_BIT) {  // Check if location check is active
+                //         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                //     }
+                // }
+
                 if (packet != NULL && enroll_event_group) {
-                    // Check the index table data in parameters
-                    // Each bit in parameters represents one template
-                    // If the bit is 1, template exists at that location
-                    uint8_t page = packet->parameters[0];
                     uint8_t template_exists = 0;
                     
-                    // Check if template exists at the specified location
-                    // Parameters[1] onwards contain the template existence data
-                    for (int i = 1; i < packet->length - 2; i++) {
-                        if (packet->parameters[i] != 0) {
+                    // Debug print the index table data
+                    ESP_LOGI(TAG, "Index Table Response received:");
+                    ESP_LOG_BUFFER_HEX(TAG, packet->parameters, packet->length); // Print all 32 bytes of index data
+                    
+                    // The index table response format has 32 bytes of index data
+                    // Each bit represents one template location
+                    uint8_t position = global_location & 0xFF;
+                    uint8_t byte_offset = position / 8;    // Which byte contains our bit
+                    uint8_t bit_position = position % 8;   // Which bit in that byte
+                    
+                    ESP_LOGI(TAG, "Checking template at position %d (byte %d, bit %d)", 
+                             position, byte_offset, bit_position);
+                    
+                    // Check if the bit is set in the index table
+                    if (byte_offset < 32) { // We have 32 bytes of index data
+                        if (packet->parameters[byte_offset] & (1 << bit_position)) {
                             template_exists = 1;
-                            break;
+                            ESP_LOGW(TAG, "Template exists at position %d", position);
+                        } else {
+                            ESP_LOGI(TAG, "Position %d is free", position);
                         }
                     }
-            
+                    
                     if (template_exists) {
-                        ESP_LOGW(TAG, "Templates exist in page %d", page);
                         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
                     } else {
-                        ESP_LOGI(TAG, "No templates found in page %d", page);
                         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
                     }
                 }
@@ -1089,6 +1143,7 @@ void trigger_fingerprint_event(fingerprint_event_t event) {
 }
 
 esp_err_t enroll_fingerprint(uint16_t location) {
+    global_location = location; // Store location in global variable
     uint8_t attempts = 0;
     esp_err_t err;
     EventBits_t bits;
@@ -1100,10 +1155,18 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             return ESP_ERR_NO_MEM;
         }
     }
+
+    // Set checking location flag
+    xEventGroupSetBits(enroll_event_group, CHECKING_LOCATION_BIT);
     
     // First, validate if the location is available
-    uint8_t index_params[] = {(uint8_t)(location >> 8)};  
-    fingerprint_set_command(&PS_ReadIndexTable, FINGERPRINT_CMD_READ_INDEX_TABLE, index_params, sizeof(index_params));
+    uint8_t page = location >> 8;  // Get the page number
+    uint8_t position = location & 0xFF;  // Get position within page
+    
+    uint8_t index_params[] = {page};  // Use the calculated page number
+    fingerprint_set_command(&PS_ReadIndexTable, FINGERPRINT_CMD_READ_INDEX_TABLE, 
+                          index_params, sizeof(index_params));
+    
     err = fingerprint_send_command(&PS_ReadIndexTable, DEFAULT_FINGERPRINT_ADDRESS);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to read index table");
@@ -1111,16 +1174,18 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     }
 
     bits = xEventGroupWaitBits(enroll_event_group,
-                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                              pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+
+    // Clear checking location flag
+    xEventGroupClearBits(enroll_event_group, CHECKING_LOCATION_BIT);
 
     if (bits & ENROLL_BIT_FAIL) {
         ESP_LOGE(TAG, "Location %d is already occupied", location);
-        err = ESP_ERR_INVALID_STATE;
         goto cleanup;
-    } else {
-        ESP_LOGI(TAG, "Location %d is available", location);
     }
+
+    ESP_LOGI(TAG, "Location %d is available", location);
 
     while (attempts < 3) {
         ESP_LOGI(TAG, "Waiting for a finger to be placed...");
@@ -1323,10 +1388,12 @@ esp_err_t verify_fingerprint(void) {
 
         // Wait for finger
         bool finger_detected = false;
-        while (!finger_detected) {
-            xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+        const int MAX_NO_FINGER_TIME = 5000; // 5 seconds timeout
+        TickType_t start_time = xTaskGetTickCount();
+        
+        while (!finger_detected && (xTaskGetTickCount() - start_time < pdMS_TO_TICKS(MAX_NO_FINGER_TIME))) {
             err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
-            if (err != ESP_OK) break;
+            if (err != ESP_OK) return err;
 
             bits = xEventGroupWaitBits(enroll_event_group,
                                      ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
@@ -1334,15 +1401,16 @@ esp_err_t verify_fingerprint(void) {
             
             if (bits & ENROLL_BIT_SUCCESS) {
                 finger_detected = true;
-                // ESP_LOGI(TAG, "Finger detected!");
+                ESP_LOGI(TAG, "Finger detected!");
             } else {
                 vTaskDelay(pdMS_TO_TICKS(100));
             }
         }
 
         if (!finger_detected) {
+            ESP_LOGW(TAG, "No finger detected within 5 seconds");
             attempts++;
-            continue;
+            continue;  // Try next attempt
         }
 
         // Generate character file
