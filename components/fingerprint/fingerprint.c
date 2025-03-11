@@ -917,8 +917,29 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 ESP_LOGI(TAG, "Number of valid templates: %d", template_count);
             } else if (last_sent_command == FINGERPRINT_CMD_READ_INDEX_TABLE) {
                 event_type = EVENT_INDEX_TABLE_READ;
-                if (enroll_event_group) {
-                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                if (packet != NULL && enroll_event_group) {
+                    // Check the index table data in parameters
+                    // Each bit in parameters represents one template
+                    // If the bit is 1, template exists at that location
+                    uint8_t page = packet->parameters[0];
+                    uint8_t template_exists = 0;
+                    
+                    // Check if template exists at the specified location
+                    // Parameters[1] onwards contain the template existence data
+                    for (int i = 1; i < packet->length - 2; i++) {
+                        if (packet->parameters[i] != 0) {
+                            template_exists = 1;
+                            break;
+                        }
+                    }
+            
+                    if (template_exists) {
+                        ESP_LOGW(TAG, "Templates exist in page %d", page);
+                        xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                    } else {
+                        ESP_LOGI(TAG, "No templates found in page %d", page);
+                        xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                    }
                 }
             } else if (last_sent_command == FINGERPRINT_CMD_GEN_CHAR) {
                 event_type = EVENT_FEATURE_EXTRACTED;
@@ -1097,6 +1118,8 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         ESP_LOGE(TAG, "Location %d is already occupied", location);
         err = ESP_ERR_INVALID_STATE;
         goto cleanup;
+    } else {
+        ESP_LOGI(TAG, "Location %d is available", location);
     }
 
     while (attempts < 3) {
@@ -1137,6 +1160,28 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         if (!(bits & ENROLL_BIT_SUCCESS)) {
             attempts++;
             continue;
+        }
+        
+        // Check for duplicate fingerprint
+        uint8_t search_params[] = {0x01,    // BufferID = 1
+            0x00, 0x00, // Start page = 0
+            0x00, 0x64}; // Number of pages = 100
+
+        fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
+        err = fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
+        if (err != ESP_OK) {
+        attempts++;
+        continue;
+        }
+
+        bits = xEventGroupWaitBits(enroll_event_group,
+                            ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                            pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+
+        if (bits & ENROLL_BIT_SUCCESS) {
+        ESP_LOGE(TAG, "Fingerprint already exists in database!");
+        attempts++;
+        continue;
         }
 
         ESP_LOGI(TAG, "Remove finger and place it again...");
@@ -1289,7 +1334,7 @@ esp_err_t verify_fingerprint(void) {
             
             if (bits & ENROLL_BIT_SUCCESS) {
                 finger_detected = true;
-                ESP_LOGI(TAG, "Finger detected!");
+                // ESP_LOGI(TAG, "Finger detected!");
             } else {
                 vTaskDelay(pdMS_TO_TICKS(100));
             }

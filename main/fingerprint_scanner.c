@@ -80,7 +80,7 @@ void app_main(void)
     // auto_enroll_fingerprint(1, 3);
     // manual_enroll_fingerprint_task();
 
-    uint16_t location = 0x0004;  // Storage location for fingerprint template
+    uint16_t location = 0x0005;  // Storage location for fingerprint template
     err = enroll_fingerprint(location);
     if (err == ESP_OK) {
         ESP_LOGI(TAG, "Fingerprint Enrolled!");
@@ -160,7 +160,7 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGE(TAG, "Command: 0x%02X", event.packet.command);
             break;
         case EVENT_NO_FINGER_DETECTED:
-            ESP_LOGI(TAG, "No finger detected. Status: 0x%02X", event.status);
+            // ESP_LOGI(TAG, "No finger detected. Status: 0x%02X", event.status);
             break;
         case EVENT_ENROLL_SUCCESS:
             ESP_LOGI(TAG, "Fingerprint enrollment successful! Status: 0x%02X", event.status);
