@@ -413,7 +413,13 @@ typedef enum {
     FINGERPRINT_CMD_UP_CHAR = 0x08,
 
     /** Download a fingerprint template to the module buffer */
-    FINGERPRINT_CMD_DOWN_CHAR = 0x09
+    FINGERPRINT_CMD_DOWN_CHAR = 0x09,
+
+    /**
+     * @brief Load a fingerprint template from flash memory into the module buffer.
+     */
+    FINGERPRINT_CMD_LOAD_CHAR = 0x07,
+
 } fingerprint_command_t;
 
 /**
@@ -445,7 +451,10 @@ typedef struct {
     uint32_t address;     /**< Address of the fingerprint module (default: 0xFFFFFFFF). */
     uint8_t packet_id;    /**< Packet identifier (e.g., 0x01 for command packets, 0x07 for responses). */
     uint16_t length;      /**< Length of the packet, excluding the header and address. */
-    uint8_t command;      /**< Command ID for requests or confirmation code in responses. */
+    union {
+        uint8_t command;  /**< Command ID for requests or confirmation code in responses. */
+        uint8_t confirmation;   /**< Confirmation code for the command. */
+    } code;
     uint8_t parameters[MAX_PARAMETERS]; /**< Command-specific parameters (variable length, up to MAX_PARAMETERS bytes). */
     uint16_t checksum;    /**< Checksum for packet integrity verification. */
 } FingerprintPacket;
@@ -688,6 +697,22 @@ extern FingerprintPacket PS_DownChar;
  * @brief Uploads a stored fingerprint template from the module.
  */
 extern FingerprintPacket PS_UpChar;
+
+/**
+ * @brief Loads a fingerprint template from flash memory into the module's buffer.
+ *
+ * This command instructs the fingerprint module to retrieve a stored fingerprint 
+ * template from the flash database and load it into a specified template buffer.
+ *
+ * @note The `parameters` field should be set before use:
+ *       - `parameters[0]` = Buffer ID (target buffer)
+ *       - `parameters[1]` = High byte of Page ID
+ *       - `parameters[2]` = Low byte of Page ID
+ *
+ * @warning The checksum must be recalculated before sending the packet.
+ */
+extern FingerprintPacket PS_LoadChar;
+
 
 /**
  * @brief Reads the flash information page of the fingerprint module.
@@ -1118,37 +1143,6 @@ typedef struct {
     FingerprintPacket packet;    /**< Data packet received from the fingerprint module */
 } fingerprint_response_t;
 
- /**
- * @brief Retrieves the next fingerprint response from the queue.
- *
- * This function waits for a response to be available in the fingerprint response queue.
- * It blocks for the specified timeout duration if no response is immediately available.
- *
- * @param[out] response Pointer to a fingerprint_response_t structure to store the received response.
- * @param[in] timeout The maximum time to wait for a response (in FreeRTOS ticks).
- * 
- * @return true if a response was successfully received, false if the timeout occurred.
- */
-
-bool fingerprint_get_next_response(fingerprint_response_t *response, TickType_t timeout);
-
-/**
- * @brief Task to process fingerprint responses from the queue.
- *
- * This FreeRTOS task continuously waits for fingerprint responses from the queue
- * and processes them by triggering the appropriate event handler.
- *
- * The function blocks indefinitely (`portMAX_DELAY`) until a response is available,
- * ensuring real-time processing of fingerprint events without polling.
- *
- * @param[in] pvParameter Unused parameter, required for FreeRTOS task signature.
- *
- * @note This task should be started during system initialization to ensure
- * that fingerprint responses are handled properly.
- */
-void process_fingerprint_responses_task(void *pvParameter);
-
-
 // /** 
 //  * @brief Queue handle for storing fingerprint module responses.
 //  *
@@ -1450,6 +1444,26 @@ void process_fingerprint_responses_task(void *pvParameter);
      */
     EVENT_SYS_PARAMS_READ,  /**< System parameters read successfully */
 
+    /**
+     * @brief Event triggered when a fingerprint template exists in the buffer.
+     *
+     * This event indicates that the fingerprint module has successfully loaded 
+     * a fingerprint template into the specified template buffer. It confirms 
+     * that the buffer contains valid fingerprint data, which can be used for 
+     * further operations such as matching or storage.
+     */
+    EVENT_TEMPLATE_EXISTS,  /**< Fingerprint template successfully loaded into buffer */
+
+    /**
+     * @brief Event triggered when uploading a fingerprint feature/template fails.
+     *
+     * This event indicates that the fingerprint module encountered an issue 
+     * while attempting to upload a fingerprint template to the host system. 
+     * Possible causes may include communication errors, buffer issues, 
+     * or an invalid template format.
+     */
+    EVENT_TEMPLATE_UPLOAD_FAIL,  /**< Fingerprint template upload failed */
+
 
  } fingerprint_event_type_t;
 
@@ -1555,7 +1569,7 @@ typedef struct {
     fingerprint_event_type_t type;  /**< The type of fingerprint event */
     fingerprint_status_t status;    /**< Status code returned from the fingerprint module */
     FingerprintPacket packet;       /**< Raw response packet (for backward compatibility) */
-
+    uint8_t command;                /**< Command byte associated with the event */
     /**
      * @union data
      * @brief Stores structured response data depending on the event type.
@@ -1805,6 +1819,102 @@ uint16_t convert_index_to_page_id(uint16_t index);
  * @brief Reads system parameters from the fingerprint module.
  */
 esp_err_t read_system_parameters(void);
+
+/**
+ * @brief Loads a fingerprint template from flash storage into the module's template buffer.
+ *
+ * This function reads a stored fingerprint template from the flash database and loads 
+ * it into the specified template buffer for further processing (e.g., matching, modification).
+ *
+ * @param template_id The unique ID of the fingerprint template in flash.
+ * @param buffer_id The buffer ID where the template should be loaded.
+ * @return ESP_OK on success, ESP_FAIL on failure.
+ */
+esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id);
+
+/**
+ * @brief Uploads a fingerprint template from the module's buffer to the host system.
+ *
+ * This function transfers a fingerprint template stored in the module's buffer to the host
+ * (e.g., microcontroller or computer) for backup, analysis, or transmission.
+ *
+ * @param buffer_id The buffer ID containing the fingerprint template.
+ * @param template_data Pointer to the buffer where the uploaded template will be stored.
+ * @param template_size Pointer to a variable that will store the size of the template.
+ * @return ESP_OK on success, ESP_FAIL on failure.
+ */
+esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size);
+
+/**
+ * @brief Downloads a fingerprint template from the host system to the module's buffer.
+ *
+ * This function allows a fingerprint template stored on the host to be downloaded 
+ * into the fingerprint module's buffer for further use (e.g., storage in flash).
+ *
+ * @param buffer_id The buffer ID where the template should be downloaded.
+ * @param template_data Pointer to the fingerprint template data to be downloaded.
+ * @param template_size The size of the template data in bytes.
+ * @return ESP_OK on success, ESP_FAIL on failure.
+ */
+esp_err_t download_template(uint8_t buffer_id, const uint8_t* template_data, size_t template_size);
+
+/**
+ * @brief Stores a fingerprint template from the buffer into the module's flash memory.
+ *
+ * This function saves a fingerprint template currently in the module's buffer 
+ * into the permanent flash database for later use.
+ *
+ * @param buffer_id The buffer ID containing the fingerprint template.
+ * @param template_id The unique ID under which the template should be stored.
+ * @return ESP_OK on success, ESP_FAIL on failure.
+ */
+esp_err_t store_template(uint8_t buffer_id, uint16_t template_id);
+
+/**
+ * @brief Backs up a fingerprint template by reading it from flash and storing it in a host system.
+ *
+ * This function retrieves a fingerprint template from the module's flash storage,
+ * uploads it to the host, and allows it to be stored elsewhere (e.g., external memory).
+ *
+ * @param template_id The ID of the fingerprint template to be backed up.
+ * @return ESP_OK on success, ESP_FAIL on failure.
+ */
+esp_err_t backup_template(uint16_t template_id);
+
+/**
+ * @brief Restores a fingerprint template from a backup and stores it back in the module.
+ *
+ * This function takes a fingerprint template from a host system, 
+ * downloads it into the module's buffer, and then stores it in the module's flash memory.
+ *
+ * @param template_id The ID under which the template should be restored in flash.
+ * @param template_data Pointer to the fingerprint template data to be restored.
+ * @param template_size The size of the fingerprint template data in bytes.
+ * @return ESP_OK on success, ESP_FAIL on failure.
+ */
+esp_err_t restore_template(uint16_t template_id, const uint8_t* template_data, size_t template_size);
+
+/**
+ * @brief Initializes the enrollment event group if it doesn't exist and clears any pending event bits.
+ *
+ * This function ensures that the `enroll_event_group` is properly initialized before use.
+ * If the event group does not exist, it will be created. Additionally, it clears
+ * `ENROLL_BIT_SUCCESS` and `ENROLL_BIT_FAIL` to remove any previous events.
+ *
+ * @return ESP_OK if successful, ESP_ERR_NO_MEM if event group creation fails.
+ */
+esp_err_t initialize_event_group(void);
+
+/**
+ * @brief Cleans up the enrollment event group.
+ *
+ * Deletes the event group if it exists and sets it to NULL.
+ * Ensures that no invalid memory is accessed after deletion.
+ *
+ * @return ESP_OK on success, ESP_ERR_INVALID_STATE if the event group was already NULL.
+ */
+esp_err_t cleanup_event_group(void);
+
 
  #ifdef __cplusplus
  }

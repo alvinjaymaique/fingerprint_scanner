@@ -67,7 +67,7 @@ void app_main(void)
     // Allow module to stabilize before sending commands
     vTaskDelay(pdMS_TO_TICKS(100));
 
-    fingerprint_set_command(&PS_SetChipAddr, PS_SetChipAddr.command, (uint8_t[]){0xFF, 0xFF, 0xFF, 0xFF}, 4);
+    fingerprint_set_command(&PS_SetChipAddr, PS_SetChipAddr.code.command, (uint8_t[]){0xFF, 0xFF, 0xFF, 0xFF}, 4);
     fingerprint_send_command(&PS_SetChipAddr, DEFAULT_FINGERPRINT_ADDRESS);
     vTaskDelay(pdMS_TO_TICKS(1000));
     // // Create task for sending commands
@@ -75,7 +75,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 0x0001;  // Storage location for fingerprint template
+    uint16_t location = 0x0000;  // Storage location for fingerprint template
     
     err = enroll_fingerprint(location);
     if (err == ESP_OK) {
@@ -122,13 +122,21 @@ void app_main(void)
         ESP_LOGE(TAG, "Failed to send command to the enrolled fingerprints.");
     }
 
-    err = read_system_parameters();
-    if (err == ESP_OK) {
-        ESP_LOGI(TAG, "System parameters read successfully.");
-    } else {
-        ESP_LOGE(TAG, "Failed to read system parameters.");
-    }
+    // err = read_system_parameters();
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "System parameters read successfully.");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to read system parameters.");
+    // }
 
+    // Backup Template
+    uint16_t template_id = 0x0002;
+    err = backup_template(template_id);
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Template backed up successfully.");
+    } else {
+        ESP_LOGE(TAG, "Failed to backup template.");
+    }
 }
 
 void send_command_task(void *pvParameter)
@@ -179,7 +187,7 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_ERROR:
             ESP_LOGE(TAG, "An error occurred during fingerprint processing. Status: 0x%02X", event.status);
-            ESP_LOGE(TAG, "Command: 0x%02X", event.packet.command);
+            ESP_LOGE(TAG, "Command: 0x%02X", event.command);
             break;
         case EVENT_NO_FINGER_DETECTED:
             // ESP_LOGI(TAG, "No finger detected. Status: 0x%02X", event.status);
@@ -218,6 +226,25 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Device Address: 0x%08" PRIX32, event.data.sys_params.device_address);  // Fix for uint32_t
             ESP_LOGI(TAG, "Data Packet Size: %u bytes", event.data.sys_params.data_packet_size); // No need for hex
             ESP_LOGI(TAG, "Baud Rate: %u bps", event.data.sys_params.baud_rate); // Convert baud multiplier to actual baud rate
+            break;
+        case EVENT_TEMPLATE_UPLOADED:
+            const char* newTag = "EVENT_TEMPLATE_UPLOADED";
+            ESP_LOGI(newTag, "Template command: 0x%02X", event.command);
+            ESP_LOGI(newTag, "Template package ID: 0x%04X", event.packet.packet_id);
+            ESP_LOGI(newTag, "Template confirmation code: 0x%02X", event.packet.code.confirmation);
+            ESP_LOGI(newTag, "Template address: 0x%08" PRIX32, event.packet.address);
+            ESP_LOGI(newTag, "Template uploaded successfully. Status: 0x%02X", event.status);
+            ESP_LOG_BUFFER_HEX(newTag, event.packet.parameters, sizeof(event.packet.parameters));
+            // ESP_LOGI(TAG, "Template ID: 0x%04X", event.data.template_id);
+            // ESP_LOGI(TAG, "Template Size: %u bytes", event.data.template_size);
+            // ESP_LOGI(TAG, "Template Page ID: 0x%04X", event.data.page_id);
+            // ESP_LOGI(TAG, "Template Checksum: 0x%04X", event.data.checksum);
+            break;
+        case EVENT_TEMPLATE_EXISTS:
+            ESP_LOGI(TAG, "Fingerprint template successfully loaded into buffer. Status: 0x%02X", event.status);
+            break;
+        case EVENT_TEMPLATE_UPLOAD_FAIL:
+            ESP_LOGE(TAG, "Fingerprint template upload failed. Status: 0x%02X", event.status);
             break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);

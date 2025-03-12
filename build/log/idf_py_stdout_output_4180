@@ -1,0 +1,946 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar  4 2025 16:14:42[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0c868h ( 51304) map[0m
+[0;32mI (108) esp_image: segment 1: paddr=0001c890 vaddr=3fc93900 size=02c50h ( 11344) load[0m
+[0;32mI (111) esp_image: segment 2: paddr=0001f4e8 vaddr=40374000 size=00b30h (  2864) load[0m
+[0;32mI (113) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1c874h (116852) map[0m
+[0;32mI (147) esp_image: segment 4: paddr=0003c89c vaddr=40374b30 size=0ed9ch ( 60828) load[0m
+[0;32mI (164) esp_image: segment 5: paddr=0004b640 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (170) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (170) boot: Disabling RNG early entropy source...[0m
+[0;32mI (182) cpu_start: Multicore app[0m
+[0;32mI (190) cpu_start: Pro cpu start user code[0m
+[0;32mI (190) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (191) app_init: Application information:[0m
+[0;32mI (191) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (195) app_init: App version:      128b7ae-dirty[0m
+[0;32mI (200) app_init: Compile time:     Mar 12 2025 11:13:33[0m
+[0;32mI (205) app_init: ELF file SHA256:  4056137b3...[0m
+[0;32mI (209) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (213) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (217) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (221) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (225) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (231) heap_init: At 3FC96E38 len 000528D8 (330 KiB): RAM[0m
+[0;32mI (237) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (247) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (253) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (262) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (266) spi_flash: flash io: opi_str[0m
+[0;33mW (269) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (282) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (288) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (295) main_task: Started on CPU0[0m
+[0;32mI (305) main_task: Calling app_main()[0m
+[0;32mI (305) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (505) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (905) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1305) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1705) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (2105) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (2305) FINGERPRINT: No handshake received, retrying...[0m
+[0;32mI (2505) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
+[0;32mI (2505) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;33mW (2705) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (2705) Fingerprint: Skipping invalid data at offset 1[0m
+[0;32mI (3705) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (4005) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (4005) Index Table Parameters: 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4005) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (4005) FINGERPRINT: Location 2 is already occupied[0m
+[1;31mE (4015) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (4015) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (6025) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (11015) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (11015) FINGERPRINT: Finger detected![0m
+[0;32mI (11275) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (11275) FINGERPRINT: Searching for fingerprint match...[0m
+[0;32mI (11585) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;33mW (11585) FINGERPRINT: No match found, attempt 1 of 3[0m
+[0;32mI (12585) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (14115) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (14115) FINGERPRINT: Finger detected![0m
+[0;32mI (14375) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (14375) FINGERPRINT: Searching for fingerprint match...[0m
+[0;32mI (14745) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (14745) FINGERPRINT: Match found at Enrollee ID: 2[0m
+[0;32mI (14745) FINGERPRINT: Match score: 6912[0m
+[0;32mI (14745) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (14955) EVENT TEMPLATE COUNT: Number of valid templates: 3[0m
+[0;32mI (14955) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (14955) FINGERPRINT: Loading Template...[0m
+[0;32mI (14955) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (15165) FINGERPRINT: Template loaded successfully[0m
+[0;32mI (15165) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (15165) FINGERPRINT: Uploading Template...[0m
+[1;31mE (15185) Fingerprint: Incomplete packet at offset 28! Expected: 267, Available: 36[0m
+[0;33mW (15205) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (15205) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (15205) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (15215) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (15215) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (15225) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (15225) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (15235) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (15235) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (15245) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (15245) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (15255) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (15255) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (15265) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (15265) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (15275) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (15275) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (15285) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (15285) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (15295) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (15295) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (15305) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (15305) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (15315) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (15315) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (15325) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (15325) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (15335) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (15335) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (15345) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (15345) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (15355) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (15355) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (15365) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (15365) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (15375) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (15375) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (15385) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (15395) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (15395) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (15405) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (15405) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (15415) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (15415) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (15425) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (15425) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (15435) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (15435) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (15445) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (15445) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (15455) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (15455) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (15465) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (15465) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (15475) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (15475) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (15485) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (15485) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (15495) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (15495) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (15505) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (15505) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (15515) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (15515) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (15535) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (15535) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (15535) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (15535) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (15545) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (15545) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (15555) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (15555) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (15565) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (15565) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (15575) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (15575) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (15585) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (15585) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (15595) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (15595) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (15605) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (15605) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (15615) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (15615) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (15625) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (15625) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (15635) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (15645) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (15645) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (15655) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (15655) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (15665) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (15665) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (15675) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (15675) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (15685) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (15685) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (15695) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (15695) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (15705) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (15705) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (15715) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (15715) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (15725) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (15725) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (15735) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (15735) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (15745) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (15745) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (15755) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (15755) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (15765) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (15765) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (15775) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (15775) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (15785) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (15785) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (15795) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (15795) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (15805) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (15805) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (15815) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (15815) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (15825) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (15825) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (15835) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (15835) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (15845) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (15865) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (15865) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (15865) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (15865) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (15875) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (15875) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (15885) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (15885) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (15895) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (15895) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (15905) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (15905) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (15915) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (15915) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (15925) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (15925) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (15935) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (15935) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (15945) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (15945) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (15955) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (15955) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (15965) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (15965) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (15975) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (15975) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (15985) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (15985) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (15995) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (15995) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (16005) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (16005) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (16015) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (16015) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (16025) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (16025) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (16035) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (16035) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (16045) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (16045) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (16055) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (16055) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (16065) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (16065) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (16075) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (16075) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (16085) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (16085) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (16095) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (16105) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (16105) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (16115) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (16115) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (16125) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (16125) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (16135) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (16135) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (16145) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (16145) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (16155) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (16155) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (16165) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (16165) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (16175) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (16185) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (16185) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (16185) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (16195) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (16195) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (16205) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (16205) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (16215) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (16215) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (16225) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (16225) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (16235) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (16235) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (16245) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (16245) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (16255) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (16255) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (16265) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (16265) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (16275) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (16275) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (16285) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (16285) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (16295) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (16295) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (16305) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (16305) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (16315) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (16315) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (16325) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (16325) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (16335) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (16335) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (16345) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (16355) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (16355) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (16365) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (16365) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (16375) Fingerprint: Skipping invalid data at offset 38[0m
+[1;31mE (16375) Fingerprint: Incomplete packet at offset 39! Expected: 267, Available: 25[0m
+[0;33mW (16395) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (16395) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (16395) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (16395) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (16405) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (16405) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (16415) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (16415) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (16425) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (16425) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (16435) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (16435) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (16445) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (16445) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (16455) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (16455) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (16465) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (16465) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (16475) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (16475) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (16485) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (16485) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (16495) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (16505) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (16505) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (16515) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (16515) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (16525) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (16525) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (16535) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (16535) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (16545) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (16545) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (16555) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (16555) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (16565) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (16565) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (16575) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (16575) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (16585) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (16585) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (16595) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (16595) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (16605) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (16605) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (16615) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (16615) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (16625) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (16625) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (16635) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (16635) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (16645) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (16645) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (16655) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (16655) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (16665) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (16665) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (16675) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (16675) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (16685) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (16685) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (16695) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (16695) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (16705) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (16725) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (16725) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (16725) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (16725) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (16735) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (16735) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (16745) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (16745) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (16755) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (16755) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (16765) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (16765) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (16775) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (16775) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (16785) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (16785) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (16795) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (16795) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (16805) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (16805) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (16815) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (16815) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (16825) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (16825) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (16835) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (16835) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (16845) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (16845) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (16855) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (16855) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (16865) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (16865) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (16875) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (16875) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (16885) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (16885) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (16895) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (16895) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (16905) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (16905) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (16915) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (16915) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (16925) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (16925) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (16935) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (16935) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (16945) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (16945) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (16955) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (16965) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (16965) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (16975) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (16975) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (16985) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (16985) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (16995) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (16995) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (17005) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (17005) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (17015) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (17015) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (17025) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (17025) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (17035) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (17045) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (17045) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (17045) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (17055) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (17055) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (17065) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (17065) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (17075) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (17075) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (17085) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (17085) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (17095) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (17095) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (17105) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (17105) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (17115) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (17115) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (17125) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (17125) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (17135) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (17135) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (17145) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (17145) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (17155) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (17155) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (17165) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (17165) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (17175) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (17175) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (17185) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (17185) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (17195) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (17195) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (17205) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (17215) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (17215) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (17225) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (17225) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (17235) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (17235) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (17245) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (17245) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (17255) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (17255) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (17265) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (17265) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (17275) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (17275) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (17285) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (17285) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (17295) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (17295) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (17305) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (17305) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (17315) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (17315) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (17325) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (17325) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (17335) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (17335) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (17345) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (17345) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (17355) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (17355) Fingerprint: Skipping invalid data at offset 63[0m
+[1;31mE (17365) FINGERPRINT: Failed to start template upload[0m
+[1;31mE (17365) FINGERPRINT: Failed to backup template.[0m
+[0;33mW (17375) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (17375) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (17385) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (17385) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (17395) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (17395) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (17405) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (17405) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (17415) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (17415) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (17425) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (17425) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (17435) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (17435) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (17445) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (17445) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (17455) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (17455) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (17465) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (17465) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (17475) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (17475) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (17485) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (17485) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (17495) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (17505) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (17505) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (17515) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (17515) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (17525) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (17525) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (17535) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (17535) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (17545) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (17545) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (17555) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (17555) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (17565) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (17565) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (17575) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (17575) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (17585) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (17585) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (17595) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (17595) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (17605) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (17605) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (17615) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (17615) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (17625) Fingerprint: Skipping invalid data at offset 49[0m
+[1;31mE (17625) Fingerprint: Incomplete packet at offset 50! Expected: 267, Available: 14[0m
+[0;32mI (17635) main_task: Returned from app_main()[0m
+[0;33mW (17645) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (17645) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (17645) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (17655) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (17655) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (17665) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (17665) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (17675) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (17675) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (17685) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (17695) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (17695) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (17705) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (17705) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (17715) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (17715) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (17725) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (17725) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (17735) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (17735) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (17745) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (17745) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (17755) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (17755) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (17765) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (17765) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (17775) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (17775) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (17785) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (17785) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (17795) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (17795) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (17805) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (17805) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (17815) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (17815) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (17825) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (17825) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (17835) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (17835) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (17845) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (17845) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (17855) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (17855) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (17865) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (17865) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (17875) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (17875) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (17885) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (17885) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (17895) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (17905) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (17905) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (17915) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (17915) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (17925) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (17925) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (17935) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (17935) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (17945) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (17945) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (17955) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (17955) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (17965) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (17975) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (17975) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (17975) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (17985) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (17985) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (17995) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (17995) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (18005) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (18005) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (18015) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (18015) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (18025) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (18025) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (18035) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (18035) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (18045) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (18045) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (18055) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (18055) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (18065) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (18065) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (18075) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (18075) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (18085) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (18085) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (18095) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (18095) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (18105) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (18105) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (18115) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (18115) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (18125) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (18125) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (18135) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (18135) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (18145) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (18155) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (18155) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (18165) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (18165) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (18175) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (18175) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (18185) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (18185) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (18195) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (18195) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (18205) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (18205) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (18215) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (18215) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (18225) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (18225) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (18235) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (18235) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (18245) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (18245) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (18255) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (18255) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (18265) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (18265) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (18275) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (18275) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (18285) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (18285) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (18305) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (18305) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (18305) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (18305) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (18315) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (18315) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (18325) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (18325) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (18335) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (18335) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (18345) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (18345) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (18355) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (18355) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (18365) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (18365) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (18375) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (18375) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (18385) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (18385) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (18395) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (18405) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (18405) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (18415) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (18415) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (18425) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (18425) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (18435) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (18435) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (18445) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (18445) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (18455) Fingerprint: Skipping invalid data at offset 31[0m
+[1;31mE (18455) Fingerprint: Incomplete packet at offset 32! Expected: 267, Available: 32[0m
+[0;33mW (18475) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (18475) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (18475) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (18475) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (18485) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (18485) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (18495) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (18495) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (18505) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (18505) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (18515) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (18515) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (18525) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (18525) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (18535) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (18535) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (18545) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (18555) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (18555) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (18565) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (18565) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (18575) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (18575) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (18585) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (18585) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (18595) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (18595) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (18605) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (18605) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (18615) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (18615) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (18625) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (18625) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (18635) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (18635) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (18645) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (18645) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (18655) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (18655) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (18665) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (18665) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (18675) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (18675) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (18685) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (18685) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (18695) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (18695) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (18705) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (18705) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (18715) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (18715) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (18725) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (18725) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (18735) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (18735) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (18745) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (18745) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (18755) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (18765) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (18765) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (18775) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (18775) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (18785) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (18785) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (18805) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (18805) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (18805) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (18805) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (18815) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (18815) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (18825) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (18825) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (18835) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (18835) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (18845) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (18845) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (18855) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (18855) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (18865) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (18865) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (18875) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (18875) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (18885) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (18885) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (18895) Fingerprint: Skipping invalid data at offset 20[0m
+[1;31mE (18895) Fingerprint: Incomplete packet at offset 21! Expected: 267, Available: 43[0m
+[0;33mW (18915) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (18915) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (18915) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (18915) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (18925) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (18925) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (18935) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (18945) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (18945) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (18955) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (18955) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (18965) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (18965) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (18975) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (18975) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (18985) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (18985) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (18995) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (18995) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (19005) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (19005) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (19015) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (19015) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (19025) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (19025) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (19035) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (19035) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (19045) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (19045) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (19055) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (19055) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (19065) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (19065) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (19075) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (19075) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (19085) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (19085) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (19095) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (19095) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (19105) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (19105) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (19115) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (19115) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (19125) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (19125) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (19135) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (19135) Fingerprint: Skipping invalid data at offset 46[0m
+[1;31mE (19145) Fingerprint: Incomplete packet at offset 47! Expected: 88, Available: 17[0m
+[0;33mW (19165) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (19165) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (19165) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (19165) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (19175) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (19175) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (19185) Fingerprint: Skipping invalid data at offset 6[0m
+[0;33mW (19185) Fingerprint: Skipping invalid data at offset 7[0m
+[0;33mW (19195) Fingerprint: Skipping invalid data at offset 8[0m
+[0;33mW (19195) Fingerprint: Skipping invalid data at offset 9[0m
+[0;33mW (19205) Fingerprint: Skipping invalid data at offset 10[0m
+[0;33mW (19205) Fingerprint: Skipping invalid data at offset 11[0m
+[0;33mW (19215) Fingerprint: Skipping invalid data at offset 12[0m
+[0;33mW (19215) Fingerprint: Skipping invalid data at offset 13[0m
+[0;33mW (19225) Fingerprint: Skipping invalid data at offset 14[0m
+[0;33mW (19225) Fingerprint: Skipping invalid data at offset 15[0m
+[0;33mW (19235) Fingerprint: Skipping invalid data at offset 16[0m
+[0;33mW (19235) Fingerprint: Skipping invalid data at offset 17[0m
+[0;33mW (19245) Fingerprint: Skipping invalid data at offset 18[0m
+[0;33mW (19245) Fingerprint: Skipping invalid data at offset 19[0m
+[0;33mW (19255) Fingerprint: Skipping invalid data at offset 20[0m
+[0;33mW (19255) Fingerprint: Skipping invalid data at offset 21[0m
+[0;33mW (19265) Fingerprint: Skipping invalid data at offset 22[0m
+[0;33mW (19265) Fingerprint: Skipping invalid data at offset 23[0m
+[0;33mW (19275) Fingerprint: Skipping invalid data at offset 24[0m
+[0;33mW (19275) Fingerprint: Skipping invalid data at offset 25[0m
+[0;33mW (19285) Fingerprint: Skipping invalid data at offset 26[0m
+[0;33mW (19285) Fingerprint: Skipping invalid data at offset 27[0m
+[0;33mW (19295) Fingerprint: Skipping invalid data at offset 28[0m
+[0;33mW (19295) Fingerprint: Skipping invalid data at offset 29[0m
+[0;33mW (19305) Fingerprint: Skipping invalid data at offset 30[0m
+[0;33mW (19305) Fingerprint: Skipping invalid data at offset 31[0m
+[0;33mW (19315) Fingerprint: Skipping invalid data at offset 32[0m
+[0;33mW (19325) Fingerprint: Skipping invalid data at offset 33[0m
+[0;33mW (19325) Fingerprint: Skipping invalid data at offset 34[0m
+[0;33mW (19335) Fingerprint: Skipping invalid data at offset 35[0m
+[0;33mW (19335) Fingerprint: Skipping invalid data at offset 36[0m
+[0;33mW (19345) Fingerprint: Skipping invalid data at offset 37[0m
+[0;33mW (19345) Fingerprint: Skipping invalid data at offset 38[0m
+[0;33mW (19355) Fingerprint: Skipping invalid data at offset 39[0m
+[0;33mW (19355) Fingerprint: Skipping invalid data at offset 40[0m
+[0;33mW (19365) Fingerprint: Skipping invalid data at offset 41[0m
+[0;33mW (19365) Fingerprint: Skipping invalid data at offset 42[0m
+[0;33mW (19375) Fingerprint: Skipping invalid data at offset 43[0m
+[0;33mW (19375) Fingerprint: Skipping invalid data at offset 44[0m
+[0;33mW (19385) Fingerprint: Skipping invalid data at offset 45[0m
+[0;33mW (19385) Fingerprint: Skipping invalid data at offset 46[0m
+[0;33mW (19395) Fingerprint: Skipping invalid data at offset 47[0m
+[0;33mW (19395) Fingerprint: Skipping invalid data at offset 48[0m
+[0;33mW (19405) Fingerprint: Skipping invalid data at offset 49[0m
+[0;33mW (19405) Fingerprint: Skipping invalid data at offset 50[0m
+[0;33mW (19415) Fingerprint: Skipping invalid data at offset 51[0m
+[0;33mW (19415) Fingerprint: Skipping invalid data at offset 52[0m
+[0;33mW (19425) Fingerprint: Skipping invalid data at offset 53[0m
+[0;33mW (19425) Fingerprint: Skipping invalid data at offset 54[0m
+[0;33mW (19435) Fingerprint: Skipping invalid data at offset 55[0m
+[0;33mW (19435) Fingerprint: Skipping invalid data at offset 56[0m
+[0;33mW (19445) Fingerprint: Skipping invalid data at offset 57[0m
+[0;33mW (19445) Fingerprint: Skipping invalid data at offset 58[0m
+[0;33mW (19455) Fingerprint: Skipping invalid data at offset 59[0m
+[0;33mW (19455) Fingerprint: Skipping invalid data at offset 60[0m
+[0;33mW (19465) Fingerprint: Skipping invalid data at offset 61[0m
+[0;33mW (19465) Fingerprint: Skipping invalid data at offset 62[0m
+[0;33mW (19475) Fingerprint: Skipping invalid data at offset 63[0m
+[0;33mW (19685) Fingerprint: Skipping invalid data at offset 0[0m
+[0;33mW (19685) Fingerprint: Skipping invalid data at offset 1[0m
+[0;33mW (19685) Fingerprint: Skipping invalid data at offset 2[0m
+[0;33mW (19685) Fingerprint: Skipping invalid data at offset 3[0m
+[0;33mW (19685) Fingerprint: Skipping invalid data at offset 4[0m
+[0;33mW (19695) Fingerprint: Skipping invalid data at offset 5[0m
+[0;33mW (19695) Fingerprint: Skipping invalid data at offset 6[0m

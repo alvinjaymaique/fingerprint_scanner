@@ -62,7 +62,7 @@ FingerprintPacket PS_HandShake = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_HANDSHAKE, // Handshake
+    .code.command = FINGERPRINT_CMD_HANDSHAKE, // Handshake
     .parameters = {0}, // No parameters
     .checksum = 0x0039 // Needs to be recalculated
 };
@@ -72,7 +72,7 @@ FingerprintPacket PS_GetImage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_GET_IMAGE, // Get Image
+    .code.command = FINGERPRINT_CMD_GET_IMAGE, // Get Image
     .parameters = {0}, // No parameters
     .checksum = 0x0005 // Hardcoded checksum
 };
@@ -82,7 +82,7 @@ FingerprintPacket PS_GenChar1 = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0004,
-    .command = FINGERPRINT_CMD_GEN_CHAR, // Generate Character
+    .code.command = FINGERPRINT_CMD_GEN_CHAR, // Generate Character
     .parameters = {0}, // Buffer ID 1
     .checksum = 0x0008 // Hardcoded checksum
 };
@@ -92,7 +92,7 @@ FingerprintPacket PS_GenChar2 = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0004,
-    .command = FINGERPRINT_CMD_GEN_CHAR, // Generate Character
+    .code.command = FINGERPRINT_CMD_GEN_CHAR, // Generate Character
     .parameters = {0}, // Buffer ID 2
     .checksum = 0x0009 // Hardcoded checksum
 };
@@ -102,7 +102,7 @@ FingerprintPacket PS_RegModel = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_REG_MODEL, // Register Model
+    .code.command = FINGERPRINT_CMD_REG_MODEL, // Register Model
     .parameters = {0}, // No parameters
     .checksum = 0x0009 // Hardcoded checksum
 };
@@ -112,7 +112,7 @@ FingerprintPacket PS_Search = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0008,
-    .command = FINGERPRINT_CMD_SEARCH, // Search
+    .code.command = FINGERPRINT_CMD_SEARCH, // Search
     .parameters = {0}, // Buffer ID, Start Page, Number of Pages
     .checksum = 0x00 // Hardcoded checksum
 };
@@ -122,7 +122,7 @@ FingerprintPacket PS_Match = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_MATCH, // Match
+    .code.command = FINGERPRINT_CMD_MATCH, // Match
     .parameters = {0}, // No parameters
     .checksum = 0x0007 // Hardcoded checksum
 };
@@ -132,7 +132,7 @@ FingerprintPacket PS_StoreChar = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0006,
-    .command = FINGERPRINT_CMD_STORE_CHAR, // Store Character
+    .code.command = FINGERPRINT_CMD_STORE_CHAR, // Store Character
     .parameters = {0}, // Buffer ID, Page ID
     .checksum = 0x000F // Hardcoded checksum
 };
@@ -142,7 +142,7 @@ FingerprintPacket PS_DeleteChar = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0007,
-    .command = FINGERPRINT_CMD_DELETE_CHAR, // Delete Fingerprint
+    .code.command = FINGERPRINT_CMD_DELETE_CHAR, // Delete Fingerprint
     .parameters = {0}, // Page ID, Number of Entries
     .checksum = 0x0015 // Hardcoded checksum
 };
@@ -152,7 +152,7 @@ FingerprintPacket PS_Empty = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_EMPTY_DATABASE, // Clear Database
+    .code.command = FINGERPRINT_CMD_EMPTY_DATABASE, // Clear Database
     .parameters = {0}, // No parameters
     .checksum = 0x0011 // Hardcoded checksum
 };
@@ -162,7 +162,7 @@ FingerprintPacket PS_ReadSysPara = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_READ_SYS_PARA, // Read System Parameters
+    .code.command = FINGERPRINT_CMD_READ_SYS_PARA, // Read System Parameters
     .parameters = {0}, // No parameters
     .checksum = 0x0013 // Hardcoded checksum
 };
@@ -172,7 +172,7 @@ FingerprintPacket PS_SetChipAddr = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0007,
-    .command = FINGERPRINT_CMD_SET_CHIP_ADDR, // Set Address
+    .code.command = FINGERPRINT_CMD_SET_CHIP_ADDR, // Set Address
     .parameters = {0}, // New Address (modifiable)
     .checksum = 0x0020 // Hardcoded checksum
 };
@@ -182,7 +182,7 @@ FingerprintPacket PS_Cancel = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_CANCEL, // Cancel command
+    .code.command = FINGERPRINT_CMD_CANCEL, // Cancel command
     .parameters = {0}, // No parameters
     .checksum = 0x0033 // Needs to be recalculated
 };
@@ -192,7 +192,7 @@ FingerprintPacket PS_AutoEnroll = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0008,
-    .command = FINGERPRINT_CMD_AUTO_ENROLL, // AutoEnroll command
+    .code.command = FINGERPRINT_CMD_AUTO_ENROLL, // AutoEnroll command
     .parameters = {0}, // ID number, number of entries, parameter
     .checksum = 0x003A // Needs to be recalculated
 };
@@ -202,7 +202,7 @@ FingerprintPacket PS_Autoldentify = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0006,
-    .command = FINGERPRINT_CMD_AUTO_IDENTIFY, // AutoIdentify command
+    .code.command = FINGERPRINT_CMD_AUTO_IDENTIFY, // AutoIdentify command
     .parameters = {0}, // Score level, ID number
     .checksum = 0x003F // Needs to be recalculated
 };
@@ -212,7 +212,7 @@ FingerprintPacket PS_GetKeyt = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_GETKEYT, // Get key pair
+    .code.command = FINGERPRINT_CMD_GETKEYT, // Get key pair
     .parameters = {0}, // No parameters
     .checksum = 0x00E3 // Needs to be recalculated
 };
@@ -222,7 +222,7 @@ FingerprintPacket PS_SecurityStoreChar = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0006,
-    .command = 0xF2, // Secure Store Template
+    .code.command = 0xF2, // Secure Store Template
     .parameters = {0}, // Buffer ID, Page ID
     .checksum = 0x00FB // Needs to be recalculated
 };
@@ -232,7 +232,7 @@ FingerprintPacket PS_SecuritySearch = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0008,
-    .command = FINGERPRINT_CMD_SECURITY_SEARCH, // Secure Search
+    .code.command = FINGERPRINT_CMD_SECURITY_SEARCH, // Secure Search
     .parameters = {0}, // Buffer ID, Start Page, Number of Pages
     .checksum = 0x00FD // Needs to be recalculated
 };
@@ -242,7 +242,7 @@ FingerprintPacket PS_Uplmage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_UPLOAD_IMAGE, // Upload Image
+    .code.command = FINGERPRINT_CMD_UPLOAD_IMAGE, // Upload Image
     .parameters = {0}, // No parameters
     .checksum = 0x000D // Needs to be recalculated
 };
@@ -252,7 +252,7 @@ FingerprintPacket PS_Downlmage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_DOWNLOAD_IMAGE, // Download Image
+    .code.command = FINGERPRINT_CMD_DOWNLOAD_IMAGE, // Download Image
     .parameters = {0}, // No parameters
     .checksum = 0x000E // Needs to be recalculated
 };
@@ -262,7 +262,7 @@ FingerprintPacket PS_CheckSensor = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_CHECK_SENSOR, // Check Sensor
+    .code.command = FINGERPRINT_CMD_CHECK_SENSOR, // Check Sensor
     .parameters = {0}, // No parameters
     .checksum = 0x0039 // Needs to be recalculated
 };
@@ -272,7 +272,7 @@ FingerprintPacket PS_RestSetting = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_FACTORY_RESET, // Restore Factory Settings
+    .code.command = FINGERPRINT_CMD_FACTORY_RESET, // Restore Factory Settings
     .parameters = {0}, // No parameters
     .checksum = 0x003E // Needs to be recalculated
 };
@@ -282,7 +282,7 @@ FingerprintPacket PS_ReadINFpage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_READ_INF_PAGE, // Read Flash Information Page
+    .code.command = FINGERPRINT_CMD_READ_INF_PAGE, // Read Flash Information Page
     .parameters = {0}, // No parameters
     .checksum = 0x0019 // Needs to be recalculated
 };
@@ -292,7 +292,7 @@ FingerprintPacket PS_BurnCode = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0004,
-    .command = FINGERPRINT_CMD_BURN_CODE, // Erase Code
+    .code.command = FINGERPRINT_CMD_BURN_CODE, // Erase Code
     .parameters = {0}, // Default upgrade mode
     .checksum = 0x001F // Needs to be recalculated
 };
@@ -302,7 +302,7 @@ FingerprintPacket PS_SetPwd = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0007,
-    .command = FINGERPRINT_CMD_SET_PASSWORD, // Set Password
+    .code.command = FINGERPRINT_CMD_SET_PASSWORD, // Set Password
     .parameters = {0}, // Password (modifiable)
     .checksum = 0x0019 // Needs to be recalculated
 };
@@ -312,7 +312,7 @@ FingerprintPacket PS_VfyPwd = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0007,
-    .command = FINGERPRINT_CMD_VERIFY_PASSWORD, // Verify Password
+    .code.command = FINGERPRINT_CMD_VERIFY_PASSWORD, // Verify Password
     .parameters = {0}, // Password
     .checksum = 0x001A // Needs to be recalculated
 };
@@ -322,7 +322,7 @@ FingerprintPacket PS_GetRandomCode = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_GET_RANDOM_CODE, // Get Random Number
+    .code.command = FINGERPRINT_CMD_GET_RANDOM_CODE, // Get Random Number
     .parameters = {0}, // No parameters
     .checksum = 0x0017 // Needs to be recalculated
 };
@@ -332,7 +332,7 @@ FingerprintPacket PS_WriteNotepad = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0023, // 32 bytes data
-    .command = FINGERPRINT_CMD_WRITE_NOTEPAD, // Write Notepad
+    .code.command = FINGERPRINT_CMD_WRITE_NOTEPAD, // Write Notepad
     .parameters = {0}, // Data to write (to be filled)
     .checksum = 0x003B // Needs to be recalculated
 };
@@ -342,7 +342,7 @@ FingerprintPacket PS_ReadNotepad = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0004,
-    .command = FINGERPRINT_CMD_READ_NOTEPAD, // Read Notepad
+    .code.command = FINGERPRINT_CMD_READ_NOTEPAD, // Read Notepad
     .parameters = {0}, // Page number
     .checksum = 0x001E // Needs to be recalculated
 };
@@ -352,7 +352,7 @@ FingerprintPacket PS_ControlBLN = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0007,
-    .command = FINGERPRINT_CMD_CONTROL_LED, // Control LED
+    .code.command = FINGERPRINT_CMD_CONTROL_LED, // Control LED
     .parameters = {0}, // Example parameters: function, start color, end color, cycles
     .checksum = 0x0046 // Needs to be recalculated
 };
@@ -362,7 +362,7 @@ FingerprintPacket PS_GetImageInfo = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_GET_IMAGE_INFO, // Get Image Information
+    .code.command = FINGERPRINT_CMD_GET_IMAGE_INFO, // Get Image Information
     .parameters = {0}, // No parameters
     .checksum = 0x0041 // Needs to be recalculated
 };
@@ -372,7 +372,7 @@ FingerprintPacket PS_SearchNow = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0007,
-    .command = FINGERPRINT_CMD_SEARCH_NOW, // Search Now
+    .code.command = FINGERPRINT_CMD_SEARCH_NOW, // Search Now
     .parameters = {0}, // Start Page, Number of Pages
     .checksum = 0x0046 // Needs to be recalculated
 };
@@ -382,7 +382,7 @@ FingerprintPacket PS_ValidTempleteNum = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_VALID_TEMPLATE_NUM, // Get number of valid templates
+    .code.command = FINGERPRINT_CMD_VALID_TEMPLATE_NUM, // Get number of valid templates
     .parameters = {0}, // No parameters
     .checksum = 0x0021 // Needs to be recalculated
 };
@@ -392,7 +392,7 @@ FingerprintPacket PS_Sleep = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_SLEEP, // Enter sleep mode
+    .code.command = FINGERPRINT_CMD_SLEEP, // Enter sleep mode
     .parameters = {0}, // No parameters
     .checksum = 0x0037 // Needs to be recalculated
 };
@@ -402,7 +402,7 @@ FingerprintPacket PS_LockKeyt = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_LOCKEYT, // Lock Key Pair
+    .code.command = FINGERPRINT_CMD_LOCKEYT, // Lock Key Pair
     .parameters = {0}, // No parameters
     .checksum = 0x00E4 // Needs to be recalculated
 };
@@ -412,7 +412,7 @@ FingerprintPacket PS_GetCiphertext = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_GET_CIPHER_TEXT, // Get Ciphertext Random Number
+    .code.command = FINGERPRINT_CMD_GET_CIPHER_TEXT, // Get Ciphertext Random Number
     .parameters = {0}, // No parameters
     .checksum = 0x00E5 // Needs to be recalculated
 };
@@ -422,7 +422,7 @@ FingerprintPacket PS_GetChipSN = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_GETCHIP_SN, // Get Chip Serial Number
+    .code.command = FINGERPRINT_CMD_GETCHIP_SN, // Get Chip Serial Number
     .parameters = {0}, // No parameters
     .checksum = 0x0016 // Needs to be recalculated
 };
@@ -432,7 +432,7 @@ FingerprintPacket PS_GetEnrollImage = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0003,
-    .command = FINGERPRINT_CMD_GET_ENROLL_IMAGE, // Register Get Image
+    .code.command = FINGERPRINT_CMD_GET_ENROLL_IMAGE, // Register Get Image
     .parameters = {0}, // No parameters
     .checksum = 0x002D // Needs to be recalculated
 };
@@ -442,7 +442,7 @@ FingerprintPacket PS_WriteReg = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0005,
-    .command = FINGERPRINT_CMD_WRITE_REG, // Write System Register
+    .code.command = FINGERPRINT_CMD_WRITE_REG, // Write System Register
     .parameters = {0}, // Register Number, Value (modifiable)
     .checksum = 0x0013 // Needs to be recalculated
 };
@@ -452,7 +452,7 @@ FingerprintPacket PS_ReadIndexTable = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0004,
-    .command = FINGERPRINT_CMD_READ_INDEX_TABLE, // Read Index Table
+    .code.command = FINGERPRINT_CMD_READ_INDEX_TABLE, // Read Index Table
     .parameters = {0}, // Page Number
     .checksum = 0x0023 // Needs to be recalculated
 };
@@ -462,7 +462,7 @@ FingerprintPacket PS_UpChar = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0004,
-    .command = FINGERPRINT_CMD_UP_CHAR, // Upload template from buffer
+    .code.command = FINGERPRINT_CMD_UP_CHAR, // Upload template from buffer
     .parameters = {0}, // BufferID
     .checksum = 0x000D // Needs to be recalculated
 };
@@ -472,9 +472,19 @@ FingerprintPacket PS_DownChar = {
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
     .length = 0x0004,
-    .command = FINGERPRINT_CMD_DOWN_CHAR, // Download template to buffer
+    .code.command = FINGERPRINT_CMD_DOWN_CHAR, // Download template to buffer
     .parameters = {0}, // BufferID
     .checksum = 0x000E // Needs to be recalculated
+};
+
+FingerprintPacket PS_LoadChar = {
+    .header = FINGERPRINT_PACKET_HEADER,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = FINGERPRINT_PACKET_ID_CMD,
+    .length = 0x0006,
+    .code.command = FINGERPRINT_CMD_LOAD_CHAR,
+    .parameters = {0},  // Buffer ID, PageID
+    .checksum = 0x000C
 };
 
 esp_err_t check_duplicate_fingerprint(void) {
@@ -696,7 +706,7 @@ esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8
     cmd->address = DEFAULT_FINGERPRINT_ADDRESS;
     cmd->packet_id = FINGERPRINT_PACKET_ID_CMD;  // Command packet
     cmd->length = 1 + param_length + 2;  // Corrected length calculation
-    cmd->command = command;
+    cmd->code.command = command;
 
     // Clear parameters and copy only valid ones
     memset(cmd->parameters, 0, sizeof(cmd->parameters));
@@ -721,7 +731,7 @@ uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd) {
     sum += cmd->packet_id;
     sum += (cmd->length >> 8) & 0xFF; // High byte of length
     sum += cmd->length & 0xFF;        // Low byte of length
-    sum += cmd->command;
+    sum += cmd->code.command;
     // Dynamically sum all parameters based on packet length
     for (int i = 0; i < cmd->length - 3; i++) {  // Exclude command + checksum
         if(cmd->parameters[i] != 0){
@@ -735,21 +745,21 @@ uint16_t fingerprint_calculate_checksum(FingerprintPacket *cmd) {
 
 esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     if (!cmd) return ESP_ERR_INVALID_ARG;  
-    last_sent_command = cmd->command;  // Store last sent command
+    last_sent_command = cmd->code.command;  // Store last sent command
     cmd->address = address;
     cmd->checksum = fingerprint_calculate_checksum(cmd);
 
     // Store command info **before** sending
     fingerprint_command_info_t cmd_info = {
-        .command = cmd->command,
+        .command = cmd->code.command,
         .timestamp = xTaskGetTickCount()
     };
 
     // **Ensure queue is not full before sending**
     if (xQueueSend(fingerprint_command_queue, &cmd_info, pdMS_TO_TICKS(100)) == pdPASS) {
-        // ESP_LOGI(TAG, "Stored command 0x%02X in queue successfully.", cmd->command);
+        // ESP_LOGI(TAG, "Stored command 0x%02X in queue successfully.", cmd->code.command);
     } else {
-        ESP_LOGE(TAG, "Command queue full, dropping command 0x%02X", cmd->command);
+        ESP_LOGE(TAG, "Command queue full, dropping command 0x%02X", cmd->code.command);
         return ESP_FAIL;
     }
     
@@ -768,7 +778,7 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     buffer[6] = cmd->packet_id;
     buffer[7] = (cmd->length >> 8) & 0xFF;
     buffer[8] = cmd->length & 0xFF;
-    buffer[9] = cmd->command;
+    buffer[9] = cmd->code.command;
     memcpy(&buffer[10], cmd->parameters, cmd->length - 3);
     buffer[packet_size - 2] = (cmd->checksum >> 8) & 0xFF;
     buffer[packet_size - 1] = cmd->checksum & 0xFF;
@@ -785,7 +795,7 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
         return ESP_FAIL;
     }
 
-    // ESP_LOGI(TAG, "Sent fingerprint command: 0x%02X to address 0x%08X", cmd->command, (unsigned int)address);
+    // ESP_LOGI(TAG, "Sent fingerprint command: 0x%02X to address 0x%08X", cmd->code.command, (unsigned int)address);
     // ESP_LOGI(TAG, "Sent fingerprint command: 0x%02X to address 0x%08X", buffer[9], (unsigned int)address);
     // ESP_LOG_BUFFER_HEX("Fingerprint sent command: ", buffer, packet_size);
     free(buffer);
@@ -795,106 +805,145 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 
 
 FingerprintPacket* fingerprint_read_response(void) {
-    uint8_t buffer[MAX_PARAMETERS + 32];  // Increased buffer size to handle multiple packets
+    uint8_t buffer[512];  // Increased buffer size for template data packets
     int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200 / portTICK_PERIOD_MS);
 
     if (length <= 0) {
-        return NULL; // No data received
+        return NULL;
     }
 
-    // ESP_LOGI("Fingerprint", "Received %d bytes from UART", length);
-    // ESP_LOG_BUFFER_HEX("Fingerprint", buffer, length);
-
+    // Find start of packet
     int offset = 0;
-    FingerprintPacket *packet = NULL;
-
-    while (offset < length) {
-        // Look for the start of a valid fingerprint packet
-        if (offset + 12 > length || buffer[offset] != 0xEF || buffer[offset + 1] != 0x01) {
-            ESP_LOGW("Fingerprint", "Skipping invalid data at offset %d", offset);
-            offset++;  // Move to next byte and re-check
-            continue;
+    while (offset < length - 1) {
+        if (buffer[offset] == 0xEF && buffer[offset + 1] == 0x01) {
+            break;
         }
-
-        // Allocate memory for the packet
-        packet = (FingerprintPacket*)malloc(sizeof(FingerprintPacket));
-        if (!packet) {
-            ESP_LOGE("Fingerprint", "Memory allocation failed!");
-            return NULL;
-        }
-        memset(packet, 0, sizeof(FingerprintPacket));
-
-        // Extract packet header
-        packet->header = (buffer[offset] << 8) | buffer[offset + 1];
-        packet->address = (buffer[offset + 2] << 24) | (buffer[offset + 3] << 16) |
-                          (buffer[offset + 4] << 8) | buffer[offset + 5];
-        packet->packet_id = buffer[offset + 6];
-        packet->length = (buffer[offset + 7] << 8) | buffer[offset + 8];
-        packet->command = buffer[offset + 9];
-
-        // Validate packet length
-        uint16_t expected_length = packet->length + 9;
-        if (offset + expected_length > length) {
-            ESP_LOGE("Fingerprint", "Incomplete packet at offset %d! Expected: %d, Available: %d",
-                     offset, expected_length, length - offset);
-            free(packet);
-            return NULL;
-        }
-
-        // Copy parameters
-        int param_size = min(packet->length - 3, MAX_PARAMETERS);
-        memcpy(packet->parameters, &buffer[offset + 10], param_size);
-
-        // Extract checksum
-        packet->checksum = (buffer[offset + expected_length - 2] << 8) | buffer[offset + expected_length - 1];
-
-        // Log successful packet extraction
-        // ESP_LOGI("Fingerprint", "Extracted packet at offset %d: Command 0x%02X", offset, packet->command);
-
-        // // Process the extracted packet
-        // fingerprint_status_event_handler((fingerprint_status_t)packet->command, packet);
-
-        // Move to the next packet
-        offset += expected_length;
+        offset++;
     }
+
+    if (offset >= length - 9) {  // Not enough bytes for header
+        return NULL;
+    }
+
+    // Allocate memory for the packet
+    FingerprintPacket *packet = (FingerprintPacket*)heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+    if (!packet) {
+        ESP_LOGE(TAG, "Memory allocation failed!");
+        return NULL;
+    }
+    memset(packet, 0, sizeof(FingerprintPacket));
+
+    // Extract basic header information
+    packet->header = (buffer[offset] << 8) | buffer[offset + 1];
+    packet->address = (buffer[offset + 2] << 24) | (buffer[offset + 3] << 16) |
+                     (buffer[offset + 4] << 8) | buffer[offset + 5];
+    packet->packet_id = buffer[offset + 6];
+    packet->length = (buffer[offset + 7] << 8) | buffer[offset + 8];
+
+    // Calculate total expected packet length
+    uint16_t expected_length = packet->length + 9;  // header(2) + addr(4) + pid(1) + len(2) + data + chk(2)
+    
+    if (offset + expected_length > length) {
+        // For data packets, allow partial reads
+        if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
+            expected_length = length - offset;
+            packet->length = expected_length - 9;
+        } else {
+            ESP_LOGE(TAG, "Incomplete packet! Expected: %d, Available: %d",
+                     expected_length, length - offset);
+            heap_caps_free(packet);
+            return NULL;
+        }
+    }
+
+    // Handle different packet types
+    if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
+        // Data packet (template data)
+        if (last_sent_command == FINGERPRINT_CMD_UP_CHAR && 
+            packet->length <= sizeof(packet->parameters)) {
+            memcpy(packet->parameters, &buffer[offset + 9], packet->length);
+            packet->code.confirmation = 0x00;  // Data packets don't use command byte
+        }
+    } else {
+        // Confirmation response packet
+        packet->code.confirmation = buffer[offset + 9];
+        if (packet->length > 3 && (packet->length - 3) <= sizeof(packet->parameters)) {
+            memcpy(packet->parameters, &buffer[offset + 10], packet->length - 3);
+        }
+    }
+
+    // Calculate checksum from available data
+    packet->checksum = (buffer[offset + expected_length - 2] << 8) | 
+                       buffer[offset + expected_length - 1];
 
     return packet;
 }
 
-
-
-// Task to continuously read responses and send to queue
 void read_response_task(void *pvParameter) {
     while (1) {
         FingerprintPacket *response = fingerprint_read_response();
-        if (response != NULL) {
-            fingerprint_response_t event;
-            event.packet = *response;
-            free(response);  // Free after copying
-            if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
-                ESP_LOGW(TAG, "Response queue full, dropping packet.");
+        if (response) {
+            fingerprint_response_t event = {0};
+            memcpy(&event.packet, response, sizeof(FingerprintPacket));
+            heap_caps_free(response);
+
+            // Try to send to queue with increased timeout
+            if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(500)) != pdPASS) {
+                ESP_LOGW(TAG, "Response queue full, clearing old messages");
+                xQueueReset(fingerprint_response_queue);  // Clear stale messages
+                // Try sending again
+                if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
+                    ESP_LOGE(TAG, "Still unable to send to queue after reset");
+                }
             }
         }
-
-        vTaskDelay(pdMS_TO_TICKS(10));  // Avoid excessive CPU usage
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
 void process_response_task(void *pvParameter) {
     fingerprint_command_info_t last_cmd;
     fingerprint_response_t response;
+    bool waiting_for_template = false;
+    uint8_t last_buffer_id = 0;
 
     while (1) {
         if (xQueueReceive(fingerprint_response_queue, &response, portMAX_DELAY) == pdTRUE) {
+            // ESP_LOGI(TAG, "Received response: 0x%02X", response.packet.code.command);
+            // Handle template data packets differently
+            if (response.packet.packet_id == 0x02 || response.packet.packet_id == 0x08) {
+                // This is a template data packet
+                if (waiting_for_template) {
+                    // Process template data
+                    fingerprint_status_event_handler(FINGERPRINT_OK, &response.packet);
+                    
+                    if (response.packet.packet_id == 0x08) {
+                        // Last packet received, reset state
+                        waiting_for_template = false;
+                    }
+                }
+                continue;
+            }
+
+            // Regular command-response handling
             if (xQueueReceive(fingerprint_command_queue, &last_cmd, pdMS_TO_TICKS(3000)) == pdTRUE) {
-                uint8_t received_confirmation = response.packet.command; // Confirmation code
-                // ESP_LOGI(TAG, "Command 0x%02X executed successfully.", last_cmd.command);
-                // ESP_LOGI(TAG, "Confirmation code: 0x%02X", received_confirmation);
+                uint8_t received_confirmation = response.packet.code.command;
+                
+                // Check if this is the start of template upload
+                if (last_cmd.command == FINGERPRINT_CMD_UP_CHAR && received_confirmation == FINGERPRINT_OK) {
+                    waiting_for_template = true;
+                    last_buffer_id = response.packet.parameters[0];
+                }
+                
                 fingerprint_status_event_handler((fingerprint_status_t)received_confirmation, &response.packet);
             } else {
-                ESP_LOGW(TAG, "No corresponding command found for response!");
+                // Only log warning for non-template packets
+                if (response.packet.packet_id != 0x02 && response.packet.packet_id != 0x08) {
+                    ESP_LOGW(TAG, "No corresponding command found for response!");
+                }
             }
         }
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
@@ -904,7 +953,7 @@ fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet) {
         return FINGERPRINT_ILLEGAL_DATA; // Return a default error if the packet is NULL
     }
 
-    return (fingerprint_status_t)packet->command; // The command field stores the status code
+    return (fingerprint_status_t)packet->code.confirmation; // The command field stores the status code
 }
 
 // Event status handler function
@@ -912,6 +961,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
     fingerprint_event_type_t event_type = EVENT_NONE;
     fingerprint_event_t event;
     event.status = status;
+    event.command = last_sent_command;
     // event.packet = *packet;  // Store full response packet
 
     if (packet != NULL) {
@@ -1001,11 +1051,13 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                                                      (packet->parameters[9] << 16) |
                                                      (packet->parameters[10] << 8) | 
                                                      packet->parameters[11];
-                event.data.sys_params.data_packet_size = (packet->parameters[12] << 8) | packet->parameters[13];
+                event.data.sys_params.data_packet_size = (1 << 5) << ((packet->parameters[12] << 8) | packet->parameters[13]); // 32 << N
                 event.data.sys_params.baud_rate = ((packet->parameters[14] << 8) | packet->parameters[15]) * 9600;
-                if (enroll_event_group) {
-                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
-                }
+            } else if (last_sent_command == FINGERPRINT_CMD_LOAD_CHAR) {
+                ESP_LOGI(TAG, "Template loaded successfully");
+            } else if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
+                ESP_LOGI(TAG, "Template uploaded successfully");
+                event_type = EVENT_TEMPLATE_UPLOADED;
             }
             if (enroll_event_group) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
@@ -1068,6 +1120,8 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         case FINGERPRINT_DB_RANGE_ERROR:
         case FINGERPRINT_READ_TEMPLATE_ERROR:
         case FINGERPRINT_UPLOAD_FEATURE_FAIL:
+            event_type = EVENT_ERROR;
+            break;
         case FINGERPRINT_DELETE_TEMPLATE_FAIL:
         case FINGERPRINT_DB_EMPTY:
         case FINGERPRINT_ENTRY_COUNT_ERROR:
@@ -1084,7 +1138,12 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         //     } else {
         //         event_type = EVENT_MATCH_FAIL;
         //     }
-            ESP_LOGW(TAG, "Template already exists at specified location");
+            ESP_LOGI(TAG, "Template exists at specified location");
+            if(last_sent_command == FINGERPRINT_CMD_STORE_CHAR){
+                event_type = EVENT_TEMPLATE_EXISTS;
+            } else {
+                event_type = EVENT_MATCH_FAIL;
+            }
             // event_type = EVENT_TEMPLATE_EXISTS;
             if (enroll_event_group) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
@@ -1633,3 +1692,304 @@ esp_err_t read_system_parameters(void) {
     esp_err_t err = fingerprint_send_command(&PS_ReadSysPara, DEFAULT_FINGERPRINT_ADDRESS);
     return err;
 }
+
+// Helper function to load template from flash to buffer
+esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
+    esp_err_t err;
+    EventBits_t bits;
+    uint16_t page_id = convert_index_to_page_id(template_id);
+    
+    // Parameters: BufferID, Page Address (2 bytes)
+    uint8_t params[] = {
+        buffer_id,
+        (uint8_t)(page_id >> 8),
+        (uint8_t)(page_id & 0xFF)
+    };
+    
+    fingerprint_set_command(&PS_LoadChar, FINGERPRINT_CMD_LOAD_CHAR, params, sizeof(params));
+    err = fingerprint_send_command(&PS_LoadChar, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) return err;
+    ESP_LOGI(TAG, "LoadChar command sent");
+    bits = xEventGroupWaitBits(enroll_event_group,
+                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
+                             
+    return (bits & ENROLL_BIT_SUCCESS) ? ESP_OK : ESP_FAIL;
+}
+
+// Upload template from module buffer to host
+esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
+    esp_err_t err;
+    EventBits_t bits;
+    size_t total_size = 0;
+    
+    // First send upload command
+    uint8_t params[] = {buffer_id};
+    fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
+    err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) return err;
+
+    // Wait for acknowledgment and subsequent data packets
+    bits = xEventGroupWaitBits(enroll_event_group,
+                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+                             
+    if (!(bits & ENROLL_BIT_SUCCESS)) {
+        ESP_LOGE(TAG, "Failed to start template upload");
+        return ESP_FAIL;
+    }
+
+    // The actual template data will be handled by process_response_task
+    // which will trigger appropriate events with the template data
+
+    return ESP_OK;
+}
+
+// esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
+//     esp_err_t err;
+//     EventBits_t bits;
+//     size_t total_size = 0;
+//     bool template_complete = false;
+//     fingerprint_response_t response;
+//     uint8_t packet_count = 0;
+//     const uint8_t MAX_PACKETS = 20;  // Maximum number of packets to prevent infinite loops
+    
+//     // First send upload command with correct buffer ID
+//     uint8_t params[] = {buffer_id};
+//     fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
+//     err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
+//     if (err != ESP_OK) return err;
+
+//     // Wait for initial confirmation
+//     bits = xEventGroupWaitBits(enroll_event_group,
+//                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+//                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+    
+//     if (!(bits & ENROLL_BIT_SUCCESS)) {
+//         ESP_LOGE(TAG, "Failed to start template upload");
+//         return ESP_FAIL;
+//     }
+
+//     ESP_LOGI(TAG, "Starting template data reception...");
+
+//     // Reset queues before starting packet reception
+//     uart_flush(UART_NUM);
+//     xQueueReset(fingerprint_command_queue);
+//     xQueueReset(fingerprint_response_queue);
+
+//     // Wait for template data packets
+//     while (!template_complete && total_size < 512 && packet_count < MAX_PACKETS) {
+//         if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(2000)) == pdTRUE) {
+//             packet_count++;
+            
+//             // Only process data packets (0x02 or 0x08)
+//             if (response.packet.packet_id == 0x02 || response.packet.packet_id == 0x08) {
+//                 // Calculate actual data length (excluding command byte and checksum)
+//                 size_t data_length = response.packet.length - 2;
+                
+//                 if (data_length > 0 && total_size + data_length <= 512) {
+//                     // Check for non-zero data before copying
+//                     bool has_data = false;
+//                     for (size_t i = 0; i < data_length; i++) {
+//                         if (response.packet.parameters[i] != 0) {
+//                             has_data = true;
+//                             break;
+//                         }
+//                     }
+
+//                     if (has_data) {
+//                         memcpy(template_data + total_size, response.packet.parameters, data_length);
+//                         total_size += data_length;
+//                         ESP_LOGI(TAG, "Received template packet %d: ID=0x%02X, Length=%d", 
+//                                 packet_count, response.packet.packet_id, data_length);
+//                         ESP_LOG_BUFFER_HEX(TAG, response.packet.parameters, min(16, data_length));
+//                     }
+//                 }
+                
+//                 // Mark complete when we get the final packet (0x08)
+//                 if (response.packet.packet_id == 0x08) {
+//                     template_complete = true;
+//                     ESP_LOGI(TAG, "Received final template packet. Total size: %d bytes", total_size);
+//                     break;
+//                 }
+//             }
+//         } else {
+//             ESP_LOGE(TAG, "Timeout waiting for template data packet %d", packet_count + 1);
+//             return ESP_ERR_TIMEOUT;
+//         }
+//     }
+
+//     if (!template_complete || total_size == 0) {
+//         ESP_LOGE(TAG, "Template upload incomplete or empty after %d packets", packet_count);
+//         return ESP_ERR_INVALID_STATE;
+//     }
+
+//     *template_size = total_size;
+//     ESP_LOGI(TAG, "Template upload complete. Total size: %d bytes", total_size);
+//     ESP_LOG_BUFFER_HEX(TAG, template_data, min(32, total_size));
+//     return ESP_OK;
+// }
+
+// Download template from host to module buffer
+esp_err_t download_template(uint8_t buffer_id, const uint8_t* template_data, size_t template_size) {
+    esp_err_t err;
+    EventBits_t bits;
+    
+    // 1. Send initial download command
+    uint8_t params[] = {buffer_id};
+    fingerprint_set_command(&PS_DownChar, FINGERPRINT_CMD_DOWN_CHAR, params, sizeof(params));
+    err = fingerprint_send_command(&PS_DownChar, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) return err;
+
+    // 2. Wait for confirmation to start sending data (0x00 means ready to receive)
+    bits = xEventGroupWaitBits(enroll_event_group,
+                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+                             
+    if (!(bits & ENROLL_BIT_SUCCESS)) {
+        ESP_LOGE(TAG, "Module not ready to receive template data");
+        return ESP_FAIL;
+    }
+
+    // 3. Send template data packets
+    const size_t MAX_PACKET_SIZE = 128;  // Typical packet size for template data
+    size_t remaining = template_size;
+    size_t offset = 0;
+
+    while (remaining > 0) {
+        size_t chunk_size = (remaining > MAX_PACKET_SIZE) ? MAX_PACKET_SIZE : remaining;
+        bool is_last_packet = (remaining <= MAX_PACKET_SIZE);
+
+        // Create data packet structure
+        FingerprintPacket data_packet = {
+            .header = FINGERPRINT_PACKET_HEADER,
+            .address = DEFAULT_FINGERPRINT_ADDRESS,
+            .packet_id = is_last_packet ? 0x08 : 0x02,  // 0x08 for last packet, 0x02 for others
+            .length = chunk_size + 2,  // Add 2 for checksum
+            .code.command = 0x00  // Data packets don't use command byte
+        };
+
+        // Copy chunk of template data
+        memcpy(data_packet.parameters, template_data + offset, chunk_size);
+        data_packet.checksum = fingerprint_calculate_checksum(&data_packet);
+
+        // Send packet
+        err = fingerprint_send_command(&data_packet, DEFAULT_FINGERPRINT_ADDRESS);
+        if (err != ESP_OK) return err;
+
+        // Wait for acknowledgment after each packet
+        bits = xEventGroupWaitBits(enroll_event_group,
+                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
+        
+        if (!(bits & ENROLL_BIT_SUCCESS)) {
+            ESP_LOGE(TAG, "Failed to send template data packet");
+            return ESP_FAIL;
+        }
+
+        offset += chunk_size;
+        remaining -= chunk_size;
+    }
+
+    return ESP_OK;
+}
+
+// Store template from buffer to flash memory
+esp_err_t store_template(uint8_t buffer_id, uint16_t template_id) {
+    esp_err_t err;
+    EventBits_t bits;
+    uint16_t page_id = convert_index_to_page_id(template_id);
+    
+    // Parameters: BufferID, Page Address (2 bytes)
+    uint8_t params[] = {
+        buffer_id,
+        (uint8_t)(page_id >> 8),
+        (uint8_t)(page_id & 0xFF)
+    };
+    
+    fingerprint_set_command(&PS_StoreChar, FINGERPRINT_CMD_STORE_CHAR, params, sizeof(params));
+    err = fingerprint_send_command(&PS_StoreChar, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) return err;
+
+    bits = xEventGroupWaitBits(enroll_event_group,
+                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
+                             
+    return (bits & ENROLL_BIT_SUCCESS) ? ESP_OK : ESP_FAIL;
+}
+
+// Example usage for backing up a template:
+esp_err_t backup_template(uint16_t template_id) {
+    esp_err_t err;
+    uint8_t template_data[512];  // Adjust size as needed
+    size_t template_size = 0;
+
+    // Create event group at the start of backup process
+    err = initialize_event_group();
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to initialize event group");
+        return err;
+    }
+    
+    ESP_LOGI(TAG, "Loading Template...");
+    // Convert template_id to page_id for LoadChar command
+    uint16_t page_id = convert_index_to_page_id(template_id);
+    
+    // 1. Load template from flash to buffer 1 with correct page_id
+    err = load_template_to_buffer(page_id, 1);
+    if (err != ESP_OK) {
+        cleanup_event_group();
+        return err;
+    }
+    
+    ESP_LOGI(TAG, "Loading Template Successful");
+    // 2. Upload template from buffer to host
+    ESP_LOGI(TAG, "Uploading Template...");
+    err = upload_template(1, template_data, &template_size);
+    
+    cleanup_event_group();
+    if (err != ESP_OK) return err;
+
+    ESP_LOGI(TAG, "Template backup successful");
+    return ESP_OK;
+}
+
+// Example usage for restoring a template:
+esp_err_t restore_template(uint16_t template_id, const uint8_t* template_data, size_t template_size) {
+    // 1. Download template to buffer 1
+    esp_err_t err = download_template(1, template_data, template_size);
+    if (err != ESP_OK) return err;
+    
+    // 2. Store template from buffer to flash
+    err = store_template(1, template_id);
+    if (err != ESP_OK) return err;
+    
+    return ESP_OK;
+}
+
+esp_err_t initialize_event_group(void) {
+    if (enroll_event_group == NULL) {
+        enroll_event_group = xEventGroupCreate();
+        if (enroll_event_group == NULL) {
+            // ESP_LOGE(TAG, "Failed to create event group");
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
+    // Clear any existing bits to ensure a clean state
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    return ESP_OK;
+}
+
+esp_err_t cleanup_event_group(void) {
+    if (enroll_event_group == NULL) {
+        // ESP_LOGW(TAG, "Event group is already NULL.");
+        return ESP_ERR_INVALID_STATE;  // Indicates it was already deleted
+    }
+
+    vEventGroupDelete(enroll_event_group);
+    enroll_event_group = NULL;
+    // ESP_LOGI(TAG, "Enrollment event group deleted successfully.");
+    return ESP_OK;
+}
+
