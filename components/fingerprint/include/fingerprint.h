@@ -1442,22 +1442,133 @@ void process_fingerprint_responses_task(void *pvParameter);
      */
     EVENT_DB_CLEARED,  /**< Database emptied successfully */
 
+    /**
+     * @brief Event triggered when system parameters are successfully read.
+     *
+     * This event indicates that the fingerprint module's system parameters, 
+     * such as device address, security level, and baud rate, have been retrieved successfully.
+     */
+    EVENT_SYS_PARAMS_READ,  /**< System parameters read successfully */
+
 
  } fingerprint_event_type_t;
 
-/**
- * @brief Structure representing a fingerprint event.
- * 
- * This structure encapsulates a high-level fingerprint event, along with 
- * the original status code and the associated response packet data.
- * It is used to convey meaningful events triggered by the fingerprint module.
- * 
- * @struct fingerprint_event_t
+ /**
+ * @struct fingerprint_sys_params_t
+ * @brief Structure containing system parameters from the fingerprint module.
+ *
+ * This structure stores various system-level parameters retrieved from the 
+ * fingerprint module, including device configuration, security settings, 
+ * and communication parameters.
  */
 typedef struct {
-    fingerprint_event_type_t type;  /**< The high-level fingerprint event type (e.g., EVENT_FINGER_DETECTED, EVENT_MATCH_FAIL). */
-    fingerprint_status_t status;    /**< The original fingerprint status code received from the sensor. */
-    FingerprintPacket packet;       /**< The full response packet received from the fingerprint module. */
+    /**
+     * @brief Status register of the fingerprint module.
+     *
+     * This register contains the current operational status and any error codes
+     * related to the fingerprint module.
+     */
+    uint16_t status_register;
+
+    /**
+     * @brief System identifier code.
+     *
+     * A unique identifier assigned to the fingerprint module for verification
+     * and compatibility checks.
+     */
+    uint16_t system_id;
+
+    /**
+     * @brief Number of fingerprints that can be stored in the library.
+     *
+     * Represents the maximum capacity of stored fingerprint templates
+     * in the module's internal storage.
+     */
+    uint16_t finger_library;
+
+    /**
+     * @brief Security level setting of the fingerprint module.
+     *
+     * Determines the strictness of fingerprint matching. Higher values
+     * indicate stricter matching conditions.
+     */
+    uint16_t security_level;
+
+    /**
+     * @brief Device address used for module communication.
+     *
+     * The fingerprint module communicates using a unique 32-bit address.
+     * The default value is `0xFFFFFFFF` (broadcast mode).
+     */
+    uint32_t device_address;
+
+    /**
+     * @brief Data packet size for communication.
+     *
+     * Specifies the length of data packets exchanged between the fingerprint
+     * module and the microcontroller. Common values: 32, 64, 128, or 256 bytes.
+     */
+    uint16_t data_packet_size;
+
+    /**
+     * @brief Baud rate setting for UART communication.
+     *
+     * Determines the communication speed between the fingerprint module
+     * and the microcontroller. Typically set in multiples of 9600 baud.
+     */
+    uint16_t baud_rate;
+} fingerprint_sys_params_t;
+
+
+/**
+ * @struct fingerprint_match_info_t
+ * @brief Stores detailed match information when a fingerprint match is successful.
+ *
+ * This structure holds the match result details, including the raw page ID 
+ * from the fingerprint sensor, the converted template ID, and the match score.
+ */
+typedef struct {
+    uint16_t page_id;     /**< Raw page ID returned by the fingerprint module */
+    uint16_t template_id; /**< Converted template ID for application use */
+    uint16_t match_score; /**< Confidence score of the match */
+} fingerprint_match_info_t;
+
+/**
+ * @struct fingerprint_template_count_t
+ * @brief Stores the count of enrolled fingerprints in the module.
+ *
+ * This structure is used when retrieving the number of stored fingerprint templates.
+ */
+typedef struct {
+    uint16_t count; /**< Number of enrolled fingerprints */
+} fingerprint_template_count_t;
+
+/**
+ * @struct fingerprint_event_t
+ * @brief Defines a generic fingerprint event structure with flexible response types.
+ *
+ * This structure represents an event triggered by the fingerprint module. It 
+ * includes the event type, response status, and a flexible data union that can 
+ * store different types of structured response data.
+ */
+typedef struct {
+    fingerprint_event_type_t type;  /**< The type of fingerprint event */
+    fingerprint_status_t status;    /**< Status code returned from the fingerprint module */
+    FingerprintPacket packet;       /**< Raw response packet (for backward compatibility) */
+
+    /**
+     * @union data
+     * @brief Stores structured response data depending on the event type.
+     *
+     * This union allows different event types to carry relevant data, improving 
+     * readability and reducing the need for manual parsing in the main application.
+     */
+    union {
+        fingerprint_match_info_t match_info;   /**< Data for fingerprint match events */
+        fingerprint_template_count_t template_count; /**< Data for template count events */
+        fingerprint_sys_params_t sys_params;     // Added system parameters
+        // Extend with additional structured types as needed
+    } data;
 } fingerprint_event_t;
 
  
@@ -1650,7 +1761,7 @@ esp_err_t validate_template_location(uint16_t location);
  *     - ESP_ERR_INVALID_ARG: The provided argument is invalid.
  *     - ESP_FAIL: Failed to retrieve the count due to other reasons.
  */
-esp_err_t get_enrolled_count(uint16_t *count);
+esp_err_t get_enrolled_count(void);
 
 /**
  * @brief Indicates whether an enrollment process is currently in progress.
@@ -1689,6 +1800,11 @@ uint16_t convert_page_id_to_index(uint16_t page_id);
  * @return uint16_t The corresponding page ID
  */
 uint16_t convert_index_to_page_id(uint16_t index);
+
+/**
+ * @brief Reads system parameters from the fingerprint module.
+ */
+esp_err_t read_system_parameters(void);
 
  #ifdef __cplusplus
  }

@@ -928,6 +928,10 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
                 event_type = EVENT_SEARCH_SUCCESS;
                 event.packet = *packet;
+                // Parse parameters into structured format
+                event.data.match_info.page_id = (packet->parameters[1] << 8) | packet->parameters[0];
+                event.data.match_info.template_id = convert_page_id_to_index(event.data.match_info.page_id);
+                event.data.match_info.match_score = (packet->parameters[3] << 8) | packet->parameters[2];
                 if (enroll_event_group) {
                     xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);  // Changed from FAIL to SUCCESS
                 }
@@ -938,8 +942,8 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 // event_type = EVENT_IMAGE_VALID;
             } else if (last_sent_command == FINGERPRINT_CMD_VALID_TEMPLATE_NUM) {
                 event_type = EVENT_TEMPLATE_COUNT;
-                uint16_t template_count = (packet->parameters[0] << 8) | packet->parameters[1];
-                ESP_LOGI(TAG, "Number of valid templates: %d", template_count);
+                event.data.template_count.count = (packet->parameters[0] << 8) | packet->parameters[1];
+                // ESP_LOGI(TAG, "Number of valid templates: %d", event.data.template_count.count);
             } else if (last_sent_command == FINGERPRINT_CMD_READ_INDEX_TABLE) {
                 event_type = EVENT_INDEX_TABLE_READ;
                 // if (enroll_event_group) {
@@ -987,6 +991,21 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 event_type = EVENT_MODEL_CREATED;
             } else if (last_sent_command == FINGERPRINT_CMD_STORE_CHAR) {
                 event_type = EVENT_TEMPLATE_STORED;
+            } else if (last_sent_command == FINGERPRINT_CMD_READ_SYS_PARA) {
+                event_type = EVENT_SYS_PARAMS_READ;
+                event.data.sys_params.status_register = (packet->parameters[0] << 8) | packet->parameters[1];
+                event.data.sys_params.system_id = (packet->parameters[2] << 8) | packet->parameters[3];
+                event.data.sys_params.finger_library = (packet->parameters[4] << 8) | packet->parameters[5];
+                event.data.sys_params.security_level = (packet->parameters[6] << 8) | packet->parameters[7];
+                event.data.sys_params.device_address = (packet->parameters[8] << 24) | 
+                                                     (packet->parameters[9] << 16) |
+                                                     (packet->parameters[10] << 8) | 
+                                                     packet->parameters[11];
+                event.data.sys_params.data_packet_size = (packet->parameters[12] << 8) | packet->parameters[13];
+                event.data.sys_params.baud_rate = ((packet->parameters[14] << 8) | packet->parameters[15]) * 9600;
+                if (enroll_event_group) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                }
             }
             if (enroll_event_group) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
@@ -1553,7 +1572,7 @@ cleanup:
     return err;
 }
 
-esp_err_t get_enrolled_count(uint16_t *count) {
+esp_err_t get_enrolled_count(void) {
     esp_err_t err;
     EventBits_t bits;
     fingerprint_response_t response;
@@ -1580,19 +1599,21 @@ esp_err_t get_enrolled_count(uint16_t *count) {
                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                              pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
 
-    if (bits & ENROLL_BIT_SUCCESS) {
-        // Get response from queue
-        if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(1000)) == pdTRUE) {
-            *count = (response.packet.parameters[0] << 8) | 
-                     response.packet.parameters[1];
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-            return ESP_OK;
-        }
-    }
-
     vEventGroupDelete(enroll_event_group);
     enroll_event_group = NULL;
+
+    if (bits & ENROLL_BIT_SUCCESS) {
+        // // Get response from queue
+        // if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(1000)) == pdTRUE) {
+        //     // *count = (response.packet.parameters[0] << 8) | 
+        //     //          response.packet.parameters[1];
+        //     vEventGroupDelete(enroll_event_group);
+        //     enroll_event_group = NULL;
+        //     return ESP_OK;
+        // }
+        return ESP_OK;
+    }
+
     return ESP_FAIL;
 }
 
@@ -1602,4 +1623,13 @@ uint16_t convert_page_id_to_index(uint16_t page_id) {
 
 uint16_t convert_index_to_page_id(uint16_t index) {
     return index * 256;
+}
+
+/**
+ * @brief Reads system parameters from the fingerprint module.
+ */
+esp_err_t read_system_parameters(void) {
+    ESP_LOGI(TAG, "Reading system parameters...");
+    esp_err_t err = fingerprint_send_command(&PS_ReadSysPara, DEFAULT_FINGERPRINT_ADDRESS);
+    return err;
 }

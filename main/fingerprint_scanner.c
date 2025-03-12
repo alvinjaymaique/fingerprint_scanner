@@ -114,10 +114,19 @@ void app_main(void)
     }
 
     // Get number of enrolled fingerprints
-    uint16_t enrolled_count;
-    err = get_enrolled_count(&enrolled_count);
+    // uint16_t enrolled_count;
+    err = get_enrolled_count();
     if (err == ESP_OK) {
-        ESP_LOGI(TAG, "Number of enrolled fingerprints: %d", enrolled_count);
+        ESP_LOGI(TAG, "Count of enrolled fingerprints sent successfully.");
+    } else {
+        ESP_LOGE(TAG, "Failed to send command to the enrolled fingerprints.");
+    }
+
+    err = read_system_parameters();
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "System parameters read successfully.");
+    } else {
+        ESP_LOGE(TAG, "Failed to read system parameters.");
     }
 
 }
@@ -162,10 +171,8 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_MATCH_SUCCESS:
             ESP_LOGI(TAG, "Fingerprint match successful! Status: 0x%02X", event.status);
-            ESP_LOGI(TAG, "Match found at Page ID: %d", 
-                convert_page_id_to_index((event.packet.parameters[1] << 8) | event.packet.parameters[0]));
-            ESP_LOGI(TAG, "Match score: %d", 
-                (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
+            ESP_LOGI(TAG, "Match found at Enrollee ID: %d", event.data.match_info.template_id);
+            ESP_LOGI(TAG, "Match score: %d", event.data.match_info.match_score);
             break;
         case EVENT_MATCH_FAIL:
             ESP_LOGI(TAG, "Fingerprint mismatch. Status: 0x%02X", event.status);
@@ -192,14 +199,25 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_SEARCH_SUCCESS:
             ESP_LOGI(TAG, "Fingerprint search successful. Status: 0x%02X", event.status);
-            ESP_LOGI(TAG, "Match found at Page ID: %d", 
-                convert_page_id_to_index((event.packet.parameters[1] << 8) | event.packet.parameters[0]));
-            ESP_LOGI(TAG, "Match score: %d", 
-                (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
+            ESP_LOGI(TAG, "Match found at Enrollee ID: %d", event.data.match_info.template_id);
+            ESP_LOGI(TAG, "Match score: %d", event.data.match_info.match_score);
             break;
         case EVENT_INDEX_TABLE_READ:
             ESP_LOGI(TAG, "Index table read successful. Status: 0x%02X", event.status);
             ESP_LOG_BUFFER_HEX("Index Table Parameters", event.packet.parameters, sizeof(event.packet.parameters));
+            break;
+        case EVENT_TEMPLATE_COUNT:
+            ESP_LOGI("EVENT TEMPLATE COUNT", "Number of valid templates: %d", event.data.template_count.count);
+            break;
+        case EVENT_SYS_PARAMS_READ:
+            ESP_LOGI(TAG, "System parameters read successfully. Status: 0x%02X", event.status);
+            ESP_LOGI(TAG, "Status Register: 0x%04X", event.data.sys_params.status_register);
+            ESP_LOGI(TAG, "System ID: 0x%04X", event.data.sys_params.system_id);
+            ESP_LOGI(TAG, "Fingerprint Database Size: 0x%04X", event.data.sys_params.finger_library);
+            ESP_LOGI(TAG, "Security Level: 0x%04X", event.data.sys_params.security_level);
+            ESP_LOGI(TAG, "Device Address: 0x%08" PRIX32, event.data.sys_params.device_address);  // Fix for uint32_t
+            ESP_LOGI(TAG, "Data Packet Size: %u bytes", event.data.sys_params.data_packet_size); // No need for hex
+            ESP_LOGI(TAG, "Baud Rate: %u bps", event.data.sys_params.baud_rate); // Convert baud multiplier to actual baud rate
             break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);
