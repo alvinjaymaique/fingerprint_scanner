@@ -75,7 +75,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 0x000A;  // Storage location for fingerprint template
+    uint16_t location = 0x0001;  // Storage location for fingerprint template
     
     err = enroll_fingerprint(location);
     if (err == ESP_OK) {
@@ -92,6 +92,14 @@ void app_main(void)
     // } else {
     //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
     // }
+
+    // err = clear_database();
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Fingerprint database cleared successfully!");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to clear fingerprint database!");
+    // }
+
     
     ESP_LOGI(TAG, "Starting fingerprint verification...");
     vTaskDelay(pdMS_TO_TICKS(2000));  // Delay before sending the next command
@@ -155,7 +163,7 @@ void handle_fingerprint_event(fingerprint_event_t event) {
         case EVENT_MATCH_SUCCESS:
             ESP_LOGI(TAG, "Fingerprint match successful! Status: 0x%02X", event.status);
             ESP_LOGI(TAG, "Match found at Page ID: %d", 
-                (event.packet.parameters[1] << 8) | event.packet.parameters[0]);
+                convert_page_id_to_index((event.packet.parameters[1] << 8) | event.packet.parameters[0]));
             ESP_LOGI(TAG, "Match score: %d", 
                 (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
             break;
@@ -185,7 +193,7 @@ void handle_fingerprint_event(fingerprint_event_t event) {
         case EVENT_SEARCH_SUCCESS:
             ESP_LOGI(TAG, "Fingerprint search successful. Status: 0x%02X", event.status);
             ESP_LOGI(TAG, "Match found at Page ID: %d", 
-                (event.packet.parameters[1] << 8) | event.packet.parameters[0]);
+                convert_page_id_to_index((event.packet.parameters[1] << 8) | event.packet.parameters[0]));
             ESP_LOGI(TAG, "Match score: %d", 
                 (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
             break;

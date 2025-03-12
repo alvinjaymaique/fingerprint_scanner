@@ -511,7 +511,7 @@ typedef struct {
  /**
   * @brief Deletes a specific fingerprint template from the database.
   */
- extern FingerprintPacket PS_DeletChar;
+ extern FingerprintPacket PS_DeleteChar;
  
  /**
   * @brief Clears all stored fingerprints (factory reset).
@@ -1661,6 +1661,34 @@ esp_err_t get_enrolled_count(uint16_t *count);
  * taking place.
  */
 extern bool enrollment_in_progress;
+
+/**
+ * @brief Converts fingerprint module page ID to a sequential page index
+ * 
+ * Maps page IDs to their actual indices:
+ * - Page ID 0   -> Index 0
+ * - Page ID 256 -> Index 1
+ * - Page ID 512 -> Index 2
+ * - Page ID 768 -> Index 3
+ * 
+ * @param page_id The raw page ID from the fingerprint module
+ * @return uint16_t The sequential page index
+ */
+uint16_t convert_page_id_to_index(uint16_t page_id);
+
+/**
+ * @brief Converts a sequential page index back to the fingerprint module page ID
+ * 
+ * Maps indices back to their page IDs:
+ * - Index 0 -> Page ID 0
+ * - Index 1 -> Page ID 256
+ * - Index 2 -> Page ID 512
+ * - Index 3 -> Page ID 768
+ * 
+ * @param index The sequential page index
+ * @return uint16_t The corresponding page ID
+ */
+uint16_t convert_index_to_page_id(uint16_t index);
 
  #ifdef __cplusplus
  }

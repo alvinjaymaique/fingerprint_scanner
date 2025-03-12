@@ -137,7 +137,7 @@ FingerprintPacket PS_StoreChar = {
     .checksum = 0x000F // Hardcoded checksum
 };
 
-FingerprintPacket PS_DeletChar = {
+FingerprintPacket PS_DeleteChar = {
     .header = FINGERPRINT_PACKET_HEADER,
     .address = DEFAULT_FINGERPRINT_ADDRESS,
     .packet_id = FINGERPRINT_PACKET_ID_CMD,
@@ -1484,8 +1484,8 @@ esp_err_t delete_fingerprint(uint16_t location) {
         0x00, 0x01                   // Delete 1 template
     };
     
-    fingerprint_set_command(&PS_DeletChar, FINGERPRINT_CMD_DELETE_CHAR, delete_params, sizeof(delete_params));
-    err = fingerprint_send_command(&PS_DeletChar, DEFAULT_FINGERPRINT_ADDRESS);
+    fingerprint_set_command(&PS_DeleteChar, FINGERPRINT_CMD_DELETE_CHAR, delete_params, sizeof(delete_params));
+    err = fingerprint_send_command(&PS_DeleteChar, DEFAULT_FINGERPRINT_ADDRESS);
     if (err != ESP_OK) {
         goto cleanup;
     }
@@ -1594,4 +1594,12 @@ esp_err_t get_enrolled_count(uint16_t *count) {
     vEventGroupDelete(enroll_event_group);
     enroll_event_group = NULL;
     return ESP_FAIL;
+}
+
+uint16_t convert_page_id_to_index(uint16_t page_id) {
+    return page_id / 256;
+}
+
+uint16_t convert_index_to_page_id(uint16_t index) {
+    return index * 256;
 }
