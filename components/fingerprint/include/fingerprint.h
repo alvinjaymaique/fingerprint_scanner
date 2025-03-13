@@ -275,7 +275,7 @@
  * @note A larger value increases buffering but consumes more memory. 
  *       Adjust as needed based on system constraints.
  */
-#define QUEUE_SIZE 10
+#define QUEUE_SIZE 32
 
 /**
  * @brief GPIO pin for the fingerprint sensor interrupt.
@@ -835,6 +835,18 @@ extern FingerprintPacket PS_UpChar;
  */
 extern FingerprintPacket PS_DownChar;
 
+/**
+ * @brief External declaration of the Read Information Page command.
+ *
+ * This command is used to read the information page of the fingerprint module,
+ * which typically contains device-specific details such as firmware version, 
+ * module serial number, and other relevant metadata.
+ *
+ * @note Ensure that the fingerprint module is properly initialized before 
+ * calling this command.
+ */
+extern FingerprintPacket PS_ReadINFPage;
+
  
  /**
   * @brief Fingerprint sensor status codes.
@@ -1111,6 +1123,11 @@ esp_err_t fingerprint_init(void);
  *          continuous response handling.
  */
 void read_response_task(void *pvParameter);
+
+typedef struct {
+    FingerprintPacket **packets;  // Array of packet pointers
+    size_t count;                 // Number of packets found
+} MultiPacketResponse;
  
 /**
  * @brief Reads the response packet from UART and returns a dynamically allocated FingerprintPacket.
@@ -1120,7 +1137,8 @@ void read_response_task(void *pvParameter);
  *
  * @return Pointer to the received FingerprintPacket, or NULL on failure.
  */
- FingerprintPacket* fingerprint_read_response(void);
+//  FingerprintPacket* fingerprint_read_response(void);
+MultiPacketResponse* fingerprint_read_response(void);
 
 /**
  * @brief Task function to process fingerprint scanner responses.
@@ -1463,6 +1481,32 @@ typedef struct {
      * or an invalid template format.
      */
     EVENT_TEMPLATE_UPLOAD_FAIL,  /**< Fingerprint template upload failed */
+
+    /**
+     * @brief Event triggered when the information page is successfully read.
+     *
+     * This event is generated after executing the Read Information Page command 
+     * and receiving a valid response from the fingerprint module. It indicates 
+     * that the module's details, such as firmware version and serial number, 
+     * have been retrieved.
+     */
+    EVENT_INFO_PAGE_READ,
+
+    /**
+     * @brief Event triggered when a fingerprint template is successfully loaded from flash memory into the buffer.
+     *
+     * This event occurs after executing the `PS_LoadChar` command, indicating that the fingerprint template 
+     * has been retrieved from the module’s internal storage and is now available for further operations such as 
+     * matching, uploading, or storing in another location.
+     *
+     * @note Ensure that the `PS_LoadChar` command completes successfully before relying on this event.
+     *       If the template is corrupt or missing, subsequent operations like `PS_UpChar` may return zeroed data.
+     *
+     * @see PS_LoadChar
+     * @see EVENT_TEMPLATE_UPLOADED
+     * @see EVENT_TEMPLATE_MATCHED
+     */
+    EVENT_TEMPLATE_LOADED,
 
 
  } fingerprint_event_type_t;
@@ -1915,6 +1959,20 @@ esp_err_t initialize_event_group(void);
  */
 esp_err_t cleanup_event_group(void);
 
+/**
+ * @brief Reads the information page from the fingerprint module.
+ *
+ * This function sends the Read Information Page command to the fingerprint module 
+ * and retrieves details such as firmware version, serial number, and other metadata.
+ *
+ * @return 
+ *      - `ESP_OK` if the information page is successfully read.
+ *      - `ESP_ERR_INVALID_RESPONSE` if an unexpected response is received.
+ *      - `ESP_FAIL` if communication with the module fails.
+ */
+esp_err_t read_info_page(void);
+
+#define TEMPLATE_UPLOAD_COMPLETE_BIT BIT(2)
 
  #ifdef __cplusplus
  }

@@ -487,6 +487,17 @@ FingerprintPacket PS_LoadChar = {
     .checksum = 0x000C
 };
 
+FingerprintPacket PS_ReadINFPage = {
+    .header = FINGERPRINT_PACKET_HEADER,
+    .address = DEFAULT_FINGERPRINT_ADDRESS,
+    .packet_id = FINGERPRINT_PACKET_ID_CMD,
+    .length = 0x0003,
+    .code.command = FINGERPRINT_CMD_READ_INF_PAGE,  // Read Information Page Command
+    .parameters = {0},      // No additional parameters required
+    .checksum = 0x001A      // Placeholder checksum (should be computed dynamically)
+};
+
+
 esp_err_t check_duplicate_fingerprint(void) {
     esp_err_t err;
     // EventBits_t bits;
@@ -804,148 +815,480 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 }
 
 
-FingerprintPacket* fingerprint_read_response(void) {
-    uint8_t buffer[512];  // Increased buffer size for template data packets
-    int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200 / portTICK_PERIOD_MS);
+// FingerprintPacket* fingerprint_read_response(void) {
+//     uint8_t buffer[512];  // Increased buffer size for template data packets
+//     int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200 / portTICK_PERIOD_MS);
 
-    if (length <= 0) {
-        return NULL;
-    }
+//     if (length <= 0) {
+//         return NULL;
+//     }
 
-    // Find start of packet
-    int offset = 0;
-    while (offset < length - 1) {
-        if (buffer[offset] == 0xEF && buffer[offset + 1] == 0x01) {
-            break;
-        }
-        offset++;
-    }
+//     // Find start of packet
+//     int offset = 0;
+//     while (offset < length - 1) {
+//         if (buffer[offset] == 0xEF && buffer[offset + 1] == 0x01) {
+//             break;
+//         }
+//         offset++;
+//     }
 
-    if (offset >= length - 9) {  // Not enough bytes for header
-        return NULL;
-    }
+//     if (offset >= length - 9) {  // Not enough bytes for header
+//         return NULL;
+//     }
 
-    // Allocate memory for the packet
-    FingerprintPacket *packet = (FingerprintPacket*)heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
-    if (!packet) {
-        ESP_LOGE(TAG, "Memory allocation failed!");
-        return NULL;
-    }
-    memset(packet, 0, sizeof(FingerprintPacket));
+//     // Allocate memory for the packet
+//     FingerprintPacket *packet = (FingerprintPacket*)heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+//     if (!packet) {
+//         ESP_LOGE(TAG, "Memory allocation failed!");
+//         return NULL;
+//     }
+//     memset(packet, 0, sizeof(FingerprintPacket));
 
-    // Extract basic header information
-    packet->header = (buffer[offset] << 8) | buffer[offset + 1];
-    packet->address = (buffer[offset + 2] << 24) | (buffer[offset + 3] << 16) |
-                     (buffer[offset + 4] << 8) | buffer[offset + 5];
-    packet->packet_id = buffer[offset + 6];
-    packet->length = (buffer[offset + 7] << 8) | buffer[offset + 8];
+//     // Extract basic header information
+//     packet->header = (buffer[offset] << 8) | buffer[offset + 1];
+//     packet->address = (buffer[offset + 2] << 24) | (buffer[offset + 3] << 16) |
+//                      (buffer[offset + 4] << 8) | buffer[offset + 5];
+//     packet->packet_id = buffer[offset + 6];
+//     packet->length = (buffer[offset + 7] << 8) | buffer[offset + 8];
 
-    // Calculate total expected packet length
-    uint16_t expected_length = packet->length + 9;  // header(2) + addr(4) + pid(1) + len(2) + data + chk(2)
+//     // Calculate total expected packet length
+//     uint16_t expected_length = packet->length + 9;  // header(2) + addr(4) + pid(1) + len(2) + data + chk(2)
     
-    if (offset + expected_length > length) {
-        // For data packets, allow partial reads
-        if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
-            expected_length = length - offset;
-            packet->length = expected_length - 9;
+//     if (offset + expected_length > length) {
+//         // For data packets, allow partial reads
+//         if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
+//             expected_length = length - offset;
+//             packet->length = expected_length - 9;
+//         } else {
+//             ESP_LOGE(TAG, "Incomplete packet! Expected: %d, Available: %d",
+//                      expected_length, length - offset);
+//             heap_caps_free(packet);
+//             return NULL;
+//         }
+//     }
+
+//     // Handle different packet types
+//     if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
+//         // Data packet (template data)
+//         if (last_sent_command == FINGERPRINT_CMD_UP_CHAR && 
+//             packet->length <= sizeof(packet->parameters)) {
+//             memcpy(packet->parameters, &buffer[offset + 9], packet->length);
+//             packet->code.confirmation = 0x00;  // Data packets don't use command byte
+//         }
+//     } else {
+//         // Confirmation response packet
+//         packet->code.confirmation = buffer[offset + 9];
+//         if (packet->length > 3 && (packet->length - 3) <= sizeof(packet->parameters)) {
+//             memcpy(packet->parameters, &buffer[offset + 10], packet->length - 3);
+//         }
+//     }
+
+//     // Calculate checksum from available data
+//     packet->checksum = (buffer[offset + expected_length - 2] << 8) | 
+//                        buffer[offset + expected_length - 1];
+
+//     return packet;
+// }
+
+// FingerprintPacket* fingerprint_read_response(void) {
+//     uint8_t buffer[512];  // Buffer for template data
+//     int length = uart_read_bytes(UART_NUM, buffer, sizeof(buffer), 200 / portTICK_PERIOD_MS);
+//     // ESP_LOG_BUFFER_HEXDUMP("Fingerprint Response", buffer, length, ESP_LOG_INFO);
+//     if (length <= 0) return NULL;
+
+//     // Find packet header
+//     int offset = 0;
+//     while (offset < length - 1) {
+//         if (buffer[offset] == 0xEF && buffer[offset + 1] == 0x01) break;
+//         offset++;
+//     }
+
+//     if (offset >= length - 9) return NULL;
+
+//     FingerprintPacket *packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+//     if (!packet) {
+//         ESP_LOGE(TAG, "Memory allocation failed!");
+//         return NULL;
+//     }
+//     memset(packet, 0, sizeof(FingerprintPacket));
+
+//     // Parse header info
+//     packet->header = (buffer[offset] << 8) | buffer[offset + 1];
+//     packet->address = (buffer[offset + 2] << 24) | (buffer[offset + 3] << 16) |
+//                      (buffer[offset + 4] << 8) | buffer[offset + 5];
+//     packet->packet_id = buffer[offset + 6];
+//     packet->length = (buffer[offset + 7] << 8) | buffer[offset + 8];
+
+//     // Key fix: Handle data packets correctly
+//     if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {  // Data packet
+//         // For data packets, payload starts at offset+9
+//         size_t data_length = length - (offset + 9) - 2;  // -2 for checksum
+//         if (data_length > 0 && data_length <= sizeof(packet->parameters)) {
+//             memcpy(packet->parameters, &buffer[offset + 9], data_length);
+//             ESP_LOGI(TAG, "Copying %d bytes of template data", data_length);
+//             ESP_LOG_BUFFER_HEX("Template Data", packet->parameters, data_length);
+//         }
+//     } else {  // Command response packet
+//         packet->code.confirmation = buffer[offset + 9];
+//         if (packet->length > 3) {
+//             size_t param_length = packet->length - 3;
+//             if (param_length <= sizeof(packet->parameters)) {
+//                 memcpy(packet->parameters, &buffer[offset + 10], param_length);
+//             }
+//         }
+//     }
+
+//     // Get checksum from end of packet
+//     packet->checksum = (buffer[offset + length - 2] << 8) | buffer[offset + length - 1];
+
+//     return packet;
+// }
+
+MultiPacketResponse* fingerprint_read_response(void) {
+    static uint8_t leftover_buffer[512] = {0};
+    static size_t leftover_size = 0;
+    static bool expecting_template = false;
+    uint8_t buffer[512];
+    int total_length = 0;
+    int read_attempts = 0;
+    const int MAX_READ_ATTEMPTS = 10;  // Maximum number of read attempts
+    
+    // First, copy any leftover data
+    if (leftover_size > 0) {
+        memcpy(buffer, leftover_buffer, leftover_size);
+        total_length = leftover_size;
+        leftover_size = 0;
+    }
+
+    // Read data in chunks until we get complete packets
+    while (read_attempts < MAX_READ_ATTEMPTS) {
+        int bytes_read = uart_read_bytes(UART_NUM, 
+                                       buffer + total_length, 
+                                       sizeof(buffer) - total_length, 
+                                       200 / portTICK_PERIOD_MS);
+        
+        if (bytes_read > 0) {
+            total_length += bytes_read;
+            
+            // Look for packet markers to determine if we have complete data
+            bool found_complete_sequence = false;
+            int packet_count = 0;
+            int last_packet_type = 0;
+            
+            for (int i = 0; i < total_length - 1; i++) {
+                if (buffer[i] == 0xEF && buffer[i + 1] == 0x01) {
+                    packet_count++;
+                    if (i + 9 < total_length) {  // Have enough bytes to read packet ID
+                        last_packet_type = buffer[i + 6];  // packet_id location
+                        if (last_packet_type == 0x08) {  // End of template data
+                            found_complete_sequence = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // If we found a complete sequence or have enough regular packets
+            if (found_complete_sequence || (!expecting_template && packet_count > 0)) {
+                break;
+            }
+        }
+        
+        // Check if we're expecting template data based on last command
+        if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
+            expecting_template = true;
+        }
+
+        read_attempts++;
+        vTaskDelay(pdMS_TO_TICKS(10));  // Small delay between reads
+    }
+
+    if (total_length == 0) return NULL;
+    ESP_LOG_BUFFER_HEXDUMP("Fingerprint Response", buffer, total_length, ESP_LOG_INFO);
+    // Allocate response structure
+    MultiPacketResponse *response = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
+    if (!response) {
+        ESP_LOGE(TAG, "Failed to allocate response structure");
+        return NULL;
+    }
+
+    // Allocate space for packet pointers (estimate max possible packets)
+    response->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * (total_length / 11), MALLOC_CAP_8BIT);
+    if (!response->packets) {
+        heap_caps_free(response);
+        return NULL;
+    }
+    response->count = 0;
+
+    // Process all complete packets in the buffer
+    int offset = 0;
+    while (offset < total_length - 9) {
+        if (buffer[offset] == 0xEF && buffer[offset + 1] == 0x01) {
+            FingerprintPacket *packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+            if (!packet) continue;
+
+            memset(packet, 0, sizeof(FingerprintPacket));
+            packet->header = (buffer[offset] << 8) | buffer[offset + 1];
+            packet->address = (buffer[offset + 2] << 24) | (buffer[offset + 3] << 16) |
+                            (buffer[offset + 4] << 8) | buffer[offset + 5];
+            packet->packet_id = buffer[offset + 6];
+            packet->length = (buffer[offset + 7] << 8) | buffer[offset + 8];
+
+            size_t packet_size = packet->length + 9;
+
+            // Check if we have a complete packet
+            if (offset + packet_size > total_length) {
+                // Save incomplete packet data for next read
+                leftover_size = total_length - offset;
+                memcpy(leftover_buffer, buffer + offset, leftover_size);
+                heap_caps_free(packet);
+                break;
+            }
+
+            // Process packet based on type
+            if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
+                size_t data_length = packet->length - 2;
+                if (data_length <= sizeof(packet->parameters)) {
+                    memcpy(packet->parameters, &buffer[offset + 9], data_length);
+                    ESP_LOGI(TAG, "Received template data packet %d: %d bytes", 
+                            response->count + 1, data_length);
+                    ESP_LOG_BUFFER_HEX("Template Data", packet->parameters, data_length);
+                }
+            } else {
+                packet->code.confirmation = buffer[offset + 9];
+                if (packet->length > 3) {
+                    size_t param_length = packet->length - 3;
+                    if (param_length <= sizeof(packet->parameters)) {
+                        memcpy(packet->parameters, &buffer[offset + 10], param_length);
+                    }
+                }
+            }
+
+            packet->checksum = (buffer[offset + packet_size - 2] << 8) |
+                              buffer[offset + packet_size - 1];
+
+            response->packets[response->count++] = packet;
+            offset += packet_size;
+
+            // Reset template expectation if we got the final packet
+            if (packet->packet_id == 0x08) {
+                expecting_template = false;
+            }
         } else {
-            ESP_LOGE(TAG, "Incomplete packet! Expected: %d, Available: %d",
-                     expected_length, length - offset);
-            heap_caps_free(packet);
-            return NULL;
+            offset++;
         }
     }
 
-    // Handle different packet types
-    if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
-        // Data packet (template data)
-        if (last_sent_command == FINGERPRINT_CMD_UP_CHAR && 
-            packet->length <= sizeof(packet->parameters)) {
-            memcpy(packet->parameters, &buffer[offset + 9], packet->length);
-            packet->code.confirmation = 0x00;  // Data packets don't use command byte
+    // If no packets were found
+    if (response->count == 0) {
+        if (offset < total_length) {
+            leftover_size = total_length - offset;
+            memcpy(leftover_buffer, buffer + offset, leftover_size);
         }
-    } else {
-        // Confirmation response packet
-        packet->code.confirmation = buffer[offset + 9];
-        if (packet->length > 3 && (packet->length - 3) <= sizeof(packet->parameters)) {
-            memcpy(packet->parameters, &buffer[offset + 10], packet->length - 3);
-        }
+        heap_caps_free(response->packets);
+        heap_caps_free(response);
+        return NULL;
     }
 
-    // Calculate checksum from available data
-    packet->checksum = (buffer[offset + expected_length - 2] << 8) | 
-                       buffer[offset + expected_length - 1];
-
-    return packet;
+    return response;
 }
+
+// void read_response_task(void *pvParameter) {
+//     while (1) {
+//         FingerprintPacket *response = fingerprint_read_response();
+//         if (response) {
+//             fingerprint_response_t event = {0};
+//             memcpy(&event.packet, response, sizeof(FingerprintPacket));
+//             heap_caps_free(response);
+
+//             // Try to send to queue with increased timeout
+//             if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(500)) != pdPASS) {
+//                 ESP_LOGW(TAG, "Response queue full, clearing old messages");
+//                 xQueueReset(fingerprint_response_queue);  // Clear stale messages
+//                 // Try sending again
+//                 if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
+//                     ESP_LOGE(TAG, "Still unable to send to queue after reset");
+//                 }
+//             }
+//         }
+//         vTaskDelay(pdMS_TO_TICKS(10));
+//     }
+// }
 
 void read_response_task(void *pvParameter) {
     while (1) {
-        FingerprintPacket *response = fingerprint_read_response();
+        MultiPacketResponse *response = fingerprint_read_response();
         if (response) {
-            fingerprint_response_t event = {0};
-            memcpy(&event.packet, response, sizeof(FingerprintPacket));
-            heap_caps_free(response);
-
-            // Try to send to queue with increased timeout
-            if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(500)) != pdPASS) {
-                ESP_LOGW(TAG, "Response queue full, clearing old messages");
-                xQueueReset(fingerprint_response_queue);  // Clear stale messages
-                // Try sending again
-                if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
-                    ESP_LOGE(TAG, "Still unable to send to queue after reset");
+            // Process each packet
+            for (size_t i = 0; i < response->count; i++) {
+                fingerprint_response_t event = {0};
+                memcpy(&event.packet, response->packets[i], sizeof(FingerprintPacket));
+                
+                // Try to send to queue with increased timeout
+                if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(500)) != pdPASS) {
+                    ESP_LOGW(TAG, "Response queue full, clearing old messages");
+                    xQueueReset(fingerprint_response_queue);
+                    if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
+                        ESP_LOGE(TAG, "Still unable to send to queue after reset");
+                    }
                 }
+                
+                // Free the packet
+                heap_caps_free(response->packets[i]);
             }
+
+            // Free the response structure
+            heap_caps_free(response->packets);
+            heap_caps_free(response);
         }
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
+// In process_response_task
 void process_response_task(void *pvParameter) {
-    fingerprint_command_info_t last_cmd;
+    fingerprint_command_info_t last_cmd = {0};
     fingerprint_response_t response;
     bool waiting_for_template = false;
-    uint8_t last_buffer_id = 0;
+    static uint8_t data_buffer[512];  // Static buffer for accumulating data
+    size_t data_len = 0;
 
     while (1) {
         if (xQueueReceive(fingerprint_response_queue, &response, portMAX_DELAY) == pdTRUE) {
-            // ESP_LOGI(TAG, "Received response: 0x%02X", response.packet.code.command);
-            // Handle template data packets differently
+            BaseType_t cmd_received = xQueueReceive(fingerprint_command_queue, 
+                                                  &last_cmd, 
+                                                  pdMS_TO_TICKS(100));
+
+            // Process based on packet type
             if (response.packet.packet_id == 0x02 || response.packet.packet_id == 0x08) {
-                // This is a template data packet
+                // Template data packet
                 if (waiting_for_template) {
-                    // Process template data
-                    fingerprint_status_event_handler(FINGERPRINT_OK, &response.packet);
+                    // Calculate data length for this packet
+                    size_t chunk_size = min(MAX_PARAMETERS, response.packet.length - 2);
                     
-                    if (response.packet.packet_id == 0x08) {
-                        // Last packet received, reset state
-                        waiting_for_template = false;
+                    // Only copy if there's room in our buffer
+                    if ((data_len + chunk_size) <= sizeof(data_buffer)) {
+                        memcpy(data_buffer + data_len, 
+                               response.packet.parameters,
+                               chunk_size);
+                        data_len += chunk_size;
+                        
+                        // Handle final packet
+                        if (response.packet.packet_id == 0x08) {
+                            waiting_for_template = false;
+                            data_len = 0;  // Reset for next time
+                        }
                     }
                 }
-                continue;
-            }
-
-            // Regular command-response handling
-            if (xQueueReceive(fingerprint_command_queue, &last_cmd, pdMS_TO_TICKS(3000)) == pdTRUE) {
-                uint8_t received_confirmation = response.packet.code.command;
-                
-                // Check if this is the start of template upload
-                if (last_cmd.command == FINGERPRINT_CMD_UP_CHAR && received_confirmation == FINGERPRINT_OK) {
-                    waiting_for_template = true;
-                    last_buffer_id = response.packet.parameters[0];
-                }
-                
-                fingerprint_status_event_handler((fingerprint_status_t)received_confirmation, &response.packet);
             } else {
-                // Only log warning for non-template packets
-                if (response.packet.packet_id != 0x02 && response.packet.packet_id != 0x08) {
-                    ESP_LOGW(TAG, "No corresponding command found for response!");
+                // Regular command response packet
+                if (cmd_received == pdTRUE) {
+                    // Check for template upload start
+                    if (last_cmd.command == FINGERPRINT_CMD_UP_CHAR && 
+                        response.packet.code.command == FINGERPRINT_OK) {
+                        waiting_for_template = true;
+                        data_len = 0;  // Reset buffer
+                    }
+                    
+                    // Process command response
+                    fingerprint_status_event_handler(response.packet.code.confirmation,
+                                                   &response.packet);
                 }
             }
         }
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
+
+// void process_response_task(void *pvParameter) {
+//     fingerprint_command_info_t last_cmd;
+//     fingerprint_response_t response;
+//     bool waiting_for_template = false;
+//     uint8_t last_buffer_id = 0;
+
+//     while (1) {
+//         if (xQueueReceive(fingerprint_response_queue, &response, portMAX_DELAY) == pdTRUE) {
+//             // ESP_LOGI(TAG, "Received response: 0x%02X", response.packet.code.command);
+//             // Handle template data packets differently
+//             if (response.packet.packet_id == 0x02 || response.packet.packet_id == 0x08) {
+//                 // This is a template data packet
+//                 if (waiting_for_template) {
+//                     // Process template data
+//                     fingerprint_status_event_handler(response.packet.code.confirmation, &response.packet);
+                    
+//                     if (response.packet.packet_id == 0x08) {
+//                         // Last packet received, reset state
+//                         waiting_for_template = false;
+//                     }
+//                 }
+//                 continue;
+//             }
+
+//             // Regular command-response handling
+//             if (xQueueReceive(fingerprint_command_queue, &last_cmd, pdMS_TO_TICKS(3000)) == pdTRUE) {
+//                 uint8_t received_confirmation = response.packet.code.command;
+                
+//                 // Check if this is the start of template upload
+//                 if (last_cmd.command == FINGERPRINT_CMD_UP_CHAR && received_confirmation == FINGERPRINT_OK) {
+//                     waiting_for_template = true;
+//                     last_buffer_id = response.packet.parameters[0];
+//                 }
+                
+//                 fingerprint_status_event_handler((fingerprint_status_t)received_confirmation, &response.packet);
+//             } else {
+//                 // Only log warning for non-template packets
+//                 if (response.packet.packet_id != 0x02 && response.packet.packet_id != 0x08) {
+//                     ESP_LOGW(TAG, "No corresponding command found for response!");
+//                 }
+//             }
+//         }
+//         vTaskDelay(pdMS_TO_TICKS(10));
+//     }
+// }
+
+// void process_response_task(void *pvParameter) {
+//     fingerprint_command_info_t last_cmd = {0};
+//     fingerprint_response_t response;
+//     bool waiting_for_template = false;
+
+//     while (1) {
+//         // Wait for response with timeout
+//         if (xQueueReceive(fingerprint_response_queue, &response, portMAX_DELAY) == pdTRUE) {
+//             // Always try to get corresponding command first
+//             BaseType_t cmd_received = xQueueReceive(fingerprint_command_queue, 
+//                                                   &last_cmd, 
+//                                                   pdMS_TO_TICKS(100));
+//             // ESP_LOG_BUFFER_HEX_LEVEL(TAG, &response.packet, sizeof(FingerprintPacket), ESP_LOG_INFO);
+//             // ESP_LOG_BUFFER_HEXDUMP(TAG, &response.packet, sizeof(FingerprintPacket), ESP_LOG_INFO);
+
+//             // Process based on packet type
+//             if (response.packet.packet_id == 0x02 || response.packet.packet_id == 0x08) {
+//                 // Template data packet
+//                 if (waiting_for_template) {
+//                     fingerprint_status_event_handler(response.packet.code.confirmation, 
+//                                                   &response.packet);
+                    
+//                     if (response.packet.packet_id == 0x08) {
+//                         waiting_for_template = false;
+//                     }
+//                 }
+//             } else {
+//                 // Command response packet
+//                 if (cmd_received == pdTRUE) {
+//                     // Check for template upload start
+//                     if (last_cmd.command == FINGERPRINT_CMD_UP_CHAR && 
+//                         response.packet.code.command == FINGERPRINT_OK) {
+//                         waiting_for_template = true;
+//                     }
+                    
+//                     fingerprint_status_event_handler((fingerprint_status_t)response.packet.code.command, 
+//                                                   &response.packet);
+//                 }
+//             }
+//         }
+//         vTaskDelay(pdMS_TO_TICKS(10));
+//     }
+// }
 
 
 fingerprint_status_t fingerprint_get_status(FingerprintPacket *packet) {
@@ -1054,10 +1397,51 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 event.data.sys_params.data_packet_size = (1 << 5) << ((packet->parameters[12] << 8) | packet->parameters[13]); // 32 << N
                 event.data.sys_params.baud_rate = ((packet->parameters[14] << 8) | packet->parameters[15]) * 9600;
             } else if (last_sent_command == FINGERPRINT_CMD_LOAD_CHAR) {
-                ESP_LOGI(TAG, "Template loaded successfully");
-            } else if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
-                ESP_LOGI(TAG, "Template uploaded successfully");
+                // ESP_LOGI(TAG, "Template loaded successfully");
+                event_type = EVENT_TEMPLATE_LOADED;
+            } if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
                 event_type = EVENT_TEMPLATE_UPLOADED;
+                if (packet->packet_id == 0x02) {  // Data packet
+                    ESP_LOGI(TAG, "Received data packet");
+                    // Process the template data here
+                } else if (packet->packet_id == 0x07) {  // Initial acknowledgment
+                    ESP_LOGI(TAG, "Upload starting");
+                } else if (packet->packet_id == 0x08) {  // Final packet
+                    ESP_LOGI(TAG, "Upload complete");
+                }
+                // Set success bit for all valid packets
+                if (enroll_event_group) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                }
+            } else if (last_sent_command == FINGERPRINT_CMD_READ_INF_PAGE) {
+                event_type = EVENT_INFO_PAGE_READ;
+                
+                // For data packets (0x02) and end packet (0x08)
+                if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
+                    ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d", 
+                             packet->packet_id, packet->length);
+                    ESP_LOG_BUFFER_HEX(TAG, packet->parameters, packet->length);
+                    
+                    // Signal success for each received packet
+                    if (enroll_event_group) {
+                        xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                    }
+                }
+                // For confirmation packet
+                else if (packet->packet_id == 0x07) {
+                    if (packet->code.confirmation == FINGERPRINT_OK) {
+                        ESP_LOGI(TAG, "Information page read command accepted");
+                        if (enroll_event_group) {
+                            xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                        }
+                    } else {
+                        ESP_LOGE(TAG, "Information page read command failed: 0x%02X", 
+                                 packet->code.confirmation);
+                        if (enroll_event_group) {
+                            xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                        }
+                    }
+                }
             }
             if (enroll_event_group) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
@@ -1230,6 +1614,12 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     uint8_t position = location & 0xFF;  // Get position within page
     
     uint8_t index_params[] = {page};  // Use the calculated page number
+    // uint16_t page_id = convert_index_to_page_id(location);  // Convert location to proper page ID
+    // uint8_t index_params[] = {
+    //     1,  // Buffer ID
+    //     (uint8_t)(page_id >> 8),     // High byte of page ID
+    //     (uint8_t)(page_id & 0xFF)    // Low byte of page ID
+    // };
     fingerprint_set_command(&PS_ReadIndexTable, FINGERPRINT_CMD_READ_INDEX_TABLE, 
                           index_params, sizeof(index_params));
     
@@ -1403,6 +1793,12 @@ esp_err_t enroll_fingerprint(uint16_t location) {
 
         // Store template at specified location
         uint8_t store_params[] = {1, (uint8_t)(location >> 8), (uint8_t)(location & 0xFF)};
+        // uint16_t page_id = convert_index_to_page_id(location);  // Convert location to proper page ID
+        // uint8_t store_params[] = {
+        //     1,  // Buffer ID
+        //     (uint8_t)(page_id >> 8),     // High byte of page ID
+        //     (uint8_t)(page_id & 0xFF)    // Low byte of page ID
+        // };
         fingerprint_set_command(&PS_StoreChar, FINGERPRINT_CMD_STORE_CHAR, store_params, 3);
         err = fingerprint_send_command(&PS_StoreChar, DEFAULT_FINGERPRINT_ADDRESS);
         if (err != ESP_OK) {
@@ -1697,7 +2093,8 @@ esp_err_t read_system_parameters(void) {
 esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
     esp_err_t err;
     EventBits_t bits;
-    uint16_t page_id = convert_index_to_page_id(template_id);
+    // uint16_t page_id = convert_index_to_page_id(template_id);
+    uint16_t page_id = template_id;
     
     // Parameters: BufferID, Page Address (2 bytes)
     uint8_t params[] = {
@@ -1718,117 +2115,83 @@ esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
 }
 
 // Upload template from module buffer to host
+// esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
+//     esp_err_t err;
+//     EventBits_t bits;
+//     size_t total_size = 0;
+    
+//     // First send upload command
+//     uint8_t params[] = {buffer_id};
+//     fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
+//     err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
+//     if (err != ESP_OK) return err;
+
+//     // Wait for acknowledgment and subsequent data packets
+//     bits = xEventGroupWaitBits(enroll_event_group,
+//                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+//                              pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+                             
+//     if (!(bits & ENROLL_BIT_SUCCESS)) {
+//         ESP_LOGE(TAG, "Failed to start template upload");
+//         return ESP_FAIL;
+//     }
+
+//     // The actual template data will be handled by process_response_task
+//     // which will trigger appropriate events with the template data
+
+//     return ESP_OK;
+// }
+
 esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
     esp_err_t err;
     EventBits_t bits;
-    size_t total_size = 0;
+    static uint8_t accumulated_data[512];  // Static buffer for template data
+    size_t accumulated_size = 0;
+    const uint32_t PACKET_TIMEOUT = 5000;  // 5 second timeout
     
-    // First send upload command
+    err = initialize_event_group();
+    if (err != ESP_OK) return err;
+
+    // Clear any stale data
+    uart_flush(UART_NUM);
+    xQueueReset(fingerprint_response_queue);
+    
+    // Send upload command
     uint8_t params[] = {buffer_id};
     fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
     err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
-    if (err != ESP_OK) return err;
+    if (err != ESP_OK) {
+        cleanup_event_group();
+        return err;
+    }
 
-    // Wait for acknowledgment and subsequent data packets
+    // Wait for initial acknowledgment
     bits = xEventGroupWaitBits(enroll_event_group,
                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                              pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
                              
     if (!(bits & ENROLL_BIT_SUCCESS)) {
         ESP_LOGE(TAG, "Failed to start template upload");
+        cleanup_event_group();
         return ESP_FAIL;
     }
 
-    // The actual template data will be handled by process_response_task
-    // which will trigger appropriate events with the template data
+    ESP_LOGI(TAG, "Starting template data reception");
+    
+    // Wait for the final packet signal from process_response_task
+    bits = xEventGroupWaitBits(enroll_event_group,
+                             TEMPLATE_UPLOAD_COMPLETE_BIT,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(PACKET_TIMEOUT));
+    
+    if (!(bits & TEMPLATE_UPLOAD_COMPLETE_BIT)) {
+        ESP_LOGE(TAG, "Template upload timed out");
+        cleanup_event_group();
+        return ESP_ERR_TIMEOUT;
+    }
 
+    cleanup_event_group();
     return ESP_OK;
 }
-
-// esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
-//     esp_err_t err;
-//     EventBits_t bits;
-//     size_t total_size = 0;
-//     bool template_complete = false;
-//     fingerprint_response_t response;
-//     uint8_t packet_count = 0;
-//     const uint8_t MAX_PACKETS = 20;  // Maximum number of packets to prevent infinite loops
-    
-//     // First send upload command with correct buffer ID
-//     uint8_t params[] = {buffer_id};
-//     fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
-//     err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
-//     if (err != ESP_OK) return err;
-
-//     // Wait for initial confirmation
-//     bits = xEventGroupWaitBits(enroll_event_group,
-//                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-//                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-    
-//     if (!(bits & ENROLL_BIT_SUCCESS)) {
-//         ESP_LOGE(TAG, "Failed to start template upload");
-//         return ESP_FAIL;
-//     }
-
-//     ESP_LOGI(TAG, "Starting template data reception...");
-
-//     // Reset queues before starting packet reception
-//     uart_flush(UART_NUM);
-//     xQueueReset(fingerprint_command_queue);
-//     xQueueReset(fingerprint_response_queue);
-
-//     // Wait for template data packets
-//     while (!template_complete && total_size < 512 && packet_count < MAX_PACKETS) {
-//         if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(2000)) == pdTRUE) {
-//             packet_count++;
-            
-//             // Only process data packets (0x02 or 0x08)
-//             if (response.packet.packet_id == 0x02 || response.packet.packet_id == 0x08) {
-//                 // Calculate actual data length (excluding command byte and checksum)
-//                 size_t data_length = response.packet.length - 2;
-                
-//                 if (data_length > 0 && total_size + data_length <= 512) {
-//                     // Check for non-zero data before copying
-//                     bool has_data = false;
-//                     for (size_t i = 0; i < data_length; i++) {
-//                         if (response.packet.parameters[i] != 0) {
-//                             has_data = true;
-//                             break;
-//                         }
-//                     }
-
-//                     if (has_data) {
-//                         memcpy(template_data + total_size, response.packet.parameters, data_length);
-//                         total_size += data_length;
-//                         ESP_LOGI(TAG, "Received template packet %d: ID=0x%02X, Length=%d", 
-//                                 packet_count, response.packet.packet_id, data_length);
-//                         ESP_LOG_BUFFER_HEX(TAG, response.packet.parameters, min(16, data_length));
-//                     }
-//                 }
-                
-//                 // Mark complete when we get the final packet (0x08)
-//                 if (response.packet.packet_id == 0x08) {
-//                     template_complete = true;
-//                     ESP_LOGI(TAG, "Received final template packet. Total size: %d bytes", total_size);
-//                     break;
-//                 }
-//             }
-//         } else {
-//             ESP_LOGE(TAG, "Timeout waiting for template data packet %d", packet_count + 1);
-//             return ESP_ERR_TIMEOUT;
-//         }
-//     }
-
-//     if (!template_complete || total_size == 0) {
-//         ESP_LOGE(TAG, "Template upload incomplete or empty after %d packets", packet_count);
-//         return ESP_ERR_INVALID_STATE;
-//     }
-
-//     *template_size = total_size;
-//     ESP_LOGI(TAG, "Template upload complete. Total size: %d bytes", total_size);
-//     ESP_LOG_BUFFER_HEX(TAG, template_data, min(32, total_size));
-//     return ESP_OK;
-// }
 
 // Download template from host to module buffer
 esp_err_t download_template(uint8_t buffer_id, const uint8_t* template_data, size_t template_size) {
@@ -1933,10 +2296,11 @@ esp_err_t backup_template(uint16_t template_id) {
     
     ESP_LOGI(TAG, "Loading Template...");
     // Convert template_id to page_id for LoadChar command
-    uint16_t page_id = convert_index_to_page_id(template_id);
+    // uint16_t page_id = convert_index_to_page_id(template_id);
+    uint16_t page_id = template_id;
     
     // 1. Load template from flash to buffer 1 with correct page_id
-    err = load_template_to_buffer(page_id, 1);
+    err = load_template_to_buffer(template_id, 1);
     if (err != ESP_OK) {
         cleanup_event_group();
         return err;
@@ -1991,5 +2355,80 @@ esp_err_t cleanup_event_group(void) {
     enroll_event_group = NULL;
     // ESP_LOGI(TAG, "Enrollment event group deleted successfully.");
     return ESP_OK;
+}
+
+esp_err_t read_info_page(void) {
+    esp_err_t err;
+    EventBits_t bits;
+    bool info_complete = false;
+    uint8_t packet_count = 0;
+    const uint8_t MAX_PACKETS = 32;  // 512 bytes at 16 bytes per packet
+    
+    err = initialize_event_group();
+    if (err != ESP_OK) {
+        return err;
+    }
+
+    // Clear any stale data
+    uart_flush(UART_NUM);
+    xQueueReset(fingerprint_command_queue);
+    xQueueReset(fingerprint_response_queue);
+
+    // Send ReadINFPage command (0x16)
+    fingerprint_set_command(&PS_ReadINFPage, FINGERPRINT_CMD_READ_INF_PAGE, NULL, 0);
+    err = fingerprint_send_command(&PS_ReadINFPage, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to send ReadINFPage command");
+        cleanup_event_group();
+        return err;
+    }
+
+    // Wait for initial confirmation (0x00 means data packets will follow)
+    bits = xEventGroupWaitBits(enroll_event_group,
+                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                              pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+
+    if (!(bits & ENROLL_BIT_SUCCESS)) {
+        ESP_LOGE(TAG, "Failed to read information page");
+        cleanup_event_group();
+        return ESP_FAIL;
+    }
+
+    ESP_LOGI(TAG, "Initial acknowledgment received, waiting for data packets...");
+
+    // The actual data packets will be handled by process_response_task
+    // We'll wait here until either we get all the data or timeout
+    while (!info_complete && packet_count < MAX_PACKETS) {
+        bits = xEventGroupWaitBits(enroll_event_group,
+                                  ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                  pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
+
+        if (bits & ENROLL_BIT_SUCCESS) {
+            packet_count++;
+            if (packet_count == 1) {
+                ESP_LOGI(TAG, "Started receiving info page data packets");
+            }
+        } else {
+            ESP_LOGW(TAG, "Timeout waiting for data packet %d", packet_count + 1);
+            if (packet_count == 0) {
+                cleanup_event_group();
+                return ESP_ERR_TIMEOUT;
+            }
+            break;
+        }
+
+        // Check if this was the final packet (0x08)
+        fingerprint_response_t response;
+        if (xQueuePeek(fingerprint_response_queue, &response, 0) == pdTRUE) {
+            if (response.packet.packet_id == 0x08) {
+                info_complete = true;
+                ESP_LOGI(TAG, "Received complete information page (%d packets)", packet_count);
+                break;
+            }
+        }
+    }
+
+    cleanup_event_group();
+    return info_complete ? ESP_OK : ESP_ERR_INVALID_STATE;
 }
 

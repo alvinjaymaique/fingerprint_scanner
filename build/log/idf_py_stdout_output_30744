@@ -1,145 +1,124 @@
-ESP-ROM:esp32s3-20210327
-Build:Mar 27 2021
-rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
-SPIWP:0xee
-Octal Flash Mode Enabled
-For OPI Flash, Use Default Flash Boot Mode
-mode:SLOW_RD, clock div:1
-load:0x3fce2810,len:0x15a0
-load:0x403c8700,len:0x4
-load:0x403c8704,len:0xd20
-load:0x403cb700,len:0x2ee4
-entry 0x403c8928
-[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
-[0;32mI (33) boot: compile time Mar  4 2025 16:14:42[0m
-[0;32mI (33) boot: Multicore bootloader[0m
-[0;32mI (34) boot: chip revision: v0.1[0m
-[0;32mI (37) boot: efuse block revision: v1.2[0m
-[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
-[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
-[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
-[0;32mI (52) boot: Enabling RNG early entropy source...[0m
-[0;32mI (57) boot: Partition Table:[0m
-[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
-[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
-[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
-[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
-[0;32mI (85) boot: End of partition table[0m
-[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0be00h ( 48640) map[0m
-[0;32mI (107) esp_image: segment 1: paddr=0001be28 vaddr=3fc93400 size=02aa0h ( 10912) load[0m
-[0;32mI (110) esp_image: segment 2: paddr=0001e8d0 vaddr=40374000 size=01748h (  5960) load[0m
-[0;32mI (113) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1bb54h (113492) map[0m
-[0;32mI (145) esp_image: segment 4: paddr=0003bb7c vaddr=40375748 size=0dbc8h ( 56264) load[0m
-[0;32mI (161) esp_image: segment 5: paddr=0004974c vaddr=600fe100 size=0001ch (    28) load[0m
-[0;32mI (167) boot: Loaded app from partition at offset 0x10000[0m
-[0;32mI (167) boot: Disabling RNG early entropy source...[0m
-[0;32mI (179) cpu_start: Multicore app[0m
-[0;32mI (188) cpu_start: Pro cpu start user code[0m
-[0;32mI (188) cpu_start: cpu freq: 160000000 Hz[0m
-[0;32mI (188) app_init: Application information:[0m
-[0;32mI (188) app_init: Project name:     fingerprint_scanner[0m
-[0;32mI (193) app_init: App version:      4ff165b-dirty[0m
-[0;32mI (197) app_init: Compile time:     Mar  5 2025 08:24:25[0m
-[0;32mI (202) app_init: ELF file SHA256:  89f813271...[0m
-[0;32mI (207) app_init: ESP-IDF:          v5.4-dirty[0m
-[0;32mI (211) efuse_init: Min chip rev:     v0.0[0m
-[0;32mI (215) efuse_init: Max chip rev:     v0.99 [0m
-[0;32mI (219) efuse_init: Chip rev:         v0.1[0m
-[0;32mI (222) heap_init: Initializing. RAM available for dynamic allocation:[0m
-[0;32mI (229) heap_init: At 3FC96780 len 00052F90 (331 KiB): RAM[0m
-[0;32mI (234) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
-[0;32mI (239) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
-[0;32mI (244) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
-[0;33mW (250) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
-[0;32mI (259) spi_flash: detected chip: mxic (opi)[0m
-[0;32mI (263) spi_flash: flash io: opi_str[0m
-[0;33mW (267) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
-[0;32mI (279) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
-[0;32mI (285) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
-[0;32mI (292) main_task: Started on CPU0[0m
-[0;32mI (302) main_task: Calling app_main()[0m
-[0;32mI (302) FINGERPRINT: Initializing fingerprint scanner...[0m
-[0;33mW (502) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (902) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (1302) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (1702) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (1902) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (2102) FINGERPRINT: No handshake received, retrying...[0m
-[0;32mI (2302) FINGERPRINT: GPIO 11 set to LOW after 5 seconds.[0m
-[0;33mW (2302) FINGERPRINT: No handshake received, retrying...[0m
-[0;32mI (2502) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
-[0;32mI (2502) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
-[0;32mI (2602) FINGERPRINT: Sent fingerprint command: 0x15 to address 0xFFFFFFFF[0m
-[0;32mI (2602) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 07 15 ff ff ff ff 04 19[0m
-[0;32mI (3302) FINGERPRINT: GPIO 11 set to HIGH after 5 seconds.[0m
-[0;32mI (3602) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (3602) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (3602) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (3602) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (3612) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
-[0;32mI (3622) main_task: Returned from app_main()[0m
-[0;32mI (5612) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (5612) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (5612) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (5612) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (5682) FINGERPRINT: 0x3fc9c520   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
-[0;32mI (5682) FINGERPRINT: 0x3fc9c530   ff ff 07 00 03 02 00 0c                           |........|[0m
-[1;31mE (5682) Fingerprint: Checksum mismatch! Computed: 0x050A, Received: 0x000C[0m
-[0;32mI (5692) Fingerprint: Triggering event: 5 for status: 0x0E[0m
-[0;32mI (5692) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
-[0;32mI (7622) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (7622) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (7622) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (7622) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (9632) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (9632) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (9632) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (9632) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (9702) FINGERPRINT: 0x3fc9c520   ef 01 ff ff ff ff 07 00  03 02 00 0c ef 01 ff ff  |................|[0m
-[0;32mI (9702) FINGERPRINT: 0x3fc9c530   ff ff 07 00 03 02 00 0c                           |........|[0m
-[1;31mE (9702) Fingerprint: Checksum mismatch! Computed: 0x050E, Received: 0x000C[0m
-[0;32mI (9712) Fingerprint: Triggering event: 5 for status: 0x0E[0m
-[0;32mI (9712) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
-[0;32mI (11642) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (11642) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (11642) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (11642) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (13652) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (13652) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (13652) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (13652) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (13722) FINGERPRINT: 0x3fc9c520   ef 01 ff ff ff ff 07 00  03 02 00 0c ef 01 ff ff  |................|[0m
-[0;32mI (13722) FINGERPRINT: 0x3fc9c530   ff ff 07 00 03 02 00 0c                           |........|[0m
-[1;31mE (13722) Fingerprint: Checksum mismatch! Computed: 0x050E, Received: 0x000C[0m
-[0;32mI (13732) Fingerprint: Triggering event: 5 for status: 0x0E[0m
-[0;32mI (13732) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
-[0;32mI (15662) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (15662) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (15662) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (15662) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (17672) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (17672) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (17672) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (17672) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (17742) FINGERPRINT: 0x3fc9c520   ef 01 ff ff ff ff 07 00  03 02 00 0c ef 01 ff ff  |................|[0m
-[0;32mI (17742) FINGERPRINT: 0x3fc9c530   ff ff 07 00 03 02 00 0c                           |........|[0m
-[1;31mE (17742) Fingerprint: Checksum mismatch! Computed: 0x050E, Received: 0x000C[0m
-[0;32mI (17752) Fingerprint: Triggering event: 5 for status: 0x0E[0m
-[0;32mI (17752) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
-[0;32mI (19682) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (19682) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (19682) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (19682) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (21692) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (21692) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (21692) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (21692) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (21762) FINGERPRINT: 0x3fc9c520   ef 01 ff ff ff ff 07 00  03 02 00 0c ef 01 ff ff  |................|[0m
-[0;32mI (21762) FINGERPRINT: 0x3fc9c530   ff ff 07 00 03 02 00 0c                           |........|[0m
-[1;31mE (21762) Fingerprint: Checksum mismatch! Computed: 0x050E, Received: 0x000C[0m
-[0;32mI (21772) Fingerprint: Triggering event: 5 for status: 0x0E[0m
-[0;32mI (21772) FINGERPRINT: An error occurred during fingerprint processing. Status: 0x0E[0m
-[0;32mI (23702) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (23702) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (23702) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (23702) FINGERPRINT: Get Image command sent successfully.[0m
+[1/9] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
+[2/9] No install step for 'bootloader'
+[3/9] Completed 'bootloader'
+[4/9] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
+FAILED: esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj 
+ccache C:\Espressif\tools\xtensa-esp-elf\esp-14.2.0_20241119\xtensa-esp-elf\bin\xtensa-esp32s3-elf-gcc.exe -DESP_PLATFORM -DIDF_VER=\"v5.4-dirty\" -DSOC_MMU_PAGE_SIZE=CONFIG_MMU_PAGE_SIZE -DSOC_XTAL_FREQ_MHZ=CONFIG_XTAL_FREQ -D_GLIBCXX_HAVE_POSIX_SEMAPHORE -D_GLIBCXX_USE_POSIX_SEMAPHORE -D_GNU_SOURCE -D_POSIX_READER_WRITER_LOCKS -IC:/Users/MELBEN/esp/fingerprint_scanner/build/config -IC:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/newlib/platform_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/esp_additions/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/dma/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/ldo/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/debug_probe/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/. -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/tlsf -IC:/Espressif/frameworks/esp-idf-v5.4/components/log/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/register -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/platform_port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_common/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/include/private -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/deprecated_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps/sntp -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/lwip/src/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/freertos/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/arch -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/sys -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/deprecated -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/twai/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_pm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_ringbuf/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gpio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_pcnt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gptimer/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_spi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_mcpwm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ana_cmpr/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2s/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdspi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_dac/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_rmt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_tsens/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_uart/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/vfs/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ledc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_parlio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_usb_serial_jtag/include -mlongcalls  -fno-builtin-memcpy -fno-builtin-memset -fno-builtin-bzero -fno-builtin-stpcpy -fno-builtin-strncpy -fdiagnostics-color=always -ffunction-sections -fdata-sections -Wall -Werror=all -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=unused-but-set-variable -Wno-error=deprecated-declarations -Wextra -Wno-error=extra -Wno-unused-parameter -Wno-sign-compare -Wno-enum-conversion -gdwarf-4 -ggdb -Og -fno-shrink-wrap -fmacro-prefix-map=C:/Users/MELBEN/esp/fingerprint_scanner=. -fmacro-prefix-map=C:/Espressif/frameworks/esp-idf-v5.4=/IDF -fstrict-volatile-bitfields -fno-jump-tables -fno-tree-switch-conversion -std=gnu17 -Wno-old-style-declaration -MD -MT esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj -MF esp-idf\fingerprint\CMakeFiles\__idf_fingerprint.dir\fingerprint.c.obj.d -o esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj -c C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'process_response_task':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:925:17: error: 'packet' undeclared (first use in this function)
+  925 |             if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
+      |                 ^~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:925:17: note: each undeclared identifier is reported only once for each function it appears in
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:919:13: warning: variable 'last_buffer_id' set but not used [-Wunused-but-set-variable]
+  919 |     uint8_t last_buffer_id = 0;
+      |             ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_status_event_handler':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1076:33: error: invalid type argument of '->' (have 'FingerprintPacket')
+ 1076 |                 if (event.packet->packet_id == 0x02 || event.packet->packet_id == 0x08) {
+      |                                 ^~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1076:68: error: invalid type argument of '->' (have 'FingerprintPacket')
+ 1076 |                 if (event.packet->packet_id == 0x02 || event.packet->packet_id == 0x08) {
+      |                                                                    ^~
+In file included from C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h:201,
+                 from C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1078:37: error: invalid type argument of '->' (have 'FingerprintPacket')
+ 1078 |                         event.packet->packet_id, response.packet.length);
+      |                                     ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:182:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  182 |         if (level==ESP_LOG_ERROR )          { esp_log_write(ESP_LOG_ERROR,      tag, LOG_FORMAT(E, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1077:21: note: in expansion of macro 'ESP_LOGI'
+ 1077 |                     ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d",
+      |                     ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1078:50: error: 'response' undeclared (first use in this function)
+ 1078 |                         event.packet->packet_id, response.packet.length);
+      |                                                  ^~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:182:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  182 |         if (level==ESP_LOG_ERROR )          { esp_log_write(ESP_LOG_ERROR,      tag, LOG_FORMAT(E, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1077:21: note: in expansion of macro 'ESP_LOGI'
+ 1077 |                     ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d",
+      |                     ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1078:37: error: invalid type argument of '->' (have 'FingerprintPacket')
+ 1078 |                         event.packet->packet_id, response.packet.length);
+      |                                     ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:183:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  183 |         else if (level==ESP_LOG_WARN )      { esp_log_write(ESP_LOG_WARN,       tag, LOG_FORMAT(W, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1077:21: note: in expansion of macro 'ESP_LOGI'
+ 1077 |                     ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d",
+      |                     ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1078:37: error: invalid type argument of '->' (have 'FingerprintPacket')
+ 1078 |                         event.packet->packet_id, response.packet.length);
+      |                                     ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:184:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  184 |         else if (level==ESP_LOG_DEBUG )     { esp_log_write(ESP_LOG_DEBUG,      tag, LOG_FORMAT(D, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1077:21: note: in expansion of macro 'ESP_LOGI'
+ 1077 |                     ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d",
+      |                     ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1078:37: error: invalid type argument of '->' (have 'FingerprintPacket')
+ 1078 |                         event.packet->packet_id, response.packet.length);
+      |                                     ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:185:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  185 |         else if (level==ESP_LOG_VERBOSE )   { esp_log_write(ESP_LOG_VERBOSE,    tag, LOG_FORMAT(V, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1077:21: note: in expansion of macro 'ESP_LOGI'
+ 1077 |                     ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d",
+      |                     ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1078:37: error: invalid type argument of '->' (have 'FingerprintPacket')
+ 1078 |                         event.packet->packet_id, response.packet.length);
+      |                                     ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:186:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  186 |         else                                { esp_log_write(ESP_LOG_INFO,       tag, LOG_FORMAT(I, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1077:21: note: in expansion of macro 'ESP_LOGI'
+ 1077 |                     ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d",
+      |                     ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1087:38: error: invalid type argument of '->' (have 'FingerprintPacket')
+ 1087 |                 else if (event.packet->packet_id == 0x07) {
+      |                                      ^~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1231:21: warning: unused variable 'bits' [-Wunused-variable]
+ 1231 |         EventBits_t bits = xEventGroupGetBits(enroll_event_group);
+      |                     ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'enroll_fingerprint':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1270:13: warning: unused variable 'position' [-Wunused-variable]
+ 1270 |     uint8_t position = location & 0xFF;  // Get position within page
+      |             ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1677:28: warning: unused variable 'response' [-Wunused-variable]
+ 1677 |     fingerprint_response_t response;
+      |                            ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'upload_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1764:12: warning: unused variable 'total_size' [-Wunused-variable]
+ 1764 |     size_t total_size = 0;
+      |            ^~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_info_page':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2099:17: error: 'packet' undeclared (first use in this function)
+ 2099 |             if (packet->packet_id == 0x08) {
+      |                 ^~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:23:13: warning: 'is_fingerprint_validating' defined but not used [-Wunused-variable]
+   23 | static bool is_fingerprint_validating = false; // Flag to check if fingerprint is validating
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+ninja: build stopped: subcommand failed.

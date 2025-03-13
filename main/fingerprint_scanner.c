@@ -75,7 +75,13 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 0x0000;  // Storage location for fingerprint template
+    uint16_t location = 1;  // Storage location for fingerprint template
+    // esp_err_t out = delete_fingerprint(location);
+    // if (out == ESP_OK) {
+    //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
+    // }
     
     err = enroll_fingerprint(location);
     if (err == ESP_OK) {
@@ -114,7 +120,7 @@ void app_main(void)
     }
 
     // Get number of enrolled fingerprints
-    // uint16_t enrolled_count;
+    uint16_t enrolled_count;
     err = get_enrolled_count();
     if (err == ESP_OK) {
         ESP_LOGI(TAG, "Count of enrolled fingerprints sent successfully.");
@@ -130,13 +136,22 @@ void app_main(void)
     // }
 
     // Backup Template
-    uint16_t template_id = 0x0002;
+    uint16_t template_id = 0;
+    ESP_LOGI(TAG, "Backing up template id 0x%04X", location);
     err = backup_template(template_id);
     if (err == ESP_OK) {
         ESP_LOGI(TAG, "Template backed up successfully.");
     } else {
         ESP_LOGE(TAG, "Failed to backup template.");
     }
+
+    // // Example usage in app_main
+    // err = read_info_page();
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Information page read successfully");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to read information page");
+    // }
 }
 
 void send_command_task(void *pvParameter)
@@ -230,21 +245,40 @@ void handle_fingerprint_event(fingerprint_event_t event) {
         case EVENT_TEMPLATE_UPLOADED:
             const char* newTag = "EVENT_TEMPLATE_UPLOADED";
             ESP_LOGI(newTag, "Template command: 0x%02X", event.command);
-            ESP_LOGI(newTag, "Template package ID: 0x%04X", event.packet.packet_id);
+            ESP_LOGI(newTag, "Template package ID: 0x%02X", event.packet.packet_id);
             ESP_LOGI(newTag, "Template confirmation code: 0x%02X", event.packet.code.confirmation);
             ESP_LOGI(newTag, "Template address: 0x%08" PRIX32, event.packet.address);
             ESP_LOGI(newTag, "Template uploaded successfully. Status: 0x%02X", event.status);
             ESP_LOG_BUFFER_HEX(newTag, event.packet.parameters, sizeof(event.packet.parameters));
-            // ESP_LOGI(TAG, "Template ID: 0x%04X", event.data.template_id);
-            // ESP_LOGI(TAG, "Template Size: %u bytes", event.data.template_size);
-            // ESP_LOGI(TAG, "Template Page ID: 0x%04X", event.data.page_id);
-            // ESP_LOGI(TAG, "Template Checksum: 0x%04X", event.data.checksum);
+            // Add packet ID check
+            if (event.packet.packet_id == 0x08) {
+                // This is the final packet
+                ESP_LOGI(TAG, "Received final template packet");
+                // Handle completion here
+            } else if (event.packet.packet_id == 0x02) {
+                // This is a data packet
+                ESP_LOGI(TAG, "Received data packet");
+                // Process data packet
+            } else if (event.packet.packet_id == 0x07) {
+                // This is the initial acknowledgment
+                ESP_LOGI(TAG, "Received initial acknowledgment");
+            }
             break;
         case EVENT_TEMPLATE_EXISTS:
             ESP_LOGI(TAG, "Fingerprint template successfully loaded into buffer. Status: 0x%02X", event.status);
             break;
         case EVENT_TEMPLATE_UPLOAD_FAIL:
             ESP_LOGE(TAG, "Fingerprint template upload failed. Status: 0x%02X", event.status);
+            break;
+        // Add to handle_fingerprint_event function
+        case EVENT_INFO_PAGE_READ:
+            ESP_LOGI(TAG, "Information page read successfully. Status: 0x%02X", event.status);
+            ESP_LOGI(TAG, "Packet ID read successfully. Status: 0x%02X", event.packet.packet_id);
+            ESP_LOGI(TAG, "Packet length read successfully. Status: 0x%02X", event.packet.length);
+            ESP_LOG_BUFFER_HEX("Info Page Data", event.packet.parameters, event.packet.length);
+            break;
+        case EVENT_TEMPLATE_LOADED:
+            ESP_LOGI(TAG, "Template loaded successfully. Status: 0x%02X", event.status);
             break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);
