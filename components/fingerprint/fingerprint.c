@@ -945,151 +945,371 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 // }
 
 MultiPacketResponse* fingerprint_read_response(void) {
-    static uint8_t leftover_buffer[512] = {0};
-    static size_t leftover_size = 0;
-    static bool expecting_template = false;
-    uint8_t buffer[512];
-    int total_length = 0;
-    int read_attempts = 0;
-    const int MAX_READ_ATTEMPTS = 10;  // Maximum number of read attempts
+    static ParserState state = WAIT_HEADER;
+    static size_t content_length = 0;
+    static size_t bytes_needed = 0;
+    static FingerprintPacket current_packet = {0};
+    static uint8_t buffer[256] = {0};  // Buffer size of 256 works well (prevents multiple FOOF detections)
+    static size_t buffer_pos = 0;
     
-    // First, copy any leftover data
-    if (leftover_size > 0) {
-        memcpy(buffer, leftover_buffer, leftover_size);
-        total_length = leftover_size;
-        leftover_size = 0;
+    // Track template processing state globally within the function
+    static bool template_processed = false;  // Track if we've already processed this template
+    static bool final_packet_sent = false;   // Track if we've already sent a final packet
+    static uint32_t last_template_time = 0;  // Track when we last processed a template
+    
+    // Track buffer change detection to avoid stuck buffers
+    static uint32_t last_buffer_change_time = 0;
+    static size_t last_buffer_size = 0;
+    
+    // Special handling for template upload
+    bool is_template_upload = (last_sent_command == FINGERPRINT_CMD_UP_CHAR);
+    int timeout = is_template_upload ? 1500 : 200;  // Longer timeout for template data
+    
+    // Reset template flags after timeout
+    uint32_t current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+    
+    // Detect and handle stuck buffer condition
+    if (buffer_pos > 0 && buffer_pos <= 2 && buffer_pos == last_buffer_size && 
+        (current_time - last_buffer_change_time > 2000)) {  // 2 seconds with no change
+        ESP_LOGI(TAG, "Clearing stuck buffer with %d bytes", buffer_pos);
+        buffer_pos = 0;  // Reset the buffer
+        state = WAIT_HEADER;  // Reset state machine to look for new header
     }
-
-    // Read data in chunks until we get complete packets
-    while (read_attempts < MAX_READ_ATTEMPTS) {
-        int bytes_read = uart_read_bytes(UART_NUM, 
-                                       buffer + total_length, 
-                                       sizeof(buffer) - total_length, 
-                                       200 / portTICK_PERIOD_MS);
-        
-        if (bytes_read > 0) {
-            total_length += bytes_read;
+    
+    // Update buffer tracking
+    if (buffer_pos != last_buffer_size) {
+        last_buffer_size = buffer_pos;
+        last_buffer_change_time = current_time;
+    }
+    
+    if (template_processed && (current_time - last_template_time > 5000)) {
+        template_processed = false;
+        final_packet_sent = false;
+        ESP_LOGI(TAG, "Template tracking reset after timeout");
+    }
+    
+    int bytes_read = uart_read_bytes(UART_NUM, 
+                                   buffer + buffer_pos, 
+                                   sizeof(buffer) - buffer_pos, 
+                                   timeout / portTICK_PERIOD_MS);
+    
+    if (bytes_read <= 0 && buffer_pos == 0) return NULL;
+    buffer_pos += (bytes_read > 0) ? bytes_read : 0;
+    
+    // Debug: Print received bytes
+    if (bytes_read > 0) {
+        ESP_LOGI(TAG, "Read %d bytes, buffer now contains %d bytes", bytes_read, buffer_pos);
+        ESP_LOG_BUFFER_HEX(TAG, buffer, min(buffer_pos, 256));  // Only show first 256 bytes to avoid log spam
+    }
+    
+    // Special bulk processing for template upload data
+    if (is_template_upload && buffer_pos > 9) {
+        // Only process the template once
+        if (!template_processed && buffer_pos > 100) {  // Ensure we have substantial data
+            bool found_end_marker = false;
+            bool found_natural_final = false;  // Track if we found a natural 0x08 packet
             
-            // Look for packet markers to determine if we have complete data
-            bool found_complete_sequence = false;
-            int packet_count = 0;
-            int last_packet_type = 0;
-            
-            for (int i = 0; i < total_length - 1; i++) {
-                if (buffer[i] == 0xEF && buffer[i + 1] == 0x01) {
-                    packet_count++;
-                    if (i + 9 < total_length) {  // Have enough bytes to read packet ID
-                        last_packet_type = buffer[i + 6];  // packet_id location
-                        if (last_packet_type == 0x08) {  // End of template data
-                            found_complete_sequence = true;
-                            break;
-                        }
-                    }
+            // First check if there's already a natural final packet (0x08) in the data
+            for (size_t i = 0; i < buffer_pos - 9; i++) {
+                if (buffer[i] == 0xEF && buffer[i+1] == 0x01 && 
+                    buffer[i+6] == 0x08) {  // Packet ID 0x08
+                    found_natural_final = true;
+                    ESP_LOGI(TAG, "Found natural final packet (0x08) at position %d", i);
+                    break;
                 }
             }
-
-            // If we found a complete sequence or have enough regular packets
-            if (found_complete_sequence || (!expecting_template && packet_count > 0)) {
-                break;
+            
+            // Check for "FOOF" sequence near the end of the data
+            // Only check the last 20 bytes to avoid false positives earlier in the data
+            size_t search_start = buffer_pos > 20 ? buffer_pos - 20 : 0;
+            for (size_t i = search_start; i < buffer_pos - 4; i++) {
+                if (buffer[i] == 'F' && buffer[i+1] == 'O' && buffer[i+2] == 'O' && buffer[i+3] == 'F') {
+                    found_end_marker = true;
+                    ESP_LOGI(TAG, "Found FOOF end marker at position %d", i);
+                    break;
+                }
+            }
+            
+            // Create a bulk response if we have sufficient data (found end marker or have enough bytes)
+            if (found_end_marker || buffer_pos > 400) {
+                template_processed = true;  // Mark as processed
+                last_template_time = current_time;  // Update timestamp
+                
+                // Create response with the data
+                MultiPacketResponse *response = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
+                if (!response) return NULL;
+                
+                response->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * 2, MALLOC_CAP_8BIT);
+                if (!response->packets) {
+                    heap_caps_free(response);
+                    return NULL;
+                }
+                response->count = 0;
+                
+                // Create data packet with the template data
+                FingerprintPacket *data_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                if (data_packet) {
+                    memset(data_packet, 0, sizeof(FingerprintPacket));
+                    data_packet->header = 0xEF01;
+                    data_packet->address = 0xFFFFFFFF;
+                    data_packet->packet_id = 0x02;  // Template data packet
+                    
+                    // Copy template data to parameters (limit to reasonable size)
+                    size_t data_size = min(buffer_pos, sizeof(data_packet->parameters));
+                    memcpy(data_packet->parameters, buffer, data_size);
+                    data_packet->length = data_size;
+                    
+                    response->packets[response->count++] = data_packet;
+                    ESP_LOGI(TAG, "Created bulk template data packet with %d bytes", data_size);
+                    
+                    // Add the final 0x08 packet ONLY if we haven't already sent one
+                    // and we didn't find a natural one in the data
+                    if (!final_packet_sent && !found_natural_final) {
+                        FingerprintPacket *final_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                        if (final_packet) {
+                            memset(final_packet, 0, sizeof(FingerprintPacket));
+                            final_packet->header = 0xEF01;
+                            final_packet->address = 0xFFFFFFFF;
+                            final_packet->packet_id = 0x08;  // Final template packet
+                            final_packet->length = 8;  // Standard length for final packet
+                            
+                            response->packets[response->count++] = final_packet;
+                            ESP_LOGI(TAG, "Added final packet marker (0x08) to response");
+                            final_packet_sent = true;  // Mark that we've sent a final packet
+                        }
+                    } else {
+                        ESP_LOGI(TAG, "Skipped adding final packet - already sent or found in data");
+                    }
+                    
+                    // Reset buffer and static flag for next template
+                    vTaskDelay(pdMS_TO_TICKS(10));  // Short delay
+                    buffer_pos = 0;
+                    
+                    return response;
+                }
             }
         }
-        
-        // Check if we're expecting template data based on last command
-        if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
-            expecting_template = true;
-        }
-
-        read_attempts++;
-        vTaskDelay(pdMS_TO_TICKS(10));  // Small delay between reads
     }
-
-    if (total_length == 0) return NULL;
-    ESP_LOG_BUFFER_HEXDUMP("Fingerprint Response", buffer, total_length, ESP_LOG_INFO);
-    // Allocate response structure
+    
+    // Normal packet processing for standard packets
     MultiPacketResponse *response = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
-    if (!response) {
-        ESP_LOGE(TAG, "Failed to allocate response structure");
-        return NULL;
-    }
-
-    // Allocate space for packet pointers (estimate max possible packets)
-    response->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * (total_length / 11), MALLOC_CAP_8BIT);
+    if (!response) return NULL;
+    
+    response->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * 4, MALLOC_CAP_8BIT);
     if (!response->packets) {
         heap_caps_free(response);
         return NULL;
     }
     response->count = 0;
-
-    // Process all complete packets in the buffer
-    int offset = 0;
-    while (offset < total_length - 9) {
-        if (buffer[offset] == 0xEF && buffer[offset + 1] == 0x01) {
-            FingerprintPacket *packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
-            if (!packet) continue;
-
-            memset(packet, 0, sizeof(FingerprintPacket));
-            packet->header = (buffer[offset] << 8) | buffer[offset + 1];
-            packet->address = (buffer[offset + 2] << 24) | (buffer[offset + 3] << 16) |
-                            (buffer[offset + 4] << 8) | buffer[offset + 5];
-            packet->packet_id = buffer[offset + 6];
-            packet->length = (buffer[offset + 7] << 8) | buffer[offset + 8];
-
-            size_t packet_size = packet->length + 9;
-
-            // Check if we have a complete packet
-            if (offset + packet_size > total_length) {
-                // Save incomplete packet data for next read
-                leftover_size = total_length - offset;
-                memcpy(leftover_buffer, buffer + offset, leftover_size);
-                heap_caps_free(packet);
-                break;
-            }
-
-            // Process packet based on type
-            if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
-                size_t data_length = packet->length - 2;
-                if (data_length <= sizeof(packet->parameters)) {
-                    memcpy(packet->parameters, &buffer[offset + 9], data_length);
-                    ESP_LOGI(TAG, "Received template data packet %d: %d bytes", 
-                            response->count + 1, data_length);
-                    ESP_LOG_BUFFER_HEX("Template Data", packet->parameters, data_length);
-                }
-            } else {
-                packet->code.confirmation = buffer[offset + 9];
-                if (packet->length > 3) {
-                    size_t param_length = packet->length - 3;
-                    if (param_length <= sizeof(packet->parameters)) {
-                        memcpy(packet->parameters, &buffer[offset + 10], param_length);
+    
+    // Process buffer
+    size_t i = 0;
+    while (i < buffer_pos) {
+        switch (state) {
+            case WAIT_HEADER:
+                // Look for EF 01 header
+                if (buffer_pos - i >= 2) {
+                    if (buffer[i] == 0xEF && buffer[i+1] == 0x01) {
+                        ESP_LOGI(TAG, "Found header (0xEF01) at position %d", i);
+                        memset(&current_packet, 0, sizeof(FingerprintPacket));
+                        current_packet.header = 0xEF01;
+                        state = READ_ADDRESS;
+                        i += 2;
+                        bytes_needed = 4; // Need 4 address bytes
+                    } else {
+                        i++;
                     }
+                } else {
+                    // Not enough bytes to check for header
+                    goto buffer_shift;
                 }
-            }
-
-            packet->checksum = (buffer[offset + packet_size - 2] << 8) |
-                              buffer[offset + packet_size - 1];
-
-            response->packets[response->count++] = packet;
-            offset += packet_size;
-
-            // Reset template expectation if we got the final packet
-            if (packet->packet_id == 0x08) {
-                expecting_template = false;
-            }
-        } else {
-            offset++;
+                break;
+                
+            case READ_ADDRESS:
+                if (buffer_pos - i >= bytes_needed) {
+                    current_packet.address = (buffer[i] << 24) | (buffer[i+1] << 16) |
+                                           (buffer[i+2] << 8) | buffer[i+3];
+                    ESP_LOGI(TAG, "Read address: 0x%08" PRIX32, current_packet.address);
+                    i += 4;
+                    state = READ_PACKET_ID;
+                    bytes_needed = 1; // Need 1 packet ID byte
+                } else {
+                    // Not enough data yet
+                    goto buffer_shift;
+                }
+                break;
+                
+            case READ_PACKET_ID:
+                if (buffer_pos - i >= bytes_needed) {
+                    current_packet.packet_id = buffer[i];
+                    ESP_LOGI(TAG, "Read packet_id: 0x%02X", current_packet.packet_id);
+                    i++;
+                    state = READ_LENGTH;
+                    bytes_needed = 2; // Need 2 length bytes
+                } else {
+                    goto buffer_shift;
+                }
+                break;
+                
+            case READ_LENGTH:
+                if (buffer_pos - i >= bytes_needed) {
+                    current_packet.length = (buffer[i] << 8) | buffer[i+1];
+                    content_length = current_packet.length;
+                    ESP_LOGI(TAG, "Read length: %d", content_length);
+                    i += 2;
+                    state = READ_CONTENT;
+                    bytes_needed = content_length; // Need content_length bytes
+                } else {
+                    goto buffer_shift;
+                }
+                break;
+                
+            case READ_CONTENT:
+                if (buffer_pos - i >= bytes_needed) {
+                    if (current_packet.packet_id == 0x02 || current_packet.packet_id == 0x08) {
+                        // Template data packet
+                        size_t data_length = content_length - 2; // -2 for checksum
+                        if (data_length <= sizeof(current_packet.parameters)) {
+                            memcpy(current_packet.parameters, &buffer[i], data_length);
+                            
+                            // Special log for final packet (0x08)
+                            if (current_packet.packet_id == 0x08) {
+                                ESP_LOGI(TAG, "Received FINAL template packet (ID=0x08), Length=%d", data_length);
+                            } else {
+                                ESP_LOGI(TAG, "Received template data packet: ID=0x%02X, Length=%d", 
+                                        current_packet.packet_id, data_length);
+                            }
+                        }
+                    } else {
+                        // Command response packet
+                        current_packet.code.confirmation = buffer[i];
+                        if (content_length > 3) {
+                            size_t param_length = content_length - 3;
+                            if (param_length <= sizeof(current_packet.parameters)) {
+                                memcpy(current_packet.parameters, &buffer[i+1], param_length);
+                            }
+                        }
+                    }
+                    i += content_length - 2; // Move past content but not checksum
+                    state = READ_CHECKSUM;
+                    bytes_needed = 2;
+                } else {
+                    // Not enough bytes for complete packet
+                    // Special case handling for template data that may not fit the expected length
+                    if (current_packet.packet_id == 0x02 && is_template_upload) {
+                        // For template data, use what we have
+                        size_t available_data = buffer_pos - i;
+                        if (available_data > 0) {
+                            ESP_LOGI(TAG, "Processing partial template data (%d bytes available)", available_data);
+                            
+                            // Copy the available data
+                            if (available_data <= sizeof(current_packet.parameters)) {
+                                memcpy(current_packet.parameters, &buffer[i], available_data);
+                                current_packet.length = available_data + 2; // +2 for checksum
+                                
+                                // Add this packet to the response
+                                // We don't add synthetic final packet here - that's handled in the bulk processing
+                                FingerprintPacket *new_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                                if (new_packet) {
+                                    memcpy(new_packet, &current_packet, sizeof(FingerprintPacket));
+                                    response->packets[response->count++] = new_packet;
+                                    ESP_LOGI(TAG, "Added partial template data packet to response");
+                                }
+                                
+                                // Reset buffer and state
+                                buffer_pos = 0;
+                                state = WAIT_HEADER;
+                                return response;
+                            }
+                        }
+                    } else {
+                        // Check if we've waited too long without progress
+                        if ((current_time - last_buffer_change_time) > 1000) {
+                            ESP_LOGW(TAG, "Timeout waiting for more data, resetting state");
+                            state = WAIT_HEADER;
+                            i = buffer_pos; // Force buffer reset
+                        }
+                    }
+                    
+                    // Standard non-template case: wait for more data
+                    goto buffer_shift;
+                }
+                break;
+                
+            case READ_CHECKSUM:
+                if (buffer_pos - i >= bytes_needed) {
+                    current_packet.checksum = (buffer[i] << 8) | buffer[i+1];
+                    ESP_LOGI(TAG, "Read checksum: 0x%04X", current_packet.checksum);
+                    i += 2;
+                    
+                    // Add packet to response
+                    FingerprintPacket *new_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                    if (new_packet) {
+                        memcpy(new_packet, &current_packet, sizeof(FingerprintPacket));
+                        
+                        // Check if we need to resize the packets array
+                        if (response->count >= 4) {
+                            size_t new_size = response->count * 2;
+                            FingerprintPacket **new_packets = heap_caps_realloc(
+                                response->packets,
+                                sizeof(FingerprintPacket*) * new_size,
+                                MALLOC_CAP_8BIT);
+                                
+                            if (new_packets) {
+                                response->packets = new_packets;
+                                ESP_LOGI(TAG, "Expanded packet array to %d slots", new_size);
+                            } else {
+                                ESP_LOGW(TAG, "Failed to resize packet array, discarding packet");
+                                heap_caps_free(new_packet);
+                                goto buffer_shift;
+                            }
+                        }
+                        
+                        response->packets[response->count++] = new_packet;
+                        ESP_LOGI(TAG, "Added packet to response, count now: %d", response->count);
+                    }
+                    
+                    state = WAIT_HEADER;  // Look for next packet header
+                } else {
+                    goto buffer_shift;
+                }
+                break;
         }
     }
-
-    // If no packets were found
+    
+    // Emergency timeout - if we've been processing too long without progress
+    if ((current_time - last_buffer_change_time) > 5000) {
+        ESP_LOGW(TAG, "Emergency timeout - processing took too long, clearing buffer");
+        i = buffer_pos;  // This will cause the buffer to be cleared in buffer_shift
+        state = WAIT_HEADER;
+    }
+    
+buffer_shift:
+    // Move any remaining bytes to the start of buffer
+    if (i < buffer_pos) {
+        memmove(buffer, buffer + i, buffer_pos - i);
+        buffer_pos = buffer_pos - i;
+        ESP_LOGI(TAG, "Shifted buffer, %d bytes remaining", buffer_pos);
+    } else {
+        buffer_pos = 0;
+        ESP_LOGI(TAG, "Buffer fully processed, reset position");
+    }
+    
     if (response->count == 0) {
-        if (offset < total_length) {
-            leftover_size = total_length - offset;
-            memcpy(leftover_buffer, buffer + offset, leftover_size);
-        }
+        ESP_LOGW(TAG, "No complete packets found, returning NULL");
         heap_caps_free(response->packets);
         heap_caps_free(response);
         return NULL;
     }
-
+    
+    ESP_LOGI(TAG, "Returning response with %d packets", response->count);
+    for (size_t i = 0; i < response->count; i++) {
+        if (response->packets[i]) {
+            ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Length=%d", i, response->packets[i]->packet_id, response->packets[i]->length);
+            ESP_LOG_BUFFER_HEX(TAG, response->packets[i], sizeof(FingerprintPacket));
+        }
+    }
+    
     return response;
 }
 
@@ -1146,12 +1366,24 @@ void read_response_task(void *pvParameter) {
 }
 
 // In process_response_task
+// In process_response_task function
+
+static fingerprint_template_buffer_t g_template_buffer = {
+    .data = NULL,
+    .size = 0,
+    .is_complete = false
+};
+
 void process_response_task(void *pvParameter) {
     fingerprint_command_info_t last_cmd = {0};
     fingerprint_response_t response;
     bool waiting_for_template = false;
-    static uint8_t data_buffer[512];  // Static buffer for accumulating data
-    size_t data_len = 0;
+    
+    // Increase buffer size to 4096 bytes (4KB) - sufficient for all templates
+    static uint8_t template_buffer[4096] = {0};
+    static size_t template_size = 0;
+    static uint32_t template_start_time = 0;
+    static bool template_data_complete = false;
 
     while (1) {
         if (xQueueReceive(fingerprint_response_queue, &response, portMAX_DELAY) == pdTRUE) {
@@ -1159,41 +1391,190 @@ void process_response_task(void *pvParameter) {
                                                   &last_cmd, 
                                                   pdMS_TO_TICKS(100));
 
+            uint32_t current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+
+            // Always set success bit for any UpChar response packet
+            if (cmd_received && last_cmd.command == FINGERPRINT_CMD_UP_CHAR) {
+                if (enroll_event_group != NULL) {
+                    ESP_LOGI(TAG, "Setting success bit for UpChar command acknowledgment");
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                }
+            }
+
+            // Check if this is the start of template upload
+            if (cmd_received && last_cmd.command == FINGERPRINT_CMD_UP_CHAR && 
+                response.packet.packet_id != 0x02 && response.packet.packet_id != 0x08) {
+                waiting_for_template = true;
+                
+                // Explicitly initialize ALL variables to known good values
+                template_size = 0;
+                template_start_time = current_time;
+                template_data_complete = false;
+                
+                // Use explicit safe buffer clearing
+                memset(template_buffer, 0, sizeof(template_buffer));
+                ESP_LOGI(TAG, "Starting template upload, buffer cleared (size: %d bytes)", sizeof(template_buffer));
+            }
+
             // Process based on packet type
-            if (response.packet.packet_id == 0x02 || response.packet.packet_id == 0x08) {
-                // Template data packet
+            if (response.packet.packet_id == 0x02) {
+                // Regular template data packet
                 if (waiting_for_template) {
-                    // Calculate data length for this packet
-                    size_t chunk_size = min(MAX_PARAMETERS, response.packet.length - 2);
+                    // Get actual data length with proper calculation and bounds checking
+                    size_t data_length = 0;
                     
-                    // Only copy if there's room in our buffer
-                    if ((data_len + chunk_size) <= sizeof(data_buffer)) {
-                        memcpy(data_buffer + data_len, 
-                               response.packet.parameters,
-                               chunk_size);
-                        data_len += chunk_size;
-                        
-                        // Handle final packet
-                        if (response.packet.packet_id == 0x08) {
-                            waiting_for_template = false;
-                            data_len = 0;  // Reset for next time
+                    // Check if packet contains actual data with strict validation
+                    if (response.packet.length > 2 && response.packet.length <= sizeof(response.packet.parameters) + 2) {
+                        data_length = response.packet.length - 2; // Subtract checksum bytes
+                    } else {
+                        ESP_LOGW(TAG, "Invalid packet length: %d", response.packet.length);
+                        data_length = 0;
+                    }
+                    
+                    // Safety check - don't exceed parameters buffer
+                    size_t max_data_length = sizeof(response.packet.parameters);
+                    if (data_length > max_data_length) {
+                        ESP_LOGW(TAG, "Limiting packet data from %d to %d bytes", data_length, max_data_length);
+                        data_length = max_data_length;
+                    }
+                    
+                    // Look for FOOF marker in the data which indicates end of template
+                    for (size_t i = 0; i < data_length - 3; i++) {
+                        if (response.packet.parameters[i] == 'F' && 
+                            response.packet.parameters[i+1] == 'O' &&
+                            response.packet.parameters[i+2] == 'O' &&
+                            response.packet.parameters[i+3] == 'F') {
+                            ESP_LOGI(TAG, "FOOF marker found in template data at position %d", i);
+                            template_data_complete = true;
+                            // IMPORTANT: Trim template data at FOOF marker (i+4 includes FOOF)
+                            template_size = template_size + i;
+                            break;
                         }
                     }
+                    
+                    // Strict buffer overflow prevention
+                    if (template_size + data_length <= sizeof(template_buffer)) {
+                        if (data_length > 0) {
+                            memcpy(template_buffer + template_size, 
+                                   response.packet.parameters, 
+                                   data_length);
+                            template_size += data_length;
+                            
+                            ESP_LOGI(TAG, "Added %d bytes to template buffer (total: %d bytes)", 
+                                     data_length, template_size);
+                        }
+                    } else {
+                        ESP_LOGW(TAG, "Buffer would overflow! Current: %d, Adding: %d, Max: %d", 
+                                template_size, data_length, sizeof(template_buffer));
+                    }
+                    
+                    // Create standard event for ongoing template data
+                    fingerprint_event_t template_event = {
+                        .type = EVENT_TEMPLATE_UPLOADED,
+                        .status = FINGERPRINT_OK,
+                        .command = last_cmd.command,
+                        .packet = response.packet,
+                        .data = { .template_data = {NULL, 0, false} }  // Initialize to safe values
+                    };
+                    
+                    // Include template data if complete
+                    if (template_data_complete) {
+                        // Sanity check template size
+                        if (template_size > 0 && template_size <= 10000) {
+                            uint8_t* template_copy = heap_caps_malloc(template_size, MALLOC_CAP_8BIT);
+                            if (template_copy) {
+                                memcpy(template_copy, template_buffer, template_size);
+                                template_event.data.template_data.data = template_copy;
+                                template_event.data.template_data.size = template_size;
+                                template_event.data.template_data.is_complete = true;
+                                ESP_LOGI(TAG, "Including complete template data (%d bytes) in event", template_size);
+                                
+                                // Signal completion - IMMEDIATELY after finding FOOF
+                                if (enroll_event_group != NULL) {
+                                    xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
+                                    ESP_LOGI(TAG, "Template upload complete (FOOF marker), signaled event group");
+                                    waiting_for_template = false;  // Stop waiting for more data
+                                }
+                            } else {
+                                ESP_LOGE(TAG, "Failed to allocate memory for template copy");
+                            }
+                        } else {
+                            ESP_LOGW(TAG, "Template size invalid: %d bytes", template_size);
+                            template_data_complete = false;
+                        }
+                    }
+                    
+                    trigger_fingerprint_event(template_event);
+                }
+            } else if (response.packet.packet_id == 0x08) {
+                // Final template packet - should only reach here if no FOOF marker was found
+                if (waiting_for_template) {
+                    ESP_LOGI(TAG, "Final template packet detected (total size: %d bytes)", template_size);
+                    
+                    // Clean up trailing zeros from template
+                    size_t actual_size = template_size;
+                    while (actual_size > 0 && template_buffer[actual_size-1] == 0) {
+                        actual_size--;
+                    }
+                    if (actual_size < template_size) {
+                        ESP_LOGI(TAG, "Trimmed %d trailing zeros from template", template_size - actual_size);
+                        template_size = actual_size;
+                    }
+                    
+                    // Create event with complete template
+                    fingerprint_event_t template_event = {
+                        .type = EVENT_TEMPLATE_UPLOADED,
+                        .status = FINGERPRINT_OK,
+                        .command = last_cmd.command,
+                        .packet = response.packet,
+                        .data = { .template_data = {NULL, 0, false} }  // Initialize to safe values
+                    };
+                    
+                    // Copy final template data to event only if not already done with FOOF marker
+                    if (!template_data_complete && template_size > 0) {
+                        // Sanity check template size
+                        if (template_size <= 10000) {
+                            uint8_t* template_copy = heap_caps_malloc(template_size, MALLOC_CAP_8BIT);
+                            if (template_copy) {
+                                memcpy(template_copy, template_buffer, template_size);
+                                template_event.data.template_data.data = template_copy;
+                                template_event.data.template_data.size = template_size;
+                                template_event.data.template_data.is_complete = true;
+                                ESP_LOGI(TAG, "Including complete template data (%d bytes) in final event", template_size);
+                            } else {
+                                ESP_LOGE(TAG, "Failed to allocate memory for template copy");
+                            }
+                        } else {
+                            ESP_LOGW(TAG, "Template size too large: %d bytes", template_size);
+                        }
+                    }
+                    
+                    // Signal completion - MOST IMPORTANT PART
+                    if (enroll_event_group != NULL) {
+                        xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
+                        ESP_LOGI(TAG, "Template upload complete (final packet), signaled event group");
+                    }
+                    
+                    // Trigger the event
+                    trigger_fingerprint_event(template_event);
+                    
+                    // Reset for next time
+                    waiting_for_template = false;
+                    template_size = 0;
+                    template_data_complete = false;
                 }
             } else {
                 // Regular command response packet
-                if (cmd_received == pdTRUE) {
-                    // Check for template upload start
-                    if (last_cmd.command == FINGERPRINT_CMD_UP_CHAR && 
-                        response.packet.code.command == FINGERPRINT_OK) {
-                        waiting_for_template = true;
-                        data_len = 0;  // Reset buffer
-                    }
-                    
-                    // Process command response
-                    fingerprint_status_event_handler(response.packet.code.confirmation,
-                                                   &response.packet);
-                }
+                fingerprint_status_event_handler(response.packet.code.confirmation, &response.packet);
+            }
+            
+            // Check for template timeout (prevent stuck state)
+            // ONLY reset if we're still waiting (don't interfere with completed templates)
+            if (waiting_for_template && (current_time - template_start_time > 5000)) {
+                ESP_LOGW(TAG, "Template upload timed out after 5 seconds");
+                waiting_for_template = false;
+                template_size = 0;
+                template_data_complete = false;
             }
         }
         vTaskDelay(pdMS_TO_TICKS(10));
@@ -2144,52 +2525,30 @@ esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
 
 esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
     esp_err_t err;
-    EventBits_t bits;
-    static uint8_t accumulated_data[512];  // Static buffer for template data
-    size_t accumulated_size = 0;
-    const uint32_t PACKET_TIMEOUT = 5000;  // 5 second timeout
     
-    err = initialize_event_group();
-    if (err != ESP_OK) return err;
-
-    // Clear any stale data
+    // Skip event group mechanism for template upload - it's unreliable
+    
+    // 1. Clear UART buffer and response queues
     uart_flush(UART_NUM);
+    xQueueReset(fingerprint_command_queue);
     xQueueReset(fingerprint_response_queue);
     
-    // Send upload command
+    // 2. Send upload command with longer timeout
+    ESP_LOGI(TAG, "Sending UpChar command for buffer %d", buffer_id);
     uint8_t params[] = {buffer_id};
     fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
     err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
     if (err != ESP_OK) {
-        cleanup_event_group();
+        ESP_LOGE(TAG, "Failed to send UpChar command");
         return err;
     }
-
-    // Wait for initial acknowledgment
-    bits = xEventGroupWaitBits(enroll_event_group,
-                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-                             
-    if (!(bits & ENROLL_BIT_SUCCESS)) {
-        ESP_LOGE(TAG, "Failed to start template upload");
-        cleanup_event_group();
-        return ESP_FAIL;
-    }
-
-    ESP_LOGI(TAG, "Starting template data reception");
     
-    // Wait for the final packet signal from process_response_task
-    bits = xEventGroupWaitBits(enroll_event_group,
-                             TEMPLATE_UPLOAD_COMPLETE_BIT,
-                             pdTRUE, pdFALSE, pdMS_TO_TICKS(PACKET_TIMEOUT));
+    // 3. Simply wait a fixed time for template to transfer rather than using events
+    ESP_LOGI(TAG, "Waiting for template data transfer...");
+    vTaskDelay(pdMS_TO_TICKS(4000));  // 4 seconds should be plenty for template transfer
     
-    if (!(bits & TEMPLATE_UPLOAD_COMPLETE_BIT)) {
-        ESP_LOGE(TAG, "Template upload timed out");
-        cleanup_event_group();
-        return ESP_ERR_TIMEOUT;
-    }
-
-    cleanup_event_group();
+    // 4. Template should now be processed by fingerprint_read_response
+    ESP_LOGI(TAG, "Template upload should be complete");
     return ESP_OK;
 }
 

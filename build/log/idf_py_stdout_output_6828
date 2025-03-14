@@ -1,0 +1,43 @@
+[1/10] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
+[2/10] No install step for 'bootloader'
+[3/10] Completed 'bootloader'
+[4/10] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_set_command':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:712:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  712 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
+      |                      ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_status_event_handler':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1792:21: warning: unused variable 'bits' [-Wunused-variable]
+ 1792 |         EventBits_t bits = xEventGroupGetBits(enroll_event_group);
+      |                     ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'enroll_fingerprint':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1831:13: warning: unused variable 'position' [-Wunused-variable]
+ 1831 |     uint8_t position = location & 0xFF;  // Get position within page
+      |             ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2250:28: warning: unused variable 'response' [-Wunused-variable]
+ 2250 |     fingerprint_response_t response;
+      |                            ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'upload_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2367:20: warning: unused variable 'PACKET_TIMEOUT' [-Wunused-variable]
+ 2367 |     const uint32_t PACKET_TIMEOUT = 5000;  // 5 second timeout
+      |                    ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2366:12: warning: unused variable 'accumulated_size' [-Wunused-variable]
+ 2366 |     size_t accumulated_size = 0;
+      |            ^~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2365:20: warning: unused variable 'accumulated_data' [-Wunused-variable]
+ 2365 |     static uint8_t accumulated_data[512];  // Static buffer for template data
+      |                    ^~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2522:14: warning: unused variable 'page_id' [-Wunused-variable]
+ 2522 |     uint16_t page_id = template_id;
+      |              ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:23:13: warning: 'is_fingerprint_validating' defined but not used [-Wunused-variable]
+   23 | static bool is_fingerprint_validating = false; // Flag to check if fingerprint is validating
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+[5/10] Linking C static library esp-idf\fingerprint\libfingerprint.a
+[6/10] Generating ld/sections.ld
+[7/10] Linking CXX executable fingerprint_scanner.elf

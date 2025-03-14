@@ -1,0 +1,565 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar  4 2025 16:14:42[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0cfb8h ( 53176) map[0m
+[0;32mI (108) esp_image: segment 1: paddr=0001cfe0 vaddr=3fc93900 size=03038h ( 12344) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1d260h (119392) map[0m
+[0;32mI (140) esp_image: segment 3: paddr=0003d288 vaddr=3fc96938 size=005b8h (  1464) load[0m
+[0;32mI (141) esp_image: segment 4: paddr=0003d848 vaddr=40374000 size=0f8cch ( 63692) load[0m
+[0;32mI (162) esp_image: segment 5: paddr=0004d11c vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (168) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (168) boot: Disabling RNG early entropy source...[0m
+[0;32mI (180) cpu_start: Multicore app[0m
+[0;32mI (188) cpu_start: Pro cpu start user code[0m
+[0;32mI (188) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (188) app_init: Application information:[0m
+[0;32mI (188) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (193) app_init: App version:      7eb2ecb-dirty[0m
+[0;32mI (198) app_init: Compile time:     Mar 14 2025 08:27:26[0m
+[0;32mI (203) app_init: ELF file SHA256:  76b9b5db8...[0m
+[0;32mI (207) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (211) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (215) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (219) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (223) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (229) heap_init: At 3FC97CF8 len 00051A18 (326 KiB): RAM[0m
+[0;32mI (234) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (240) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (245) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (251) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (260) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (264) spi_flash: flash io: opi_str[0m
+[0;33mW (267) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (279) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (286) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (293) main_task: Started on CPU0[0m
+[0;32mI (303) main_task: Calling app_main()[0m
+[0;32mI (303) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (503) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (903) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1303) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1693) FINGERPRINT: No handshake received, retrying...[0m
+[0;32mI (1893) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
+[0;32mI (1893) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (2093) FINGERPRINT: Read 2 bytes, buffer now contains 2 bytes[0m
+[0;32mI (2093) FINGERPRINT: 00 55[0m
+[0;32mI (2093) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (2093) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (2353) FINGERPRINT: Read 12 bytes, buffer now contains 13 bytes[0m
+[0;32mI (2353) FINGERPRINT: 55 ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (2353) FINGERPRINT: Found header (0xEF01) at position 1[0m
+[0;32mI (2353) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (2353) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (2363) FINGERPRINT: Read length: 3[0m
+[0;32mI (2363) FINGERPRINT: Received command confirmation: 0x00[0m
+[0;32mI (2373) FINGERPRINT: Read checksum: 0x000A[0m
+[0;32mI (2373) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (2383) FINGERPRINT: Buffer fully processed, reset position[0m
+[0;32mI (2383) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (3093) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (3443) FINGERPRINT: Read 44 bytes, buffer now contains 44 bytes[0m
+[0;32mI (3443) FINGERPRINT: ef 01 ff ff ff ff 07 00 23 00 03 00 00 00 00 00[0m
+[0;32mI (3443) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3443) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 2d[0m
+[0;32mI (3453) FINGERPRINT: Found header (0xEF01) at position 0[0m
+[0;32mI (3453) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (3463) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (3463) FINGERPRINT: Read length: 35[0m
+[0;32mI (3463) FINGERPRINT: Received command confirmation: 0x00[0m
+[0;32mI (3473) FINGERPRINT: Response parameters (32 bytes):[0m
+[0;32mI (3473) FINGERPRINT: 03 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3483) FINGERPRINT: Read checksum: 0x002D[0m
+[0;32mI (3483) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (3493) FINGERPRINT: Buffer fully processed, reset position[0m
+[0;32mI (3493) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (3503) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (3513) Index Table Parameters: 03 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3513) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3523) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3533) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3533) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3543) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3553) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3563) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3563) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3573) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3583) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3583) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3593) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3603) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3603) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (3613) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (3623) FINGERPRINT: Location 1 is already occupied[0m
+[1;31mE (3623) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (3633) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (5633) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (6303) FINGERPRINT: Read 12 bytes, buffer now contains 12 bytes[0m
+[0;32mI (6303) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
+[0;32mI (6303) FINGERPRINT: Found header (0xEF01) at position 0[0m
+[0;32mI (6303) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (6303) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (6313) FINGERPRINT: Read length: 3[0m
+[0;32mI (6313) FINGERPRINT: Received command confirmation: 0x02[0m
+[0;32mI (6323) FINGERPRINT: Read checksum: 0x000C[0m
+[0;32mI (6323) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (6333) FINGERPRINT: Buffer fully processed, reset position[0m
+[0;32mI (6333) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (6843) FINGERPRINT: Read 12 bytes, buffer now contains 12 bytes[0m
+[0;32mI (6843) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (6843) FINGERPRINT: Found header (0xEF01) at position 0[0m
+[0;32mI (6843) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (6843) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (6853) FINGERPRINT: Read length: 3[0m
+[0;32mI (6853) FINGERPRINT: Received command confirmation: 0x00[0m
+[0;32mI (6863) FINGERPRINT: Read checksum: 0x000A[0m
+[0;32mI (6863) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (6873) FINGERPRINT: Buffer fully processed, reset position[0m
+[0;32mI (6873) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (6883) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (6883) FINGERPRINT: Finger detected![0m
+[0;32mI (7153) FINGERPRINT: Read 12 bytes, buffer now contains 12 bytes[0m
+[0;32mI (7153) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (7153) FINGERPRINT: Found header (0xEF01) at position 0[0m
+[0;32mI (7153) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (7153) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (7163) FINGERPRINT: Read length: 3[0m
+[0;32mI (7163) FINGERPRINT: Received command confirmation: 0x00[0m
+[0;32mI (7173) FINGERPRINT: Read checksum: 0x000A[0m
+[0;32mI (7173) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (7183) FINGERPRINT: Buffer fully processed, reset position[0m
+[0;32mI (7183) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7193) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (7193) FINGERPRINT: Searching for fingerprint match...[0m
+[0;32mI (7563) FINGERPRINT: Read 16 bytes, buffer now contains 16 bytes[0m
+[0;32mI (7563) FINGERPRINT: ef 01 ff ff ff ff 07 00 07 00 00 00 00 14 00 22[0m
+[0;32mI (7563) FINGERPRINT: Found header (0xEF01) at position 0[0m
+[0;32mI (7563) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (7573) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (7573) FINGERPRINT: Read length: 7[0m
+[0;32mI (7573) FINGERPRINT: Received command confirmation: 0x00[0m
+[0;32mI (7583) FINGERPRINT: Response parameters (4 bytes):[0m
+[0;32mI (7583) FINGERPRINT: 00 00 00 14[0m
+[0;32mI (7593) FINGERPRINT: Read checksum: 0x0022[0m
+[0;32mI (7593) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (7593) FINGERPRINT: Buffer fully processed, reset position[0m
+[0;32mI (7603) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7603) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (7613) FINGERPRINT: Match found at Enrollee ID: 0[0m
+[0;32mI (7623) FINGERPRINT: Match score: 5120[0m
+[0;32mI (7623) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (8033) FINGERPRINT: Read 14 bytes, buffer now contains 14 bytes[0m
+[0;32mI (8033) FINGERPRINT: ef 01 ff ff ff ff 07 00 05 00 00 02 00 0e[0m
+[0;32mI (8033) FINGERPRINT: Found header (0xEF01) at position 0[0m
+[0;32mI (8033) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (8033) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (8043) FINGERPRINT: Read length: 5[0m
+[0;32mI (8043) FINGERPRINT: Received command confirmation: 0x00[0m
+[0;32mI (8053) FINGERPRINT: Response parameters (2 bytes):[0m
+[0;32mI (8053) FINGERPRINT: 00 02[0m
+[0;32mI (8053) FINGERPRINT: Read checksum: 0x000E[0m
+[0;32mI (8063) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (8063) FINGERPRINT: Buffer fully processed, reset position[0m
+[0;32mI (8073) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (8073) EVENT TEMPLATE COUNT: Number of valid templates: 2[0m
+[0;32mI (8083) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (8093) FINGERPRINT: Backing up template id 0x0001[0m
+[0;32mI (8093) FINGERPRINT: Loading Template...[0m
+[0;32mI (8293) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (8503) FINGERPRINT: Read 12 bytes, buffer now contains 12 bytes[0m
+[0;32mI (8503) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (8503) FINGERPRINT: Found header (0xEF01) at position 0[0m
+[0;32mI (8503) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (8503) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (8513) FINGERPRINT: Read length: 3[0m
+[0;32mI (8513) FINGERPRINT: Received command confirmation: 0x00[0m
+[0;32mI (8523) FINGERPRINT: Read checksum: 0x000A[0m
+[0;32mI (8523) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (8533) FINGERPRINT: Buffer fully processed, reset position[0m
+[0;32mI (8533) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (8543) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (8543) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (8553) FINGERPRINT: Uploading Template...[0m
+[0;32mI (8853) FINGERPRINT: Read 512 bytes, buffer now contains 512 bytes[0m
+[0;32mI (8853) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a ef 01 ff ff[0m
+[0;32mI (8853) FINGERPRINT: ff ff 02 00 07 00 00 54 1e 56 00 d1 ef 01 ff ff[0m
+[0;32mI (8853) FINGERPRINT: ff ff 02 01 02 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (8863) FINGERPRINT: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (8863) FINGERPRINT: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (8873) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (8883) FINGERPRINT: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (8883) FINGERPRINT: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (8893) FINGERPRINT: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (8903) FINGERPRINT: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (8903) FINGERPRINT: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (8913) FINGERPRINT: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (8913) FINGERPRINT: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (8923) FINGERPRINT: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (8933) FINGERPRINT: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (8933) FINGERPRINT: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (8943) FINGERPRINT: f8 d7 c1 69 5b a3 1f 9b 2d 4a 2a 81 b8 b2 4c 0e[0m
+[0;32mI (8943) FINGERPRINT: dd f9 24 2b 25 ab 63 48 65 bf e1 28 6f 08 3a 48[0m
+[0;32mI (8953) FINGERPRINT: a9 6a c6 47 48 4e c9 ef 01 ff ff ff ff 02 01 02[0m
+[0;32mI (8963) FINGERPRINT: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (8963) FINGERPRINT: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (8973) FINGERPRINT: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (8983) FINGERPRINT: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (8983) FINGERPRINT: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (8993) FINGERPRINT: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (8993) FINGERPRINT: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (9003) FINGERPRINT: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (9013) FINGERPRINT: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (9013) FINGERPRINT: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (9023) FINGERPRINT: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (9033) FINGERPRINT: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (9033) FINGERPRINT: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (9043) FINGERPRINT: Found header (0xEF01) at position 0[0m
+[0;32mI (9043) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (9053) FINGERPRINT: Read packet_id: 0x07[0m
+[0;32mI (9053) FINGERPRINT: Read length: 3[0m
+[0;32mI (9053) FINGERPRINT: Received command confirmation: 0x00[0m
+[0;32mI (9063) FINGERPRINT: Read checksum: 0x000A[0m
+[0;32mI (9063) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (9073) FINGERPRINT: Found header (0xEF01) at position 12[0m
+[0;32mI (9073) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (9083) FINGERPRINT: Read packet_id: 0x02[0m
+[0;32mI (9083) FINGERPRINT: Read length: 7[0m
+[0;32mI (9083) FINGERPRINT: Received template data packet: ID=0x02, Length=5[0m
+[0;32mI (9093) FINGERPRINT: 00 00 54 1e 56[0m
+[0;32mI (9093) FINGERPRINT: Read checksum: 0x00D1[0m
+[0;32mI (9103) FINGERPRINT: Added packet to response, count now: 2[0m
+[0;32mI (9103) FINGERPRINT: Found header (0xEF01) at position 28[0m
+[0;32mI (9113) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (9113) FINGERPRINT: Read packet_id: 0x02[0m
+[0;32mI (9123) FINGERPRINT: Read length: 258[0m
+[0;32mI (9123) FINGERPRINT: Received template data packet: ID=0x02, Length=256[0m
+[0;32mI (9133) FINGERPRINT: 01 04 93 07 50 52 45 43 49 53 45 00 01 02 73 b6[0m
+[0;32mI (9133) FINGERPRINT: Read checksum: 0x4EC9[0m
+[0;32mI (9143) FINGERPRINT: Added packet to response, count now: 3[0m
+[0;32mI (9143) FINGERPRINT: Found header (0xEF01) at position 295[0m
+[0;32mI (9153) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (9153) FINGERPRINT: Read packet_id: 0x02[0m
+[0;32mI (9163) FINGERPRINT: Read length: 258[0m
+[0;32mI (9163) FINGERPRINT: Waiting for more content data: have 208, need 258[0m
+[0;32mI (9173) FINGERPRINT: Shifted buffer, 208 bytes remaining[0m
+[0;32mI (9173) FINGERPRINT: Returning response with 3 packets[0m
+[0;32mI (9183) FINGERPRINT: Upload starting[0m
+[0;32mI (9183) EVENT_TEMPLATE_UPLOADED: Template command: 0x08[0m
+[0;32mI (9183) EVENT_TEMPLATE_UPLOADED: Template package ID: 0x07[0m
+[0;32mI (9193) EVENT_TEMPLATE_UPLOADED: Template confirmation code: 0x00[0m
+[0;32mI (9193) FINGERPRINT: Read 304 bytes, buffer now contains 512 bytes[0m
+[0;32mI (9193) EVENT_TEMPLATE_UPLOADED: Template address: 0xFFFFFFFF[0m
+[0;32mI (9213) FINGERPRINT: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (9213) EVENT_TEMPLATE_UPLOADED: Template uploaded successfully. Status: 0x00[0m
+[0;32mI (9223) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9223) FINGERPRINT: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (9233) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9243) FINGERPRINT: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (9243) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9253) FINGERPRINT: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (9253) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9273) FINGERPRINT: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (9273) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9283) FINGERPRINT: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (9283) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9293) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9293) FINGERPRINT: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (9303) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9313) FINGERPRINT: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (9313) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9333) FINGERPRINT: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (9333) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9343) FINGERPRINT: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (9343) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9353) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9353) FINGERPRINT: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (9363) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9373) FINGERPRINT: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (9373) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9393) FINGERPRINT: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (9393) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9403) FINGERPRINT: 0f 61 a4 ed a8 26 20 31 ba fb e1 8d 21 d6 ca 27[0m
+[0;32mI (9403) EVENT_TEMPLATE_UPLOADED: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9413) FINGERPRINT: Received initial acknowledgment[0m
+[0;32mI (9413) FINGERPRINT: 27 10 a4 db c9 d3 0f 45 ae df 6b 39 14 25 1f e1[0m
+[0;32mI (9433) FINGERPRINT: ff b6 91 38 6c 21 3e 10 a1 72 50 8d 15 b0 b1 7f[0m
+[0;32mI (9433) FINGERPRINT: 72 6d ef 01 ff ff ff ff 02 01 02 91 3f 37 a7 cc[0m
+[0;32mI (9443) FINGERPRINT: 8d 55 4d 2e 54 bc 97 1f 2c b1 89 fd 73 36 56 4f[0m
+[0;32mI (9443) FINGERPRINT: 2f 4c 36 0d 23 74 43 f6 23 a0 db df e8 3f 20 24[0m
+[0;32mI (9453) FINGERPRINT: b4 ca 46 e6 ef af 19 e0 36 1f 29 fc 88 a1 3f a1[0m
+[0;32mI (9463) FINGERPRINT: 5c 0e 67 2c 0d a3 d9 69 d7 ce 29 ef d7 9a 1e 3d[0m
+[0;32mI (9463) FINGERPRINT: 2d c6 9a 53 29 81 da 0d aa 1c 46 ae 4b 38 fa 30[0m
+[0;32mI (9473) FINGERPRINT: 64 a7 fd 68 15 09 26 ca a4 c7 40 9e cb 0b 92 36[0m
+[0;32mI (9483) FINGERPRINT: 2f a3 73 83 ff c6 db ab 1c e1 1e 34 2c 52 f7 cd[0m
+[0;32mI (9483) FINGERPRINT: 29 d1 e9 07 92 16 27 b3 5d da 6b 72 57 47 6f f2[0m
+[0;32mI (9493) FINGERPRINT: 18 40 b1 88 2b 77 36 84 43 af 74 19 2e b3 05 e0[0m
+[0;32mI (9493) FINGERPRINT: 33 73 55 07 6f 60 15 13 34 71 0c 05 4f bc e7 bb[0m
+[0;32mI (9503) FINGERPRINT: 47 0e 16 b5 9f 84 91 60 48 c7 4b 69 30 08 21 61[0m
+[0;32mI (9513) FINGERPRINT: e1 0d 35 3c 19 4f d6 20 22 30 a6 75 5f 79 90 87[0m
+[0;32mI (9513) FINGERPRINT: 07 0a 15 49 2f 5c df f9 48 fb 14 0f 24 0d 3a 39[0m
+[0;32mI (9523) FINGERPRINT: 3d 77 b0 70 35 26 8f 52 12 30 32 15 e4 8e 23 34[0m
+[0;32mI (9523) FINGERPRINT: 6b 6f b8 19 37 b2 c3 a5 fa 36 74 6b 6f 44 3f 05[0m
+[0;32mI (9533) FINGERPRINT: Received template data packet: ID=0x02, Length=256[0m
+[0;32mI (9543) FINGERPRINT: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (9543) FINGERPRINT: Read checksum: 0x726D[0m
+[0;32mI (9553) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (9553) FINGERPRINT: Found header (0xEF01) at position 258[0m
+[0;32mI (9563) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (9563) FINGERPRINT: Read packet_id: 0x02[0m
+[0;32mI (9573) FINGERPRINT: Read length: 258[0m
+[0;32mI (9573) FINGERPRINT: Waiting for more content data: have 245, need 258[0m
+[0;32mI (9583) FINGERPRINT: Shifted buffer, 245 bytes remaining[0m
+[0;32mI (9583) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9193) FINGERPRINT: Starting template data reception[0m
+[0;32mI (9603) FINGERPRINT: Read 267 bytes, buffer now contains 512 bytes[0m
+[0;32mI (9603) FINGERPRINT: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (9603) FINGERPRINT: fd 73 36 56 4f 2f 4c 36 0d 23 74 43 f6 23 a0 db[0m
+[0;32mI (9613) FINGERPRINT: df e8 3f 20 24 b4 ca 46 e6 ef af 19 e0 36 1f 29[0m
+[0;32mI (9613) FINGERPRINT: fc 88 a1 3f a1 5c 0e 67 2c 0d a3 d9 69 d7 ce 29[0m
+[0;32mI (9623) FINGERPRINT: ef d7 9a 1e 3d 2d c6 9a 53 29 81 da 0d aa 1c 46[0m
+[0;32mI (9633) FINGERPRINT: ae 4b 38 fa 30 64 a7 fd 68 15 09 26 ca a4 c7 40[0m
+[0;32mI (9633) FINGERPRINT: 9e cb 0b 92 36 2f a3 73 83 ff c6 db ab 1c e1 1e[0m
+[0;32mI (9643) FINGERPRINT: 34 2c 52 f7 cd 29 d1 e9 07 92 16 27 b3 5d da 6b[0m
+[0;32mI (9653) FINGERPRINT: 72 57 47 6f f2 18 40 b1 88 2b 77 36 84 43 af 74[0m
+[0;32mI (9653) FINGERPRINT: 19 2e b3 05 e0 33 73 55 07 6f 60 15 13 34 71 0c[0m
+[0;32mI (9663) FINGERPRINT: 05 4f bc e7 bb 47 0e 16 b5 9f 84 91 60 48 c7 4b[0m
+[0;32mI (9663) FINGERPRINT: 69 30 08 21 61 e1 0d 35 3c 19 4f d6 20 22 30 a6[0m
+[0;32mI (9673) FINGERPRINT: 75 5f 79 90 87 07 0a 15 49 2f 5c df f9 48 fb 14[0m
+[0;32mI (9683) FINGERPRINT: 0f 24 0d 3a 39 3d 77 b0 70 35 26 8f 52 12 30 32[0m
+[0;32mI (9683) FINGERPRINT: 15 e4 8e 23 34 6b 6f b8 19 37 b2 c3 a5 fa 36 74[0m
+[0;32mI (9693) FINGERPRINT: 6b 6f 44 3f 05 9e 32 5a 75 38 e6 b9 4d a2 08 2c[0m
+[0;32mI (9703) FINGERPRINT: 6b 96 ef 01 ff ff ff ff 02 01 02 ab 18 dd c4 d1[0m
+[0;32mI (9703) FINGERPRINT: bc cd 5b 29 15 38 33 bf 1d 4b 7b 95 c6 2f a1 12[0m
+[0;32mI (9713) FINGERPRINT: 42 b1 ff e9 7d 37 54 db 6f f0 1a 06 a9 db 9c 1f[0m
+[0;32mI (9713) FINGERPRINT: 22 3e 1c e9 68 09 06 af c8 99 4d 63 3e 1a 4b 51[0m
+[0;32mI (9723) FINGERPRINT: 12 1d 37 0d 9d 9b 30 5f 6f 4f 40 34 05 a3 a4 f4[0m
+[0;32mI (9733) FINGERPRINT: 22 5f 2a 97 f7 e8 23 0a a4 3e c8 16 46 44 c7 2f[0m
+[0;32mI (9733) FINGERPRINT: e1 04 12 36 38 18 01 39 82 b0 10 44 3b 09 9e 28[0m
+[0;32mI (9743) FINGERPRINT: a1 dd a3 e0 f1 36 92 0f 28 35 51 8c 03 22 32 67[0m
+[0;32mI (9743) FINGERPRINT: 0f 48 17 1c 34 35 dd 02 60 fc a4 cf 40 20 19 ae[0m
+[0;32mI (9753) FINGERPRINT: 65 0e f5 71 b6 19 0f 91 06 17 37 6b 1f b9 56 67[0m
+[0;32mI (9763) FINGERPRINT: 23 ef 82 07 3c ba 16 b8 2d 29 44 63 4a 35 1a 12[0m
+[0;32mI (9763) FINGERPRINT: ab 64 be 2f 30 3e 2f af 84 0b 20 2e c4 72 e5 70[0m
+[0;32mI (9773) FINGERPRINT: 94 c3 6b b4 0a 45 b9 b2 96 8b 09 1f 87 2b 05 05[0m
+[0;32mI (9783) FINGERPRINT: 23 2e e3 ac 41 74 7c 0c 23 85 00 01 03 33 02 00[0m
+[0;32mI (9783) FINGERPRINT: 4e 00 4a 2e 3f 2c 1a 96 df 43 b2 68 13 ab 3b 44[0m
+[0;32mI (9793) FINGERPRINT: 28 5e 27 45 28 c4 78 5c 0c a5 44 2a 5d 18 16 21[0m
+[0;32mI (9793) FINGERPRINT: Received template data packet: ID=0x02, Length=256[0m
+[0;32mI (9803) FINGERPRINT: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (9813) FINGERPRINT: Read checksum: 0x6B96[0m
+[0;32mI (9813) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (9823) FINGERPRINT: Found header (0xEF01) at position 258[0m
+[0;32mI (9823) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (9823) FINGERPRINT: Read packet_id: 0x02[0m
+[0;32mI (9833) FINGERPRINT: Read length: 258[0m
+[0;32mI (9833) FINGERPRINT: Waiting for more content data: have 245, need 258[0m
+[0;32mI (9843) FINGERPRINT: Shifted buffer, 245 bytes remaining[0m
+[0;32mI (9843) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9863) FINGERPRINT: Read 267 bytes, buffer now contains 512 bytes[0m
+[0;32mI (9863) FINGERPRINT: ab 18 dd c4 d1 bc cd 5b 29 15 38 33 bf 1d 4b 7b[0m
+[0;32mI (9863) FINGERPRINT: 95 c6 2f a1 12 42 b1 ff e9 7d 37 54 db 6f f0 1a[0m
+[0;32mI (9873) FINGERPRINT: 06 a9 db 9c 1f 22 3e 1c e9 68 09 06 af c8 99 4d[0m
+[0;32mI (9873) FINGERPRINT: 63 3e 1a 4b 51 12 1d 37 0d 9d 9b 30 5f 6f 4f 40[0m
+[0;32mI (9883) FINGERPRINT: 34 05 a3 a4 f4 22 5f 2a 97 f7 e8 23 0a a4 3e c8[0m
+[0;32mI (9893) FINGERPRINT: 16 46 44 c7 2f e1 04 12 36 38 18 01 39 82 b0 10[0m
+[0;32mI (9893) FINGERPRINT: 44 3b 09 9e 28 a1 dd a3 e0 f1 36 92 0f 28 35 51[0m
+[0;32mI (9903) FINGERPRINT: 8c 03 22 32 67 0f 48 17 1c 34 35 dd 02 60 fc a4[0m
+[0;32mI (9903) FINGERPRINT: cf 40 20 19 ae 65 0e f5 71 b6 19 0f 91 06 17 37[0m
+[0;32mI (9913) FINGERPRINT: 6b 1f b9 56 67 23 ef 82 07 3c ba 16 b8 2d 29 44[0m
+[0;32mI (9923) FINGERPRINT: 63 4a 35 1a 12 ab 64 be 2f 30 3e 2f af 84 0b 20[0m
+[0;32mI (9923) FINGERPRINT: 2e c4 72 e5 70 94 c3 6b b4 0a 45 b9 b2 96 8b 09[0m
+[0;32mI (9933) FINGERPRINT: 1f 87 2b 05 05 23 2e e3 ac 41 74 7c 0c 23 85 00[0m
+[0;32mI (9933) FINGERPRINT: 01 03 33 02 00 4e 00 4a 2e 3f 2c 1a 96 df 43 b2[0m
+[0;32mI (9943) FINGERPRINT: 68 13 ab 3b 44 28 5e 27 45 28 c4 78 5c 0c a5 44[0m
+[0;32mI (9953) FINGERPRINT: 2a 5d 18 16 21 da a1 c7 de 67 20 15 aa 1b 0c 25[0m
+[0;32mI (9953) FINGERPRINT: 43 46 1b 3f 5a 2f 7e da 35 2d 28 be 8b c7 44 6a[0m
+[0;32mI (9963) FINGERPRINT: 90 be 0e 19 1c a0 93 c9 e1 c6 f5 80 3b 65 0d 21[0m
+[0;32mI (9973) FINGERPRINT: 9f 6a 89 e7 6b 7e dc fd 75 05 06 19 34 65 5d ef[0m
+[0;32mI (9973) FINGERPRINT: 01 ff ff ff ff 02 01 02 fe f0 48 d8 b6 ca 89 0f[0m
+[0;32mI (9983) FINGERPRINT: 27 20 e4 ac 06 51 5a 95 22 7c 36 04 2d 3e 60 b0[0m
+[0;32mI (9983) FINGERPRINT: bc e5 58 88 11 3a 23 2e f9 7c 32 35 4c df 39 cc[0m
+[0;32mI (9993) FINGERPRINT: 33 43 ac ee a8 f7 a2 a5 34 8d 66 3d 37 b4 6f ea[0m
+[0;32mI (10003) FINGERPRINT: a1 84 85 32 66 6f 2e 46 a9 2d ca e5 7c fc 4a 9f[0m
+[0;32mI (10003) FINGERPRINT: d6 3a 10 af 9a ce 45 5a af b2 18 3d 28 27 a6 cf[0m
+[0;32mI (10013) FINGERPRINT: cd 51 5e 95 88 15 ae 14 11 1f 68 c5 27 dc 5b 2d[0m
+[0;32mI (10023) FINGERPRINT: a6 d6 10 1e 9c 59 a6 81 1f af 11 98 eb 2a 49 a7[0m
+[0;32mI (10023) FINGERPRINT: e7 cb 55 ca 84 b3 59 67 37 3a 2c 0a 76 a7 81 6f[0m
+[0;32mI (10033) FINGERPRINT: 71 0c 92 39 2a a8 0d e8 12 da d7 06 c2 91 1f 36[0m
+[0;32mI (10033) FINGERPRINT: a0 58 87 29 54 ce 09 17 50 0c 1a 1f 6e 28 79 de[0m
+[0;32mI (10043) FINGERPRINT: 13 49 e5 2c 08 4a 9a a5 7e b3 cc 82 40 26 98 1d[0m
+[0;32mI (10053) FINGERPRINT: 46 20 eb 96 f3 34 f6 cd 31 2e 26 38 25 11 cc d3[0m
+[0;32mI (10053) FINGERPRINT: Received template data packet: ID=0x02, Length=256[0m
+[0;32mI (10063) FINGERPRINT: ab 18 dd c4 d1 bc cd 5b 29 15 38 33 bf 1d 4b 7b[0m
+[0;32mI (10073) FINGERPRINT: Read checksum: 0x4346[0m
+[0;32mI (10073) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (10073) FINGERPRINT: Found header (0xEF01) at position 303[0m
+[0;32mI (10083) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (10083) FINGERPRINT: Read packet_id: 0x02[0m
+[0;32mI (10093) FINGERPRINT: Read length: 258[0m
+[0;32mI (10093) FINGERPRINT: Waiting for more content data: have 200, need 258[0m
+[0;32mI (10103) FINGERPRINT: Shifted buffer, 200 bytes remaining[0m
+[0;32mI (10103) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (10123) FINGERPRINT: Read 312 bytes, buffer now contains 512 bytes[0m
+[0;32mI (10123) FINGERPRINT: fe f0 48 d8 b6 ca 89 0f 27 20 e4 ac 06 51 5a 95[0m
+[0;32mI (10123) FINGERPRINT: 22 7c 36 04 2d 3e 60 b0 bc e5 58 88 11 3a 23 2e[0m
+[0;32mI (10133) FINGERPRINT: f9 7c 32 35 4c df 39 cc 33 43 ac ee a8 f7 a2 a5[0m
+[0;32mI (10133) FINGERPRINT: 34 8d 66 3d 37 b4 6f ea a1 84 85 32 66 6f 2e 46[0m
+[0;32mI (10143) FINGERPRINT: a9 2d ca e5 7c fc 4a 9f d6 3a 10 af 9a ce 45 5a[0m
+[0;32mI (10153) FINGERPRINT: af b2 18 3d 28 27 a6 cf cd 51 5e 95 88 15 ae 14[0m
+[0;32mI (10153) FINGERPRINT: 11 1f 68 c5 27 dc 5b 2d a6 d6 10 1e 9c 59 a6 81[0m
+[0;32mI (10163) FINGERPRINT: 1f af 11 98 eb 2a 49 a7 e7 cb 55 ca 84 b3 59 67[0m
+[0;32mI (10163) FINGERPRINT: 37 3a 2c 0a 76 a7 81 6f 71 0c 92 39 2a a8 0d e8[0m
+[0;32mI (10173) FINGERPRINT: 12 da d7 06 c2 91 1f 36 a0 58 87 29 54 ce 09 17[0m
+[0;32mI (10183) FINGERPRINT: 50 0c 1a 1f 6e 28 79 de 13 49 e5 2c 08 4a 9a a5[0m
+[0;32mI (10183) FINGERPRINT: 7e b3 cc 82 40 26 98 1d 46 20 eb 96 f3 34 f6 cd[0m
+[0;32mI (10193) FINGERPRINT: 31 2e 26 38 25 11 cc d3 eb 96 10 f9 78 1f 28 1e[0m
+[0;32mI (10203) FINGERPRINT: f3 54 23 fe 5d 65 67 08 2c 09 2e da 66 c3 76 05[0m
+[0;32mI (10203) FINGERPRINT: 4e 89 da 33 27 2a d8 37 1a 99 fa ec 02 ce d8 71[0m
+[0;32mI (10213) FINGERPRINT: e3 27 3a a2 02 67 38 60 04 18 17 5a 05 44 20 f0[0m
+[0;32mI (10213) FINGERPRINT: 4f 51 29 6d 1c 02 d1 1f 22 9e 93 cd d1 c6 d7 80[0m
+[0;32mI (10223) FINGERPRINT: 33 7d 07 24 9d a8 48 0e aa 78 f0 ac 9e 34 14 2a[0m
+[0;32mI (10233) FINGERPRINT: 90 f6 70 1c 0e d7 1f 78 04 28 1b 70 bd c1 fd df[0m
+[0;32mI (10233) FINGERPRINT: 58 c5 85 11 18 9c 93 78 c7 1e 98 d8 4d 12 1a 6a[0m
+[0;32mI (10243) FINGERPRINT: d7 ef 01 ff ff ff ff 02 01 02 17 1e 68 c5 b7 fc[0m
+[0;32mI (10253) FINGERPRINT: 5b 2d ae e6 3c 31 27 68 0f d7 04 7a 94 1a 46 3f[0m
+[0;32mI (10253) FINGERPRINT: 44 aa 3d 8f b0 e1 0d 46 cf 97 3c 46 2a 8b 21 f0[0m
+[0;32mI (10263) FINGERPRINT: 08 44 d6 04 15 0c 0a 19 7f c4 2b c6 e2 73 1c 0b[0m
+[0;32mI (10263) FINGERPRINT: 0c 14 9b 3f cd c0 1f f9 07 3f 9d 2b 28 a5 7a a8[0m
+[0;32mI (10273) FINGERPRINT: ed c8 6b a5 c0 7c 32 0e 2d d4 65 53 3f 4c 4e 89[0m
+[0;32mI (10283) FINGERPRINT: da 0d 1d 18 13 84 41 4e fe e1 16 c3 31 32 25 26[0m
+[0;32mI (10283) FINGERPRINT: aa 50 48 da 58 8b 32 12 20 1d 66 24 78 d8 33 c9[0m
+[0;32mI (10293) FINGERPRINT: af 2c 09 0e 9a b3 88 12 86 f3 cb 3e 6a 15 09 9c[0m
+[0;32mI (10303) FINGERPRINT: c2 a0 57 f8 e2 84 74 24 07 1b 98 70 8f bd 42 9e[0m
+[0;32mI (10303) FINGERPRINT: 89 39 f7 18 05 1b 6c e7 c7 1f d8 bd ed c2 38 34[0m
+[0;32mI (10313) FINGERPRINT: 26 7b 8c 52 fa 8e 02 9e 7f 37 26 28 5f 26 b1 b2[0m
+[0;32mI (10313) FINGERPRINT: Received template data packet: ID=0x02, Length=256[0m
+[0;32mI (10323) FINGERPRINT: fe f0 48 d8 b6 ca 89 0f 27 20 e4 ac 06 51 5a 95[0m
+[0;32mI (10333) FINGERPRINT: Read checksum: 0x4F51[0m
+[0;32mI (10333) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (10343) FINGERPRINT: Found header (0xEF01) at position 321[0m
+[0;32mI (10343) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (10353) FINGERPRINT: Read packet_id: 0x02[0m
+[0;32mI (10353) FINGERPRINT: Read length: 258[0m
+[0;32mI (10353) FINGERPRINT: Waiting for more content data: have 182, need 258[0m
+[0;32mI (10363) FINGERPRINT: Shifted buffer, 182 bytes remaining[0m
+[0;32mI (10373) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (10383) FINGERPRINT: Read 330 bytes, buffer now contains 512 bytes[0m
+[0;32mI (10383) FINGERPRINT: 17 1e 68 c5 b7 fc 5b 2d ae e6 3c 31 27 68 0f d7[0m
+[0;32mI (10383) FINGERPRINT: 04 7a 94 1a 46 3f 44 aa 3d 8f b0 e1 0d 46 cf 97[0m
+[0;32mI (10393) FINGERPRINT: 3c 46 2a 8b 21 f0 08 44 d6 04 15 0c 0a 19 7f c4[0m
+[0;32mI (10403) FINGERPRINT: 2b c6 e2 73 1c 0b 0c 14 9b 3f cd c0 1f f9 07 3f[0m
+[0;32mI (10403) FINGERPRINT: 9d 2b 28 a5 7a a8 ed c8 6b a5 c0 7c 32 0e 2d d4[0m
+[0;32mI (10413) FINGERPRINT: 65 53 3f 4c 4e 89 da 0d 1d 18 13 84 41 4e fe e1[0m
+[0;32mI (10413) FINGERPRINT: 16 c3 31 32 25 26 aa 50 48 da 58 8b 32 12 20 1d[0m
+[0;32mI (10423) FINGERPRINT: 66 24 78 d8 33 c9 af 2c 09 0e 9a b3 88 12 86 f3[0m
+[0;32mI (10433) FINGERPRINT: cb 3e 6a 15 09 9c c2 a0 57 f8 e2 84 74 24 07 1b[0m
+[0;32mI (10433) FINGERPRINT: 98 70 8f bd 42 9e 89 39 f7 18 05 1b 6c e7 c7 1f[0m
+[0;32mI (10443) FINGERPRINT: d8 bd ed c2 38 34 26 7b 8c 52 fa 8e 02 9e 7f 37[0m
+[0;32mI (10453) FINGERPRINT: 26 28 5f 26 b1 b2 7e f1 08 8b 2e 3c 24 55 8c d3[0m
+[0;32mI (10453) FINGERPRINT: ef c7 11 a1 d8 10 0f 98 53 85 45 c7 da e3 3e 93[0m
+[0;32mI (10463) FINGERPRINT: 35 07 a4 ce e2 27 e7 65 6e c3 7f 30 2b a5 ef cd[0m
+[0;32mI (10463) FINGERPRINT: c3 56 8f 05 15 e6 19 19 27 f7 c3 80 27 21 12 b2[0m
+[0;32mI (10473) FINGERPRINT: 3f 1f 0b 9b 7f 7a 7d 04 2e df d4 a5 2f 0b 2b 35[0m
+[0;32mI (10483) FINGERPRINT: d8 cc 56 37 6a 02 94 2d 31 23 cc b8 9f 0f 61 a4[0m
+[0;32mI (10483) FINGERPRINT: c5 27 15 0d 1c 0f de 68 f7 5b 64 c0 97 00 01 00[0m
+[0;32mI (10493) FINGERPRINT: 5d 03 00 93 6c 1d ef 01 ff ff ff ff 02 01 02 00[0m
+[0;32mI (10503) FINGERPRINT: 08 28 28 a4 fb 83 ff ee 71 6c 5f 57 15 2d 9f 0e[0m
+[0;32mI (10503) FINGERPRINT: 7a e7 76 3f 48 82 f2 31 27 26 94 ba 6b cd 91 ed[0m
+[0;32mI (10513) FINGERPRINT: b5 97 15 3b 1d bb 86 c0 76 cf 59 5e 57 36 1c 32[0m
+[0;32mI (10513) FINGERPRINT: 39 07 1f 76 fa a9 37 33 23 0a a1 bb 6b b7 52 64[0m
+[0;32mI (10523) FINGERPRINT: 20 01 57 11 38 20 76 46 57 69 ec a8 43 eb 12 42[0m
+[0;32mI (10533) FINGERPRINT: 1e d6 5b 74 00 a1 b2 22 91 00 05 00 18 00 00 00[0m
+[0;32mI (10533) FINGERPRINT: 9b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10543) FINGERPRINT: 00 00 00 00 00 00 0b 00 43 01 10 04 00 00 00 00[0m
+[0;32mI (10553) FINGERPRINT: 00 00 13 16 00 00 14 1a 00 00 01 00 00 00 00 00[0m
+[0;32mI (10553) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10563) FINGERPRINT: 00 00 0c 0f 00 00 0d ff ff ff 02 01 02 71 56 55[0m
+[0;32mI (10563) FINGERPRINT: f1 21 18 47 42 87 95 02 62 ab c2 cb 6c 0d 17 b9[0m
+[0;32mI (10573) FINGERPRINT: 18 97 7b 60 96 23 02 99 09 18 b6 43 5f 78 31 35[0m
+[0;32mI (10583) FINGERPRINT: Received template data packet: ID=0x02, Length=256[0m
+[0;32mI (10583) FINGERPRINT: 17 1e 68 c5 b7 fc 5b 2d ae e6 3c 31 27 68 0f d7[0m
+[0;32mI (10593) FINGERPRINT: Read checksum: 0xD8CC[0m
+[0;32mI (10593) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (10603) FINGERPRINT: Found header (0xEF01) at position 294[0m
+[0;32mI (10603) FINGERPRINT: Read address: 0xFFFFFFFF[0m
+[0;32mI (10613) FINGERPRINT: Read packet_id: 0x02[0m
+[0;32mI (10613) FINGERPRINT: Read length: 258[0m
+[0;32mI (10623) FINGERPRINT: Waiting for more content data: have 209, need 258[0m
+[0;32mI (10623) FINGERPRINT: Shifted buffer, 209 bytes remaining[0m
+[0;32mI (10633) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (11643) FINGERPRINT: Read 209 bytes, buffer now contains 418 bytes[0m
+[0;32mI (11643) FINGERPRINT: 00 08 28 28 a4 fb 83 ff ee 71 6c 5f 57 15 2d 9f[0m
+[0;32mI (11643) FINGERPRINT: 0e 7a e7 76 3f 48 82 f2 31 27 26 94 ba 6b cd 91[0m
+[0;32mI (11643) FINGERPRINT: ed b5 97 15 3b 1d bb 86 c0 76 cf 59 5e 57 36 1c[0m
+[0;32mI (11653) FINGERPRINT: 32 39 07 1f 76 fa a9 37 33 23 0a a1 bb 6b b7 52[0m
+[0;32mI (11663) FINGERPRINT: 64 20 01 57 11 38 20 76 46 57 69 ec a8 43 eb 12[0m
+[0;32mI (11663) FINGERPRINT: 42 1e d6 5b 74 00 a1 b2 22 91 00 05 00 18 00 00[0m
+[0;32mI (11673) FINGERPRINT: 00 9b 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11673) FINGERPRINT: 00 00 00 00 00 00 00 0b 00 43 01 10 04 00 00 00[0m
+[0;32mI (11683) FINGERPRINT: 00 00 00 13 16 00 00 14 1a 00 00 01 00 00 00 00[0m
+[0;32mI (11693) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11693) FINGERPRINT: 00 00 00 0c 0f 00 00 0d ff ff ff 02 01 02 71 56[0m
+[0;32mI (11703) FINGERPRINT: 55 f1 21 18 47 42 87 95 02 62 ab c2 cb 6c 0d 17[0m
+[0;32mI (11713) FINGERPRINT: b9 18 97 7b 60 96 23 02 99 09 18 b6 43 5f 78 31[0m
+[0;32mI (11713) FINGERPRINT: 35 49 e3 35 38 3d ce 1f 17 39 26 3b 21 57 d3 2c[0m
+[0;32mI (11723) FINGERPRINT: 13 3d 9b dc 5e 32 24 06 a2 54 15 2a c1 4d 76 ae[0m
+[0;32mI (11723) FINGERPRINT: b0 7d 6d dd 9b 3a 20 c5 7b 5e 9b a7 3c 2b 97 0f[0m
+[0;32mI (11733) FINGERPRINT: 1a 15 b9 6c 5e 3e 24 7c 39 82 9f 29 4a c7 a0 59[0m
+[0;32mI (11743) FINGERPRINT: 0f a4 09 ee 35 66 26 0e 35 fc e3 df 33 2d dc dd[0m
+[0;32mI (11743) FINGERPRINT: 7f 30 1f 3f 95 da 79 63 81 24 00 ab 23 32 c6 27[0m
+[0;32mI (11753) FINGERPRINT: 16 be 06 44 a4 b7 5b 20 25 3f 4e fe 2e 3f 35 ff[0m
+[0;32mI (11763) FINGERPRINT: b1 6e 23 43 cc 96 de 4a 23 8a d4 52 ab 37 48 4f[0m
+[0;32mI (11763) FINGERPRINT: 0e 8d 9a 5e 10 7c 76 2a 2f 34 49 e5 bb 29 39 d9[0m
+[0;32mI (11773) FINGERPRINT: e1 95 d7 39 19 42 c6 9f 28 73 05 7a 41 bb 2d 25[0m
+[0;32mI (11773) FINGERPRINT: bf 39 17 7b 36 70 a7 36 4b 0e 35 bd 6f 77 5c 35[0m
+[0;32mI (11783) FINGERPRINT: 58 fd c5 ea 3f 3f 4c 99 37 da 9b 24 f0 f1 3b 3f[0m
+[0;32mI (11793) FINGERPRINT: 46 cf 84 94 ac b6 af 39 00 00 00 00 46 4f 4f 46[0m
+[0;32mI (11793) FINGERPRINT: 02 88[0m
+[0;32mI (11803) FINGERPRINT: Received template data packet: ID=0x02, Length=256[0m
+[0;32mI (11803) FINGERPRINT: 00 08 28 28 a4 fb 83 ff ee 71 6c 5f 57 15 2d 9f[0m
+[0;32mI (11813) FINGERPRINT: Read checksum: 0x1A15[0m
+[0;32mI (11813) FINGERPRINT: Added packet to response, count now: 1[0m
+[0;32mI (11823) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;32mI (11823) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (12843) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (12843) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (13853) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (13853) FINGERPRINT: No complete packets found, returning NULL[0m
+[1;31mE (14593) FINGERPRINT: Template upload timed out[0m
+[1;31mE (14593) FINGERPRINT: Failed to backup template.[0m
+[0;32mI (14593) main_task: Returned from app_main()[0m
+[0;32mI (14863) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (14863) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (15873) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (15873) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (16883) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (16883) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (17893) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (17893) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (18903) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (18903) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (19913) FINGERPRINT: Shifted buffer, 1 bytes remaining[0m
+[0;33mW (19913) FINGERPRINT: No complete packets found, returning NULL[0m

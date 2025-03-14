@@ -243,26 +243,45 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Baud Rate: %u bps", event.data.sys_params.baud_rate); // Convert baud multiplier to actual baud rate
             break;
         case EVENT_TEMPLATE_UPLOADED:
-            const char* newTag = "EVENT_TEMPLATE_UPLOADED";
-            ESP_LOGI(newTag, "Template command: 0x%02X", event.command);
-            ESP_LOGI(newTag, "Template package ID: 0x%02X", event.packet.packet_id);
-            ESP_LOGI(newTag, "Template confirmation code: 0x%02X", event.packet.code.confirmation);
-            ESP_LOGI(newTag, "Template address: 0x%08" PRIX32, event.packet.address);
-            ESP_LOGI(newTag, "Template uploaded successfully. Status: 0x%02X", event.status);
-            ESP_LOG_BUFFER_HEX(newTag, event.packet.parameters, sizeof(event.packet.parameters));
-            // Add packet ID check
+            // const char* newTag = "EVENT_TEMPLATE_UPLOADED";
+            // ESP_LOGI(newTag, "Template command: 0x%02X", event.command);
+            // ESP_LOGI(newTag, "Template package ID: 0x%02X", event.packet.packet_id);
+            // ESP_LOGI(newTag, "Template confirmation code: 0x%02X", event.packet.code.confirmation);
+            // ESP_LOGI(newTag, "Template address: 0x%08" PRIX32, event.packet.address);
+            // ESP_LOGI(newTag, "Template uploaded successfully. Status: 0x%02X", event.status);
+            // ESP_LOG_BUFFER_HEX(newTag, event.packet.parameters, sizeof(event.packet.parameters));
+            // Add packet ID check  
+            // ESP_LOG_BUFFER_HEXDUMP("Template uploaded successfully", event.packet.parameters, event.packet.length, ESP_LOG_INFO);
+            // ESP_LOG_BUFFER_HEXDUMP("Template uploaded successfully", 
+            //     (uint8_t*)&event.packet, 
+            //     sizeof(FingerprintPacket), 
+            //     ESP_LOG_INFO);
+
             if (event.packet.packet_id == 0x08) {
-                // This is the final packet
-                ESP_LOGI(TAG, "Received final template packet");
-                // Handle completion here
-            } else if (event.packet.packet_id == 0x02) {
-                // This is a data packet
-                ESP_LOGI(TAG, "Received data packet");
-                // Process data packet
-            } else if (event.packet.packet_id == 0x07) {
-                // This is the initial acknowledgment
-                ESP_LOGI(TAG, "Received initial acknowledgment");
+                // This is the final packet - print the complete template
+                if (event.data.template_data.data && event.data.template_data.size > 0) {
+                    ESP_LOGI(TAG, "Complete template data (%d bytes):", event.data.template_data.size);
+                    
+                    // Print data in manageable chunks (64 bytes at a time)
+                    for (size_t offset = 0; offset < event.data.template_data.size; offset += 64) {
+                        // Use inline expression instead of min() function
+                        size_t chunk_size = (event.data.template_data.size - offset < 64) ? 
+                                             event.data.template_data.size - offset : 64;
+                        
+                        ESP_LOG_BUFFER_HEX_LEVEL(TAG, 
+                                           event.data.template_data.data + offset, 
+                                           chunk_size, ESP_LOG_INFO);
+                    }
+                    
+                    // Now free the data without referencing g_template_buffer
+                    heap_caps_free(event.data.template_data.data);
+                }
+            } else {
+                // For individual packets, just print basic info
+                ESP_LOGI(TAG, "Template packet: ID=0x%02X, Length=%d", 
+                         event.packet.packet_id, event.packet.length);
             }
+            ESP_LOGI(TAG, "Fingerprint template uploaded successfully. Status: 0x%02X", event.status);
             break;
         case EVENT_TEMPLATE_EXISTS:
             ESP_LOGI(TAG, "Fingerprint template successfully loaded into buffer. Status: 0x%02X", event.status);

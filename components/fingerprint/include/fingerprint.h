@@ -246,7 +246,7 @@
  * This value should be adjusted based on the largest expected parameter size to ensure
  * sufficient space while maintaining efficient memory usage.
  */
-#define MAX_PARAMETERS 32  /**< Adjust based on the largest required parameter size. */
+#define MAX_PARAMETERS 256  /**< Adjust based on the largest required parameter size. */
 
 /**
  * @brief Packet header identifier for fingerprint module communication.
@@ -1601,6 +1601,13 @@ typedef struct {
     uint16_t count; /**< Number of enrolled fingerprints */
 } fingerprint_template_count_t;
 
+// In fingerprint.h - Add this structure
+typedef struct {
+    uint8_t* data;    // Pointer to complete template data
+    size_t size;      // Size of template data in bytes
+    bool is_complete; // Flag indicating if template is complete
+} fingerprint_template_buffer_t;
+
 /**
  * @struct fingerprint_event_t
  * @brief Defines a generic fingerprint event structure with flexible response types.
@@ -1625,6 +1632,7 @@ typedef struct {
         fingerprint_match_info_t match_info;   /**< Data for fingerprint match events */
         fingerprint_template_count_t template_count; /**< Data for template count events */
         fingerprint_sys_params_t sys_params;     // Added system parameters
+        fingerprint_template_buffer_t template_data; /**< Fingerprint template data */
         // Extend with additional structured types as needed
     } data;
 } fingerprint_event_t;
@@ -1972,7 +1980,16 @@ esp_err_t cleanup_event_group(void);
  */
 esp_err_t read_info_page(void);
 
-#define TEMPLATE_UPLOAD_COMPLETE_BIT BIT(2)
+typedef enum {
+    WAIT_HEADER,       // Waiting for 0xEF01 header
+    READ_ADDRESS,      // Reading 4-byte address
+    READ_PACKET_ID,    // Reading packet type
+    READ_LENGTH,       // Reading 2-byte length
+    READ_CONTENT,      // Reading packet content
+    READ_CHECKSUM      // Reading 2-byte checksum
+} ParserState;
+
+#define TEMPLATE_UPLOAD_COMPLETE_BIT (1 << 3) // Bit 3 for template upload complete
 
  #ifdef __cplusplus
  }
