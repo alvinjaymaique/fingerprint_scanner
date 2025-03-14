@@ -22,6 +22,8 @@ static int baud_rate = DEFAULT_BAUD_RATE; // Default baud rate
 static uint16_t global_location = 0; // Global variable to store location
 static bool is_fingerprint_validating = false; // Flag to check if fingerprint is validating
 
+static MultiPacketResponse *g_template_accumulator = NULL; // Global template accumulator
+
 /**
  * @brief Stores the last fingerprint command sent to the module.
  * 

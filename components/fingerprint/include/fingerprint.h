@@ -1127,6 +1127,16 @@ void read_response_task(void *pvParameter);
 typedef struct {
     FingerprintPacket **packets;  // Array of packet pointers
     size_t count;                 // Number of packets found
+    
+    // Template collection fields
+    bool collecting_template;     // Flag indicating active collection
+    bool template_complete;       // Flag indicating template is complete
+    uint32_t start_time;          // When collection started (for timeout)
+    
+    // Raw template data accumulation
+    uint8_t *template_data;       // Combined template data buffer
+    size_t template_size;         // Current size of accumulated template
+    size_t template_capacity;     // Allocated capacity of template_data
 } MultiPacketResponse;
  
 /**
