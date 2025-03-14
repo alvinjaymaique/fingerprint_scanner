@@ -999,7 +999,7 @@ MultiPacketResponse* fingerprint_read_response(void) {
     // Debug: Print received bytes
     if (bytes_read > 0) {
         ESP_LOGI(TAG, "Read %d bytes, buffer now contains %d bytes", bytes_read, buffer_pos);
-        ESP_LOG_BUFFER_HEX(TAG, buffer, min(buffer_pos, 256));  // Only show first 256 bytes to avoid log spam
+        // ESP_LOG_BUFFER_HEX(TAG, buffer, min(buffer_pos, 256));  // Only show first 256 bytes to avoid log spam
     }
     
     // Special bulk processing for template upload data

@@ -256,7 +256,8 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             //     (uint8_t*)&event.packet, 
             //     sizeof(FingerprintPacket), 
             //     ESP_LOG_INFO);
-
+            // ESP_LOGI(TAG, "Template uploaded Packet ID: 0x%02X", event.packet.packet_id);
+            // ESP_LOG_BUFFER_HEX("Template uploaded Parameters", event.packet.parameters, event.packet.length);
             if (event.packet.packet_id == 0x08) {
                 // This is the final packet - print the complete template
                 if (event.data.template_data.data && event.data.template_data.size > 0) {
