@@ -10,6 +10,11 @@
 void handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
 
+// Add this global variable to store the template
+static uint8_t saved_template[512] = {0};
+static size_t saved_template_size = 0;
+static bool template_available = false;
+
 // // Task to set GPIO 11 HIGH after 2 seconds
 // void set_gpio_high_task(void *pvParameter)
 // {
@@ -22,6 +27,12 @@ void send_command_task(void *pvParameter);
 
 //     vTaskDelete(NULL); // Delete task after execution
 // }
+
+// Add these global variables at the top of your fingerprint_scanner.c file
+static uint8_t* complete_template_buffer = NULL;
+static size_t complete_template_capacity = 4096;  // Start with 4KB capacity
+static size_t complete_template_size = 0;
+static bool template_accumulation_active = false;
 
 void configure_scanner_gpio() {
     gpio_config_t io_conf = {
@@ -143,6 +154,36 @@ void app_main(void)
         ESP_LOGI(TAG, "Template backed up successfully.");
     } else {
         ESP_LOGE(TAG, "Failed to backup template.");
+    }
+
+
+    // Wait for the backup to complete and template to be saved
+    vTaskDelay(pdMS_TO_TICKS(2000));
+
+    // Once template is available, download it to a different location
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Template backed up successfully.");
+        
+        // Wait for the event handler to process the template
+        vTaskDelay(pdMS_TO_TICKS(2000));
+        
+        // Check if template was saved
+        if (template_available) {
+            // Now download the template to a different location
+            uint16_t new_location = 2;
+            ESP_LOGI(TAG, "Downloading saved template to location %d", new_location);
+            
+            err = restore_template(new_location, saved_template, saved_template_size);
+            if (err == ESP_OK) {
+                ESP_LOGI(TAG, "Template downloaded and stored successfully");
+            } else {
+                ESP_LOGE(TAG, "Failed to download template: %s", esp_err_to_name(err));
+            }
+        } else {
+            ESP_LOGE(TAG, "No template data available");
+        }
+    } else {
+        ESP_LOGE(TAG, "Failed to backup template");
     }
 
     // // Example usage in app_main
@@ -273,6 +314,16 @@ void handle_fingerprint_event(fingerprint_event_t event) {
                 //                     chunk_size, ESP_LOG_INFO);
                 // }
                 ESP_LOG_BUFFER_HEXDUMP("Template Data", event.data.template_data.data, event.data.template_data.size, ESP_LOG_INFO);
+
+                // Store the template data for later use
+                if (event.data.template_data.size <= sizeof(saved_template)) {
+                    memcpy(saved_template, event.data.template_data.data, event.data.template_data.size);
+                    saved_template_size = event.data.template_data.size;
+                    template_available = true;
+                    ESP_LOGI(TAG, "Template saved for later use");
+                } else {
+                    ESP_LOGE(TAG, "Template too large to save (%d bytes)", event.data.template_data.size);
+                }
                 
                 // Free the memory when we're done
                 heap_caps_free(event.data.template_data.data);

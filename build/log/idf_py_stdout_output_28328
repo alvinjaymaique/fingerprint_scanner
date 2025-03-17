@@ -1,104 +1,47 @@
-ESP-ROM:esp32s3-20210327
-Build:Mar 27 2021
-rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
-SPIWP:0xee
-Octal Flash Mode Enabled
-For OPI Flash, Use Default Flash Boot Mode
-mode:SLOW_RD, clock div:1
-load:0x3fce2810,len:0x15a0
-load:0x403c8700,len:0x4
-load:0x403c8704,len:0xd20
-load:0x403cb700,len:0x2ee4
-entry 0x403c8928
-[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
-[0;32mI (33) boot: compile time Mar  4 2025 16:14:42[0m
-[0;32mI (33) boot: Multicore bootloader[0m
-[0;32mI (34) boot: chip revision: v0.1[0m
-[0;32mI (37) boot: efuse block revision: v1.2[0m
-[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
-[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
-[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
-[0;32mI (52) boot: Enabling RNG early entropy source...[0m
-[0;32mI (57) boot: Partition Table:[0m
-[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
-[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
-[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
-[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
-[0;32mI (85) boot: End of partition table[0m
-[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0c5d8h ( 50648) map[0m
-[0;32mI (108) esp_image: segment 1: paddr=0001c600 vaddr=3fc93900 size=02c20h ( 11296) load[0m
-[0;32mI (111) esp_image: segment 2: paddr=0001f228 vaddr=40374000 size=00df0h (  3568) load[0m
-[0;32mI (113) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1c5d0h (116176) map[0m
-[0;32mI (146) esp_image: segment 4: paddr=0003c5f8 vaddr=40374df0 size=0eadch ( 60124) load[0m
-[0;32mI (163) esp_image: segment 5: paddr=0004b0dc vaddr=600fe100 size=0001ch (    28) load[0m
-[0;32mI (169) boot: Loaded app from partition at offset 0x10000[0m
-[0;32mI (170) boot: Disabling RNG early entropy source...[0m
-[0;32mI (181) cpu_start: Multicore app[0m
-[0;32mI (190) cpu_start: Pro cpu start user code[0m
-[0;32mI (190) cpu_start: cpu freq: 160000000 Hz[0m
-[0;32mI (190) app_init: Application information:[0m
-[0;32mI (190) app_init: Project name:     fingerprint_scanner[0m
-[0;32mI (195) app_init: App version:      df81962-dirty[0m
-[0;32mI (199) app_init: Compile time:     Mar 11 2025 15:01:49[0m
-[0;32mI (204) app_init: ELF file SHA256:  63daf1bf3...[0m
-[0;32mI (209) app_init: ESP-IDF:          v5.4-dirty[0m
-[0;32mI (213) efuse_init: Min chip rev:     v0.0[0m
-[0;32mI (217) efuse_init: Max chip rev:     v0.99 [0m
-[0;32mI (221) efuse_init: Chip rev:         v0.1[0m
-[0;32mI (225) heap_init: Initializing. RAM available for dynamic allocation:[0m
-[0;32mI (231) heap_init: At 3FC96E08 len 00052908 (330 KiB): RAM[0m
-[0;32mI (236) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
-[0;32mI (241) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
-[0;32mI (246) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
-[0;33mW (252) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
-[0;32mI (262) spi_flash: detected chip: mxic (opi)[0m
-[0;32mI (265) spi_flash: flash io: opi_str[0m
-[0;33mW (269) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
-[0;32mI (281) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
-[0;32mI (287) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
-[0;32mI (294) main_task: Started on CPU0[0m
-[0;32mI (304) main_task: Calling app_main()[0m
-[0;32mI (304) FINGERPRINT: Initializing fingerprint scanner...[0m
-[0;33mW (504) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (904) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (1274) FINGERPRINT: No handshake received, retrying...[0m
-[0;32mI (1474) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
-[0;32mI (1474) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
-[0;33mW (1674) Fingerprint: Skipping invalid data at offset 0[0m
-[0;33mW (1674) Fingerprint: Skipping invalid data at offset 1[0m
-[0;32mI (2674) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
-[0;32mI (2974) FINGERPRINT: Successfully deleted fingerprint at location 7[0m
-[0;32mI (2974) FINGERPRINT: Fingerprint deleted successfully![0m
-[0;32mI (3184) FINGERPRINT: Index table read successful. Status: 0x00[0m
-[0;32mI (3184) Index Table Parameters: 3e 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (3184) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (3184) FINGERPRINT: Location 7 is available[0m
-[0;32mI (3194) FINGERPRINT: Waiting for a finger to be placed...[0m
-[0;32mI (6144) FINGERPRINT: Finger detected! Status: 0x00[0m
-[0;32mI (6404) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
-[0;32mI (6404) FINGERPRINT: Match found at Page ID: 0[0m
-[0;32mI (6404) FINGERPRINT: Match score: 0[0m
-[0;32mI (6404) FINGERPRINT: No duplicate found, continuing enrollment...[0m
-[0;32mI (6404) FINGERPRINT: Remove finger and place it again...[0m
-[0;32mI (6614) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
-[0;32mI (8784) FINGERPRINT: Finger removal confirmed[0m
-[0;32mI (9564) FINGERPRINT: Finger detected! Status: 0x00[0m
-[0;32mI (9564) FINGERPRINT: Second finger placement detected![0m
-[0;32mI (9824) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
-[0;32mI (10034) FINGERPRINT: Unknown event triggered. Status: 0x00[0m
-[0;32mI (10334) FINGERPRINT: Unknown event triggered. Status: 0x00[0m
-[0;32mI (10334) FINGERPRINT: Fingerprint enrolled successfully![0m
-[0;32mI (10334) FINGERPRINT: Fingerprint Enrolled![0m
-[0;32mI (10334) FINGERPRINT: Starting fingerprint verification...[0m
-[0;32mI (12334) FINGERPRINT: Please place your finger on the sensor...[0m
-[0;32mI (14844) FINGERPRINT: Finger detected! Status: 0x00[0m
-[0;32mI (14844) FINGERPRINT: Finger detected![0m
-[0;32mI (15104) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
-[0;32mI (15104) FINGERPRINT: Searching for fingerprint match...[0m
-[0;32mI (15454) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
-[0;32mI (15454) FINGERPRINT: Match found at Page ID: 1792[0m
-[0;32mI (15454) FINGERPRINT: Match score: 11264[0m
-[0;32mI (15454) FINGERPRINT: Access granted - fingerprint verified![0m
-[0;32mI (15664) FINGERPRINT: Number of valid templates: 6[0m
-[0;32mI (15664) FINGERPRINT: Unknown event triggered. Status: 0x00[0m
-[0;32mI (16664) main_task: Returned from app_main()[0m
+[1/9] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
+[2/9] No install step for 'bootloader'
+[3/9] Completed 'bootloader'
+[4/9] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_set_command':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:714:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  714 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
+      |                      ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_status_event_handler':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2317:21: warning: unused variable 'bits' [-Wunused-variable]
+ 2317 |         EventBits_t bits = xEventGroupGetBits(enroll_event_group);
+      |                     ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'enroll_fingerprint':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2356:13: warning: unused variable 'position' [-Wunused-variable]
+ 2356 |     uint8_t position = location & 0xFF;  // Get position within page
+      |             ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2775:28: warning: unused variable 'response' [-Wunused-variable]
+ 2775 |     fingerprint_response_t response;
+      |                            ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3072:14: warning: unused variable 'page_id' [-Wunused-variable]
+ 3072 |     uint16_t page_id = template_id;
+      |              ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1703:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
+ 1703 | static fingerprint_template_buffer_t g_template_buffer = {
+      |                                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:25:29: warning: 'g_template_accumulator' defined but not used [-Wunused-variable]
+   25 | static MultiPacketResponse *g_template_accumulator = NULL; // Global template accumulator
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:23:13: warning: 'is_fingerprint_validating' defined but not used [-Wunused-variable]
+   23 | static bool is_fingerprint_validating = false; // Flag to check if fingerprint is validating
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+[5/9] Linking C static library esp-idf\fingerprint\libfingerprint.a
+[6/9] Generating ld/sections.ld
+[7/9] Linking CXX executable fingerprint_scanner.elf
+[8/9] Generating binary image from built executable
+esptool.py v4.8.1
+Creating esp32s3 image...
+Merged 2 ELF sections
+Successfully created esp32s3 image.
+Generated C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin
+[9/9] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/MELBEN/esp/fingerprint_scanner/build/partition_table/partition-table.bin C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin"
+fingerprint_scanner.bin binary size 0x3ee00 bytes. Smallest app partition is 0x100000 bytes. 0xc1200 bytes (75%) free.

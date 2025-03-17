@@ -1,0 +1,803 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar  4 2025 16:14:42[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0d568h ( 54632) map[0m
+[0;32mI (109) esp_image: segment 1: paddr=0001d590 vaddr=3fc93900 size=02a88h ( 10888) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1e090h (123024) map[0m
+[0;32mI (141) esp_image: segment 3: paddr=0003e0b8 vaddr=3fc96388 size=00c78h (  3192) load[0m
+[0;32mI (143) esp_image: segment 4: paddr=0003ed38 vaddr=40374000 size=0f8cch ( 63692) load[0m
+[0;32mI (163) esp_image: segment 5: paddr=0004e60c vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (169) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (169) boot: Disabling RNG early entropy source...[0m
+[0;32mI (181) cpu_start: Multicore app[0m
+[0;32mI (189) cpu_start: Pro cpu start user code[0m
+[0;32mI (190) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (190) app_init: Application information:[0m
+[0;32mI (190) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (195) app_init: App version:      eba1181-dirty[0m
+[0;32mI (199) app_init: Compile time:     Mar 17 2025 10:43:10[0m
+[0;32mI (204) app_init: ELF file SHA256:  b31044faa...[0m
+[0;32mI (208) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (212) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (216) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (220) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (224) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (230) heap_init: At 3FC98D50 len 000509C0 (322 KiB): RAM[0m
+[0;32mI (236) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (241) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (246) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (252) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (261) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (265) spi_flash: flash io: opi_str[0m
+[0;33mW (268) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (281) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (287) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (294) main_task: Started on CPU0[0m
+[0;32mI (304) main_task: Calling app_main()[0m
+[0;32mI (304) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;33mW (504) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (904) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1304) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (1704) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (2104) FINGERPRINT: No handshake received, retrying...[0m
+[0;33mW (2304) FINGERPRINT: No handshake received, retrying...[0m
+[0;32mI (2504) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
+[0;32mI (2504) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
+[0;32mI (2704) FINGERPRINT: 00 55[0m
+[0;33mW (2704) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (2954) FINGERPRINT: 55 ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (2954) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (2954) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (3704) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (4004) FINGERPRINT: ef 01 ff ff ff ff 07 00 23 00 03 00 00 00 00 00[0m
+[0;32mI (4004) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4004) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 2d[0m
+[0;32mI (4004) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4014) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4014) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (4024) Index Table Parameters: 03 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4034) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4034) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4044) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4054) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4054) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4064) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4074) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4084) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4084) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4094) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4104) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4104) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4114) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4124) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4124) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (4134) FINGERPRINT: Location 1 is already occupied[0m
+[1;31mE (4144) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (4144) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (6154) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (6734) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (6734) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (6734) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (6734) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (6734) FINGERPRINT: Finger detected![0m
+[0;32mI (7204) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (7204) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7204) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (7204) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (7214) FINGERPRINT: Searching for fingerprint match...[0m
+[0;32mI (7494) FINGERPRINT: ef 01 ff ff ff ff 07 00 07 09 00 00 00 00 00 17[0m
+[0;32mI (7494) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7494) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (7494) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;33mW (7504) FINGERPRINT: No match found, attempt 1 of 3[0m
+[0;32mI (8504) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (9034) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
+[0;32mI (9034) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9034) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (9534) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (9534) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9534) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (9534) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (9534) FINGERPRINT: Finger detected![0m
+[0;32mI (10004) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (10004) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (10004) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (10004) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (10014) FINGERPRINT: Searching for fingerprint match...[0m
+[0;32mI (10434) FINGERPRINT: ef 01 ff ff ff ff 07 00 07 00 00 00 00 33 00 41[0m
+[0;32mI (10434) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (10434) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (10434) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (10444) FINGERPRINT: Match found at Enrollee ID: 0[0m
+[0;32mI (10444) FINGERPRINT: Match score: 13056[0m
+[0;32mI (10454) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (10664) FINGERPRINT: ef 01 ff ff ff ff 07 00 05 00 00 02 00 0e[0m
+[0;32mI (10664) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (10664) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (10664) EVENT TEMPLATE COUNT: Number of valid templates: 2[0m
+[0;32mI (10674) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (10674) FINGERPRINT: Backing up template id 0x0001[0m
+[0;32mI (10684) FINGERPRINT: Loading Template...[0m
+[0;32mI (10884) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (11094) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
+[0;32mI (11094) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (11094) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (11094) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (11104) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (11104) FINGERPRINT: Uploading Template...[0m
+[0;32mI (11104) FINGERPRINT: Sending UpChar command for buffer 1[0m
+[0;32mI (11314) FINGERPRINT: Waiting for template data transfer...[0m
+[0;32mI (11364) FINGERPRINT: ef 01 ff ff ff ff 07 00 03 00 00 0a ef 01 ff ff[0m
+[0;32mI (11364) FINGERPRINT: ff ff 02 00 07 00 00 54 1e 56 00 d1 ef 01 ff ff[0m
+[0;32mI (11364) FINGERPRINT: ff ff 02 01 02 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (11374) FINGERPRINT: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (11384) FINGERPRINT: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (11384) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11394) FINGERPRINT: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (11394) FINGERPRINT: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (11404) FINGERPRINT: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (11414) FINGERPRINT: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (11414) FINGERPRINT: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (11424) FINGERPRINT: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (11434) FINGERPRINT: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (11434) FINGERPRINT: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (11444) FINGERPRINT: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (11444) FINGERPRINT: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (11454) FINGERPRINT: Received template data packet 1[0m
+[0;32mI (11464) FINGERPRINT: Template accumulator initialized[0m
+[0;32mI (11464) FINGERPRINT: Added 5 bytes to template accumulator (total: 5 bytes)[0m
+[0;32mI (11474) Template Data: 00 00 54 1e 56[0m
+[0;32mI (11474) FINGERPRINT: Added 219 bytes to template accumulator (total: 224 bytes)[0m
+[0;32mI (11494) FINGERPRINT: f8 d7 c1 69 5b a3 1f 9b 2d 4a 2a 81 b8 b2 4c 0e[0m
+[0;32mI (11494) FINGERPRINT: dd f9 24 2b 25 ab 63 48 65 bf e1 28 6f 08 3a 48[0m
+[0;32mI (11494) FINGERPRINT: a9 6a c6 47 48 4e c9 ef 01 ff ff ff ff 02 01 02[0m
+[0;32mI (11504) FINGERPRINT: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (11504) FINGERPRINT: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (11514) FINGERPRINT: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (11524) FINGERPRINT: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (11524) FINGERPRINT: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (11534) FINGERPRINT: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (11534) FINGERPRINT: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (11544) FINGERPRINT: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (11554) FINGERPRINT: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (11554) FINGERPRINT: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (11564) FINGERPRINT: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (11574) FINGERPRINT: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (11574) FINGERPRINT: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (11584) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (11584) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (11594) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (11604) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11604) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (11614) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (11624) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (11624) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (11634) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (11644) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (11644) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (11654) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (11664) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (11664) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (11674) FINGERPRINT: Added 208 bytes to template accumulator (total: 432 bytes)[0m
+[0;32mI (11694) FINGERPRINT: 0f 61 a4 ed a8 26 20 31 ba fb e1 8d 21 d6 ca 27[0m
+[0;32mI (11694) FINGERPRINT: 27 10 a4 db c9 d3 0f 45 ae df 6b 39 14 25 1f e1[0m
+[0;32mI (11694) FINGERPRINT: ff b6 91 38 6c 21 3e 10 a1 72 50 8d 15 b0 b1 7f[0m
+[0;32mI (11694) FINGERPRINT: 72 6d ef 01 ff ff ff ff 02 01 02 91 3f 37 a7 cc[0m
+[0;32mI (11704) FINGERPRINT: 8d 55 4d 2e 54 bc 97 1f 2c b1 89 fd 73 36 56 4f[0m
+[0;32mI (11714) FINGERPRINT: 2f 4c 36 0d 23 74 43 f6 23 a0 db df e8 3f 20 24[0m
+[0;32mI (11714) FINGERPRINT: b4 ca 46 e6 ef af 19 e0 36 1f 29 fc 88 a1 3f a1[0m
+[0;32mI (11724) FINGERPRINT: 5c 0e 67 2c 0d a3 d9 69 d7 ce 29 ef d7 9a 1e 3d[0m
+[0;32mI (11734) FINGERPRINT: 2d c6 9a 53 29 81 da 0d aa 1c 46 ae 4b 38 fa 30[0m
+[0;32mI (11734) FINGERPRINT: 64 a7 fd 68 15 09 26 ca a4 c7 40 9e cb 0b 92 36[0m
+[0;32mI (11744) FINGERPRINT: 2f a3 73 83 ff c6 db ab 1c e1 1e 34 2c 52 f7 cd[0m
+[0;32mI (11744) FINGERPRINT: 29 d1 e9 07 92 16 27 b3 5d da 6b 72 57 47 6f f2[0m
+[0;32mI (11754) FINGERPRINT: 18 40 b1 88 2b 77 36 84 43 af 74 19 2e b3 05 e0[0m
+[0;32mI (11764) FINGERPRINT: 33 73 55 07 6f 60 15 13 34 71 0c 05 4f bc e7 bb[0m
+[0;32mI (11764) FINGERPRINT: 47 0e 16 b5 9f 84 91 60 48 c7 4b 69 30 08 21 61[0m
+[0;32mI (11774) FINGERPRINT: e1 0d 35 3c 19 4f d6 20 22 30 a6 75 5f 79 90 87[0m
+[0;32mI (11784) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (11784) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (11794) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (11794) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11804) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (11814) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (11814) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (11824) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (11834) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (11834) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (11844) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (11854) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (11854) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (11864) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (11874) Template Data: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (11874) Template Data: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (11884) Template Data: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (11884) Template Data: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (11894) Template Data: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (11904) Template Data: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (11904) Template Data: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (11914) Template Data: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (11924) Template Data: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (11924) Template Data: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (11934) Template Data: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (11944) Template Data: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (11944) Template Data: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (11954) FINGERPRINT: Added 197 bytes to template accumulator (total: 629 bytes)[0m
+[0;32mI (11974) FINGERPRINT: 07 0a 15 49 2f 5c df f9 48 fb 14 0f 24 0d 3a 39[0m
+[0;32mI (11974) FINGERPRINT: 3d 77 b0 70 35 26 8f 52 12 30 32 15 e4 8e 23 34[0m
+[0;32mI (11974) FINGERPRINT: 6b 6f 82 b0 10 44 3b 09 9e 28 a1 dd a3 e0 f1 36[0m
+[0;32mI (11974) FINGERPRINT: 92 0f 28 35 51 8c 03 22 32 67 0f 48 17 1c 34 35[0m
+[0;32mI (11984) FINGERPRINT: dd 02 60 fc a4 cf 40 20 19 ae 65 0e f5 71 b6 19[0m
+[0;32mI (11994) FINGERPRINT: 0f 91 06 17 37 6b 1f b9 56 67 23 ef 82 07 3c ba[0m
+[0;32mI (11994) FINGERPRINT: 16 b8 2d 29 44 63 4a 35 1a 12 ab 64 be 2f 30 3e[0m
+[0;32mI (12004) FINGERPRINT: 2f af 84 0b 20 2e c4 72 e5 70 94 c3 6b b4 0a 45[0m
+[0;32mI (12014) FINGERPRINT: b9 b2 96 8b 09 1f 87 2b 05 05 23 2e e3 ac 41 74[0m
+[0;32mI (12014) FINGERPRINT: 7c 0c 23 85 00 01 03 33 02 00 4e 00 4a 2e 3f 2c[0m
+[0;32mI (12024) FINGERPRINT: 1a 96 df 43 b2 68 13 ab 3b 44 28 5e d5 f2 df f9[0m
+[0;32mI (12024) FINGERPRINT: 6c 7d cf 3d 3d a8 ce 29 fd fc 7d 24 e4 77 29 42[0m
+[0;32mI (12034) FINGERPRINT: aa 95 5b ff a1 65 2c ef 01 ff ff ff ff 02 01 02[0m
+[0;32mI (12044) FINGERPRINT: 24 65 51 a3 37 3a a9 8c de 7f 66 8f 28 bd eb 31[0m
+[0;32mI (12044) FINGERPRINT: 36 2b 11 b7 0a 52 52 ea d2 89 34 43 a9 dc d9 b8[0m
+[0;32mI (12054) FINGERPRINT: 63 e5 ec 55 23 27 15 a5 65 9a 0c 38 1e 59 41 94[0m
+[0;32mI (12064) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (12064) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (12074) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (12084) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12084) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (12094) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (12094) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (12104) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (12114) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (12114) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (12124) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (12134) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (12134) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (12144) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (12154) Template Data: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (12154) Template Data: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (12164) Template Data: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (12174) Template Data: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (12174) Template Data: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (12184) Template Data: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (12184) Template Data: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (12194) Template Data: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (12204) Template Data: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (12204) Template Data: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (12214) Template Data: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (12224) Template Data: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (12224) Template Data: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (12234) Template Data: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (12244) Template Data: fd 73 36 56 4f 2f 4c 36 0d 23 74 43 f6 23 a0 db[0m
+[0;32mI (12244) Template Data: df e8 3f 20 24 b4 ca 46 e6 ef af 19 e0 36 1f 29[0m
+[0;32mI (12254) Template Data: fc 88 a1 3f a1 5c 0e 67 2c 0d a3 d9 69 d7 ce 29[0m
+[0;32mI (12254) Template Data: ef d7 9a 1e 3d 2d c6 9a 53 29 81 da 0d aa 1c 46[0m
+[0;32mI (12264) Template Data: ae 4b 38 fa 30 64 a7 fd 68 15 09 26 ca a4 c7 40[0m
+[0;32mI (12274) Template Data: 9e cb 0b 92 36 2f a3 73 83 ff c6 db ab 1c e1 1e[0m
+[0;32mI (12274) Template Data: 34 2c 52 f7 cd 29 d1 e9 07 92 16 27 b3 5d da 6b[0m
+[0;32mI (12284) Template Data: 72 57 47 6f f2 18 40 b1 88 2b 77 36 84 43 af 74[0m
+[0;32mI (12294) Template Data: 19 2e b3 05 e0 33 73 55 07 6f 60 15 13 34 71 0c[0m
+[0;32mI (12294) Template Data: 05 4f bc e7 bb 47 0e 16 b5 9f 84 91 60 48 c7 4b[0m
+[0;32mI (12304) Template Data: 69 30 08 21 61 e1 0d 35 3c 19 4f d6 20 22 30 a6[0m
+[0;32mI (12314) Template Data: 75 5f 79 90 87[0m
+[0;32mI (12314) FINGERPRINT: Added 48 bytes to template accumulator (total: 677 bytes)[0m
+[0;32mI (12334) FINGERPRINT: 2f 45 2c 38 c7 18 33 9a f8 14 2b 36 33 a7 f5 9f[0m
+[0;32mI (12334) FINGERPRINT: a2 e2 f1 64 92 b3 29 49 29 e4 57 6e 80 81 2a 80[0m
+[0;32mI (12334) FINGERPRINT: dd 3c 27 a6 8c be 01 76 57 6c b9 ae 3a 20 a6 a4[0m
+[0;32mI (12344) FINGERPRINT: 8f a3 72 55 4c b1 b2 3c 36 23 f2 37 0e 31 00 00[0m
+[0;32mI (12344) FINGERPRINT: 00 00 00 00 01 00 00 08 20 09 00 0e 0e 00 00 00[0m
+[0;32mI (12354) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12354) FINGERPRINT: 00 00 00 00 02 00 00 03 30 09 00 04 0a 01 00 00[0m
+[0;32mI (12364) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 46 4f[0m
+[0;32mI (12374) FINGERPRINT: 4f 46 93 07 50 52 45 43 49 53 45 00 01 02 01 a9[0m
+[0;32mI (12374) FINGERPRINT: 90 ba 00 56 00 00 00 27 66 0d a8 db 00 0c 00 50[0m
+[0;32mI (12384) FINGERPRINT: 00 45 00 00 00 01 6b 00 50 00 45 00 00 00 00 00[0m
+[0;32mI (12394) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 ff ff 00 00[0m
+[0;32mI (12394) FINGERPRINT: 00 00 00 00 4f 00 00 07 46 6d 2f 31 13 00 0a 12[0m
+[0;32mI (12404) FINGERPRINT: 34 00 0d 00 10 00 45 00 50 00 9b 00 00 00 00 00[0m
+[0;32mI (12404) FINGERPRINT: 00 06 00 08 01 00 10 08 a6 d7 7c 26 fd ef 01 ff[0m
+[0;32mI (12414) FINGERPRINT: ff ff ff 02 01 02 88 00 01 02 ba 01 00 00 00 3f[0m
+[0;32mI (12424) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (12424) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (12434) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (12444) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12444) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (12454) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (12464) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (12464) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (12474) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (12474) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (12484) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (12494) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (12494) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (12504) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (12514) Template Data: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (12514) Template Data: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (12524) Template Data: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (12534) Template Data: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (12534) Template Data: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (12544) Template Data: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (12554) Template Data: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (12554) Template Data: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (12564) Template Data: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (12564) Template Data: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (12574) Template Data: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (12584) Template Data: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (12584) Template Data: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (12594) Template Data: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (12604) Template Data: fd 73 36 56 4f 2f 4c 36 0d 23 74 43 f6 23 a0 db[0m
+[0;32mI (12604) Template Data: df e8 3f 20 24 b4 ca 46 e6 ef af 19 e0 36 1f 29[0m
+[0;32mI (12614) Template Data: fc 88 a1 3f a1 5c 0e 67 2c 0d a3 d9 69 d7 ce 29[0m
+[0;32mI (12624) Template Data: ef d7 9a 1e 3d 2d c6 9a 53 29 81 da 0d aa 1c 46[0m
+[0;32mI (12624) Template Data: ae 4b 38 fa 30 64 a7 fd 68 15 09 26 ca a4 c7 40[0m
+[0;32mI (12634) Template Data: 9e cb 0b 92 36 2f a3 73 83 ff c6 db ab 1c e1 1e[0m
+[0;32mI (12644) Template Data: 34 2c 52 f7 cd 29 d1 e9 07 92 16 27 b3 5d da 6b[0m
+[0;32mI (12644) Template Data: 72 57 47 6f f2 18 40 b1 88 2b 77 36 84 43 af 74[0m
+[0;32mI (12654) Template Data: 19 2e b3 05 e0 33 73 55 07 6f 60 15 13 34 71 0c[0m
+[0;32mI (12654) Template Data: 05 4f bc e7 bb 47 0e 16 b5 9f 84 91 60 48 c7 4b[0m
+[0;32mI (12664) Template Data: 69 30 08 21 61 e1 0d 35 3c 19 4f d6 20 22 30 a6[0m
+[0;32mI (12674) Template Data: 75 5f 79 90 87 24 65 51 a3 37 3a a9 8c de 7f 66[0m
+[0;32mI (12674) Template Data: 8f 28 bd eb 31 36 2b 11 b7 0a 52 52 ea d2 89 34[0m
+[0;32mI (12684) Template Data: 43 a9 dc d9 b8 63 e5 ec 55 23 27 15 a5 65 9a 0c[0m
+[0;32mI (12694) Template Data: 38 1e 59 41 94[0m
+[0;32mI (12694) FINGERPRINT: Added 10 bytes to template accumulator (total: 687 bytes)[0m
+[0;32mI (12714) FINGERPRINT: 20 4a a0 65 c6 a5 5e 7f 81 a0 e4 1e 18 26 77 f2[0m
+[0;32mI (12714) FINGERPRINT: eb 80 62 fd 6e dd 21 42 27 d0 b8 45 09 a6 56 4b[0m
+[0;32mI (12714) FINGERPRINT: 95 09 25 1d 23 da bb e2 b2 f7 4f 6e 2b 34 28 c4[0m
+[0;32mI (12724) FINGERPRINT: 04 44 08 75 57 ae 07 2f 38 a9 cd 48 47 4a ec 14[0m
+[0;32mI (12724) FINGERPRINT: 8b e6 2e 0f 2c 07 f4 70 18 42 d7 1f f8 1c 12 a7[0m
+[0;32mI (12734) FINGERPRINT: 6e da ca 07 87 53 00 0f 3d 15 30 8d 49 f3 58 9d[0m
+[0;32mI (12734) FINGERPRINT: ff 9d 9c 3e 1b 99 0c 15 9e c0 32 0a f5 42 ab 55[0m
+[0;32mI (12744) FINGERPRINT: d3 38 0e ad b4 1b 38 e6 5f 64 46 a5 24 27 a2 30[0m
+[0;32mI (12754) FINGERPRINT: 85 45 ed 51 fb 62 30 08 1a 1a fd 2b af 3e 41 ac[0m
+[0;32mI (12754) FINGERPRINT: c9 26 12 2d 16 79 6b f4 24 6d 4a ef 01 ff ff ff[0m
+[0;32mI (12764) FINGERPRINT: ff 02 01 02 08 74 d5 07 3c 0c af c5 3e 7a d7 c8[0m
+[0;32mI (12774) FINGERPRINT: 2d bb 6d 0a 2f 22 4b 59 f1 09 81 f6 3c e7 2b 0d[0m
+[0;32mI (12774) FINGERPRINT: ae 21 57 9a 07 f2 69 36 9b 0d 48 9c 26 dc 4f 88[0m
+[0;32mI (12784) FINGERPRINT: bb 2b 41 4e 3c 05 af d2 02 bc f1 38 7b ba 9f 23[0m
+[0;32mI (12784) FINGERPRINT: 36 25 ae fa ed 94 91 e7 94 4b 3e 34 b5 61 e6 52[0m
+[0;32mI (12794) FINGERPRINT: 31 2c e3 bd 89 21 05 25 f9 e8 1e 2f 37 dd 61 ae[0m
+[0;32mI (12804) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (12804) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (12814) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (12824) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12824) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (12834) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (12844) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (12844) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (12854) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (12864) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (12864) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (12874) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (12874) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (12884) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (12894) Template Data: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (12894) Template Data: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (12904) Template Data: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (12914) Template Data: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (12914) Template Data: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (12924) Template Data: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (12934) Template Data: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (12934) Template Data: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (12944) Template Data: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (12954) Template Data: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (12954) Template Data: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (12964) Template Data: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (12964) Template Data: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (12974) Template Data: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (12984) Template Data: fd 73 36 56 4f 2f 4c 36 0d 23 74 43 f6 23 a0 db[0m
+[0;32mI (12984) Template Data: df e8 3f 20 24 b4 ca 46 e6 ef af 19 e0 36 1f 29[0m
+[0;32mI (12994) Template Data: fc 88 a1 3f a1 5c 0e 67 2c 0d a3 d9 69 d7 ce 29[0m
+[0;32mI (13004) Template Data: ef d7 9a 1e 3d 2d c6 9a 53 29 81 da 0d aa 1c 46[0m
+[0;32mI (13004) Template Data: ae 4b 38 fa 30 64 a7 fd 68 15 09 26 ca a4 c7 40[0m
+[0;32mI (13014) Template Data: 9e cb 0b 92 36 2f a3 73 83 ff c6 db ab 1c e1 1e[0m
+[0;32mI (13024) Template Data: 34 2c 52 f7 cd 29 d1 e9 07 92 16 27 b3 5d da 6b[0m
+[0;32mI (13024) Template Data: 72 57 47 6f f2 18 40 b1 88 2b 77 36 84 43 af 74[0m
+[0;32mI (13034) Template Data: 19 2e b3 05 e0 33 73 55 07 6f 60 15 13 34 71 0c[0m
+[0;32mI (13044) Template Data: 05 4f bc e7 bb 47 0e 16 b5 9f 84 91 60 48 c7 4b[0m
+[0;32mI (13044) Template Data: 69 30 08 21 61 e1 0d 35 3c 19 4f d6 20 22 30 a6[0m
+[0;32mI (13054) Template Data: 75 5f 79 90 87 24 65 51 a3 37 3a a9 8c de 7f 66[0m
+[0;32mI (13054) Template Data: 8f 28 bd eb 31 36 2b 11 b7 0a 52 52 ea d2 89 34[0m
+[0;32mI (13064) Template Data: 43 a9 dc d9 b8 63 e5 ec 55 23 27 15 a5 65 9a 0c[0m
+[0;32mI (13074) Template Data: 38 1e 59 41 94 88 00 01 02 ba 01 00 00 00 3f[0m
+[0;32mI (13074) FINGERPRINT: Added 92 bytes to template accumulator (total: 779 bytes)[0m
+[0;32mI (13094) FINGERPRINT: 1c 1d a4 69 2f 5c 3b 58 ff c1 61 1c 0f a6 cd 72[0m
+[0;32mI (13094) FINGERPRINT: a2 b0 35 49 fd 99 3d 1f af f6 3a 0d a5 31 e9 56[0m
+[0;32mI (13094) FINGERPRINT: 87 37 2f 28 d4 bd 31 a3 d3 75 60 bb 28 1e a8 ad[0m
+[0;32mI (13104) FINGERPRINT: da 82 7e f5 c7 f2 eb 15 1d 1c c4 1d 3e f9 75 2f[0m
+[0;32mI (13114) FINGERPRINT: e4 1b 30 34 29 b5 fb 7e a7 90 03 41 5b 2f 0b ac[0m
+[0;32mI (13114) FINGERPRINT: 36 7f 00 8e 3e dd 74 f9 3c 6a 02 ef 01 ff ff ff[0m
+[0;32mI (13124) FINGERPRINT: ff 02 01 02 1a ae 20 8d be e1 f6 6c 44 41 15 18[0m
+[0;32mI (13124) FINGERPRINT: 1c 8a 3a 1e 21 44 e6 00 eb 3c 20 b2 16 ec 58 7c[0m
+[0;32mI (13134) FINGERPRINT: 6a d4 02 aa 39 37 27 b1 bf 2e b3 82 b7 61 69 11[0m
+[0;32mI (13144) FINGERPRINT: 1c 1d bd cb fa 77 f1 66 90 dd 05 0e 1a a0 1f 1f[0m
+[0;32mI (13144) FINGERPRINT: 53 ae af 11 57 39 30 a8 34 d7 98 83 34 69 d3 d9[0m
+[0;32mI (13154) FINGERPRINT: 0c 2b 1c f6 9b ec e0 71 2e 9c 24 36 2a 27 c5 8d[0m
+[0;32mI (13164) FINGERPRINT: 0a 42 06 26 d5 6e 09 09 96 26 f7 2e 98 03 4c e1[0m
+[0;32mI (13164) FINGERPRINT: 6c 31 3d a4 b5 35 59 8d f1 6e 36 1f 06 32 1d 32[0m
+[0;32mI (13174) FINGERPRINT: c7 3a e5 53 e6 ae ab 1b 23 1a e6 5d 6e fd 55 4f[0m
+[0;32mI (13174) FINGERPRINT: e4 1f 05 18 1a c5 af 8f a2 d4 25 f1 56 35 10 aa[0m
+[0;32mI (13184) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (13194) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (13194) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (13204) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (13214) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (13214) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (13224) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (13234) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (13234) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (13244) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (13244) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (13254) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (13264) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (13264) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (13274) Template Data: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (13284) Template Data: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (13284) Template Data: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (13294) Template Data: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (13304) Template Data: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (13304) Template Data: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (13314) Template Data: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (13324) Template Data: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (13324) Template Data: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (13334) Template Data: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (13334) Template Data: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (13344) Template Data: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (13354) Template Data: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (13354) Template Data: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (13364) Template Data: fd 73 36 56 4f 2f 4c 36 0d 23 74 43 f6 23 a0 db[0m
+[0;32mI (13374) Template Data: df e8 3f 20 24 b4 ca 46 e6 ef af 19 e0 36 1f 29[0m
+[0;32mI (13374) Template Data: fc 88 a1 3f a1 5c 0e 67 2c 0d a3 d9 69 d7 ce 29[0m
+[0;32mI (13384) Template Data: ef d7 9a 1e 3d 2d c6 9a 53 29 81 da 0d aa 1c 46[0m
+[0;32mI (13394) Template Data: ae 4b 38 fa 30 64 a7 fd 68 15 09 26 ca a4 c7 40[0m
+[0;32mI (13394) Template Data: 9e cb 0b 92 36 2f a3 73 83 ff c6 db ab 1c e1 1e[0m
+[0;32mI (13404) Template Data: 34 2c 52 f7 cd 29 d1 e9 07 92 16 27 b3 5d da 6b[0m
+[0;32mI (13414) Template Data: 72 57 47 6f f2 18 40 b1 88 2b 77 36 84 43 af 74[0m
+[0;32mI (13414) Template Data: 19 2e b3 05 e0 33 73 55 07 6f 60 15 13 34 71 0c[0m
+[0;32mI (13424) Template Data: 05 4f bc e7 bb 47 0e 16 b5 9f 84 91 60 48 c7 4b[0m
+[0;32mI (13424) Template Data: 69 30 08 21 61 e1 0d 35 3c 19 4f d6 20 22 30 a6[0m
+[0;32mI (13434) Template Data: 75 5f 79 90 87 24 65 51 a3 37 3a a9 8c de 7f 66[0m
+[0;32mI (13444) Template Data: 8f 28 bd eb 31 36 2b 11 b7 0a 52 52 ea d2 89 34[0m
+[0;32mI (13444) Template Data: 43 a9 dc d9 b8 63 e5 ec 55 23 27 15 a5 65 9a 0c[0m
+[0;32mI (13454) Template Data: 38 1e 59 41 94 88 00 01 02 ba 01 00 00 00 3f 08[0m
+[0;32mI (13464) Template Data: 74 d5 07 3c 0c af c5 3e 7a d7 c8 2d bb 6d 0a 2f[0m
+[0;32mI (13464) Template Data: 22 4b 59 f1 09 81 f6 3c e7 2b 0d ae 21 57 9a 07[0m
+[0;32mI (13474) Template Data: f2 69 36 9b 0d 48 9c 26 dc 4f 88 bb 2b 41 4e 3c[0m
+[0;32mI (13484) Template Data: 05 af d2 02 bc f1 38 7b ba 9f 23 36 25 ae fa ed[0m
+[0;32mI (13484) Template Data: 94 91 e7 94 4b 3e 34 b5 61 e6 52 31 2c e3 bd 89[0m
+[0;32mI (13494) Template Data: 21 05 25 f9 e8 1e 2f 37 dd 61 ae[0m
+[0;32mI (13494) FINGERPRINT: Added 156 bytes to template accumulator (total: 935 bytes)[0m
+[0;32mI (13514) FINGERPRINT: 36 7d 48 af 8c ec f5 ff 16 45 23 23 07 7b 93 1a[0m
+[0;32mI (13514) FINGERPRINT: be 15 ef 26 0b 23 79 68 1f 3b 38 fd f9 6e 05 47[0m
+[0;32mI (13514) FINGERPRINT: 20 b7 d3 6b d0 d2 a6 2a 5e 25 12 27 ec ae e1 c0[0m
+[0;32mI (13524) FINGERPRINT: a7 6c 5d 2f 2c 2b a1 10 a5 41 ed 7b 9b 21 29 2e[0m
+[0;32mI (13534) FINGERPRINT: 23 24 88 31 6e 31 32 2f ce 44 1a 41 2a 2f 34 49[0m
+[0;32mI (13534) FINGERPRINT: e5 bb 29 39 d9 e1 95 d7 39 19 42 c6 9f 28 73 05[0m
+[0;32mI (13544) FINGERPRINT: 7a 41 bb 2d 25 bf 39 17 7b 36 70 a7 36 4b 0e 35[0m
+[0;32mI (13544) FINGERPRINT: bd 6f 77 5c 35 58 fd c5 ea 3f 3f 4c 99 37 da 9b[0m
+[0;32mI (13554) FINGERPRINT: 24 f0 f1 3b 3f 46 cf 84 94 ac b6 af 39 ed 06 21[0m
+[0;32mI (13564) FINGERPRINT: 1a 3c 5e 9a 6f a3 9b 28 40 3f 09 25 39 81 3b 5b[0m
+[0;32mI (13564) FINGERPRINT: 83 14 e6 67 df ef 01 ff ff ff ff 02 01 02 e8 a7[0m
+[0;32mI (13574) FINGERPRINT: 0f 10 38 f4 bb 5f 63 8e e2 11 23 3d 0d 41 ef 7f[0m
+[0;32mI (13584) FINGERPRINT: 1a 3f 0e c7 21 68 1c 30 45 bc 9a 2e 36 1d 44 f5[0m
+[0;32mI (13584) FINGERPRINT: 4b 1a 2a 43 fc af e1 c2 e7 6e 5d 3f 1c 1b ba 5b[0m
+[0;32mI (13594) FINGERPRINT: 5b 15 a6 7e ae bf df 34 13 c0 c8 36 58 b1 06 26[0m
+[0;32mI (13594) FINGERPRINT: b1 cb 28 1a bd f2 5a 4e 72 25 24 90 3d 3b 44 4d[0m
+[0;32mI (13604) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (13614) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (13614) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (13624) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (13634) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (13634) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (13644) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (13654) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (13654) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (13664) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (13674) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (13674) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (13684) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (13684) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (13694) Template Data: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (13704) Template Data: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (13704) Template Data: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (13714) Template Data: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (13724) Template Data: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (13724) Template Data: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (13734) Template Data: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (13744) Template Data: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (13744) Template Data: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (13754) Template Data: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (13764) Template Data: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (13764) Template Data: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (13774) Template Data: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (13774) Template Data: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (13784) Template Data: fd 73 36 56 4f 2f 4c 36 0d 23 74 43 f6 23 a0 db[0m
+[0;32mI (13794) Template Data: df e8 3f 20 24 b4 ca 46 e6 ef af 19 e0 36 1f 29[0m
+[0;32mI (13794) Template Data: fc 88 a1 3f a1 5c 0e 67 2c 0d a3 d9 69 d7 ce 29[0m
+[0;32mI (13804) Template Data: ef d7 9a 1e 3d 2d c6 9a 53 29 81 da 0d aa 1c 46[0m
+[0;32mI (13814) Template Data: ae 4b 38 fa 30 64 a7 fd 68 15 09 26 ca a4 c7 40[0m
+[0;32mI (13814) Template Data: 9e cb 0b 92 36 2f a3 73 83 ff c6 db ab 1c e1 1e[0m
+[0;32mI (13824) Template Data: 34 2c 52 f7 cd 29 d1 e9 07 92 16 27 b3 5d da 6b[0m
+[0;32mI (13834) Template Data: 72 57 47 6f f2 18 40 b1 88 2b 77 36 84 43 af 74[0m
+[0;32mI (13834) Template Data: 19 2e b3 05 e0 33 73 55 07 6f 60 15 13 34 71 0c[0m
+[0;32mI (13844) Template Data: 05 4f bc e7 bb 47 0e 16 b5 9f 84 91 60 48 c7 4b[0m
+[0;32mI (13854) Template Data: 69 30 08 21 61 e1 0d 35 3c 19 4f d6 20 22 30 a6[0m
+[0;32mI (13854) Template Data: 75 5f 79 90 87 24 65 51 a3 37 3a a9 8c de 7f 66[0m
+[0;32mI (13864) Template Data: 8f 28 bd eb 31 36 2b 11 b7 0a 52 52 ea d2 89 34[0m
+[0;32mI (13864) Template Data: 43 a9 dc d9 b8 63 e5 ec 55 23 27 15 a5 65 9a 0c[0m
+[0;32mI (13874) Template Data: 38 1e 59 41 94 88 00 01 02 ba 01 00 00 00 3f 08[0m
+[0;32mI (13884) Template Data: 74 d5 07 3c 0c af c5 3e 7a d7 c8 2d bb 6d 0a 2f[0m
+[0;32mI (13884) Template Data: 22 4b 59 f1 09 81 f6 3c e7 2b 0d ae 21 57 9a 07[0m
+[0;32mI (13894) Template Data: f2 69 36 9b 0d 48 9c 26 dc 4f 88 bb 2b 41 4e 3c[0m
+[0;32mI (13904) Template Data: 05 af d2 02 bc f1 38 7b ba 9f 23 36 25 ae fa ed[0m
+[0;32mI (13904) Template Data: 94 91 e7 94 4b 3e 34 b5 61 e6 52 31 2c e3 bd 89[0m
+[0;32mI (13914) Template Data: 21 05 25 f9 e8 1e 2f 37 dd 61 ae 1a ae 20 8d be[0m
+[0;32mI (13924) Template Data: e1 f6 6c 44 41 15 18 1c 8a 3a 1e 21 44 e6 00 eb[0m
+[0;32mI (13924) Template Data: 3c 20 b2 16 ec 58 7c 6a d4 02 aa 39 37 27 b1 bf[0m
+[0;32mI (13934) Template Data: 2e b3 82 b7 61 69 11 1c 1d bd cb fa 77 f1 66 90[0m
+[0;32mI (13944) Template Data: dd 05 0e 1a a0 1f 1f 53 ae af 11 57 39 30 a8 34[0m
+[0;32mI (13944) Template Data: d7 98 83 34 69 d3 d9 0c 2b 1c f6 9b ec e0 71 2e[0m
+[0;32mI (13954) Template Data: 9c 24 36 2a 27 c5 8d 0a 42 06 26 d5 6e 09 09 96[0m
+[0;32mI (13954) Template Data: 26 f7 2e 98 03 4c e1 6c 31 3d a4 b5 35 59 8d f1[0m
+[0;32mI (13964) Template Data: 6e 36 1f 06 32 1d 32 c7 3a e5 53 e6 ae ab 1b 23[0m
+[0;32mI (13974) Template Data: 1a e6 5d 6e fd 55 4f e4 1f 05 18 1a c5 af 8f a2[0m
+[0;32mI (13974) Template Data: d4 25 f1 56 35 10 aa[0m
+[0;32mI (13984) FINGERPRINT: Added 82 bytes to template accumulator (total: 1017 bytes)[0m
+[0;32mI (15314) FINGERPRINT: Template upload should be complete[0m
+[0;32mI (15314) FINGERPRINT: Template backup successful[0m
+[0;32mI (15314) FINGERPRINT: Template backed up successfully.[0m
+[0;32mI (15494) FINGERPRINT: 94 37 b3 bb 65 f4 09 3d 04 26 ba 98 dd bb f3 17[0m
+[0;32mI (15494) FINGERPRINT: 18 e1 c5 36 36 c8 56 3e 8e fd 61 27 f1 3f 0c 47[0m
+[0;32mI (15494) FINGERPRINT: 3f ac ef 95 4a 2f b7 5f 27 1f 14 ba e3 5a c6 97[0m
+[0;32mI (15494) FINGERPRINT: 7c 33 e9 cd 35 1f 43 2c cf 4a f3 e8 ff ff 08 00[0m
+[0;32mI (15504) FINGERPRINT: 58 00 00 00 00 00 00 00 00 00 00 00 00 0b 00 43[0m
+[0;32mI (15514) FINGERPRINT: 01 10 04 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (15514) FINGERPRINT: 00 0e 18 00 00 0e 1a 00 00 02 00 00 00 00 00 00[0m
+[0;32mI (15524) FINGERPRINT: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (15524) FINGERPRINT: 00 09 1c 00 00 0f 17 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (15534) FINGERPRINT: 00 00 00 46 4f 4f 46 02 88[0m
+[0;32mI (15534) FINGERPRINT: Found FOOF end marker at position 147[0m
+[0;32mI (15544) FINGERPRINT: Copied 153 bytes to template buffer[0m
+[0;32mI (15564) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (15564) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (15564) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (15564) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (15574) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (15584) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (15584) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (15594) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (15604) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (15604) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (15614) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (15624) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (15624) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (15634) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (15644) Template Data: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (15644) Template Data: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (15654) Template Data: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (15654) Template Data: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (15664) Template Data: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (15674) Template Data: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (15674) Template Data: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (15684) Template Data: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (15694) Template Data: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (15694) Template Data: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (15704) Template Data: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (15714) Template Data: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (15714) Template Data: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (15724) Template Data: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (15734) Template Data: fd 73 36 56 4f 2f 4c 36 0d 23 74 43 f6 23 a0 db[0m
+[0;32mI (15734) Template Data: df e8 3f 20 24 b4 ca 46 e6 ef af 19 e0 36 1f 29[0m
+[0;32mI (15744) Template Data: fc 88 a1 3f a1 5c 0e 67 2c 0d a3 d9 69 d7 ce 29[0m
+[0;32mI (15744) Template Data: ef d7 9a 1e 3d 2d c6 9a 53 29 81 da 0d aa 1c 46[0m
+[0;32mI (15754) Template Data: ae 4b 38 fa 30 64 a7 fd 68 15 09 26 ca a4 c7 40[0m
+[0;32mI (15764) Template Data: 9e cb 0b 92 36 2f a3 73 83 ff c6 db ab 1c e1 1e[0m
+[0;32mI (15764) Template Data: 34 2c 52 f7 cd 29 d1 e9 07 92 16 27 b3 5d da 6b[0m
+[0;32mI (15774) Template Data: 72 57 47 6f f2 18 40 b1 88 2b 77 36 84 43 af 74[0m
+[0;32mI (15784) Template Data: 19 2e b3 05 e0 33 73 55 07 6f 60 15 13 34 71 0c[0m
+[0;32mI (15784) Template Data: 05 4f bc e7 bb 47 0e 16 b5 9f 84 91 60 48 c7 4b[0m
+[0;32mI (15794) Template Data: 69 30 08 21 61 e1 0d 35 3c 19 4f d6 20 22 30 a6[0m
+[0;32mI (15804) Template Data: 75 5f 79 90 87 24 65 51 a3 37 3a a9 8c de 7f 66[0m
+[0;32mI (15804) Template Data: 8f 28 bd eb 31 36 2b 11 b7 0a 52 52 ea d2 89 34[0m
+[0;32mI (15814) Template Data: 43 a9 dc d9 b8 63 e5 ec 55 23 27 15 a5 65 9a 0c[0m
+[0;32mI (15824) Template Data: 38 1e 59 41 94 88 00 01 02 ba 01 00 00 00 3f 08[0m
+[0;32mI (15824) Template Data: 74 d5 07 3c 0c af c5 3e 7a d7 c8 2d bb 6d 0a 2f[0m
+[0;32mI (15834) Template Data: 22 4b 59 f1 09 81 f6 3c e7 2b 0d ae 21 57 9a 07[0m
+[0;32mI (15834) Template Data: f2 69 36 9b 0d 48 9c 26 dc 4f 88 bb 2b 41 4e 3c[0m
+[0;32mI (15844) Template Data: 05 af d2 02 bc f1 38 7b ba 9f 23 36 25 ae fa ed[0m
+[0;32mI (15854) Template Data: 94 91 e7 94 4b 3e 34 b5 61 e6 52 31 2c e3 bd 89[0m
+[0;32mI (15854) Template Data: 21 05 25 f9 e8 1e 2f 37 dd 61 ae 1a ae 20 8d be[0m
+[0;32mI (15864) Template Data: e1 f6 6c 44 41 15 18 1c 8a 3a 1e 21 44 e6 00 eb[0m
+[0;32mI (15874) Template Data: 3c 20 b2 16 ec 58 7c 6a d4 02 aa 39 37 27 b1 bf[0m
+[0;32mI (15874) Template Data: 2e b3 82 b7 61 69 11 1c 1d bd cb fa 77 f1 66 90[0m
+[0;32mI (15884) Template Data: dd 05 0e 1a a0 1f 1f 53 ae af 11 57 39 30 a8 34[0m
+[0;32mI (15894) Template Data: d7 98 83 34 69 d3 d9 0c 2b 1c f6 9b ec e0 71 2e[0m
+[0;32mI (15894) Template Data: 9c 24 36 2a 27 c5 8d 0a 42 06 26 d5 6e 09 09 96[0m
+[0;32mI (15904) Template Data: 26 f7 2e 98 03 4c e1 6c 31 3d a4 b5 35 59 8d f1[0m
+[0;32mI (15914) Template Data: 6e 36 1f 06 32 1d 32 c7 3a e5 53 e6 ae ab 1b 23[0m
+[0;32mI (15914) Template Data: 1a e6 5d 6e fd 55 4f e4 1f 05 18 1a c5 af 8f a2[0m
+[0;32mI (15924) Template Data: d4 25 f1 56 35 10 aa e8 a7 0f 10 38 f4 bb 5f 63[0m
+[0;32mI (15924) Template Data: 8e e2 11 23 3d 0d 41 ef 7f 1a 3f 0e c7 21 68 1c[0m
+[0;32mI (15934) Template Data: 30 45 bc 9a 2e 36 1d 44 f5 4b 1a 2a 43 fc af e1[0m
+[0;32mI (15944) Template Data: c2 e7 6e 5d 3f 1c 1b ba 5b 5b 15 a6 7e ae bf df[0m
+[0;32mI (15944) Template Data: 34 13 c0 c8 36 58 b1 06 26 b1 cb 28 1a bd f2 5a[0m
+[0;32mI (15954) Template Data: 4e 72 25 24 90 3d 3b 44 4d[0m
+[0;32mI (15954) FINGERPRINT: Added 151 bytes to template accumulator (total: 1168 bytes)[0m
+[0;32mI (15964) Template Data: 00 00 54 1e 56 01 04 93 07 50 52 45 43 49 53 45[0m
+[0;32mI (15974) Template Data: 00 01 02 73 b6 cf e0 00 56 00 00 00 27 66 0d a8[0m
+[0;32mI (15974) Template Data: db 00 0c 00 50 00 45 00 00 00 01 6b 00 50 00 45[0m
+[0;32mI (15984) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (15994) Template Data: 00 ff ff 00 00 00 00 00 00 4f 00 00 07 46 11 87[0m
+[0;32mI (15994) Template Data: 10 80 00 0a 12 34 00 0d 00 10 00 45 00 50 00 9b[0m
+[0;32mI (16004) Template Data: 00 00 00 00 00 00 06 00 08 01 00 10 08 a6 d7 7c[0m
+[0;32mI (16014) Template Data: 88 00 01 03 5f 01 00 00 00 4e 36 37 a8 3b 20 e3[0m
+[0;32mI (16014) Template Data: 01 6a f7 bc 09 25 48 28 cb e1 51 2e d8 de 7e 0b[0m
+[0;32mI (16024) Template Data: 3e 40 28 a9 c0 e3 5f bf 30 20 9e 3a 24 a6 72 20[0m
+[0;32mI (16034) Template Data: fe 8d e8 12 6c 6a 32 19 28 ce fc e2 9d 81 1c 9f[0m
+[0;32mI (16034) Template Data: 40 31 41 ad ce 28 95 19 69 d7 e8 2c 36 45 27 1d[0m
+[0;32mI (16044) Template Data: dd 59 2e a6 10 6b e8 2a 17 28 0d 2a b2 df 5b 54[0m
+[0;32mI (16054) Template Data: fc 50 3f 45 2b ac 2c 85 59 62 8b ca b8 09 10 b0[0m
+[0;32mI (16054) Template Data: 8e 4c e3 93 27 38 ab 53 60 6e bf b1 e9 2e 98 3b[0m
+[0;32mI (16064) Template Data: 33 22 5b c8 55 46 e2 91 1e c1 20 44 2a d0 96 c5[0m
+[0;32mI (16064) Template Data: c9 e5 d4 13 23 31 3a 2b 6d 08 e5 fe bd 59 3f 06[0m
+[0;32mI (16074) Template Data: 3a 42 28 64 c9 f2 4c ce 66 5f 4a 2c 1d ab e2 48[0m
+[0;32mI (16084) Template Data: bc 87 d7 69 7d 44 32 21 2b ec 6a aa 8f 41 d7 1f[0m
+[0;32mI (16084) Template Data: 74 26 31 2d af 9a f3 29 c1 1c 0d c2 10 0d ae 36[0m
+[0;32mI (16094) Template Data: 9a c9 19 3f a7 7f 0d 36 27 26 53 85 c5 cd 9f 18[0m
+[0;32mI (16104) Template Data: 1d a1 0c 32 b4 b5 f7 a3 68 40 84 4b a7 31 11 a4[0m
+[0;32mI (16104) Template Data: b1 61 f6 ad e4 d3 3f 80 26 29 2b 44 88 e9 79 c3[0m
+[0;32mI (16114) Template Data: 5c 4c a0 32 32 2c ec 4b f7 37 e5 54 18 37 3f 18[0m
+[0;32mI (16124) Template Data: 23 1e c8 5d 3f a3 1f 09 e4 30 2a 2b e7 78 b8 8f[0m
+[0;32mI (16124) Template Data: 21 d5 3f b6 3a 2b a6 56 94 d1 cf e9 10 fc 5a 26[0m
+[0;32mI (16134) Template Data: 40 2e a7 29 b3 9f 01 56 bd 76 2c 35 ac 56 28 ff[0m
+[0;32mI (16144) Template Data: 91 3f 37 a7 cc 8d 55 4d 2e 54 bc 97 1f 2c b1 89[0m
+[0;32mI (16144) Template Data: fd 73 36 56 4f 2f 4c 36 0d 23 74 43 f6 23 a0 db[0m
+[0;32mI (16154) Template Data: df e8 3f 20 24 b4 ca 46 e6 ef af 19 e0 36 1f 29[0m
+[0;32mI (16154) Template Data: fc 88 a1 3f a1 5c 0e 67 2c 0d a3 d9 69 d7 ce 29[0m
+[0;32mI (16164) Template Data: ef d7 9a 1e 3d 2d c6 9a 53 29 81 da 0d aa 1c 46[0m
+[0;32mI (16174) Template Data: ae 4b 38 fa 30 64 a7 fd 68 15 09 26 ca a4 c7 40[0m
+[0;32mI (16174) Template Data: 9e cb 0b 92 36 2f a3 73 83 ff c6 db ab 1c e1 1e[0m
+[0;32mI (16184) Template Data: 34 2c 52 f7 cd 29 d1 e9 07 92 16 27 b3 5d da 6b[0m
+[0;32mI (16194) Template Data: 72 57 47 6f f2 18 40 b1 88 2b 77 36 84 43 af 74[0m
+[0;32mI (16194) Template Data: 19 2e b3 05 e0 33 73 55 07 6f 60 15 13 34 71 0c[0m
+[0;32mI (16204) Template Data: 05 4f bc e7 bb 47 0e 16 b5 9f 84 91 60 48 c7 4b[0m
+[0;32mI (16214) Template Data: 69 30 08 21 61 e1 0d 35 3c 19 4f d6 20 22 30 a6[0m
+[0;32mI (16214) Template Data: 75 5f 79 90 87 24 65 51 a3 37 3a a9 8c de 7f 66[0m
+[0;32mI (16224) Template Data: 8f 28 bd eb 31 36 2b 11 b7 0a 52 52 ea d2 89 34[0m
+[0;32mI (16234) Template Data: 43 a9 dc d9 b8 63 e5 ec 55 23 27 15 a5 65 9a 0c[0m
+[0;32mI (16234) Template Data: 38 1e 59 41 94 88 00 01 02 ba 01 00 00 00 3f 08[0m
+[0;32mI (16244) Template Data: 74 d5 07 3c 0c af c5 3e 7a d7 c8 2d bb 6d 0a 2f[0m
+[0;32mI (16244) Template Data: 22 4b 59 f1 09 81 f6 3c e7 2b 0d ae 21 57 9a 07[0m
+[0;32mI (16254) Template Data: f2 69 36 9b 0d 48 9c 26 dc 4f 88 bb 2b 41 4e 3c[0m
+[0;32mI (16264) Template Data: 05 af d2 02 bc f1 38 7b ba 9f 23 36 25 ae fa ed[0m
+[0;32mI (16264) Template Data: 94 91 e7 94 4b 3e 34 b5 61 e6 52 31 2c e3 bd 89[0m
+[0;32mI (16274) Template Data: 21 05 25 f9 e8 1e 2f 37 dd 61 ae 1a ae 20 8d be[0m
+[0;32mI (16284) Template Data: e1 f6 6c 44 41 15 18 1c 8a 3a 1e 21 44 e6 00 eb[0m
+[0;32mI (16284) Template Data: 3c 20 b2 16 ec 58 7c 6a d4 02 aa 39 37 27 b1 bf[0m
+[0;32mI (16294) Template Data: 2e b3 82 b7 61 69 11 1c 1d bd cb fa 77 f1 66 90[0m
+[0;32mI (16304) Template Data: dd 05 0e 1a a0 1f 1f 53 ae af 11 57 39 30 a8 34[0m
+[0;32mI (16304) Template Data: d7 98 83 34 69 d3 d9 0c 2b 1c f6 9b ec e0 71 2e[0m
+[0;32mI (16314) Template Data: 9c 24 36 2a 27 c5 8d 0a 42 06 26 d5 6e 09 09 96[0m
+[0;32mI (16324) Template Data: 26 f7 2e 98 03 4c e1 6c 31 3d a4 b5 35 59 8d f1[0m
+[0;32mI (16324) Template Data: 6e 36 1f 06 32 1d 32 c7 3a e5 53 e6 ae ab 1b 23[0m
+[0;32mI (16334) Template Data: 1a e6 5d 6e fd 55 4f e4 1f 05 18 1a c5 af 8f a2[0m
+[0;32mI (16334) Template Data: d4 25 f1 56 35 10 aa e8 a7 0f 10 38 f4 bb 5f 63[0m
+[0;32mI (16344) Template Data: 8e e2 11 23 3d 0d 41 ef 7f 1a 3f 0e c7 21 68 1c[0m
+[0;32mI (16354) Template Data: 30 45 bc 9a 2e 36 1d 44 f5 4b 1a 2a 43 fc af e1[0m
+[0;32mI (16354) Template Data: c2 e7 6e 5d 3f 1c 1b ba 5b 5b 15 a6 7e ae bf df[0m
+[0;32mI (16364) Template Data: 34 13 c0 c8 36 58 b1 06 26 b1 cb 28 1a bd f2 5a[0m
+[0;32mI (16374) Template Data: 4e 72 25 24 90 3d 3b 44 4d 94 37 b3 bb 65 f4 09[0m
+[0;32mI (16374) Template Data: 3d 04 26 ba 98 dd bb f3 17 18 e1 c5 36 36 c8 56[0m
+[0;32mI (16384) Template Data: 3e 8e fd 61 27 f1 3f 0c 47 3f ac ef 95 4a 2f b7[0m
+[0;32mI (16394) Template Data: 5f 27 1f 14 ba e3 5a c6 97 7c 33 e9 cd 35 1f 43[0m
+[0;32mI (16394) Template Data: 2c cf 4a f3 e8 ff ff 08 00 58 00 00 00 00 00 00[0m
+[0;32mI (16404) Template Data: 00 00 00 00 00 00 0b 00 43 01 10 04 00 00 00 00[0m
+[0;32mI (16414) Template Data: 00 00 00 00 00 00 00 00 00 00 0e 18 00 00 0e 1a[0m
+[0;32mI (16414) Template Data: 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (16424) Template Data: 00 00 00 00 00 00 00 00 00 00 09 1c 00 00 0f 17[0m
+[0;32mI (16424) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 46 4f 4f 46[0m
+[0;32mI (16434) FINGERPRINT: Added 6 bytes to template accumulator (total: 1174 bytes)[0m
+[0;32mI (16444) FINGERPRINT: Triggering template event with 1174 bytes of complete data[0m
+[0;32mI (16454) FINGERPRINT: Complete template data (1174 bytes):[0m
+[0;32mI (16454) Template Data: 0x3fca2d98   00 00 54 1e 56 01 04 93  07 50 52 45 43 49 53 45  |..T.V....PRECISE|[0m
+[0;32mI (16464) Template Data: 0x3fca2da8   00 01 02 73 b6 cf e0 00  56 00 00 00 27 66 0d a8  |...s....V...'f..|[0m
+[0;32mI (16474) Template Data: 0x3fca2db8   db 00 0c 00 50 00 45 00  00 00 01 6b 00 50 00 45  |....P.E....k.P.E|[0m
+[0;32mI (16484) Template Data: 0x3fca2dc8   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (16494) Template Data: 0x3fca2dd8   00 ff ff 00 00 00 00 00  00 4f 00 00 07 46 11 87  |.........O...F..|[0m
+[0;32mI (16504) Template Data: 0x3fca2de8   10 80 00 0a 12 34 00 0d  00 10 00 45 00 50 00 9b  |.....4.....E.P..|[0m
+[0;32mI (16514) Template Data: 0x3fca2df8   00 00 00 00 00 00 06 00  08 01 00 10 08 a6 d7 7c  |...............||[0m
+[0;32mI (16524) Template Data: 0x3fca2e08   88 00 01 03 5f 01 00 00  00 4e 36 37 a8 3b 20 e3  |...._....N67.; .|[0m
+[0;32mI (16534) Template Data: 0x3fca2e18   01 6a f7 bc 09 25 48 28  cb e1 51 2e d8 de 7e 0b  |.j...%H(..Q...~.|[0m
+[0;32mI (16534) Template Data: 0x3fca2e28   3e 40 28 a9 c0 e3 5f bf  30 20 9e 3a 24 a6 72 20  |>@(..._.0 .:$.r |[0m
+[0;32mI (16544) Template Data: 0x3fca2e38   fe 8d e8 12 6c 6a 32 19  28 ce fc e2 9d 81 1c 9f  |....lj2.(.......|[0m
+[0;32mI (16554) Template Data: 0x3fca2e48   40 31 41 ad ce 28 95 19  69 d7 e8 2c 36 45 27 1d  |@1A..(..i..,6E'.|[0m
+[0;32mI (16564) Template Data: 0x3fca2e58   dd 59 2e a6 10 6b e8 2a  17 28 0d 2a b2 df 5b 54  |.Y...k.*.(.*..[T|[0m
+[0;32mI (16574) Template Data: 0x3fca2e68   fc 50 3f 45 2b ac 2c 85  59 62 8b ca b8 09 10 b0  |.P?E+.,.Yb......|[0m
+[0;32mI (16584) Template Data: 0x3fca2e78   8e 4c e3 93 27 38 ab 53  60 6e bf b1 e9 2e 98 3b  |.L..'8.S`n.....;|[0m
+[0;32mI (16594) Template Data: 0x3fca2e88   33 22 5b c8 55 46 e2 91  1e c1 20 44 2a d0 96 c5  |3"[.UF.... D*...|[0m
+[0;32mI (16604) Template Data: 0x3fca2e98   c9 e5 d4 13 23 31 3a 2b  6d 08 e5 fe bd 59 3f 06  |....#1:+m....Y?.|[0m
+[0;32mI (16614) Template Data: 0x3fca2ea8   3a 42 28 64 c9 f2 4c ce  66 5f 4a 2c 1d ab e2 48  |:B(d..L.f_J,...H|[0m
+[0;32mI (16624) Template Data: 0x3fca2eb8   bc 87 d7 69 7d 44 32 21  2b ec 6a aa 8f 41 d7 1f  |...i}D2!+.j..A..|[0m
+[0;32mI (16634) Template Data: 0x3fca2ec8   74 26 31 2d af 9a f3 29  c1 1c 0d c2 10 0d ae 36  |t&1-...).......6|[0m
+[0;32mI (16644) Template Data: 0x3fca2ed8   9a c9 19 3f a7 7f 0d 36  27 26 53 85 c5 cd 9f 18  |...?...6'&S.....|[0m
+[0;32mI (16654) Template Data: 0x3fca2ee8   1d a1 0c 32 b4 b5 f7 a3  68 40 84 4b a7 31 11 a4  |...2....h@.K.1..|[0m
+[0;32mI (16664) Template Data: 0x3fca2ef8   b1 61 f6 ad e4 d3 3f 80  26 29 2b 44 88 e9 79 c3  |.a....?.&)+D..y.|[0m
+[0;32mI (16674) Template Data: 0x3fca2f08   5c 4c a0 32 32 2c ec 4b  f7 37 e5 54 18 37 3f 18  |\L.22,.K.7.T.7?.|[0m
+[0;32mI (16684) Template Data: 0x3fca2f18   23 1e c8 5d 3f a3 1f 09  e4 30 2a 2b e7 78 b8 8f  |#..]?....0*+.x..|[0m
+[0;32mI (16684) Template Data: 0x3fca2f28   21 d5 3f b6 3a 2b a6 56  94 d1 cf e9 10 fc 5a 26  |!.?.:+.V......Z&|[0m
+[0;32mI (16694) Template Data: 0x3fca2f38   40 2e a7 29 b3 9f 01 56  bd 76 2c 35 ac 56 28 ff  |@..)...V.v,5.V(.|[0m
+[0;32mI (16704) Template Data: 0x3fca2f48   91 3f 37 a7 cc 8d 55 4d  2e 54 bc 97 1f 2c b1 89  |.?7...UM.T...,..|[0m
+[0;32mI (16714) Template Data: 0x3fca2f58   fd 73 36 56 4f 2f 4c 36  0d 23 74 43 f6 23 a0 db  |.s6VO/L6.#tC.#..|[0m
+[0;32mI (16724) Template Data: 0x3fca2f68   df e8 3f 20 24 b4 ca 46  e6 ef af 19 e0 36 1f 29  |..? $..F.....6.)|[0m
+[0;32mI (16734) Template Data: 0x3fca2f78   fc 88 a1 3f a1 5c 0e 67  2c 0d a3 d9 69 d7 ce 29  |...?.\.g,...i..)|[0m
+[0;32mI (16744) Template Data: 0x3fca2f88   ef d7 9a 1e 3d 2d c6 9a  53 29 81 da 0d aa 1c 46  |....=-..S).....F|[0m
+[0;32mI (16754) Template Data: 0x3fca2f98   ae 4b 38 fa 30 64 a7 fd  68 15 09 26 ca a4 c7 40  |.K8.0d..h..&...@|[0m
+[0;32mI (16764) Template Data: 0x3fca2fa8   9e cb 0b 92 36 2f a3 73  83 ff c6 db ab 1c e1 1e  |....6/.s........|[0m
+[0;32mI (16774) Template Data: 0x3fca2fb8   34 2c 52 f7 cd 29 d1 e9  07 92 16 27 b3 5d da 6b  |4,R..).....'.].k|[0m
+[0;32mI (16784) Template Data: 0x3fca2fc8   72 57 47 6f f2 18 40 b1  88 2b 77 36 84 43 af 74  |rWGo..@..+w6.C.t|[0m
+[0;32mI (16794) Template Data: 0x3fca2fd8   19 2e b3 05 e0 33 73 55  07 6f 60 15 13 34 71 0c  |.....3sU.o`..4q.|[0m
+[0;32mI (16804) Template Data: 0x3fca2fe8   05 4f bc e7 bb 47 0e 16  b5 9f 84 91 60 48 c7 4b  |.O...G......`H.K|[0m
+[0;32mI (16814) Template Data: 0x3fca2ff8   69 30 08 21 61 e1 0d 35  3c 19 4f d6 20 22 30 a6  |i0.!a..5<.O. "0.|[0m
+[0;32mI (16824) Template Data: 0x3fca3008   75 5f 79 90 87 24 65 51  a3 37 3a a9 8c de 7f 66  |u_y..$eQ.7:....f|[0m
+[0;32mI (16834) Template Data: 0x3fca3018   8f 28 bd eb 31 36 2b 11  b7 0a 52 52 ea d2 89 34  |.(..16+...RR...4|[0m
+[0;32mI (16834) Template Data: 0x3fca3028   43 a9 dc d9 b8 63 e5 ec  55 23 27 15 a5 65 9a 0c  |C....c..U#'..e..|[0m
+[0;32mI (16844) Template Data: 0x3fca3038   38 1e 59 41 94 88 00 01  02 ba 01 00 00 00 3f 08  |8.YA..........?.|[0m
+[0;32mI (16854) Template Data: 0x3fca3048   74 d5 07 3c 0c af c5 3e  7a d7 c8 2d bb 6d 0a 2f  |t..<...>z..-.m./|[0m
+[0;32mI (16864) Template Data: 0x3fca3058   22 4b 59 f1 09 81 f6 3c  e7 2b 0d ae 21 57 9a 07  |"KY....<.+..!W..|[0m
+[0;32mI (16874) Template Data: 0x3fca3068   f2 69 36 9b 0d 48 9c 26  dc 4f 88 bb 2b 41 4e 3c  |.i6..H.&.O..+AN<|[0m
+[0;32mI (16884) Template Data: 0x3fca3078   05 af d2 02 bc f1 38 7b  ba 9f 23 36 25 ae fa ed  |......8{..#6%...|[0m
+[0;32mI (16894) Template Data: 0x3fca3088   94 91 e7 94 4b 3e 34 b5  61 e6 52 31 2c e3 bd 89  |....K>4.a.R1,...|[0m
+[0;32mI (16904) Template Data: 0x3fca3098   21 05 25 f9 e8 1e 2f 37  dd 61 ae 1a ae 20 8d be  |!.%.../7.a... ..|[0m
+[0;32mI (16914) Template Data: 0x3fca30a8   e1 f6 6c 44 41 15 18 1c  8a 3a 1e 21 44 e6 00 eb  |..lDA....:.!D...|[0m
+[0;32mI (16924) Template Data: 0x3fca30b8   3c 20 b2 16 ec 58 7c 6a  d4 02 aa 39 37 27 b1 bf  |< ...X|j...97'..|[0m
+[0;32mI (16934) Template Data: 0x3fca30c8   2e b3 82 b7 61 69 11 1c  1d bd cb fa 77 f1 66 90  |....ai......w.f.|[0m
+[0;32mI (16944) Template Data: 0x3fca30d8   dd 05 0e 1a a0 1f 1f 53  ae af 11 57 39 30 a8 34  |.......S...W90.4|[0m
+[0;32mI (16954) Template Data: 0x3fca30e8   d7 98 83 34 69 d3 d9 0c  2b 1c f6 9b ec e0 71 2e  |...4i...+.....q.|[0m
+[0;32mI (16964) Template Data: 0x3fca30f8   9c 24 36 2a 27 c5 8d 0a  42 06 26 d5 6e 09 09 96  |.$6*'...B.&.n...|[0m
+[0;32mI (16974) Template Data: 0x3fca3108   26 f7 2e 98 03 4c e1 6c  31 3d a4 b5 35 59 8d f1  |&....L.l1=..5Y..|[0m
+[0;32mI (16984) Template Data: 0x3fca3118   6e 36 1f 06 32 1d 32 c7  3a e5 53 e6 ae ab 1b 23  |n6..2.2.:.S....#|[0m
+[0;32mI (16984) Template Data: 0x3fca3128   1a e6 5d 6e fd 55 4f e4  1f 05 18 1a c5 af 8f a2  |..]n.UO.........|[0m
+[0;32mI (16994) Template Data: 0x3fca3138   d4 25 f1 56 35 10 aa e8  a7 0f 10 38 f4 bb 5f 63  |.%.V5......8.._c|[0m
+[0;32mI (17004) Template Data: 0x3fca3148   8e e2 11 23 3d 0d 41 ef  7f 1a 3f 0e c7 21 68 1c  |...#=.A...?..!h.|[0m
+[0;32mI (17014) Template Data: 0x3fca3158   30 45 bc 9a 2e 36 1d 44  f5 4b 1a 2a 43 fc af e1  |0E...6.D.K.*C...|[0m
+[0;32mI (17024) Template Data: 0x3fca3168   c2 e7 6e 5d 3f 1c 1b ba  5b 5b 15 a6 7e ae bf df  |..n]?...[[..~...|[0m
+[0;32mI (17034) Template Data: 0x3fca3178   34 13 c0 c8 36 58 b1 06  26 b1 cb 28 1a bd f2 5a  |4...6X..&..(...Z|[0m
+[0;32mI (17044) Template Data: 0x3fca3188   4e 72 25 24 90 3d 3b 44  4d 94 37 b3 bb 65 f4 09  |Nr%$.=;DM.7..e..|[0m
+[0;32mI (17054) Template Data: 0x3fca3198   3d 04 26 ba 98 dd bb f3  17 18 e1 c5 36 36 c8 56  |=.&.........66.V|[0m
+[0;32mI (17064) Template Data: 0x3fca31a8   3e 8e fd 61 27 f1 3f 0c  47 3f ac ef 95 4a 2f b7  |>..a'.?.G?...J/.|[0m
+[0;32mI (17074) Template Data: 0x3fca31b8   5f 27 1f 14 ba e3 5a c6  97 7c 33 e9 cd 35 1f 43  |_'....Z..|3..5.C|[0m
+[0;32mI (17084) Template Data: 0x3fca31c8   2c cf 4a f3 e8 ff ff 08  00 58 00 00 00 00 00 00  |,.J......X......|[0m
+[0;32mI (17094) Template Data: 0x3fca31d8   00 00 00 00 00 00 0b 00  43 01 10 04 00 00 00 00  |........C.......|[0m
+[0;32mI (17104) Template Data: 0x3fca31e8   00 00 00 00 00 00 00 00  00 00 0e 18 00 00 0e 1a  |................|[0m
+[0;32mI (17114) Template Data: 0x3fca31f8   00 00 02 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (17124) Template Data: 0x3fca3208   00 00 00 00 00 00 00 00  00 00 09 1c 00 00 0f 17  |................|[0m
+[0;32mI (17134) Template Data: 0x3fca3218   00 00 00 00 00 00 00 00  00 00 00 00 46 4f 4f 46  |............FOOF|[0m
+[0;32mI (17134) Template Data: 0x3fca3228   00 00 00 00 00 00                                 |......|[0m
+[1;31mE (17144) FINGERPRINT: Template too large to save (1174 bytes)[0m
+[0;32mI (17154) FINGERPRINT: Fingerprint template uploaded successfully[0m
+[0;32mI (17314) FINGERPRINT: Template backed up successfully.[0m
+[1;31mE (19314) FINGERPRINT: No template data available[0m
+[0;32mI (19314) main_task: Returned from app_main()[0m

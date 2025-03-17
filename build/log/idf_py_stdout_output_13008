@@ -1,369 +1,90 @@
-ESP-ROM:esp32s3-20210327
-Build:Mar 27 2021
-rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
-SPIWP:0xee
-Octal Flash Mode Enabled
-For OPI Flash, Use Default Flash Boot Mode
-mode:SLOW_RD, clock div:1
-load:0x3fce2810,len:0x15a0
-load:0x403c8700,len:0x4
-load:0x403c8704,len:0xd20
-load:0x403cb700,len:0x2ee4
-entry 0x403c8928
-[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
-[0;32mI (33) boot: compile time Mar  4 2025 16:14:42[0m
-[0;32mI (33) boot: Multicore bootloader[0m
-[0;32mI (34) boot: chip revision: v0.1[0m
-[0;32mI (37) boot: efuse block revision: v1.2[0m
-[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
-[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
-[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
-[0;32mI (52) boot: Enabling RNG early entropy source...[0m
-[0;32mI (57) boot: Partition Table:[0m
-[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
-[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
-[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
-[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
-[0;32mI (85) boot: End of partition table[0m
-[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0beb0h ( 48816) map[0m
-[0;32mI (107) esp_image: segment 1: paddr=0001bed8 vaddr=3fc93400 size=02aa0h ( 10912) load[0m
-[0;32mI (110) esp_image: segment 2: paddr=0001e980 vaddr=40374000 size=01698h (  5784) load[0m
-[0;32mI (113) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1ba4ch (113228) map[0m
-[0;32mI (145) esp_image: segment 4: paddr=0003ba74 vaddr=40375698 size=0dc78h ( 56440) load[0m
-[0;32mI (161) esp_image: segment 5: paddr=000496f4 vaddr=600fe100 size=0001ch (    28) load[0m
-[0;32mI (167) boot: Loaded app from partition at offset 0x10000[0m
-[0;32mI (167) boot: Disabling RNG early entropy source...[0m
-[0;32mI (179) cpu_start: Multicore app[0m
-[0;32mI (188) cpu_start: Pro cpu start user code[0m
-[0;32mI (188) cpu_start: cpu freq: 160000000 Hz[0m
-[0;32mI (188) app_init: Application information:[0m
-[0;32mI (188) app_init: Project name:     fingerprint_scanner[0m
-[0;32mI (193) app_init: App version:      37c7cd0-dirty[0m
-[0;32mI (197) app_init: Compile time:     Mar  5 2025 15:17:55[0m
-[0;32mI (202) app_init: ELF file SHA256:  b46b18500...[0m
-[0;32mI (207) app_init: ESP-IDF:          v5.4-dirty[0m
-[0;32mI (211) efuse_init: Min chip rev:     v0.0[0m
-[0;32mI (215) efuse_init: Max chip rev:     v0.99 [0m
-[0;32mI (219) efuse_init: Chip rev:         v0.1[0m
-[0;32mI (222) heap_init: Initializing. RAM available for dynamic allocation:[0m
-[0;32mI (229) heap_init: At 3FC96780 len 00052F90 (331 KiB): RAM[0m
-[0;32mI (234) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
-[0;32mI (239) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
-[0;32mI (244) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
-[0;33mW (250) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
-[0;32mI (259) spi_flash: detected chip: mxic (opi)[0m
-[0;32mI (263) spi_flash: flash io: opi_str[0m
-[0;33mW (267) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
-[0;32mI (279) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
-[0;32mI (285) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
-[0;32mI (292) main_task: Started on CPU0[0m
-[0;32mI (302) main_task: Calling app_main()[0m
-[0;32mI (302) FINGERPRINT: Initializing fingerprint scanner...[0m
-[0;33mW (502) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (902) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (1302) FINGERPRINT: No handshake received, retrying...[0m
-[0;33mW (1582) FINGERPRINT: No handshake received, retrying...[0m
-[0;32mI (1782) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
-[0;32mI (1782) FINGERPRINT: Fingerprint scanner initialized successfully.[0m
-[0;32mI (1982) FINGERPRINT: Sent fingerprint command: 0x15 to address 0xFFFFFFFF[0m
-[0;32mI (1982) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 07 15 ff ff ff ff 04 19[0m
-[0;32mI (1982) FINGERPRINT: Last sent command: 0x15[0m
-[0;32mI (2982) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (2982) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
-[0;32mI (2982) main_task: Returned from app_main()[0m
-[0;32mI (3032) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (3032) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (3032) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (3032) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (3302) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (3302) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (3302) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (3302) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (3312) Event Type: Event: 0x10[0m
-[0;32mI (3312) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (3312) Fingerprint: Processing queued response: Confirmation code 0x02[0m
-[0;32mI (5042) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (5202) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (5202) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (5202) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (5202) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (5472) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (5472) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (5472) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (5472) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (5482) Event Type: Event: 0x10[0m
-[0;32mI (5482) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (5482) Fingerprint: Processing queued response: Confirmation code 0x02[0m
-[0;32mI (7212) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (7372) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (7372) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (7372) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (7372) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (7642) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (7642) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (7642) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (7642) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (7652) Event Type: Event: 0x10[0m
-[0;32mI (7652) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (7652) Fingerprint: Processing queued response: Confirmation code 0x02[0m
-[0;32mI (9382) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (9542) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (9542) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (9542) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (9542) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (9812) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (9812) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (9812) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (9812) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (9822) Event Type: Event: 0x10[0m
-[0;32mI (9822) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (9822) Fingerprint: Processing queued response: Confirmation code 0x02[0m
-[0;32mI (11552) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (11712) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (11712) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (11712) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (11712) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (13722) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (13812) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (13812) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (13812) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (13812) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (15822) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (15912) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (15912) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (15912) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (15912) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (16202) Fingerprint: ef 01 ff ff ff ff 07 00 03 00 00 0a[0m
-[0;32mI (16202) Fingerprint: Triggering event: 0 for status: 0x00[0m
-[0;32mI (16202) FINGERPRINT: Finger detected! Status: 0x00[0m
-[0;32mI (16202) FINGERPRINT: Event address: 0x00[0m
-[0;32mI (16202) Fingerprint: Response read successfully: Command 0x00[0m
-[0;32mI (16212) Fingerprint: Processing queued response: Confirmation code 0x00[0m
-[0;32mI (17922) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (18102) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (18102) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (18102) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (18102) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (20112) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (20202) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (20202) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (20202) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (20202) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (20482) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (20482) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (20482) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (20482) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (20492) Event Type: Event: 0x10[0m
-[0;32mI (20492) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (20492) Fingerprint: Processing queued response: Confirmation code 0x02[0m
-[0;32mI (22212) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (22382) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (22382) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (22382) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (22382) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (22662) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (22662) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (22662) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (22662) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (22672) Event Type: Event: 0x10[0m
-[0;32mI (22672) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (22672) Fingerprint: Processing queued response: Confirmation code 0x02[0m
-[0;32mI (24392) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (24562) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (24562) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (24562) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (24562) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (26572) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (26662) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (26662) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (26662) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (26662) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (28672) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (28762) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (28762) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (28762) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (28762) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (30772) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (30862) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (30862) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (30862) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (30862) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (32872) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (32962) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (32962) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (32962) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (32962) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (34972) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (35062) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (35062) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (35062) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (35062) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (37072) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (37162) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (37162) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (37262) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (37262) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (37262) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (37442) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (37442) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (37442) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (37442) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (37452) Event Type: Event: 0x10[0m
-[0;32mI (37452) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (37452) Fingerprint: Processing queued response: Confirmation code 0x02[0m
-[0;32mI (39262) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (39342) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (39342) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (39342) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (39342) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (41352) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (41442) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (41442) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (41542) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (41542) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (41542) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (43542) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (43542) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (43542) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (43642) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (43642) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (43642) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (45642) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (45642) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (45642) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (45742) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (45742) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (45742) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (47742) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (47742) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (47742) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (47842) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (47842) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (47842) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (49842) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (49842) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (49842) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (49942) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (49942) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (49942) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (51942) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (51942) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (51942) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (52042) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (52042) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (52042) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (54042) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (54042) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (54042) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (54142) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (54142) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (54142) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (56142) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (56142) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (56142) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (56242) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (56242) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (56242) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (58242) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (58242) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (58242) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (58342) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (58342) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (58342) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (60342) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (60342) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (60342) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (60442) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (60442) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (60442) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (62442) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (62442) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (62442) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (62542) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (62542) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (62542) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (64542) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (64542) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (64542) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (64642) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (64642) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (64642) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (66642) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (66642) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (66642) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (66742) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (66742) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (66742) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (68742) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (68742) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (68742) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (68842) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (68842) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (68842) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (70842) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (70842) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (70842) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (70942) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (70942) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (70942) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (72942) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (72942) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (72942) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (73042) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (73042) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (73042) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (75042) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (75042) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (75042) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (75142) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (75142) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (75142) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (77142) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (77142) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (77142) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (77242) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (77242) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (77242) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (79242) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (79242) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (79242) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (79342) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (79342) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (79342) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (81342) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (81342) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (81342) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (81442) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (81442) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (81442) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (83442) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (83442) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (83442) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (83542) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (83542) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (83542) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (85542) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (85542) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (85542) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;33mW (85642) FINGERPRINT: Command queue full, dropping command 0x01.[0m
-[0;32mI (85642) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (85642) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (85822) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (85822) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (85822) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (85822) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (85832) Event Type: Event: 0x10[0m
-[0;32mI (85832) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (85832) Fingerprint: Processing queued response: Confirmation code 0x02[0m
-[0;32mI (87642) FINGERPRINT: Attempting to send Get Image command...[0m
-[0;32mI (87722) FINGERPRINT: Sent fingerprint command: 0x01 to address 0xFFFFFFFF[0m
-[0;32mI (87722) Fingerprint sent command: : ef 01 ff ff ff ff 01 00 03 01 00 05[0m
-[0;32mI (87722) FINGERPRINT: Last sent command: 0x01[0m
-[0;32mI (87722) FINGERPRINT: Get Image command sent successfully.[0m
-[0;32mI (88002) Fingerprint: ef 01 ff ff ff ff 07 00 03 02 00 0c[0m
-[0;32mI (88002) Fingerprint: Triggering event: 16 for status: 0x02[0m
-[0;32mI (88002) FINGERPRINT: No finger detected. Status: 0x02[0m
-[0;32mI (88002) FINGERPRINT: Fingerprint enrollment successful! Status: 0x02[0m
-[0;32mI (88012) Event Type: Event: 0x10[0m
-[0;32mI (88012) Fingerprint: Response read successfully: Command 0x02[0m
-[0;32mI (88012) Fingerprint: Processing queued response: Confirmation code 0x02[0m
+[0/1] Re-running CMake...
+-- ccache will be used for faster recompilation
+-- Building ESP-IDF components for target esp32s3
+-- Project sdkconfig file C:/Users/MELBEN/esp/fingerprint_scanner/sdkconfig
+-- Compiler supported targets: xtensa-esp-elf
+-- App "fingerprint_scanner" version: eba1181-dirty
+-- Adding linker script C:/Users/MELBEN/esp/fingerprint_scanner/build/esp-idf/esp_system/ld/memory.ld
+-- Adding linker script C:/Users/MELBEN/esp/fingerprint_scanner/build/esp-idf/esp_system/ld/sections.ld.in
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.wdt.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.newlib.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+-- Components: app_trace app_update bootloader bootloader_support bt cmock console cxx driver efuse esp-tls esp_adc esp_app_format esp_bootloader_format esp_coex esp_common esp_driver_ana_cmpr esp_driver_cam esp_driver_dac esp_driver_gpio esp_driver_gptimer esp_driver_i2c esp_driver_i2s esp_driver_isp esp_driver_jpeg esp_driver_ledc esp_driver_mcpwm esp_driver_parlio esp_driver_pcnt esp_driver_ppa esp_driver_rmt esp_driver_sdio esp_driver_sdm esp_driver_sdmmc esp_driver_sdspi esp_driver_spi esp_driver_touch_sens esp_driver_tsens esp_driver_uart esp_driver_usb_serial_jtag esp_eth esp_event esp_gdbstub esp_hid esp_http_client esp_http_server esp_https_ota esp_https_server esp_hw_support esp_lcd esp_local_ctrl esp_mm esp_netif esp_netif_stack esp_partition esp_phy esp_pm esp_psram esp_ringbuf esp_rom esp_security esp_system esp_timer esp_vfs_console esp_wifi espcoredump esptool_py fatfs fingerprint freertos hal heap http_parser idf_test ieee802154 json log lwip main mbedtls mqtt newlib nvs_flash nvs_sec_provider openthread partition_table perfmon protobuf-c protocomm pthread rt sdmmc soc spi_flash spiffs tcp_transport touch_element ulp unity usb vfs wear_levelling wifi_provisioning wpa_supplicant xtensa
+-- Component paths: C:/Espressif/frameworks/esp-idf-v5.4/components/app_trace C:/Espressif/frameworks/esp-idf-v5.4/components/app_update C:/Espressif/frameworks/esp-idf-v5.4/components/bootloader C:/Espressif/frameworks/esp-idf-v5.4/components/bootloader_support C:/Espressif/frameworks/esp-idf-v5.4/components/bt C:/Espressif/frameworks/esp-idf-v5.4/components/cmock C:/Espressif/frameworks/esp-idf-v5.4/components/console C:/Espressif/frameworks/esp-idf-v5.4/components/cxx C:/Espressif/frameworks/esp-idf-v5.4/components/driver C:/Espressif/frameworks/esp-idf-v5.4/components/efuse C:/Espressif/frameworks/esp-idf-v5.4/components/esp-tls C:/Espressif/frameworks/esp-idf-v5.4/components/esp_adc C:/Espressif/frameworks/esp-idf-v5.4/components/esp_app_format C:/Espressif/frameworks/esp-idf-v5.4/components/esp_bootloader_format C:/Espressif/frameworks/esp-idf-v5.4/components/esp_coex C:/Espressif/frameworks/esp-idf-v5.4/components/esp_common C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ana_cmpr C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_cam C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_dac C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gpio C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gptimer C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2c C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2s C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_isp C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_jpeg C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ledc C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_mcpwm C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_parlio C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_pcnt C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ppa C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_rmt C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdio C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdm C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdmmc C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdspi C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_spi C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_touch_sens C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_tsens C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_uart C:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_usb_serial_jtag C:/Espressif/frameworks/esp-idf-v5.4/components/esp_eth C:/Espressif/frameworks/esp-idf-v5.4/components/esp_event C:/Espressif/frameworks/esp-idf-v5.4/components/esp_gdbstub C:/Espressif/frameworks/esp-idf-v5.4/components/esp_hid C:/Espressif/frameworks/esp-idf-v5.4/components/esp_http_client C:/Espressif/frameworks/esp-idf-v5.4/components/esp_http_server C:/Espressif/frameworks/esp-idf-v5.4/components/esp_https_ota C:/Espressif/frameworks/esp-idf-v5.4/components/esp_https_server C:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support C:/Espressif/frameworks/esp-idf-v5.4/components/esp_lcd C:/Espressif/frameworks/esp-idf-v5.4/components/esp_local_ctrl C:/Espressif/frameworks/esp-idf-v5.4/components/esp_mm C:/Espressif/frameworks/esp-idf-v5.4/components/esp_netif C:/Espressif/frameworks/esp-idf-v5.4/components/esp_netif_stack C:/Espressif/frameworks/esp-idf-v5.4/components/esp_partition C:/Espressif/frameworks/esp-idf-v5.4/components/esp_phy C:/Espressif/frameworks/esp-idf-v5.4/components/esp_pm C:/Espressif/frameworks/esp-idf-v5.4/components/esp_psram C:/Espressif/frameworks/esp-idf-v5.4/components/esp_ringbuf C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom C:/Espressif/frameworks/esp-idf-v5.4/components/esp_security C:/Espressif/frameworks/esp-idf-v5.4/components/esp_system C:/Espressif/frameworks/esp-idf-v5.4/components/esp_timer C:/Espressif/frameworks/esp-idf-v5.4/components/esp_vfs_console C:/Espressif/frameworks/esp-idf-v5.4/components/esp_wifi C:/Espressif/frameworks/esp-idf-v5.4/components/espcoredump C:/Espressif/frameworks/esp-idf-v5.4/components/esptool_py C:/Espressif/frameworks/esp-idf-v5.4/components/fatfs C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint C:/Espressif/frameworks/esp-idf-v5.4/components/freertos C:/Espressif/frameworks/esp-idf-v5.4/components/hal C:/Espressif/frameworks/esp-idf-v5.4/components/heap C:/Espressif/frameworks/esp-idf-v5.4/components/http_parser C:/Espressif/frameworks/esp-idf-v5.4/components/idf_test C:/Espressif/frameworks/esp-idf-v5.4/components/ieee802154 C:/Espressif/frameworks/esp-idf-v5.4/components/json C:/Espressif/frameworks/esp-idf-v5.4/components/log C:/Espressif/frameworks/esp-idf-v5.4/components/lwip C:/Users/MELBEN/esp/fingerprint_scanner/main C:/Espressif/frameworks/esp-idf-v5.4/components/mbedtls C:/Espressif/frameworks/esp-idf-v5.4/components/mqtt C:/Espressif/frameworks/esp-idf-v5.4/components/newlib C:/Espressif/frameworks/esp-idf-v5.4/components/nvs_flash C:/Espressif/frameworks/esp-idf-v5.4/components/nvs_sec_provider C:/Espressif/frameworks/esp-idf-v5.4/components/openthread C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table C:/Espressif/frameworks/esp-idf-v5.4/components/perfmon C:/Espressif/frameworks/esp-idf-v5.4/components/protobuf-c C:/Espressif/frameworks/esp-idf-v5.4/components/protocomm C:/Espressif/frameworks/esp-idf-v5.4/components/pthread C:/Espressif/frameworks/esp-idf-v5.4/components/rt C:/Espressif/frameworks/esp-idf-v5.4/components/sdmmc C:/Espressif/frameworks/esp-idf-v5.4/components/soc C:/Espressif/frameworks/esp-idf-v5.4/components/spi_flash C:/Espressif/frameworks/esp-idf-v5.4/components/spiffs C:/Espressif/frameworks/esp-idf-v5.4/components/tcp_transport C:/Espressif/frameworks/esp-idf-v5.4/components/touch_element C:/Espressif/frameworks/esp-idf-v5.4/components/ulp C:/Espressif/frameworks/esp-idf-v5.4/components/unity C:/Espressif/frameworks/esp-idf-v5.4/components/usb C:/Espressif/frameworks/esp-idf-v5.4/components/vfs C:/Espressif/frameworks/esp-idf-v5.4/components/wear_levelling C:/Espressif/frameworks/esp-idf-v5.4/components/wifi_provisioning C:/Espressif/frameworks/esp-idf-v5.4/components/wpa_supplicant C:/Espressif/frameworks/esp-idf-v5.4/components/xtensa
+-- Configuring done (5.2s)
+-- Generating done (0.6s)
+-- Build files have been written to: C:/Users/MELBEN/esp/fingerprint_scanner/build
+[1/10] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
+FAILED: esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj 
+ccache C:\Espressif\tools\xtensa-esp-elf\esp-14.2.0_20241119\xtensa-esp-elf\bin\xtensa-esp32s3-elf-gcc.exe -DESP_PLATFORM -DIDF_VER=\"v5.4-dirty\" -DSOC_MMU_PAGE_SIZE=CONFIG_MMU_PAGE_SIZE -DSOC_XTAL_FREQ_MHZ=CONFIG_XTAL_FREQ -D_GLIBCXX_HAVE_POSIX_SEMAPHORE -D_GLIBCXX_USE_POSIX_SEMAPHORE -D_GNU_SOURCE -D_POSIX_READER_WRITER_LOCKS -IC:/Users/MELBEN/esp/fingerprint_scanner/build/config -IC:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/newlib/platform_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/esp_additions/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/dma/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/ldo/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/debug_probe/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/. -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/tlsf -IC:/Espressif/frameworks/esp-idf-v5.4/components/log/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/register -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/platform_port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_common/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/include/private -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/deprecated_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps/sntp -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/lwip/src/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/freertos/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/arch -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/sys -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/deprecated -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/twai/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_pm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_ringbuf/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gpio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_pcnt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gptimer/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_spi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_mcpwm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ana_cmpr/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2s/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdspi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_dac/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_rmt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_tsens/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_uart/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/vfs/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ledc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_parlio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_usb_serial_jtag/include -mlongcalls  -fno-builtin-memcpy -fno-builtin-memset -fno-builtin-bzero -fno-builtin-stpcpy -fno-builtin-strncpy -fdiagnostics-color=always -ffunction-sections -fdata-sections -Wall -Werror=all -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=unused-but-set-variable -Wno-error=deprecated-declarations -Wextra -Wno-error=extra -Wno-unused-parameter -Wno-sign-compare -Wno-enum-conversion -gdwarf-4 -ggdb -Og -fno-shrink-wrap -fmacro-prefix-map=C:/Users/MELBEN/esp/fingerprint_scanner=. -fmacro-prefix-map=C:/Espressif/frameworks/esp-idf-v5.4=/IDF -fstrict-volatile-bitfields -fno-jump-tables -fno-tree-switch-conversion -std=gnu17 -Wno-old-style-declaration -MD -MT esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj -MF esp-idf\fingerprint\CMakeFiles\__idf_fingerprint.dir\fingerprint.c.obj.d -o esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj -c C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:19:19: error: expected declaration specifiers or '...' before string constant
+   19 | esp_log_level_set("FINGERPRINT", ESP_LOG_INFO);  // Only show INFO and above for main component
+      |                   ^~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:19:34: error: expected declaration specifiers or '...' before 'ESP_LOG_INFO'
+   19 | esp_log_level_set("FINGERPRINT", ESP_LOG_INFO);  // Only show INFO and above for main component
+      |                                  ^~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:20:19: error: expected declaration specifiers or '...' before string constant
+   20 | esp_log_level_set("*", ESP_LOG_WARN);            // Only show warnings for other components
+      |                   ^~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:20:24: error: expected declaration specifiers or '...' before 'ESP_LOG_WARN'
+   20 | esp_log_level_set("*", ESP_LOG_WARN);            // Only show warnings for other components
+      |                        ^~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_set_command':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:718:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  718 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
+      |                      ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_status_event_handler':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2321:21: warning: unused variable 'bits' [-Wunused-variable]
+ 2321 |         EventBits_t bits = xEventGroupGetBits(enroll_event_group);
+      |                     ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'enroll_fingerprint':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2360:13: warning: unused variable 'position' [-Wunused-variable]
+ 2360 |     uint8_t position = location & 0xFF;  // Get position within page
+      |             ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2779:28: warning: unused variable 'response' [-Wunused-variable]
+ 2779 |     fingerprint_response_t response;
+      |                            ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3024:14: warning: unused variable 'page_id' [-Wunused-variable]
+ 3024 |     uint16_t page_id = template_id;
+      |              ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1707:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
+ 1707 | static fingerprint_template_buffer_t g_template_buffer = {
+      |                                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:29:29: warning: 'g_template_accumulator' defined but not used [-Wunused-variable]
+   29 | static MultiPacketResponse *g_template_accumulator = NULL; // Global template accumulator
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:27:13: warning: 'is_fingerprint_validating' defined but not used [-Wunused-variable]
+   27 | static bool is_fingerprint_validating = false; // Flag to check if fingerprint is validating
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+[2/10] Performing build step for 'bootloader'
+[0/1] Re-running CMake...
+-- Building ESP-IDF components for target esp32s3
+-- Project sdkconfig file C:/Users/MELBEN/esp/fingerprint_scanner/sdkconfig
+-- Compiler supported targets: xtensa-esp-elf
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+-- Bootloader project name: "bootloader" version: 1
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.wdt.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/ld/esp32s3.rom.newlib.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/bootloader/subproject/main/ld/esp32s3/bootloader.ld
+-- Adding linker script C:/Espressif/frameworks/esp-idf-v5.4/components/bootloader/subproject/main/ld/esp32s3/bootloader.rom.ld
+-- Components: bootloader bootloader_support efuse esp_app_format esp_bootloader_format esp_common esp_hw_support esp_rom esp_security esp_system esptool_py freertos hal log main micro-ecc newlib partition_table soc spi_flash xtensa
+-- Component paths: C:/Espressif/frameworks/esp-idf-v5.4/components/bootloader C:/Espressif/frameworks/esp-idf-v5.4/components/bootloader_support C:/Espressif/frameworks/esp-idf-v5.4/components/efuse C:/Espressif/frameworks/esp-idf-v5.4/components/esp_app_format C:/Espressif/frameworks/esp-idf-v5.4/components/esp_bootloader_format C:/Espressif/frameworks/esp-idf-v5.4/components/esp_common C:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support C:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom C:/Espressif/frameworks/esp-idf-v5.4/components/esp_security C:/Espressif/frameworks/esp-idf-v5.4/components/esp_system C:/Espressif/frameworks/esp-idf-v5.4/components/esptool_py C:/Espressif/frameworks/esp-idf-v5.4/components/freertos C:/Espressif/frameworks/esp-idf-v5.4/components/hal C:/Espressif/frameworks/esp-idf-v5.4/components/log C:/Espressif/frameworks/esp-idf-v5.4/components/bootloader/subproject/main C:/Espressif/frameworks/esp-idf-v5.4/components/bootloader/subproject/components/micro-ecc C:/Espressif/frameworks/esp-idf-v5.4/components/newlib C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table C:/Espressif/frameworks/esp-idf-v5.4/components/soc C:/Espressif/frameworks/esp-idf-v5.4/components/spi_flash C:/Espressif/frameworks/esp-idf-v5.4/components/xtensa
+-- Configuring done (3.8s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader
+[1/2] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
+ninja: build stopped: subcommand failed.

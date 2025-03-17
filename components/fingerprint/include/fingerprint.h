@@ -2001,6 +2001,8 @@ typedef enum {
 
 #define TEMPLATE_UPLOAD_COMPLETE_BIT (1 << 3) // Bit 3 for template upload complete
 
+FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, uint8_t target_packet_id);
+
  #ifdef __cplusplus
  }
  #endif

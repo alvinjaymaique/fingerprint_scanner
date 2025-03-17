@@ -1,0 +1,410 @@
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:726:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  726 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
+      |                      ^
+In file included from C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h:201,
+                 from C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_status_event_handler':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:34: error: expected ')' before 'packet'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                                  ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:88: note: in definition of macro 'LOG_FORMAT'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                                                                        ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:182:60: note: to match this '('
+  182 |         if (level==ESP_LOG_ERROR )          { esp_log_write(ESP_LOG_ERROR,      tag, LOG_FORMAT(E, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                            ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+In file included from C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:15:
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:98:31: error: format '%lu' expects a matching 'long unsigned int' argument [-Werror=format=]
+   98 | #define LOG_COLOR_E           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_E'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:182:86: note: in expansion of macro 'LOG_FORMAT'
+  182 |         if (level==ESP_LOG_ERROR )          { esp_log_write(ESP_LOG_ERROR,      tag, LOG_FORMAT(E, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:98:31: error: format '%s' expects a matching 'char *' argument [-Werror=format=]
+   98 | #define LOG_COLOR_E           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_E'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:182:86: note: in expansion of macro 'LOG_FORMAT'
+  182 |         if (level==ESP_LOG_ERROR )          { esp_log_write(ESP_LOG_ERROR,      tag, LOG_FORMAT(E, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:34: error: expected ')' before 'packet'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                                  ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:88: note: in definition of macro 'LOG_FORMAT'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                                                                        ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:183:60: note: to match this '('
+  183 |         else if (level==ESP_LOG_WARN )      { esp_log_write(ESP_LOG_WARN,       tag, LOG_FORMAT(W, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                            ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:99:31: error: format '%lu' expects a matching 'long unsigned int' argument [-Werror=format=]
+   99 | #define LOG_COLOR_W           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_W'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:183:86: note: in expansion of macro 'LOG_FORMAT'
+  183 |         else if (level==ESP_LOG_WARN )      { esp_log_write(ESP_LOG_WARN,       tag, LOG_FORMAT(W, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:99:31: error: format '%s' expects a matching 'char *' argument [-Werror=format=]
+   99 | #define LOG_COLOR_W           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_W'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:183:86: note: in expansion of macro 'LOG_FORMAT'
+  183 |         else if (level==ESP_LOG_WARN )      { esp_log_write(ESP_LOG_WARN,       tag, LOG_FORMAT(W, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:34: error: expected ')' before 'packet'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                                  ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:88: note: in definition of macro 'LOG_FORMAT'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                                                                        ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:184:60: note: to match this '('
+  184 |         else if (level==ESP_LOG_DEBUG )     { esp_log_write(ESP_LOG_DEBUG,      tag, LOG_FORMAT(D, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                            ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:101:31: error: format '%lu' expects a matching 'long unsigned int' argument [-Werror=format=]
+  101 | #define LOG_COLOR_D           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_D'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:184:86: note: in expansion of macro 'LOG_FORMAT'
+  184 |         else if (level==ESP_LOG_DEBUG )     { esp_log_write(ESP_LOG_DEBUG,      tag, LOG_FORMAT(D, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:101:31: error: format '%s' expects a matching 'char *' argument [-Werror=format=]
+  101 | #define LOG_COLOR_D           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_D'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:184:86: note: in expansion of macro 'LOG_FORMAT'
+  184 |         else if (level==ESP_LOG_DEBUG )     { esp_log_write(ESP_LOG_DEBUG,      tag, LOG_FORMAT(D, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:34: error: expected ')' before 'packet'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                                  ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:88: note: in definition of macro 'LOG_FORMAT'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                                                                        ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:185:60: note: to match this '('
+  185 |         else if (level==ESP_LOG_VERBOSE )   { esp_log_write(ESP_LOG_VERBOSE,    tag, LOG_FORMAT(V, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                            ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:102:31: error: format '%lu' expects a matching 'long unsigned int' argument [-Werror=format=]
+  102 | #define LOG_COLOR_V           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_V'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:185:86: note: in expansion of macro 'LOG_FORMAT'
+  185 |         else if (level==ESP_LOG_VERBOSE )   { esp_log_write(ESP_LOG_VERBOSE,    tag, LOG_FORMAT(V, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:102:31: error: format '%s' expects a matching 'char *' argument [-Werror=format=]
+  102 | #define LOG_COLOR_V           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_V'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:185:86: note: in expansion of macro 'LOG_FORMAT'
+  185 |         else if (level==ESP_LOG_VERBOSE )   { esp_log_write(ESP_LOG_VERBOSE,    tag, LOG_FORMAT(V, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:34: error: expected ')' before 'packet'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                                  ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:88: note: in definition of macro 'LOG_FORMAT'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                                                                        ^~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:186:60: note: to match this '('
+  186 |         else                                { esp_log_write(ESP_LOG_INFO,       tag, LOG_FORMAT(I, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                            ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:100:31: error: format '%lu' expects a matching 'long unsigned int' argument [-Werror=format=]
+  100 | #define LOG_COLOR_I           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_I'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:186:86: note: in expansion of macro 'LOG_FORMAT'
+  186 |         else                                { esp_log_write(ESP_LOG_INFO,       tag, LOG_FORMAT(I, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_color.h:100:31: error: format '%s' expects a matching 'char *' argument [-Werror=format=]
+  100 | #define LOG_COLOR_I           ""
+      |                               ^~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:62:37: note: in expansion of macro 'LOG_COLOR_I'
+   62 | #define LOG_FORMAT(letter, format)  LOG_COLOR_ ## letter #letter " (%" PRIu32 ") %s: " format LOG_RESET_COLOR "\n"
+      |                                     ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:186:86: note: in expansion of macro 'LOG_FORMAT'
+  186 |         else                                { esp_log_write(ESP_LOG_INFO,       tag, LOG_FORMAT(I, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                      ^~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:205:38: note: in expansion of macro 'ESP_LOG_LEVEL'
+  205 |         if (_ESP_LOG_ENABLED(level)) ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__); \
+      |                                      ^~~~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:115:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  115 | #define ESP_LOGD( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_DEBUG,   tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:26:32: note: in expansion of macro 'ESP_LOGD'
+   26 | #define FP_LOGD(tag, fmt, ...) ESP_LOGD(tag, fmt, ##__VA_ARGS__)
+      |                                ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2087:21: note: in expansion of macro 'FP_LOGD'
+ 2087 |                     FP_LOGD(TAG, packet->parameters, packet->length);
+      |                     ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2239:21: warning: unused variable 'bits' [-Wunused-variable]
+ 2239 |         EventBits_t bits = xEventGroupGetBits(enroll_event_group);
+      |                     ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'enroll_fingerprint':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2278:13: warning: unused variable 'position' [-Wunused-variable]
+ 2278 |     uint8_t position = location & 0xFF;  // Get position within page
+      |             ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2697:28: warning: unused variable 'response' [-Wunused-variable]
+ 2697 |     fingerprint_response_t response;
+      |                            ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2942:14: warning: unused variable 'page_id' [-Wunused-variable]
+ 2942 |     uint16_t page_id = template_id;
+      |              ^~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1654:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
+ 1654 | static fingerprint_template_buffer_t g_template_buffer = {
+      |                                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:37:29: warning: 'g_template_accumulator' defined but not used [-Wunused-variable]
+   37 | static MultiPacketResponse *g_template_accumulator = NULL; // Global template accumulator
+      |                             ^~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:35:13: warning: 'is_fingerprint_validating' defined but not used [-Wunused-variable]
+   35 | static bool is_fingerprint_validating = false; // Flag to check if fingerprint is validating
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+cc1.exe: some warnings being treated as errors
+ninja: build stopped: subcommand failed.
+ninja failed with exit code 1, output of the command is in the C:\Users\MELBEN\esp\fingerprint_scanner\build\log\idf_py_stderr_output_13384 and C:\Users\MELBEN\esp\fingerprint_scanner\build\log\idf_py_stdout_output_13384
