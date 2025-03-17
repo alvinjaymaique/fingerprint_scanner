@@ -258,31 +258,31 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             //     ESP_LOG_INFO);
             // ESP_LOGI(TAG, "Template uploaded Packet ID: 0x%02X", event.packet.packet_id);
             // ESP_LOG_BUFFER_HEX("Template uploaded Parameters", event.packet.parameters, event.packet.length);
-            if (event.packet.packet_id == 0x08) {
-                // This is the final packet - print the complete template
-                if (event.data.template_data.data && event.data.template_data.size > 0) {
-                    ESP_LOGI(TAG, "Complete template data (%d bytes):", event.data.template_data.size);
+    
+            // Check if this event contains actual template data
+            if (event.data.template_data.data && event.data.template_data.size > 0) {
+                ESP_LOGI(TAG, "Complete template data (%d bytes):", event.data.template_data.size);
+                
+                // // Print data in manageable chunks (16 bytes per row)
+                // for (size_t offset = 0; offset < event.data.template_data.size; offset += 16) {
+                //     size_t chunk_size = (event.data.template_data.size - offset < 16) ? 
+                //                     event.data.template_data.size - offset : 16;
                     
-                    // Print data in manageable chunks (64 bytes at a time)
-                    for (size_t offset = 0; offset < event.data.template_data.size; offset += 64) {
-                        // Use inline expression instead of min() function
-                        size_t chunk_size = (event.data.template_data.size - offset < 64) ? 
-                                             event.data.template_data.size - offset : 64;
-                        
-                        ESP_LOG_BUFFER_HEX_LEVEL(TAG, 
-                                           event.data.template_data.data + offset, 
-                                           chunk_size, ESP_LOG_INFO);
-                    }
-                    
-                    // Now free the data without referencing g_template_buffer
-                    heap_caps_free(event.data.template_data.data);
-                }
+                //     ESP_LOG_BUFFER_HEX_LEVEL(TAG, 
+                //                     event.data.template_data.data + offset, 
+                //                     chunk_size, ESP_LOG_INFO);
+                // }
+                ESP_LOG_BUFFER_HEXDUMP("Template Data", event.data.template_data.data, event.data.template_data.size, ESP_LOG_INFO);
+                
+                // Free the memory when we're done
+                heap_caps_free(event.data.template_data.data);
+            } 
+            else if (event.packet.packet_id == 0x08) {
+                ESP_LOGI(TAG, "Final packet received (0x08)");
             } else {
-                // For individual packets, just print basic info
-                ESP_LOGI(TAG, "Template packet: ID=0x%02X, Length=%d", 
-                         event.packet.packet_id, event.packet.length);
+                ESP_LOGI(TAG, "Template packet: ID=0x%02X", event.packet.packet_id);
             }
-            ESP_LOGI(TAG, "Fingerprint template uploaded successfully. Status: 0x%02X", event.status);
+            ESP_LOGI(TAG, "Fingerprint template uploaded successfully");
             break;
         case EVENT_TEMPLATE_EXISTS:
             ESP_LOGI(TAG, "Fingerprint template successfully loaded into buffer. Status: 0x%02X", event.status);

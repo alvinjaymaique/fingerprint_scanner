@@ -1002,6 +1002,7 @@ MultiPacketResponse* fingerprint_read_response(void) {
     if (bytes_read > 0) {
         ESP_LOGI(TAG, "Read %d bytes, buffer now contains %d bytes", bytes_read, buffer_pos);
         // ESP_LOG_BUFFER_HEX(TAG, buffer, min(buffer_pos, 256));  // Only show first 256 bytes to avoid log spam
+        ESP_LOG_BUFFER_HEX_LEVEL(TAG, buffer, min(buffer_pos, 256), ESP_LOG_DEBUG);
     }
     
     // Special bulk processing for template upload data
@@ -1041,12 +1042,29 @@ MultiPacketResponse* fingerprint_read_response(void) {
                 MultiPacketResponse *response = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
                 if (!response) return NULL;
                 
+                // Initialize the enhanced structure fields properly
                 response->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * 2, MALLOC_CAP_8BIT);
                 if (!response->packets) {
                     heap_caps_free(response);
                     return NULL;
                 }
                 response->count = 0;
+                response->collecting_template = true;
+                response->template_complete = found_end_marker || found_natural_final;
+                response->start_time = current_time;
+                
+                // Allocate and store template data
+                response->template_data = heap_caps_malloc(buffer_pos, MALLOC_CAP_8BIT);
+                if (response->template_data) {
+                    memcpy(response->template_data, buffer, buffer_pos);
+                    response->template_size = buffer_pos;
+                    response->template_capacity = buffer_pos;
+                    ESP_LOGI(TAG, "Copied %d bytes to template buffer", buffer_pos);
+                } else {
+                    response->template_data = NULL;
+                    response->template_size = 0;
+                    response->template_capacity = 0;
+                }
                 
                 // Create data packet with the template data
                 FingerprintPacket *data_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
@@ -1103,6 +1121,14 @@ MultiPacketResponse* fingerprint_read_response(void) {
         return NULL;
     }
     response->count = 0;
+    
+    // Initialize the enhanced structure fields for non-template packets
+    response->collecting_template = false;
+    response->template_complete = false;
+    response->template_data = NULL;
+    response->template_size = 0;
+    response->template_capacity = 0;
+    response->start_time = current_time;
     
     // Process buffer
     size_t i = 0;
@@ -1299,6 +1325,9 @@ buffer_shift:
     
     if (response->count == 0) {
         ESP_LOGW(TAG, "No complete packets found, returning NULL");
+        if (response->template_data) {
+            heap_caps_free(response->template_data);
+        }
         heap_caps_free(response->packets);
         heap_caps_free(response);
         return NULL;
@@ -1338,31 +1367,271 @@ buffer_shift:
 // }
 
 void read_response_task(void *pvParameter) {
+    static MultiPacketResponse *g_template_accumulator = NULL;  // Global accumulator for template data
+    uint32_t current_time = 0;
+    
     while (1) {
+        current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
         MultiPacketResponse *response = fingerprint_read_response();
+        
         if (response) {
-            // Process each packet
+            // Check if this is a template-related response
+            bool is_template_response = false;
+            bool has_final_packet = false;
+
+            // Add debug logging for ALL received packets
             for (size_t i = 0; i < response->count; i++) {
-                fingerprint_response_t event = {0};
-                memcpy(&event.packet, response->packets[i], sizeof(FingerprintPacket));
-                
-                // Try to send to queue with increased timeout
-                if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(500)) != pdPASS) {
-                    ESP_LOGW(TAG, "Response queue full, clearing old messages");
-                    xQueueReset(fingerprint_response_queue);
-                    if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
-                        ESP_LOGE(TAG, "Still unable to send to queue after reset");
+                ESP_LOGI(TAG, "UART RECEIVED: Packet ID=0x%02X, Length=%d", 
+                        response->packets[i]->packet_id, 
+                        response->packets[i]->length);
+            }
+            
+            // Check template data presence
+            if (response->template_data) {
+                ESP_LOGI(TAG, "UART TEMPLATE: Received %d bytes of template data", 
+                        response->template_size);
+            }
+            
+            for (size_t i = 0; i < response->count; i++) {
+                if (response->packets[i]->packet_id == 0x02) {
+                    is_template_response = true;
+                }
+                if (response->packets[i]->packet_id == 0x08) {
+                    is_template_response = true;
+                    has_final_packet = true;
+                }
+            }
+            
+            // Template accumulation mode
+            if (is_template_response && last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
+                // Initialize accumulator if not already done
+                if (g_template_accumulator == NULL) {
+                    g_template_accumulator = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
+                    if (g_template_accumulator) {
+                        g_template_accumulator->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * 8, MALLOC_CAP_8BIT);
+                        g_template_accumulator->count = 0;
+                        g_template_accumulator->collecting_template = true;
+                        g_template_accumulator->template_complete = false;
+                        g_template_accumulator->start_time = current_time;
+                        g_template_accumulator->template_data = heap_caps_malloc(4096, MALLOC_CAP_8BIT); // 4KB initial capacity
+                        g_template_accumulator->template_size = 0;
+                        g_template_accumulator->template_capacity = 4096;
+                        
+                        ESP_LOGI(TAG, "Template accumulator initialized");
+                    } else {
+                        ESP_LOGE(TAG, "Failed to allocate template accumulator");
                     }
                 }
                 
-                // Free the packet
-                heap_caps_free(response->packets[i]);
+                // Process the template data in this response
+                if (g_template_accumulator && response->template_data) {
+                    // Check if we need to expand the template buffer
+                    if (g_template_accumulator->template_size + response->template_size > 
+                        g_template_accumulator->template_capacity) {
+                        
+                        size_t new_capacity = g_template_accumulator->template_capacity * 2;
+                        uint8_t *new_buffer = heap_caps_realloc(g_template_accumulator->template_data, 
+                                                               new_capacity, 
+                                                               MALLOC_CAP_8BIT);
+                        
+                        if (new_buffer) {
+                            g_template_accumulator->template_data = new_buffer;
+                            g_template_accumulator->template_capacity = new_capacity;
+                            ESP_LOGI(TAG, "Expanded template buffer to %d bytes", new_capacity);
+                        } else {
+                            ESP_LOGW(TAG, "Failed to expand template buffer");
+                        }
+                    }
+                    
+                    // Append the new template data
+                    if (g_template_accumulator->template_data && 
+                        g_template_accumulator->template_size + response->template_size <= 
+                        g_template_accumulator->template_capacity) {
+                        
+                        memcpy(g_template_accumulator->template_data + g_template_accumulator->template_size,
+                               response->template_data,
+                               response->template_size);
+                               
+                        g_template_accumulator->template_size += response->template_size;
+                        
+                        ESP_LOGI(TAG, "Added %d bytes to template accumulator (total: %d bytes)",
+                                response->template_size, g_template_accumulator->template_size);
+                    }
+                }
+                
+                // Add all template-related packets to the accumulator
+                for (size_t i = 0; i < response->count; i++) {
+                    if (response->packets[i]->packet_id == 0x02 || response->packets[i]->packet_id == 0x08) {
+                        // Make a copy of the packet for the accumulator
+                        FingerprintPacket *packet_copy = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                        if (packet_copy) {
+                            memcpy(packet_copy, response->packets[i], sizeof(FingerprintPacket));
+                            
+                            // Add to accumulator
+                            if (g_template_accumulator->count % 8 == 0 && g_template_accumulator->count > 0) {
+                                size_t new_size = g_template_accumulator->count + 8;
+                                FingerprintPacket **new_packets = heap_caps_realloc(
+                                    g_template_accumulator->packets,
+                                    sizeof(FingerprintPacket*) * new_size,
+                                    MALLOC_CAP_8BIT);
+                                    
+                                if (new_packets) {
+                                    g_template_accumulator->packets = new_packets;
+                                } else {
+                                    ESP_LOGW(TAG, "Failed to resize accumulator packet array");
+                                    heap_caps_free(packet_copy);
+                                    continue;
+                                }
+                            }
+                            
+                            g_template_accumulator->packets[g_template_accumulator->count++] = packet_copy;
+                        }
+                    }
+                }
+                
+                // Check if this is the final packet or if template accumulation is complete
+                if (has_final_packet || response->template_complete) {
+                    g_template_accumulator->template_complete = true;
+                    
+                    // Create a fingerprint event with the complete template data
+                    fingerprint_event_t template_event = {
+                        .type = EVENT_TEMPLATE_UPLOADED,
+                        .status = FINGERPRINT_OK,
+                        .command = last_sent_command
+                    };
+                    
+                    // Set packet ID to 0x08 (final template packet)
+                    template_event.packet.packet_id = 0x08;
+                    
+                    // Copy the template data to the event
+                    if (g_template_accumulator->template_size > 0) {
+                        uint8_t* template_copy = heap_caps_malloc(g_template_accumulator->template_size, MALLOC_CAP_8BIT);
+                        if (template_copy) {
+                            memcpy(template_copy, g_template_accumulator->template_data, g_template_accumulator->template_size);
+                            template_event.data.template_data.data = template_copy;
+                            template_event.data.template_data.size = g_template_accumulator->template_size;
+                            template_event.data.template_data.is_complete = true;
+                            
+                            ESP_LOGI(TAG, "Triggering template event with %d bytes of complete data", 
+                                    g_template_accumulator->template_size);
+                        }
+                    }
+                    
+                    // Trigger the event
+                    trigger_fingerprint_event(template_event);
+                    
+                    // Signal completion
+                    if (enroll_event_group) {
+                        xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
+                    }
+                    
+                    // Clean up the accumulator
+                    for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                        heap_caps_free(g_template_accumulator->packets[i]);
+                    }
+                    
+                    if (g_template_accumulator->template_data) {
+                        heap_caps_free(g_template_accumulator->template_data);
+                    }
+                    
+                    heap_caps_free(g_template_accumulator->packets);
+                    heap_caps_free(g_template_accumulator);
+                    g_template_accumulator = NULL;
+                    
+                    ESP_LOGI(TAG, "Template accumulation complete and event triggered");
+                }
+                
+                // Free the response
+                for (size_t i = 0; i < response->count; i++) {
+                    heap_caps_free(response->packets[i]);
+                }
+                
+                if (response->template_data) {
+                    heap_caps_free(response->template_data);
+                }
+                
+                heap_caps_free(response->packets);
+                heap_caps_free(response);
+            } else {
+                // Standard response processing for non-template packets
+                for (size_t i = 0; i < response->count; i++) {
+                    fingerprint_response_t event = {0};
+                    memcpy(&event.packet, response->packets[i], sizeof(FingerprintPacket));
+                    
+                    // Try to send to queue with increased timeout
+                    if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(500)) != pdPASS) {
+                        ESP_LOGW(TAG, "Response queue full, clearing old messages");
+                        xQueueReset(fingerprint_response_queue);
+                        if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
+                            ESP_LOGE(TAG, "Still unable to send to queue after reset");
+                        }
+                    }
+                    
+                    // Free the packet
+                    heap_caps_free(response->packets[i]);
+                }
+                
+                // Free the response structure
+                if (response->template_data) {
+                    heap_caps_free(response->template_data);
+                }
+                heap_caps_free(response->packets);
+                heap_caps_free(response);
             }
-
-            // Free the response structure
-            heap_caps_free(response->packets);
-            heap_caps_free(response);
         }
+        
+        // Check for template accumulation timeout
+        if (g_template_accumulator && 
+            (current_time - g_template_accumulator->start_time > 10000)) { // 10 second timeout
+            
+            ESP_LOGW(TAG, "Template accumulation timeout after 10 seconds");
+            
+            // If we have collected enough data, consider it complete
+            if (g_template_accumulator->template_size > 500) {
+                // Create an event with the data collected so far
+                fingerprint_event_t template_event = {
+                    .type = EVENT_TEMPLATE_UPLOADED,
+                    .status = FINGERPRINT_OK,
+                    .command = last_sent_command
+                };
+                
+                // Copy the template data to the event
+                uint8_t* template_copy = heap_caps_malloc(g_template_accumulator->template_size, MALLOC_CAP_8BIT);
+                if (template_copy) {
+                    memcpy(template_copy, g_template_accumulator->template_data, g_template_accumulator->template_size);
+                    template_event.data.template_data.data = template_copy;
+                    template_event.data.template_data.size = g_template_accumulator->template_size;
+                    template_event.data.template_data.is_complete = true;
+                    
+                    ESP_LOGI(TAG, "Triggering timeout template event with %d bytes of data", 
+                            g_template_accumulator->template_size);
+                    
+                    // Trigger the event
+                    trigger_fingerprint_event(template_event);
+                    
+                    // Signal completion
+                    if (enroll_event_group) {
+                        xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
+                    }
+                }
+            }
+            
+            // Clean up the accumulator
+            for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                heap_caps_free(g_template_accumulator->packets[i]);
+            }
+            
+            if (g_template_accumulator->template_data) {
+                heap_caps_free(g_template_accumulator->template_data);
+            }
+            
+            heap_caps_free(g_template_accumulator->packets);
+            heap_caps_free(g_template_accumulator);
+            g_template_accumulator = NULL;
+            
+            ESP_LOGI(TAG, "Template accumulator cleared after timeout");
+        }
+        
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
