@@ -1412,21 +1412,47 @@ FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, 
                     packet->length = 0;
                 }
                 
-                // Extract parameters (content)
-                size_t param_start = i + 9;
-                size_t param_len = 0;
+                // Determine total packet size and validate
+                size_t packet_start = i;
+                size_t packet_total_size = 9 + packet->length; // Header(2) + Address(4) + PacketID(1) + Length(2) + Content+Checksum
                 
-                if (packet->length > 2 && param_start < data_len) {
-                    param_len = min(packet->length - 2, sizeof(packet->parameters));
-                    param_len = min(param_len, data_len - param_start);
+                if (packet_start + packet_total_size <= data_len) {
+                    // Calculate parameter length (total length minus 2 for checksum)
+                    size_t param_len = packet->length - 2;
+                    size_t param_start = i + 9;
                     
+                    // Copy parameter data (excluding checksum)
                     if (param_len > 0) {
+                        param_len = min(param_len, sizeof(packet->parameters));
                         memcpy(packet->parameters, data + param_start, param_len);
                     }
+                    
+                    // Extract checksum (last 2 bytes of packet)
+                    size_t checksum_pos = packet_start + packet_total_size - 2;
+                    packet->checksum = (data[checksum_pos] << 8) | data[checksum_pos + 1];
+                    
+                    // Verify the checksum
+                    uint16_t calculated_checksum = packet->packet_id;
+                    calculated_checksum += (packet->length >> 8) & 0xFF;
+                    calculated_checksum += packet->length & 0xFF;
+                    
+                    for (size_t j = 0; j < param_len; j++) {
+                        calculated_checksum += packet->parameters[j];
+                    }
+                    
+                    ESP_LOGI(TAG, "Packet ID=0x%02X: Extracted checksum=0x%04X, Calculated checksum=0x%04X", 
+                             packet->packet_id, packet->checksum, calculated_checksum);
+                    
+                    if (packet->checksum != calculated_checksum) {
+                        ESP_LOGW(TAG, "Checksum mismatch for packet ID=0x%02X", packet->packet_id);
+                    }
+                    
+                    return packet;
+                } else {
+                    ESP_LOGW(TAG, "Packet extends beyond data buffer");
+                    heap_caps_free(packet);
+                    return NULL;
                 }
-                
-                ESP_LOGI(TAG, "Extracted packet ID=0x%02X from raw data at offset %d", target_packet_id, i);
-                return packet;
             }
         }
     }
