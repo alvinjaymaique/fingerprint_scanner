@@ -1603,7 +1603,110 @@ void read_response_task(void *pvParameter) {
                                 
                                 ESP_LOGI(TAG, "Found final packet signature (EF 01 FF FF FF FF 08) at position %d", i);
                                 
-                                // Create a new final packet
+                                // Before truncating existing packets, log what we found for debugging
+                                ESP_LOGI(TAG, "Raw bytes at pattern location: %02X %02X %02X %02X %02X %02X %02X %02X",
+                                        g_template_accumulator->template_data[i], 
+                                        g_template_accumulator->template_data[i+1],
+                                        g_template_accumulator->template_data[i+2],
+                                        g_template_accumulator->template_data[i+3],
+                                        g_template_accumulator->template_data[i+4],
+                                        g_template_accumulator->template_data[i+5],
+                                        g_template_accumulator->template_data[i+6],
+                                        g_template_accumulator->template_data[i+7]);
+                                
+                                // CRITICAL STEP: Create a copy of the embedded final packet data before truncating
+                                uint8_t* final_packet_data = NULL;
+                                size_t final_packet_data_len = 0;
+                                
+                                // Determine length from the packet structure if available
+                                if (i+8 < g_template_accumulator->template_size) {
+                                    uint16_t packet_length = (g_template_accumulator->template_data[i+7] << 8) | 
+                                                           g_template_accumulator->template_data[i+8];
+                                    
+                                    // The total size we need to preserve is: header(7) + length(2) + data(packet_length-2) + checksum(2)
+                                    size_t total_size = 7 + 2 + (packet_length > 2 ? packet_length - 2 : 0) + 2;
+                                    
+                                    if (i + total_size <= g_template_accumulator->template_size) {
+                                        final_packet_data_len = total_size;
+                                        final_packet_data = heap_caps_malloc(final_packet_data_len, MALLOC_CAP_8BIT);
+                                        
+                                        if (final_packet_data) {
+                                            memcpy(final_packet_data, &g_template_accumulator->template_data[i], final_packet_data_len);
+                                            ESP_LOGI(TAG, "Preserved %d bytes of final packet data", final_packet_data_len);
+                                            ESP_LOG_BUFFER_HEX("Preserved Final Packet", final_packet_data, final_packet_data_len);
+                                        }
+                                    }
+                                }
+                                
+                                // CRITICAL STEP: Truncate the raw template data at the signature position
+                                size_t original_size = g_template_accumulator->template_size;
+                                g_template_accumulator->template_size = i;
+                                ESP_LOGI(TAG, "Truncated raw template data buffer from %d to %d bytes", 
+                                        original_size, g_template_accumulator->template_size);
+                                
+                                // Find the packet containing this signature and truncate it
+                                for (size_t p = 0; p < g_template_accumulator->count; p++) {
+                                    // Calculate data offset within template buffer
+                                    size_t data_offset = 0;
+                                    for (size_t k = 0; k < p; k++) {
+                                        if (g_template_accumulator->packets[k]->length > 2) {
+                                            data_offset += g_template_accumulator->packets[k]->length - 2;
+                                        }
+                                    }
+                                    
+                                    // Calculate data end for this packet
+                                    size_t packet_data_length = g_template_accumulator->packets[p]->length > 2 ? 
+                                                            g_template_accumulator->packets[p]->length - 2 : 0;
+                                    size_t data_end = data_offset + packet_data_length;
+                                    
+                                    // Check if signature is within this packet's data
+                                    if (i >= data_offset && i < data_end) {
+                                        ESP_LOGI(TAG, "Found packet %d containing final packet data at offset %d, truncating", 
+                                                p, i);
+                                        
+                                        // Calculate new packet length (truncate at signature position)
+                                        size_t new_data_length = i - data_offset;
+                                        size_t new_packet_length = new_data_length + 2; // Add checksum bytes
+                                        size_t old_packet_length = g_template_accumulator->packets[p]->length;
+                                        
+                                        // Update the packet length
+                                        g_template_accumulator->packets[p]->length = new_packet_length;
+                                        
+                                        // Clear out any remaining data in the parameters array
+                                        if (new_data_length < sizeof(g_template_accumulator->packets[p]->parameters)) {
+                                            memset(
+                                                &g_template_accumulator->packets[p]->parameters[new_data_length],
+                                                0,
+                                                sizeof(g_template_accumulator->packets[p]->parameters) - new_data_length
+                                            );
+                                        }
+                                        
+                                        // Recalculate checksum
+                                        uint16_t calc_checksum = g_template_accumulator->packets[p]->packet_id;
+                                        calc_checksum += (new_packet_length >> 8) & 0xFF;
+                                        calc_checksum += new_packet_length & 0xFF;
+                                        
+                                        for (size_t j = 0; j < new_data_length; j++) {
+                                            calc_checksum += g_template_accumulator->packets[p]->parameters[j];
+                                        }
+                                        
+                                        g_template_accumulator->packets[p]->checksum = calc_checksum;
+                                        
+                                        ESP_LOGI(TAG, "Truncated packet %d from %d to %d bytes with new checksum 0x%04X", 
+                                                p, old_packet_length, new_packet_length, calc_checksum);
+                                        
+                                        // Log truncated packet data
+                                        if (new_data_length > 0) {
+                                            ESP_LOGI(TAG, "Truncated packet data (%d bytes):", new_data_length);
+                                            ESP_LOG_BUFFER_HEX("Truncated Packet", g_template_accumulator->packets[p]->parameters, new_data_length);
+                                        }
+                                        
+                                        found_raw_final_packet = true;
+                                        break;
+                                    }
+                                }
+                                
+                                // Create a new final packet from the extracted data
                                 FingerprintPacket* final_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
                                 if (final_packet) {
                                     memset(final_packet, 0, sizeof(FingerprintPacket));
@@ -1611,27 +1714,27 @@ void read_response_task(void *pvParameter) {
                                     final_packet->address = 0xFFFFFFFF;
                                     final_packet->packet_id = 0x08;  // Final packet ID
                                     
-                                    // Extract length if available
-                                    if (i + 8 < g_template_accumulator->template_size) {
-                                        final_packet->length = (g_template_accumulator->template_data[i+7] << 8) | 
-                                                               g_template_accumulator->template_data[i+8];
+                                    // Extract length from stored data if available
+                                    if (final_packet_data && final_packet_data_len > 8) {
+                                        final_packet->length = (final_packet_data[7] << 8) | final_packet_data[8];
                                     } else {
                                         final_packet->length = 2;  // Default length
                                     }
                                     
                                     // Copy parameter data if available
-                                    size_t param_start = i + 9;  // Start of parameters
+                                    size_t param_start = 9;  // Start of parameters in the preserved data
                                     size_t param_len = 0;
                                     
-                                    if (final_packet->length > 2) {
+                                    if (final_packet_data && final_packet_data_len > param_start && final_packet->length > 2) {
                                         param_len = final_packet->length - 2; // Subtract checksum bytes
                                         param_len = min(param_len, sizeof(final_packet->parameters));
                                         
                                         // Make sure we don't exceed buffer
-                                        if (param_start + param_len <= g_template_accumulator->template_size) {
+                                        if (param_start + param_len <= final_packet_data_len) {
                                             memcpy(final_packet->parameters, 
-                                                   &g_template_accumulator->template_data[param_start], 
-                                                   param_len);
+                                                 &final_packet_data[param_start], 
+                                                 param_len);
+                                            ESP_LOGI(TAG, "Copied %d bytes of parameter data to new final packet", param_len);
                                         }
                                     }
                                     
@@ -1657,15 +1760,21 @@ void read_response_task(void *pvParameter) {
                                     if (new_packets) {
                                         g_template_accumulator->packets = new_packets;
                                         g_template_accumulator->packets[g_template_accumulator->count++] = final_packet;
-                                        ESP_LOGI(TAG, "Added extracted final packet (ID=0x08) with checksum 0x%04X", 
-                                                 final_packet->checksum);
+                                        ESP_LOGI(TAG, "Added extracted final packet (ID=0x08) with length %d and checksum 0x%04X", 
+                                                final_packet->length, final_packet->checksum);
                                         found_final_packet = true;
                                     } else {
                                         // Failed to resize array
                                         heap_caps_free(final_packet);
                                     }
+                                    
+                                    // Clean up preserved data buffer
+                                    if (final_packet_data) {
+                                        heap_caps_free(final_packet_data);
+                                    }
                                 }
-                                break;
+                                
+                                break;  // Exit loop after handling first occurrence
                             }
                         }
                     }
@@ -1708,6 +1817,199 @@ void read_response_task(void *pvParameter) {
                     if (template_complete) {
                         // Log accumulated packets for debugging
                         ESP_LOGI(TAG, "Template accumulator has %d packets:", g_template_accumulator->count);
+                         
+                        // FINAL CHECK: Scan all packets for embedded final packet and fix before processing
+                        bool found_valid_final_packet = false;
+                        size_t final_packet_index = 0;
+                        
+                        // First check if we already have a valid final packet
+                        for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                            if (g_template_accumulator->packets[i] != NULL && 
+                                g_template_accumulator->packets[i]->packet_id == 0x08 &&
+                                g_template_accumulator->packets[i]->length > 2) {
+                                // We have a valid final packet already
+                                found_valid_final_packet = true;
+                                final_packet_index = i;
+                                ESP_LOGI(TAG, "Found existing valid final packet at index %d with length %d", 
+                                         i, g_template_accumulator->packets[i]->length);
+                                break;
+                            }
+                        }
+                        
+                        // Remove any empty or invalid final packets
+                        for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                            if (g_template_accumulator->packets[i] != NULL && 
+                                g_template_accumulator->packets[i]->packet_id == 0x08 &&
+                                g_template_accumulator->packets[i]->length <= 2) {
+                                // This is an empty/invalid final packet - mark for removal
+                                ESP_LOGI(TAG, "Removing empty final packet at index %d", i);
+                                heap_caps_free(g_template_accumulator->packets[i]);
+                                g_template_accumulator->packets[i] = NULL;
+                            }
+                        }
+                        
+                        // Compact the array to remove NULL entries
+                        if (!found_valid_final_packet) {
+                            size_t write_index = 0;
+                            for (size_t read_index = 0; read_index < g_template_accumulator->count; read_index++) {
+                                if (g_template_accumulator->packets[read_index] != NULL) {
+                                    g_template_accumulator->packets[write_index++] = g_template_accumulator->packets[read_index];
+                                }
+                            }
+                            size_t new_count = write_index;
+                            for (size_t i = new_count; i < g_template_accumulator->count; i++) {
+                                g_template_accumulator->packets[i] = NULL;
+                            }
+                            g_template_accumulator->count = new_count;
+                            ESP_LOGI(TAG, "Compacted packet array, new count: %d", g_template_accumulator->count);
+                        }
+                     
+                        // Now scan for embedded final packet in data packets
+                        for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                            if (g_template_accumulator->packets[i] != NULL && 
+                                g_template_accumulator->packets[i]->packet_id == 0x02 &&  // Only check data packets
+                                g_template_accumulator->packets[i]->length > 9) { // Need at least 7 bytes for signature + 2 for length
+                                
+                                FingerprintPacket *current = g_template_accumulator->packets[i];
+                                size_t param_len = current->length - 2;
+                                bool found_embedded = false;
+                                size_t embedded_pos = 0;
+                                
+                                // Scan for embedded final packet signature
+                                for (size_t scan = 0; scan < param_len - 7; scan++) {
+                                    if (current->parameters[scan] == 0xEF && 
+                                        current->parameters[scan+1] == 0x01 &&
+                                        current->parameters[scan+2] == 0xFF &&
+                                        current->parameters[scan+3] == 0xFF &&
+                                        current->parameters[scan+4] == 0xFF &&
+                                        current->parameters[scan+5] == 0xFF &&
+                                        current->parameters[scan+6] == 0x08) {
+                                        
+                                        found_embedded = true;
+                                        embedded_pos = scan;
+                                        ESP_LOGI(TAG, "CRITICAL: Found embedded final packet in packet %d at position %d", i, scan);
+                                        break;
+                                    }
+                                }
+                                
+                                if (found_embedded) {
+                                    // 1. Truncate this packet
+                                    size_t new_data_length = embedded_pos;
+                                    size_t old_packet_length = current->length;
+                                    size_t new_packet_length = new_data_length + 2; // Add checksum bytes
+                                    
+                                    // Update packet length
+                                    current->length = new_packet_length;
+                                    
+                                    // Clear out remaining data
+                                    if (new_data_length < sizeof(current->parameters)) {
+                                        memset(
+                                            &current->parameters[new_data_length],
+                                            0,
+                                            sizeof(current->parameters) - new_data_length
+                                        );
+                                    }
+                                    
+                                    // Recalculate checksum
+                                    uint16_t calc_checksum = current->packet_id;
+                                    calc_checksum += (new_packet_length >> 8) & 0xFF;
+                                    calc_checksum += new_packet_length & 0xFF;
+                                    
+                                    for (size_t j = 0; j < new_data_length; j++) {
+                                        calc_checksum += current->parameters[j];
+                                    }
+                                    
+                                    current->checksum = calc_checksum;
+                                    
+                                    ESP_LOGI(TAG, "Fixed packet %d by truncating from %d to %d bytes with new checksum 0x%04X", 
+                                            i, old_packet_length, new_packet_length, calc_checksum);
+                                    
+                                    // Skip creating a new final packet if we already have a valid one
+                                    if (found_valid_final_packet) {
+                                        ESP_LOGI(TAG, "Skipping creation of new final packet - already have a valid one");
+                                        continue;
+                                    }
+                                    
+                                    // 2. Create a new final packet
+                                    FingerprintPacket* final_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                                    if (final_packet) {
+                                        memset(final_packet, 0, sizeof(FingerprintPacket));
+                                        final_packet->header = 0xEF01;
+                                        final_packet->address = 0xFFFFFFFF;
+                                        final_packet->packet_id = 0x08;  // Final packet ID
+                                        
+                                        // Extract length if available
+                                        if (embedded_pos + 8 < param_len) {
+                                            final_packet->length = (current->parameters[embedded_pos+7] << 8) | 
+                                                                current->parameters[embedded_pos+8];
+                                            ESP_LOGI(TAG, "Extracted length from embedded final packet: %d", final_packet->length);
+                                        } else {
+                                            final_packet->length = 2;  // Default length
+                                            ESP_LOGI(TAG, "Using default length for final packet: 2");
+                                        }
+                                        
+                                        // Copy parameter data if available
+                                        size_t param_start = embedded_pos + 9;  // Position after header + packetID + length
+                                        size_t final_param_len = 0;
+                                        
+                                        if (final_packet->length > 2 && param_start < param_len) {
+                                            final_param_len = final_packet->length - 2;
+                                            final_param_len = min(final_param_len, sizeof(final_packet->parameters));
+                                            final_param_len = min(final_param_len, param_len - param_start);
+                                            
+                                            if (final_param_len > 0) {
+                                                memcpy(final_packet->parameters, 
+                                                    &current->parameters[param_start], 
+                                                    final_param_len);
+                                                ESP_LOGI(TAG, "Copied %d bytes of parameter data to new final packet", final_param_len);
+                                            }
+                                        }
+                                        
+                                        // Calculate checksum
+                                        calc_checksum = final_packet->packet_id;
+                                        calc_checksum += (final_packet->length >> 8) & 0xFF;
+                                        calc_checksum += final_packet->length & 0xFF;
+                                        
+                                        for (size_t j = 0; j < final_param_len; j++) {
+                                            calc_checksum += final_packet->parameters[j];
+                                        }
+                                        
+                                        final_packet->checksum = calc_checksum;
+                                        ESP_LOGI(TAG, "Created final packet with length %d and checksum 0x%04X", 
+                                                final_packet->length, final_packet->checksum);
+                                        
+                                        // 3. Add the final packet to the end of the array
+                                        FingerprintPacket** new_packets = heap_caps_malloc(
+                                            sizeof(FingerprintPacket*) * (g_template_accumulator->count + 1),
+                                            MALLOC_CAP_8BIT
+                                        );
+                                        
+                                        if (new_packets) {
+                                            // Copy all existing packets
+                                            for (size_t j = 0; j < g_template_accumulator->count; j++) {
+                                                new_packets[j] = g_template_accumulator->packets[j];
+                                            }
+                                            
+                                            // Add final packet at the end
+                                            new_packets[g_template_accumulator->count] = final_packet;
+                                            
+                                            // Replace packet array
+                                            heap_caps_free(g_template_accumulator->packets);
+                                            g_template_accumulator->packets = new_packets;
+                                            g_template_accumulator->count++;
+                                            
+                                            ESP_LOGI(TAG, "Added new final packet at the end (position %d)", g_template_accumulator->count - 1);
+                                            found_valid_final_packet = true;
+                                            final_packet_index = g_template_accumulator->count - 1;
+                                        } else {
+                                            heap_caps_free(final_packet);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Now log the fixed packets
                         for (size_t i = 0; i < g_template_accumulator->count; i++) {
                             if (g_template_accumulator->packets[i] != NULL) {
                                 ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
@@ -1750,6 +2052,7 @@ void read_response_task(void *pvParameter) {
                                 g_template_accumulator->template_size, 
                                 MALLOC_CAP_8BIT
                             );
+                            
                             if (template_copy) {
                                 memcpy(template_copy, 
                                        g_template_accumulator->template_data, 
