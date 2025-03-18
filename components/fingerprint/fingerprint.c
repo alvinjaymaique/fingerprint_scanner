@@ -1390,76 +1390,67 @@ buffer_shift:
 
 // Insert this function right before the read_response_task function
 FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, uint8_t target_packet_id) {
-    // Look for packet headers (EF 01) followed by correct packet ID
-    for (size_t i = 0; i < data_len - 10; i++) {
-        // Check for header pattern
-        if (data[i] == 0xEF && data[i+1] == 0x01) {
-            // Check if it's the target packet ID (usually at offset 6)
-            if (i + 6 < data_len && data[i+6] == target_packet_id) {
-                // Found it - extract the packet
-                FingerprintPacket* packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
-                if (!packet) return NULL;
+    for (size_t i = 0; i < data_len - 9; i++) {
+        // Find header and packet ID
+        if (data[i] == 0xEF && data[i+1] == 0x01 && i+6 < data_len && data[i+6] == target_packet_id) {
+            FingerprintPacket* packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+            if (!packet) return NULL;
+            
+            memset(packet, 0, sizeof(FingerprintPacket));
+            packet->header = 0xEF01;
+            packet->address = (data[i+2] << 24) | (data[i+3] << 16) | (data[i+4] << 8) | data[i+5];
+            packet->packet_id = target_packet_id;
+            
+            // Get length
+            if (i+8 < data_len) {
+                packet->length = (data[i+7] << 8) | data[i+8];
+            }
+            
+            // Parameter data starts at i+9 
+            size_t param_start = i + 9;
+            
+            // Calculate actual parameter length (excluding checksum)
+            size_t param_len = 0;
+            if (packet->length > 2) {
+                param_len = packet->length - 2; // Subtract 2 bytes for checksum
+                param_len = min(param_len, sizeof(packet->parameters));
                 
-                memset(packet, 0, sizeof(FingerprintPacket));
-                packet->header = 0xEF01;
-                packet->address = (data[i+2] << 24) | (data[i+3] << 16) | (data[i+4] << 8) | data[i+5];
-                packet->packet_id = target_packet_id;
-                
-                // Extract length (usually at offset 7-8)
-                if (i + 8 < data_len) {
-                    packet->length = (data[i+7] << 8) | data[i+8];
-                } else {
-                    packet->length = 0;
-                }
-                
-                // Determine total packet size and validate
-                size_t packet_start = i;
-                size_t packet_total_size = 9 + packet->length; // Header(2) + Address(4) + PacketID(1) + Length(2) + Content+Checksum
-                
-                if (packet_start + packet_total_size <= data_len) {
-                    // Calculate parameter length (total length minus 2 for checksum)
-                    size_t param_len = packet->length - 2;
-                    size_t param_start = i + 9;
-                    
-                    // Copy parameter data (excluding checksum)
-                    if (param_len > 0) {
-                        param_len = min(param_len, sizeof(packet->parameters));
-                        memcpy(packet->parameters, data + param_start, param_len);
-                    }
-                    
-                    // Extract checksum (last 2 bytes of packet)
-                    size_t checksum_pos = packet_start + packet_total_size - 2;
-                    packet->checksum = (data[checksum_pos] << 8) | data[checksum_pos + 1];
-                    
-                    // Verify the checksum
-                    uint16_t calculated_checksum = packet->packet_id;
-                    calculated_checksum += (packet->length >> 8) & 0xFF;
-                    calculated_checksum += packet->length & 0xFF;
-                    
-                    for (size_t j = 0; j < param_len; j++) {
-                        calculated_checksum += packet->parameters[j];
-                    }
-                    
-                    ESP_LOGI(TAG, "Packet ID=0x%02X: Extracted checksum=0x%04X, Calculated checksum=0x%04X", 
-                             packet->packet_id, packet->checksum, calculated_checksum);
-                    
-                    if (packet->checksum != calculated_checksum) {
-                        ESP_LOGW(TAG, "Checksum mismatch for packet ID=0x%02X", packet->packet_id);
-                    }
-                    
-                    return packet;
-                } else {
-                    ESP_LOGW(TAG, "Packet extends beyond data buffer");
-                    heap_caps_free(packet);
-                    return NULL;
+                // Make sure we don't exceed buffer
+                if (param_start + param_len <= data_len) {
+                    memcpy(packet->parameters, &data[param_start], param_len);
                 }
             }
+            
+            // Checksum is the last 2 bytes of the packet
+            size_t checksum_pos = param_start + param_len;
+            if (checksum_pos + 1 < data_len) {
+                packet->checksum = (data[checksum_pos] << 8) | data[checksum_pos + 1];
+                
+                // Log the extracted checksum
+                ESP_LOGI(TAG, "Extracted packet ID=0x%02X with checksum 0x%04X at position %d", 
+                         packet->packet_id, packet->checksum, i);
+                
+                // Optional: Verify checksum
+                uint16_t calc_checksum = target_packet_id;
+                calc_checksum += (packet->length >> 8) & 0xFF;
+                calc_checksum += packet->length & 0xFF;
+                
+                for (size_t j = 0; j < param_len; j++) {
+                    calc_checksum += packet->parameters[j];
+                }
+                
+                if (calc_checksum != packet->checksum) {
+                    ESP_LOGW(TAG, "Checksum mismatch for packet 0x%02X: extracted=0x%04X, calculated=0x%04X", 
+                             target_packet_id, packet->checksum, calc_checksum);
+                }
+            }
+            
+            return packet;
         }
     }
     
     return NULL;
 }
-
 bool template_available = false;
 uint8_t saved_template_size = 0;
 void read_response_task(void *pvParameter) {
@@ -1490,6 +1481,7 @@ void read_response_task(void *pvParameter) {
                 // Process if we have a valid accumulator
                 if (g_template_accumulator) {
                     bool found_final_packet = false;
+                    bool found_raw_final_packet = false;  // Declare here for proper scope
                     
                     // Check if we have a final packet (0x08) already
                     for (size_t i = 0; i < g_template_accumulator->count; i++) {
@@ -1513,16 +1505,35 @@ void read_response_task(void *pvParameter) {
                         if (new_packets) {
                             g_template_accumulator->packets = new_packets;
                             
-                            // Deep copy each packet
+                            // Deep copy each packet with proper checksum calculation
                             for (size_t i = 0; i < response->count; i++) {
-                                FingerprintPacket* new_packet = heap_caps_malloc(
-                                    sizeof(FingerprintPacket), 
-                                    MALLOC_CAP_8BIT
-                                );
+                                FingerprintPacket* src_packet = response->packets[i];
+                                
+                                // Create a new packet with extracted data and calculated checksum
+                                FingerprintPacket* new_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
                                 if (new_packet) {
-                                    memcpy(new_packet, response->packets[i], sizeof(FingerprintPacket));
+                                    // Copy basic packet info
+                                    memcpy(new_packet, src_packet, sizeof(FingerprintPacket));
+                                    
+                                    // Calculate proper checksum instead of using the copied one
+                                    uint16_t calc_checksum = src_packet->packet_id;
+                                    calc_checksum += (src_packet->length >> 8) & 0xFF;
+                                    calc_checksum += src_packet->length & 0xFF;
+                                    
+                                    // Add all parameter bytes to checksum
+                                    size_t param_len = src_packet->length > 2 ? src_packet->length - 2 : 0;
+                                    for (size_t j = 0; j < param_len; j++) {
+                                        calc_checksum += src_packet->parameters[j];
+                                    }
+                                    
+                                    // Use the calculated checksum
+                                    new_packet->checksum = calc_checksum;
+                                    
                                     g_template_accumulator->packets[g_template_accumulator->count++] = new_packet;
                                     
+                                    ESP_LOGI(TAG, "Added packet ID=0x%02X with calculated checksum 0x%04X", 
+                                            new_packet->packet_id, new_packet->checksum);
+                                            
                                     // Check if this is a final packet (0x08)
                                     if (new_packet->packet_id == 0x08) {
                                         found_final_packet = true;
@@ -1578,8 +1589,7 @@ void read_response_task(void *pvParameter) {
                         }
                     }
                     
-                    // Search for final packet (0x08) in the raw data if we didn't already find one
-                    bool found_raw_final_packet = false;
+                    // Now search for final packet (0x08) in the raw data if we don't have one already
                     if (!found_final_packet && g_template_accumulator->template_data && g_template_accumulator->template_size > 7) {
                         for (size_t i = 0; i < g_template_accumulator->template_size - 7; i++) {
                             // Check for specific pattern: ef 01 ff ff ff ff 08
@@ -1591,17 +1601,52 @@ void read_response_task(void *pvParameter) {
                                 g_template_accumulator->template_data[i+5] == 0xFF &&
                                 g_template_accumulator->template_data[i+6] == 0x08) {
                                 
-                                found_raw_final_packet = true;
                                 ESP_LOGI(TAG, "Found final packet signature (EF 01 FF FF FF FF 08) at position %d", i);
-
-                                // Extract and add final packet only if we don't already have one
-                                FingerprintPacket* final_packet = extract_packet_from_raw_data(
-                                    g_template_accumulator->template_data,
-                                    g_template_accumulator->template_size, 
-                                    0x08);
+                                
+                                // Create a new final packet
+                                FingerprintPacket* final_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                                if (final_packet) {
+                                    memset(final_packet, 0, sizeof(FingerprintPacket));
+                                    final_packet->header = 0xEF01;
+                                    final_packet->address = 0xFFFFFFFF;
+                                    final_packet->packet_id = 0x08;  // Final packet ID
                                     
-                                if (final_packet != NULL) {
-                                    // Expand the array
+                                    // Extract length if available
+                                    if (i + 8 < g_template_accumulator->template_size) {
+                                        final_packet->length = (g_template_accumulator->template_data[i+7] << 8) | 
+                                                               g_template_accumulator->template_data[i+8];
+                                    } else {
+                                        final_packet->length = 2;  // Default length
+                                    }
+                                    
+                                    // Copy parameter data if available
+                                    size_t param_start = i + 9;  // Start of parameters
+                                    size_t param_len = 0;
+                                    
+                                    if (final_packet->length > 2) {
+                                        param_len = final_packet->length - 2; // Subtract checksum bytes
+                                        param_len = min(param_len, sizeof(final_packet->parameters));
+                                        
+                                        // Make sure we don't exceed buffer
+                                        if (param_start + param_len <= g_template_accumulator->template_size) {
+                                            memcpy(final_packet->parameters, 
+                                                   &g_template_accumulator->template_data[param_start], 
+                                                   param_len);
+                                        }
+                                    }
+                                    
+                                    // Calculate checksum
+                                    uint16_t calc_checksum = final_packet->packet_id;
+                                    calc_checksum += (final_packet->length >> 8) & 0xFF;
+                                    calc_checksum += final_packet->length & 0xFF;
+                                    
+                                    for (size_t j = 0; j < param_len; j++) {
+                                        calc_checksum += final_packet->parameters[j];
+                                    }
+                                    
+                                    final_packet->checksum = calc_checksum;
+                                    
+                                    // Add this final packet to the accumulator
                                     size_t new_count = g_template_accumulator->count + 1;
                                     FingerprintPacket** new_packets = heap_caps_realloc(
                                         g_template_accumulator->packets,
@@ -1612,11 +1657,11 @@ void read_response_task(void *pvParameter) {
                                     if (new_packets) {
                                         g_template_accumulator->packets = new_packets;
                                         g_template_accumulator->packets[g_template_accumulator->count++] = final_packet;
+                                        ESP_LOGI(TAG, "Added extracted final packet (ID=0x08) with checksum 0x%04X", 
+                                                 final_packet->checksum);
                                         found_final_packet = true;
-                                        ESP_LOGI(TAG, "Added extracted final packet (ID=0x08) at index %d", 
-                                                 g_template_accumulator->count-1);
                                     } else {
-                                        // Failed to expand array
+                                        // Failed to resize array
                                         heap_caps_free(final_packet);
                                     }
                                 }
@@ -1665,12 +1710,12 @@ void read_response_task(void *pvParameter) {
                         ESP_LOGI(TAG, "Template accumulator has %d packets:", g_template_accumulator->count);
                         for (size_t i = 0; i < g_template_accumulator->count; i++) {
                             if (g_template_accumulator->packets[i] != NULL) {
-                                ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08" PRIX32 ", Length=%d, Checksum=0x%04" PRIX16, 
+                                ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
                                     i, 
                                     g_template_accumulator->packets[i]->packet_id,
-                                    g_template_accumulator->packets[i]->address,  // uint32_t
+                                    (unsigned int)g_template_accumulator->packets[i]->address,
                                     g_template_accumulator->packets[i]->length,
-                                    g_template_accumulator->packets[i]->checksum);  // uint16_t
+                                    (unsigned int)g_template_accumulator->packets[i]->checksum);
                                 
                                 // Additional details for critical packets
                                 if (g_template_accumulator->packets[i]->packet_id == 0x08) {

@@ -1630,6 +1630,7 @@ typedef struct {
     fingerprint_event_type_t type;  /**< The type of fingerprint event */
     fingerprint_status_t status;    /**< Status code returned from the fingerprint module */
     FingerprintPacket packet;       /**< Raw response packet (for backward compatibility) */
+    MultiPacketResponse *multi_packet; /**< Multi-packet response data */
     uint8_t command;                /**< Command byte associated with the event */
     /**
      * @union data
