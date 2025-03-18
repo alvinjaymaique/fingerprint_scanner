@@ -2004,6 +2004,18 @@ typedef enum {
 
 FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, uint8_t target_packet_id);
 
+/**
+ * @brief Restores a fingerprint template from a MultiPacketResponse structure
+ *
+ * This function takes a template stored in a MultiPacketResponse structure (as received during
+ * template upload), and downloads it to the fingerprint module, storing it at the specified location.
+ *
+ * @param template_id The ID where to store the template in the fingerprint database
+ * @param response Pointer to the MultiPacketResponse structure containing template data
+ * @return ESP_OK on success, or appropriate error code on failure
+ */
+esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketResponse *response);
+
  #ifdef __cplusplus
  }
  #endif

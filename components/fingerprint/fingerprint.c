@@ -2009,78 +2009,112 @@ void read_response_task(void *pvParameter) {
                             }
                         }
                         
-                        // Now log the fixed packets
-                        for (size_t i = 0; i < g_template_accumulator->count; i++) {
-                            if (g_template_accumulator->packets[i] != NULL) {
-                                ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
-                                    i, 
-                                    g_template_accumulator->packets[i]->packet_id,
-                                    (unsigned int)g_template_accumulator->packets[i]->address,
-                                    g_template_accumulator->packets[i]->length,
-                                    (unsigned int)g_template_accumulator->packets[i]->checksum);
+                        // // Now log the fixed packets
+                        // for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                        //     if (g_template_accumulator->packets[i] != NULL) {
+                        //         ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
+                        //             i, 
+                        //             g_template_accumulator->packets[i]->packet_id,
+                        //             (unsigned int)g_template_accumulator->packets[i]->address,
+                        //             g_template_accumulator->packets[i]->length,
+                        //             (unsigned int)g_template_accumulator->packets[i]->checksum);
                                 
-                                // Additional details for critical packets
-                                if (g_template_accumulator->packets[i]->packet_id == 0x08) {
-                                    ESP_LOGI(TAG, "** FOUND FINAL PACKET (0x08) AT INDEX %d **", i);
-                                }
+                        //         // Additional details for critical packets
+                        //         if (g_template_accumulator->packets[i]->packet_id == 0x08) {
+                        //             ESP_LOGI(TAG, "** FOUND FINAL PACKET (0x08) AT INDEX %d **", i);
+                        //         }
                                 
-                                // Print full packet data
-                                if (g_template_accumulator->packets[i]->length > 2) {
-                                    ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
-                                                           g_template_accumulator->packets[i]->parameters,
-                                                           g_template_accumulator->packets[i]->length - 2,
-                                                           ESP_LOG_INFO);
-                                }
-                            }
-                        }
+                        //         // Print full packet data
+                        //         if (g_template_accumulator->packets[i]->length > 2) {
+                        //             ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
+                        //                                    g_template_accumulator->packets[i]->parameters,
+                        //                                    g_template_accumulator->packets[i]->length - 2,
+                        //                                    ESP_LOG_INFO);
+                        //         }
+                        //     }
+                        // }
 
-                        // Create event with accumulated data - no filtering
-                        fingerprint_event_t event = {
-                            .type = EVENT_TEMPLATE_UPLOADED,
-                            .status = FINGERPRINT_OK,
-                            .command = FINGERPRINT_CMD_UP_CHAR
-                        };
-                        
-                        // Use the last packet for event details
-                        if (g_template_accumulator->count > 0) {
-                            event.packet = *(g_template_accumulator->packets[g_template_accumulator->count-1]);
-                        }
-                        
-                        // Copy complete template data
-                        if (g_template_accumulator->template_data && g_template_accumulator->template_size > 0) {
-                            uint8_t* template_copy = heap_caps_malloc(
-                                g_template_accumulator->template_size, 
-                                MALLOC_CAP_8BIT
-                            );
-                            
-                            if (template_copy) {
-                                memcpy(template_copy, 
-                                       g_template_accumulator->template_data, 
-                                       g_template_accumulator->template_size);
-                                event.data.template_data.data = template_copy;
-                                event.data.template_data.size = g_template_accumulator->template_size;
-                                event.data.template_data.is_complete = true;
-                                
-                                // Set global flag to indicate we have template data now
-                                template_available = true;
-                                saved_template_size = g_template_accumulator->template_size;
-                                
-                                ESP_LOGI(TAG, "Triggering template event with %d bytes of complete data", 
-                                         g_template_accumulator->template_size);
-                            }
-                        }
-                        
-                        // Trigger the event
-                        trigger_fingerprint_event(event);
-                        
-                        // Clean up accumulator
-                        for (size_t i = 0; i < g_template_accumulator->count; i++) {
-                            heap_caps_free(g_template_accumulator->packets[i]);
-                        }
-                        heap_caps_free(g_template_accumulator->packets);
-                        heap_caps_free(g_template_accumulator->template_data);
-                        heap_caps_free(g_template_accumulator);
-                        g_template_accumulator = NULL;
+                                       // Create event with accumulated data - no filtering
+                                       fingerprint_event_t event = {
+                                        .type = EVENT_TEMPLATE_UPLOADED,
+                                        .status = FINGERPRINT_OK,
+                                        .command = FINGERPRINT_CMD_UP_CHAR
+                                    };
+                                    
+                                    // Use the last packet for event details
+                                    if (g_template_accumulator->count > 0) {
+                                        event.packet = *(g_template_accumulator->packets[g_template_accumulator->count-1]);
+                                    }
+            
+                                    // Add the multi-packet response to the event
+                                    MultiPacketResponse* event_multi_packet = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
+                                    if (event_multi_packet) {
+                                        // Copy basic details
+                                        event_multi_packet->count = g_template_accumulator->count;
+                                        event_multi_packet->collecting_template = g_template_accumulator->collecting_template;
+                                        event_multi_packet->template_complete = g_template_accumulator->template_complete;
+                                        event_multi_packet->start_time = g_template_accumulator->start_time;
+                                        event_multi_packet->template_size = g_template_accumulator->template_size;
+                                        event_multi_packet->template_capacity = g_template_accumulator->template_capacity;
+                                        
+                                        // Copy packets
+                                        event_multi_packet->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * g_template_accumulator->count, MALLOC_CAP_8BIT);
+                                        if (event_multi_packet->packets) {
+                                            for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                                                if (g_template_accumulator->packets[i] != NULL) {
+                                                    event_multi_packet->packets[i] = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                                                    if (event_multi_packet->packets[i]) {
+                                                        memcpy(event_multi_packet->packets[i], g_template_accumulator->packets[i], sizeof(FingerprintPacket));
+                                                    }
+                                                } else {
+                                                    event_multi_packet->packets[i] = NULL;
+                                                }
+                                            }
+                                        } else {
+                                            event_multi_packet->packets = NULL;
+                                        }
+                                        
+                                        // Copy template data if available
+                                        if (g_template_accumulator->template_data && g_template_accumulator->template_size > 0) {
+                                            event_multi_packet->template_data = heap_caps_malloc(g_template_accumulator->template_size, MALLOC_CAP_8BIT);
+                                            if (event_multi_packet->template_data) {
+                                                memcpy(event_multi_packet->template_data, 
+                                                      g_template_accumulator->template_data,
+                                                      g_template_accumulator->template_size);
+                                            } else {
+                                                event_multi_packet->template_data = NULL;
+                                            }
+                                        } else {
+                                            event_multi_packet->template_data = NULL;
+                                        }
+            
+                                        // Assign to event
+                                        event.multi_packet = event_multi_packet;
+                                    } else {
+                                        event.multi_packet = NULL;
+                                        ESP_LOGE(TAG, "Failed to allocate memory for multi-packet response");
+                                    }
+                                    
+                                    // Add debug output before triggering the event
+                                    ESP_LOGI(TAG, "Triggering EVENT_TEMPLATE_UPLOADED with %d packets", 
+                                             event.multi_packet ? event.multi_packet->count : 0);
+                                    
+                                    // Trigger the event
+                                    trigger_fingerprint_event(event);
+                                    
+                                    // Clean up accumulator after triggering the event
+                                    for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                                        if (g_template_accumulator->packets[i] != NULL) {
+                                            heap_caps_free(g_template_accumulator->packets[i]);
+                                            g_template_accumulator->packets[i] = NULL;
+                                        }
+                                    }
+                                    heap_caps_free(g_template_accumulator->packets);
+                                    if (g_template_accumulator->template_data) {
+                                        heap_caps_free(g_template_accumulator->template_data);
+                                    }
+                                    heap_caps_free(g_template_accumulator);
+                                    g_template_accumulator = NULL;
                     }
                 }
                 
@@ -3641,5 +3675,92 @@ esp_err_t read_info_page(void) {
 
     cleanup_event_group();
     return info_complete ? ESP_OK : ESP_ERR_INVALID_STATE;
+}
+
+/**
+ * @brief Restores a fingerprint template from a MultiPacketResponse structure
+ *
+ * This function takes a template stored in a MultiPacketResponse structure (as received during
+ * template upload), and downloads it to the fingerprint module, storing it at the specified location.
+ *
+ * @param template_id The ID where to store the template in the fingerprint database
+ * @param response Pointer to the MultiPacketResponse structure containing template data
+ * @return ESP_OK on success, or appropriate error code on failure
+ */
+esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketResponse *response) {
+    // Validate input parameters
+    if (response == NULL) {
+        ESP_LOGE(TAG, "Invalid MultiPacketResponse (NULL)");
+        return ESP_ERR_INVALID_ARG;
+    }
+    
+    if (response->template_data == NULL || response->template_size == 0) {
+        ESP_LOGE(TAG, "No template data available in MultiPacketResponse");
+        return ESP_ERR_INVALID_ARG;
+    }
+    
+    // Log template information
+    ESP_LOGI(TAG, "Preparing to download template (size: %d bytes) to location %d", 
+             response->template_size, template_id);
+    
+    // Check template for validity (FOOF marker or minimum size)
+    bool valid_template = false;
+    
+    // Look for FOOF validation marker
+    for (size_t i = 0; i < response->template_size - 4; i++) {
+        if (response->template_data[i] == 'F' && response->template_data[i+1] == 'O' && 
+            response->template_data[i+2] == 'O' && response->template_data[i+3] == 'F') {
+            valid_template = true;
+            ESP_LOGI(TAG, "Found template validation marker at offset %d", i);
+            break;
+        }
+    }
+    
+    // Also accept templates above a minimum size even without marker
+    if (!valid_template && response->template_size >= 256) {
+        valid_template = true;
+        ESP_LOGW(TAG, "No validation marker found, but template size (%d bytes) seems reasonable", 
+                response->template_size);
+    }
+    
+    if (!valid_template) {
+        ESP_LOGW(TAG, "Template data may be invalid (no FOOF marker and small size: %d bytes)", 
+                response->template_size);
+    }
+    
+    // Create a specific event group for this operation
+    EventGroupHandle_t restore_event_group = xEventGroupCreate();
+    if (restore_event_group == NULL) {
+        ESP_LOGE(TAG, "Failed to create event group for template restore");
+        return ESP_ERR_NO_MEM;
+    }
+    
+    // Set global event group to our local one
+    enroll_event_group = restore_event_group;
+    
+    // Download template to buffer 1
+    ESP_LOGI(TAG, "Downloading template to buffer 1...");
+    esp_err_t err = download_template(1, response->template_data, response->template_size);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to download template to buffer: %s", esp_err_to_name(err));
+        vEventGroupDelete(restore_event_group);
+        enroll_event_group = NULL;
+        return err;
+    }
+    
+    // Store template from buffer to flash at specified location
+    ESP_LOGI(TAG, "Storing template to location %d...", template_id);
+    err = store_template(1, template_id);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to store template: %s", esp_err_to_name(err));
+    } else {
+        ESP_LOGI(TAG, "Template successfully stored at location %d", template_id);
+    }
+    
+    // Clean up
+    vEventGroupDelete(restore_event_group);
+    enroll_event_group = NULL;
+    
+    return err;
 }
 

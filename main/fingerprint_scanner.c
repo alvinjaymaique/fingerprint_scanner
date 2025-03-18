@@ -34,6 +34,8 @@ static size_t complete_template_capacity = 4096;  // Start with 4KB capacity
 static size_t complete_template_size = 0;
 static bool template_accumulation_active = false;
 
+MultiPacketResponse *packets = NULL;
+
 void configure_scanner_gpio() {
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << SCANNER_GPIO), 
@@ -86,7 +88,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 1;  // Storage location for fingerprint template
+    uint16_t location = 0;  // Storage location for fingerprint template
     // esp_err_t out = delete_fingerprint(location);
     // if (out == ESP_OK) {
     //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
@@ -148,43 +150,96 @@ void app_main(void)
 
     // Backup Template
     uint16_t template_id = 0;
-    ESP_LOGI(TAG, "Backing up template id 0x%04X", location);
+    ESP_LOGI(TAG, "1. Backing up template id 0x%04X", template_id);
     err = backup_template(template_id);
     if (err == ESP_OK) {
         ESP_LOGI(TAG, "Template backed up successfully.");
     } else {
         ESP_LOGE(TAG, "Failed to backup template.");
     }
+    // template_id++;
+    // ESP_LOGI(TAG, "2. Backing up template id 0x%04X", template_id);
+    // err = backup_template(template_id);
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Template backed up successfully.");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to backup template.");
+    // }
+    // template_id++;
+    // ESP_LOGI(TAG, "3. Backing up template id 0x%04X", template_id);
+    // err = backup_template(template_id);
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Template backed up successfully.");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to backup template.");
+    // }
+    // template_id++;
+    // ESP_LOGI(TAG, "4. Backing up template id 0x%04X", template_id);
+    // err = backup_template(template_id);
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Template backed up successfully.");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to backup template.");
+    // }
+    // template_id++;
+    // ESP_LOGI(TAG, "5. Backing up template id 0x%04X", template_id);
+    // err = backup_template(template_id);
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Template backed up successfully.");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to backup template.");
+    // }
+    // template_id++;
+    // ESP_LOGI(TAG, "6. Backing up template id 0x%04X", template_id);
+    // err = backup_template(template_id);
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Template backed up successfully.");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to backup template.");
+    // }
+
+    // // // Restore Template
+    // uint16_t new_location = 10;
+    // if (packets != NULL){
+    //     err = restore_template_from_multipacket(new_location ,packets);
+    //     if (err == ESP_OK) {
+    //         ESP_LOGI(TAG, "Template restored successfully.");
+    //     } else {
+    //         ESP_LOGE(TAG, "Failed to restore template.");
+    //     }
+    // }
 
 
-    // Wait for the backup to complete and template to be saved
-    vTaskDelay(pdMS_TO_TICKS(2000));
+    // // Wait for the backup to complete and template to be saved
+    // vTaskDelay(pdMS_TO_TICKS(2000));
 
-    // Once template is available, download it to a different location
-    if (err == ESP_OK) {
-        ESP_LOGI(TAG, "Template backed up successfully.");
+    // // Once template is available, download it to a different location
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Template backed up successfully.");
         
-        // Wait for the event handler to process the template
-        vTaskDelay(pdMS_TO_TICKS(2000));
+    //     // Wait for the event handler to process the template
+    //     vTaskDelay(pdMS_TO_TICKS(2000));
         
-        // Check if template was saved
-        if (template_available) {
-            // Now download the template to a different location
-            uint16_t new_location = 2;
-            ESP_LOGI(TAG, "Downloading saved template to location %d", new_location);
+    //     // Check if template was saved
+    //     if (template_available) {
+    //         // Now download the template to a different location
+    //         uint16_t new_location = 4;
+    //         ESP_LOGI(TAG, "Downloading saved template to location %d", new_location);
             
-            err = restore_template(new_location, saved_template, saved_template_size);
-            if (err == ESP_OK) {
-                ESP_LOGI(TAG, "Template downloaded and stored successfully");
-            } else {
-                ESP_LOGE(TAG, "Failed to download template: %s", esp_err_to_name(err));
-            }
-        } else {
-            ESP_LOGE(TAG, "No template data available");
-        }
-    } else {
-        ESP_LOGE(TAG, "Failed to backup template");
-    }
+    //         err = restore_template(new_location, saved_template, saved_template_size);
+    //         if (err == ESP_OK) {
+    //             ESP_LOGI(TAG, "Template downloaded and stored successfully");
+    //         } else {
+    //             ESP_LOGE(TAG, "Failed to download template: %s", esp_err_to_name(err));
+    //         }
+    //     } else {
+    //         ESP_LOGE(TAG, "No template data available");
+    //     }
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to backup template");
+    // }
+
+
 
     // // Example usage in app_main
     // err = read_info_page();
@@ -283,58 +338,93 @@ void handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Data Packet Size: %u bytes", event.data.sys_params.data_packet_size); // No need for hex
             ESP_LOGI(TAG, "Baud Rate: %u bps", event.data.sys_params.baud_rate); // Convert baud multiplier to actual baud rate
             break;
-        case EVENT_TEMPLATE_UPLOADED:
-            // const char* newTag = "EVENT_TEMPLATE_UPLOADED";
-            // ESP_LOGI(newTag, "Template command: 0x%02X", event.command);
-            // ESP_LOGI(newTag, "Template package ID: 0x%02X", event.packet.packet_id);
-            // ESP_LOGI(newTag, "Template confirmation code: 0x%02X", event.packet.code.confirmation);
-            // ESP_LOGI(newTag, "Template address: 0x%08" PRIX32, event.packet.address);
-            // ESP_LOGI(newTag, "Template uploaded successfully. Status: 0x%02X", event.status);
-            // ESP_LOG_BUFFER_HEX(newTag, event.packet.parameters, sizeof(event.packet.parameters));
-            // Add packet ID check  
-            // ESP_LOG_BUFFER_HEXDUMP("Template uploaded successfully", event.packet.parameters, event.packet.length, ESP_LOG_INFO);
-            // ESP_LOG_BUFFER_HEXDUMP("Template uploaded successfully", 
-            //     (uint8_t*)&event.packet, 
-            //     sizeof(FingerprintPacket), 
-            //     ESP_LOG_INFO);
-            // ESP_LOGI(TAG, "Template uploaded Packet ID: 0x%02X", event.packet.packet_id);
-            // ESP_LOG_BUFFER_HEX("Template uploaded Parameters", event.packet.parameters, event.packet.length);
-    
-            // Check if this event contains actual template data
-            if (event.data.template_data.data && event.data.template_data.size > 0) {
-                ESP_LOGI(TAG, "Complete template data (%d bytes):", event.data.template_data.size);
-                
-                // // Print data in manageable chunks (16 bytes per row)
-                // for (size_t offset = 0; offset < event.data.template_data.size; offset += 16) {
-                //     size_t chunk_size = (event.data.template_data.size - offset < 16) ? 
-                //                     event.data.template_data.size - offset : 16;
-                    
-                //     ESP_LOG_BUFFER_HEX_LEVEL(TAG, 
-                //                     event.data.template_data.data + offset, 
-                //                     chunk_size, ESP_LOG_INFO);
-                // }
-                ESP_LOG_BUFFER_HEXDUMP("Template Data", event.data.template_data.data, event.data.template_data.size, ESP_LOG_INFO);
+    // Add this to the handle_fingerprint_event function
+    case EVENT_TEMPLATE_UPLOADED:
+        ESP_LOGI(TAG, "Template uploaded successfully");
 
+        // Check if multi-packet data is available
+        if (event.multi_packet != NULL) {
+            ESP_LOGI(TAG, "Multi-packet data available: %d packets", event.multi_packet->count);
+
+            // Now log the fixed packets
+            for (size_t i = 0; i < event.multi_packet->count; i++) {
+                if (event.multi_packet->packets[i] != NULL) {
+                    ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
+                        i, 
+                        event.multi_packet->packets[i]->packet_id,
+                        (unsigned int)event.multi_packet->packets[i]->address,
+                        event.multi_packet->packets[i]->length,
+                        (unsigned int)event.multi_packet->packets[i]->checksum);
+            
+                    
+                    // Print full packet data
+                    if (event.multi_packet->packets[i]->length > 2) {
+                        ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
+                                                event.multi_packet->packets[i]->parameters,
+                                                event.multi_packet->packets[i]->length - 2,
+                                                ESP_LOG_INFO);
+                    }
+                }
+            }
+            
+            // If template data is available in the multi_packet
+            if (event.multi_packet->template_data && event.multi_packet->template_size > 0) {
+                ESP_LOGI(TAG, "Complete template data received (%d bytes)", event.multi_packet->template_size);
+                ESP_LOG_BUFFER_HEXDUMP("Template Data", event.multi_packet->template_data, 
+                                    (event.multi_packet->template_size > 64) ? 64 : event.multi_packet->template_size, 
+                                    ESP_LOG_INFO);
+                
                 // Store the template data for later use
-                if (event.data.template_data.size <= sizeof(saved_template)) {
-                    memcpy(saved_template, event.data.template_data.data, event.data.template_data.size);
-                    saved_template_size = event.data.template_data.size;
+                if (event.multi_packet->template_size <= sizeof(saved_template)) {
+                    memcpy(saved_template, event.multi_packet->template_data, event.multi_packet->template_size);
+                    saved_template_size = event.multi_packet->template_size;
                     template_available = true;
                     ESP_LOGI(TAG, "Template saved for later use");
                 } else {
-                    ESP_LOGE(TAG, "Template too large to save (%d bytes)", event.data.template_data.size);
+                    ESP_LOGE(TAG, "Template too large to save (%d bytes)", event.multi_packet->template_size);
                 }
-                
-                // Free the memory when we're done
-                heap_caps_free(event.data.template_data.data);
-            } 
-            else if (event.packet.packet_id == 0x08) {
-                ESP_LOGI(TAG, "Final packet received (0x08)");
-            } else {
-                ESP_LOGI(TAG, "Template packet: ID=0x%02X", event.packet.packet_id);
             }
-            ESP_LOGI(TAG, "Fingerprint template uploaded successfully");
-            break;
+
+            // packets = event.multi_packet;
+            // // Restore Template
+            uint16_t new_location = 10;
+            if (packets != NULL){
+                esp_err_t err = restore_template_from_multipacket(new_location ,event.multi_packet);
+                if (err == ESP_OK) {
+                    ESP_LOGI(TAG, "Template restored successfully.");
+                } else {
+                    ESP_LOGE(TAG, "Failed to restore template.");
+                }
+            }
+            
+            
+            // // Free the multi-packet memory when done processing
+            // if (event.multi_packet->template_data != NULL) {
+            //     heap_caps_free(event.multi_packet->template_data);
+            // }
+            
+            // if (event.multi_packet->packets != NULL) {
+            //     for (size_t i = 0; i < event.multi_packet->count; i++) {
+            //         if (event.multi_packet->packets[i] != NULL) {
+            //             heap_caps_free(event.multi_packet->packets[i]);
+            //         }
+            //     }
+            //     heap_caps_free(event.multi_packet->packets);
+            // }
+            
+            // heap_caps_free(event.multi_packet);
+        } else {
+            ESP_LOGW(TAG, "No multi-packet data available in template uploaded event");
+        }
+
+        // // Also check for older template_data format (for backward compatibility)
+        // if (event.data.template_data.data && event.data.template_data.size > 0) {
+        //     // Process legacy template data format
+        //     ESP_LOGI(TAG, "Legacy template data format detected (%d bytes)", event.data.template_data.size);
+        //     // Free memory when done
+        //     heap_caps_free(event.data.template_data.data);
+        // }
+        break;
         case EVENT_TEMPLATE_EXISTS:
             ESP_LOGI(TAG, "Fingerprint template successfully loaded into buffer. Status: 0x%02X", event.status);
             break;
