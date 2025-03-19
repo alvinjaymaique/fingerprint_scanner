@@ -2016,6 +2016,16 @@ FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, 
  */
 esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketResponse *response);
 
+/**
+ * @brief Task that waits for finger detection interrupts and processes them.
+ * 
+ * This task waits for signals from the finger detection interrupt and
+ * initiates the fingerprint capture and processing when a finger is detected.
+ * 
+ * @param pvParameter Unused parameter (NULL by default).
+ */
+void finger_detection_task(void *pvParameter);
+
  #ifdef __cplusplus
  }
  #endif
