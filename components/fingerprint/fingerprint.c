@@ -3074,12 +3074,9 @@ cleanup:
 
 esp_err_t verify_fingerprint(void) {
     esp_err_t err;
-    EventBits_t bits;
     uint8_t attempts = 0;
     const uint8_t max_attempts = 3;
-    bool match_found = false;
 
-    // Create event group if it doesn't exist
     if (enroll_event_group == NULL) {
         enroll_event_group = xEventGroupCreate();
         if (enroll_event_group == NULL) {
@@ -3087,91 +3084,43 @@ esp_err_t verify_fingerprint(void) {
         }
     }
 
-    // Make sure validation flag is reset at the start
-    is_fingerprint_validating = false;
-    
-    // Set operation mode to verification
-    fingerprint_set_operation_mode(FINGER_OP_VERIFY);
-    
-    ESP_LOGI(TAG, "Starting fingerprint verification...");
-
-    while (attempts < max_attempts && !match_found) {  // Add match_found to exit condition
-        ESP_LOGI(TAG, "Please place your finger on the sensor (via interrupt)...");
-        
-        // Clear states more thoroughly
+    while (attempts < max_attempts) {
+        // Clear queues and event bits
         uart_flush(UART_NUM);
         xQueueReset(fingerprint_command_queue);
         xQueueReset(fingerprint_response_queue);
         xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
-        vTaskDelay(pdMS_TO_TICKS(100)); // Short delay after clearing
-
-        // Wait for finger detection and processing via interrupt
-        err = fingerprint_wait_for_finger(30000); // 30 second timeout
         
+        // Wait for finger detection
+        ESP_LOGI(TAG, "Please place your finger on the sensor...");
+        err = fingerprint_wait_for_finger(30000);
         if (err != ESP_OK) {
-            ESP_LOGW(TAG, "Timeout or error waiting for finger placement");
             attempts++;
             continue;
         }
         
-        // Manually trigger the search after successful image capture and feature extraction
+        // Run search
         uint8_t search_params[] = {0x01, 0x00, 0x00, 0x00, 0x64};
         fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
         err = fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
-        
         if (err != ESP_OK) {
-            ESP_LOGE(TAG, "Failed to send search command");
             attempts++;
             continue;
         }
         
-        // Wait for search result
-        bits = xEventGroupWaitBits(enroll_event_group,
-                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(3000));
+        // Wait for the event handler to process results
+        // Use a longer timeout to allow all responses to be processed
+        vTaskDelay(pdMS_TO_TICKS(1000));
         
-        // We received a response, but we need to process ALL available responses
-        uint32_t start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
-        uint32_t timeout = 2000; // 2 seconds to receive all responses
+        // Wait for event bits to be set
+        // ENROLL_BIT_SUCCESS will be set when a real match with score > 0 is found
+        EventBits_t bits = xEventGroupWaitBits(enroll_event_group,
+                                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                             pdTRUE, pdFALSE, pdMS_TO_TICKS(3000));
         
-        while ((xTaskGetTickCount() * portTICK_PERIOD_MS - start_time) < timeout) {
-            fingerprint_response_t response;
-            
-            if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(100)) == pdTRUE) {
-                // Process each response packet
-                if (response.packet.code.confirmation == FINGERPRINT_OK && 
-                    last_sent_command == FINGERPRINT_CMD_SEARCH) {
-                    
-                    // Extract match data from this packet
-                    uint16_t page_id = (response.packet.parameters[1] << 8) | response.packet.parameters[0];
-                    uint16_t match_score = (response.packet.parameters[3] << 8) | response.packet.parameters[2];
-                    
-                    // Only consider it a real match if score is greater than 0
-                    if (match_score > 0) {
-                        match_found = true;
-                        ESP_LOGI(TAG, "Real match found! Template ID: %d, Score: %d", 
-                                convert_page_id_to_index(page_id), match_score);
-                        
-                        // Reset queue to prevent stale packets in future calls
-                        xQueueReset(fingerprint_response_queue);
-                        break; // Exit the inner loop, we found a match
-                    }
-                }
-            } else {
-                // No more packets in queue, check if we should break
-                if (match_found || (bits & ENROLL_BIT_FAIL)) {
-                    break;
-                }
-                
-                // Short delay before trying to receive again
-                vTaskDelay(pdMS_TO_TICKS(10));
-            }
-        }
-        
-        if (match_found) {
+        if (bits & ENROLL_BIT_SUCCESS) {
+            // The event handler set the success bit for a real match
             ESP_LOGI(TAG, "Fingerprint verification successful!");
-            // Reset operation mode
-            fingerprint_set_operation_mode(FINGER_OP_NONE);
             vEventGroupDelete(enroll_event_group);
             enroll_event_group = NULL;
             return ESP_OK;
@@ -3183,14 +3132,10 @@ esp_err_t verify_fingerprint(void) {
     }
 
     ESP_LOGE(TAG, "Verification failed after %d attempts", attempts);
-    
-    // Reset operation mode
-    fingerprint_set_operation_mode(FINGER_OP_NONE);
     vEventGroupDelete(enroll_event_group);
     enroll_event_group = NULL;
     return ESP_FAIL;
 }
-
 esp_err_t delete_fingerprint(uint16_t location) {
     esp_err_t err;
     EventBits_t bits;
