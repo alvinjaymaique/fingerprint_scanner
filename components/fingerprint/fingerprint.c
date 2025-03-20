@@ -2578,11 +2578,20 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                     ESP_LOGI(TAG, "Real match found with score %d", event.data.match_info.match_score);
                 } else {
                     // Score of 0 means no real match was found (common with empty database)
-                    event_type = EVENT_MATCH_FAIL;
+                    if (enrollment_in_progress) {
+                        // During enrollment, no match is expected and not an error
+                        event_type = EVENT_NONE;  // Don't trigger error event
+                        ESP_LOGI(TAG, "Search returned zero score, not a duplicate");
+                    } else {
+                        // During verification, for zero scores, don't generate an error event immediately
+                        // Just log it and set the FAIL bit, but don't generate an event
+                        event_type = EVENT_NONE;  // DON'T trigger error event for zero scores
+                        ESP_LOGI(TAG, "Search returned success but match score is 0, waiting for more responses");
+                    }
+                    
                     if (enroll_event_group) {
                         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
                     }
-                    ESP_LOGI(TAG, "Search returned success but match score is 0, treating as no match");
                 }
             } else if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE && enroll_event_group!=NULL) {
                 event_type = EVENT_FINGER_DETECTED;
@@ -2730,15 +2739,25 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
 
         case FINGERPRINT_MISMATCH:
         case FINGERPRINT_NOT_FOUND:
-            if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
-                // No match found during search (good for enrollment)
+        if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
+            // Determine if we're in enrollment or verification mode
+            if (enrollment_in_progress) {
+                // For enrollment, no match is GOOD (not a duplicate)
+                event_type = EVENT_NONE;  // <-- Don't generate any error event
+                if (enroll_event_group) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                }
+                ESP_LOGI(TAG, "No duplicate found during enrollment check - good to proceed");
+            } else {
+                // For verification, no match is a FAIL
                 event_type = EVENT_MATCH_FAIL;
                 if (enroll_event_group) {
                     xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
                 }
+                ESP_LOGI(TAG, "No match found during verification");
             }
-            break;
-
+        }
+        break;
         case FINGERPRINT_DB_FULL:
             event_type = EVENT_DB_FULL;
             break;

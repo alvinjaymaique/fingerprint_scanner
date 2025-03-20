@@ -88,7 +88,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 0;  // Storage location for fingerprint template
+    uint16_t location = 2;  // Storage location for fingerprint template
     // esp_err_t out = delete_fingerprint(location);
     // if (out == ESP_OK) {
     //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
