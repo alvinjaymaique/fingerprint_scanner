@@ -1,0 +1,821 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ede0h ( 60896) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001ee08 vaddr=3fc93a00 size=01210h (  4624) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1fda8h (130472) map[0m
+[0;32mI (145) esp_image: segment 3: paddr=0003fdd0 vaddr=3fc94c10 size=02500h (  9472) load[0m
+[0;32mI (147) esp_image: segment 4: paddr=000422d8 vaddr=40374000 size=0f8f8h ( 63736) load[0m
+[0;32mI (166) esp_image: segment 5: paddr=00051bd8 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (173) boot: Disabling RNG early entropy source...[0m
+[0;32mI (184) cpu_start: Multicore app[0m
+[0;32mI (193) cpu_start: Pro cpu start user code[0m
+[0;32mI (193) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (193) app_init: Application information:[0m
+[0;32mI (193) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (198) app_init: App version:      02958e0-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 20 2025 13:07:18[0m
+[0;32mI (207) app_init: ELF file SHA256:  2769e3095...[0m
+[0;32mI (212) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (216) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (220) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (224) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (234) heap_init: At 3FC99278 len 00050498 (321 KiB): RAM[0m
+[0;32mI (239) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (284) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (297) main_task: Started on CPU0[0m
+[0;32mI (307) main_task: Calling app_main()[0m
+[0;32mI (307) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (307) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (317) FINGERPRINT: Initial power cycle of fingerprint module...[0m
+[0;32mI (317) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (327) FINGERPRINT: Fingerprint module power ON[0m
+[0;32mI (1127) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (1127) FINGERPRINT: Fingerprint module power OFF[0m
+[0;32mI (2427) FINGERPRINT: Waiting for fingerprint module handshake...[0m
+[0;33mW (2727) FINGERPRINT: No handshake received, retry 1/10...[0m
+[0;32mI (3157) FINGERPRINT: Received byte: 0x55[0m
+[0;32mI (3157) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
+[0;32mI (3157) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (3167) FINGERPRINT: Finger detection task started[0m
+[0;32mI (3167) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (3607) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (3607) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4357) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (4357) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (4657) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4657) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4657) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;32mI (4657) FINGERPRINT: Position 0 is free[0m
+[0;32mI (4657) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (4667) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4677) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4677) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4687) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4697) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4707) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4707) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4717) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4727) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4727) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4737) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4747) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4757) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4757) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4767) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4777) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (4777) FINGERPRINT: Location 0 is available[0m
+[0;32mI (4787) FINGERPRINT: Fingerprint operation mode set to 2[0m
+[0;32mI (4787) FINGERPRINT: Waiting for a finger to be placed (via interrupt)...[0m
+[0;32mI (4987) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (5267) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5267) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (14567) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (14567) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (15007) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (15007) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (15007) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (15007) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (15007) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (15017) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (15067) FINGERPRINT: First fingerprint image captured successfully![0m
+[0;32mI (15067) FINGERPRINT: Remove finger and place it again...[0m
+[0;32mI (15117) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (15117) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (15117) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (15287) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (15287) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (15287) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (15287) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (17467) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (17467) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (18167) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (18167) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (18167) FINGERPRINT: Finger removal confirmed[0m
+[0;32mI (18467) FINGERPRINT: Fingerprint operation mode set to 3[0m
+[0;32mI (18467) FINGERPRINT: Please place the same finger again (via interrupt)...[0m
+[0;32mI (18467) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (18867) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (18867) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (19467) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (19777) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (19777) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (20617) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (20617) FINGERPRINT: Processing fingerprint in mode: 3[0m
+[0;32mI (21117) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (21117) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (21117) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (21117) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (21117) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (21127) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (21177) FINGERPRINT: Second fingerprint image captured successfully![0m
+[0;32mI (21227) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (21227) FINGERPRINT: Second enrollment image captured, creating model[0m
+[0;32mI (21397) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (21397) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (21397) FINGERPRINT: Unknown event triggered. Status: 0x00[0m
+[0;32mI (21397) FINGERPRINT: Fingerprint model created successfully![0m
+[0;32mI (21607) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (21607) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (21607) FINGERPRINT: Search returned success but match score is 0, treating as no match[0m
+[0;32mI (21607) FINGERPRINT: Fingerprint mismatch. Status: 0x00[0m
+[1;31mE (21617) FINGERPRINT: Fingerprint already exists in database![0m
+[0;32mI (21617) FINGERPRINT: Fingerprint operation mode set to 2[0m
+[0;32mI (21627) FINGERPRINT: Waiting for a finger to be placed (via interrupt)...[0m
+[0;32mI (21827) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (21827) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (21827) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (21897) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (22827) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (23157) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (23157) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (27817) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (27817) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (28277) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (28277) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (28277) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (28277) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (28277) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (28287) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (28307) FINGERPRINT: First fingerprint image captured successfully![0m
+[0;32mI (28307) FINGERPRINT: Remove finger and place it again...[0m
+[0;32mI (28387) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (28387) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (28387) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (28557) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (28557) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (28557) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (28557) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (30737) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (30737) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (31437) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (31437) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (31437) FINGERPRINT: Finger removal confirmed[0m
+[0;32mI (31737) FINGERPRINT: Fingerprint operation mode set to 3[0m
+[0;32mI (31737) FINGERPRINT: Please place the same finger again (via interrupt)...[0m
+[0;32mI (31737) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (32137) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (32137) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (32737) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (33047) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (33047) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (35397) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (35397) FINGERPRINT: Processing fingerprint in mode: 3[0m
+[0;32mI (35857) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (35857) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (35857) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (35857) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (35857) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (35867) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (35897) FINGERPRINT: Second fingerprint image captured successfully![0m
+[0;32mI (35967) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (35967) FINGERPRINT: Second enrollment image captured, creating model[0m
+[0;32mI (36137) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (36137) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (36137) FINGERPRINT: Unknown event triggered. Status: 0x00[0m
+[0;32mI (36137) FINGERPRINT: Fingerprint model created successfully![0m
+[0;32mI (36347) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (36347) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (36347) FINGERPRINT: Search returned success but match score is 0, treating as no match[0m
+[0;32mI (36347) FINGERPRINT: Fingerprint mismatch. Status: 0x00[0m
+[1;31mE (36357) FINGERPRINT: Fingerprint already exists in database![0m
+[0;32mI (36357) FINGERPRINT: Fingerprint operation mode set to 2[0m
+[0;32mI (36367) FINGERPRINT: Waiting for a finger to be placed (via interrupt)...[0m
+[0;32mI (36567) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (36567) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (36567) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (36637) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (37567) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (37617) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (37717) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (37907) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (37907) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (37907) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (37907) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (37917) FINGERPRINT: Finger detected through polling[0m
+[0;32mI (37917) FINGERPRINT: First fingerprint image captured successfully![0m
+[0;32mI (37927) FINGERPRINT: Remove finger and place it again...[0m
+[0;32mI (38147) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (38147) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (38617) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (38617) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;33mW (38617) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (39107) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (39107) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;33mW (39107) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (39597) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (39597) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;33mW (39597) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (39697) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (40297) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (40297) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (40997) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (40997) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (40997) FINGERPRINT: Finger removal confirmed[0m
+[0;32mI (41297) FINGERPRINT: Fingerprint operation mode set to 3[0m
+[0;32mI (41297) FINGERPRINT: Please place the same finger again (via interrupt)...[0m
+[0;32mI (41297) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (41697) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (41697) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (42297) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (42397) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (42497) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (42607) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (42607) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (42847) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (42847) FINGERPRINT: Processing fingerprint in mode: 3[0m
+[0;32mI (43317) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (43317) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (43317) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (43317) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (43317) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (43327) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (43357) FINGERPRINT: Second fingerprint image captured successfully![0m
+[0;32mI (43427) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (43427) FINGERPRINT: Second enrollment image captured, creating model[0m
+[0;32mI (43587) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (43587) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (43587) FINGERPRINT: Unknown event triggered. Status: 0x00[0m
+[0;32mI (43587) FINGERPRINT: Fingerprint model created successfully![0m
+[0;32mI (43797) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (43797) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (43797) FINGERPRINT: Search returned success but match score is 0, treating as no match[0m
+[0;32mI (43797) FINGERPRINT: Fingerprint mismatch. Status: 0x00[0m
+[1;31mE (43807) FINGERPRINT: Fingerprint already exists in database![0m
+[1;31mE (43807) FINGERPRINT: Enrollment failed after 3 attempts[0m
+[0;32mI (43817) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (43817) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (43827) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (44017) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (44017) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (44017) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (44087) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (45827) FINGERPRINT: Fingerprint operation mode set to 1[0m
+[0;32mI (45827) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (45827) FINGERPRINT: Please place your finger on the sensor (via interrupt)...[0m
+[0;32mI (46007) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (46397) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (46397) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (46857) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (46857) FINGERPRINT: Processing fingerprint in mode: 1[0m
+[0;32mI (47317) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (47317) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (47317) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (47317) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (47317) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (47327) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (47427) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (47427) FINGERPRINT: Verification mode: searching database[0m
+[0;32mI (47597) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (47597) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (47597) FINGERPRINT: Search returned success but match score is 0, treating as no match[0m
+[0;32mI (47597) FINGERPRINT: Fingerprint mismatch. Status: 0x00[0m
+[0;33mW (47707) FINGERPRINT: Search returned success but no response data available[0m
+[0;33mW (47707) FINGERPRINT: Search completed but no valid match found[0m
+[0;33mW (47707) FINGERPRINT: No match found, attempt 1 of 3[0m
+[0;32mI (47817) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (47817) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (47817) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (48597) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (48707) FINGERPRINT: Please place your finger on the sensor (via interrupt)...[0m
+[0;32mI (48967) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (49097) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (49197) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (49367) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (49367) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (49367) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (49367) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (49377) FINGERPRINT: Finger detected through polling[0m
+[0;33mW (49477) FINGERPRINT: Search returned success but no response data available[0m
+[0;33mW (49477) FINGERPRINT: Search completed but no valid match found[0m
+[0;33mW (49477) FINGERPRINT: No match found, attempt 2 of 3[0m
+[0;32mI (49587) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (49587) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (49587) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (50477) FINGERPRINT: Please place your finger on the sensor (via interrupt)...[0m
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x1b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ede0h ( 60896) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001ee08 vaddr=3fc93a00 size=01210h (  4624) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1fda8h (130472) map[0m
+[0;32mI (145) esp_image: segment 3: paddr=0003fdd0 vaddr=3fc94c10 size=02500h (  9472) load[0m
+[0;32mI (147) esp_image: segment 4: paddr=000422d8 vaddr=40374000 size=0f8f8h ( 63736) load[0m
+[0;32mI (166) esp_image: segment 5: paddr=00051bd8 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (173) boot: Disabling RNG early entropy source...[0m
+[0;32mI (184) cpu_start: Multicore app[0m
+[0;32mI (193) cpu_start: Pro cpu start user code[0m
+[0;32mI (193) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (193) app_init: Application information:[0m
+[0;32mI (193) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (198) app_init: App version:      02958e0-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 20 2025 13:07:18[0m
+[0;32mI (207) app_init: ELF file SHA256:  2769e3095...[0m
+[0;32mI (212) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (216) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (220) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (224) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (234) heap_init: At 3FC99278 len 00050498 (321 KiB): RAM[0m
+[0;32mI (239) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (284) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (297) main_task: Started on CPU0[0m
+[0;32mI (307) main_task: Calling app_main()[0m
+[0;32mI (307) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (307) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (317) FINGERPRINT: Initial power cycle of fingerprint module...[0m
+[0;32mI (317) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (327) FINGERPRINT: Fingerprint module power ON[0m
+[0;32mI (1127) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (1127) FINGERPRINT: Fingerprint module power OFF[0m
+[0;32mI (2427) FINGERPRINT: Waiting for fingerprint module handshake...[0m
+[0;33mW (2727) FINGERPRINT: No handshake received, retry 1/10...[0m
+[0;33mW (3227) FINGERPRINT: No handshake received, retry 2/10...[0m
+[0;33mW (3727) FINGERPRINT: No handshake received, retry 3/10...[0m
+[0;33mW (4227) FINGERPRINT: No handshake received, retry 4/10...[0m
+[0;33mW (4727) FINGERPRINT: No handshake received, retry 5/10...[0m
+[0;32mI (4727) FINGERPRINT: Performing power cycle 1/3...[0m
+[0;32mI (4727) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (4727) FINGERPRINT: Fingerprint module power OFF[0m
+[0;32mI (6037) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (6037) FINGERPRINT: Fingerprint module power ON[0m
+[0;32mI (7617) FINGERPRINT: Received byte: 0xFF[0m
+[0;32mI (7637) FINGERPRINT: Received byte: 0xC1[0m
+[0;32mI (7637) FINGERPRINT: Received byte: 0x00[0m
+[0;32mI (7637) FINGERPRINT: Received byte: 0xFE[0m
+[0;32mI (7637) FINGERPRINT: Received byte: 0x55[0m
+[0;32mI (7637) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
+[0;32mI (7647) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (7657) FINGERPRINT: Finger detection task started[0m
+[0;32mI (7657) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (8097) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (8097) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (8847) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (8847) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (9147) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9147) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (9147) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;32mI (9147) FINGERPRINT: Position 0 is free[0m
+[0;32mI (9147) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (9157) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9167) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9167) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9177) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9187) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9197) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9197) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9207) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9217) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9217) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9227) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9237) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9247) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9247) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9257) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9267) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (9267) FINGERPRINT: Location 0 is available[0m
+[0;32mI (9277) FINGERPRINT: Fingerprint operation mode set to 2[0m
+[0;32mI (9277) FINGERPRINT: Waiting for a finger to be placed (via interrupt)...[0m
+[0;32mI (9477) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (9757) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9757) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (12287) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (12287) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (12777) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (12777) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (12777) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (12777) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (12777) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (12787) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (12807) FINGERPRINT: First fingerprint image captured successfully![0m
+[0;32mI (12807) FINGERPRINT: Remove finger and place it again...[0m
+[0;32mI (12887) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (12887) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (12887) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (13057) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (13057) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (13057) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (13057) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (15237) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (15237) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (15937) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (15937) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (15937) FINGERPRINT: Finger removal confirmed[0m
+[0;32mI (16237) FINGERPRINT: Fingerprint operation mode set to 3[0m
+[0;32mI (16237) FINGERPRINT: Please place the same finger again (via interrupt)...[0m
+[0;32mI (16237) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (16637) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (16637) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (17067) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (17067) FINGERPRINT: Processing fingerprint in mode: 3[0m
+[0;32mI (17557) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (17557) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (17557) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (17557) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (17557) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (17567) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (17587) FINGERPRINT: Second fingerprint image captured successfully![0m
+[0;32mI (17667) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (17667) FINGERPRINT: Second enrollment image captured, creating model[0m
+[0;32mI (17837) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (17837) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (17837) FINGERPRINT: Unknown event triggered. Status: 0x00[0m
+[0;32mI (17837) FINGERPRINT: Fingerprint model created successfully![0m
+[0;32mI (18047) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (18047) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (18047) FINGERPRINT: Search returned success but match score is 0, treating as no match[0m
+[0;32mI (18047) FINGERPRINT: Fingerprint mismatch. Status: 0x00[0m
+[1;31mE (18057) FINGERPRINT: Fingerprint already exists in database![0m
+[0;32mI (18057) FINGERPRINT: Fingerprint operation mode set to 2[0m
+[0;32mI (18067) FINGERPRINT: Waiting for a finger to be placed (via interrupt)...[0m
+[0;32mI (18267) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (18267) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (18267) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (18337) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (19267) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (19597) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (19597) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (22337) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (22337) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (22827) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (22827) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (22827) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (22827) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (22827) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (22837) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (22847) FINGERPRINT: First fingerprint image captured successfully![0m
+[0;32mI (22857) FINGERPRINT: Remove finger and place it again...[0m
+[0;32mI (22937) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (22937) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (22937) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (23107) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (23107) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (23107) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (23107) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (23887) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (23887) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (24247) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (24247) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (24247) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (24247) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (24247) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (24257) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (24357) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (24357) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (24357) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (24527) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (24527) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (24527) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (24527) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (24957) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (24957) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (25247) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (25247) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (25247) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (25247) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (25247) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (25257) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (25247) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (25357) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (25357) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (25357) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (25587) FINGERPRINT: Returning response with 2 packets[0m
+[0;32mI (25587) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (25587) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (25587) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (25597) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (25597) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (25607) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (25857) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (25857) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (25907) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (25907) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (25907) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (25907) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (25907) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (25917) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (25917) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (26357) FINGERPRINT: Returning response with 3 packets[0m
+[0;32mI (26357) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (26357) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (26357) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (26357) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (26367) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (26367) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (26377) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (26387) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (26397) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (26397) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (26367) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (26647) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (26647) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (26647) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (26647) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (27147) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (27147) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x1b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ede0h ( 60896) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001ee08 vaddr=3fc93a00 size=01210h (  4624) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1fda8h (130472) map[0m
+[0;32mI (145) esp_image: segment 3: paddr=0003fdd0 vaddr=3fc94c10 size=02500h (  9472) load[0m
+[0;32mI (147) esp_image: segment 4: paddr=000422d8 vaddr=40374000 size=0f8f8h ( 63736) load[0m
+[0;32mI (166) esp_image: segment 5: paddr=00051bd8 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (173) boot: Disabling RNG early entropy source...[0m
+[0;32mI (184) cpu_start: Multicore app[0m
+[0;32mI (193) cpu_start: Pro cpu start user code[0m
+[0;32mI (193) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (193) app_init: Application information:[0m
+[0;32mI (193) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (198) app_init: App version:      02958e0-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 20 2025 13:07:18[0m
+[0;32mI (207) app_init: ELF file SHA256:  2769e3095...[0m
+[0;32mI (212) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (216) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (220) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (224) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (234) heap_init: At 3FC99278 len 00050498 (321 KiB): RAM[0m
+[0;32mI (239) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (284) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (297) main_task: Started on CPU0[0m
+[0;32mI (307) main_task: Calling app_main()[0m
+[0;32mI (307) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (307) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (317) FINGERPRINT: Initial power cycle of fingerprint module...[0m
+[0;32mI (317) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (327) FINGERPRINT: Fingerprint module power ON[0m
+[0;32mI (1127) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (1127) FINGERPRINT: Fingerprint module power OFF[0m
+[0;32mI (2427) FINGERPRINT: Waiting for fingerprint module handshake...[0m
+[0;33mW (2727) FINGERPRINT: No handshake received, retry 1/10...[0m
+[0;33mW (3227) FINGERPRINT: No handshake received, retry 2/10...[0m
+[0;32mI (3457) FINGERPRINT: Received byte: 0x00[0m
+[0;32mI (3467) FINGERPRINT: Received byte: 0x55[0m
+[0;32mI (3467) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
+[0;32mI (3467) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (3477) FINGERPRINT: Finger detection task started[0m
+[0;32mI (3477) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (3507) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (3507) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;33mW (3717) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (4037) FINGERPRINT: Returning response with 2 packets[0m
+[0;32mI (4037) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (4307) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4307) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;33mW (4407) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (4577) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4577) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (4717) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (4717) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (4997) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4997) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4997) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;32mI (4997) FINGERPRINT: Position 0 is free[0m
+[0;32mI (4997) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (5007) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5017) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5017) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5027) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5037) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5047) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5047) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5057) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5067) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5067) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5077) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5087) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5097) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5097) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5107) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5117) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5117) FINGERPRINT: Location 0 is available[0m
+[0;32mI (5127) FINGERPRINT: Fingerprint operation mode set to 2[0m
+[0;32mI (5127) FINGERPRINT: Waiting for a finger to be placed (via interrupt)...[0m
+[0;32mI (5327) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (5597) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5597) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (7507) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (7507) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (7967) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7967) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;33mW (7967) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (8467) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (8467) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (8467) FINGERPRINT: Finger presence confirmed on attempt 2[0m
+[0;32mI (8467) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (8467) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (8477) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (8497) FINGERPRINT: First fingerprint image captured successfully![0m
+[0;32mI (8497) FINGERPRINT: Remove finger and place it again...[0m
+[0;32mI (8577) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (8577) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (8577) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (8747) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (8747) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (8747) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (8747) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (10927) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (10927) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (11407) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (11407) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (11847) FINGERPRINT: Returning response with 2 packets[0m
+[0;32mI (11847) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (11847) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (11847) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (11847) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (11857) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (11867) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (11877) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (11847) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (11957) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (11957) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (11957) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (12127) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (12127) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (12127) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (12127) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (12457) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (12457) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (12647) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (12647) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (12647) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (12647) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (12647) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (12657) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (12647) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (12757) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (12757) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (12757) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (12997) FINGERPRINT: Returning response with 2 packets[0m
+[0;32mI (12997) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (12997) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (12997) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (13007) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (13007) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (13017) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (13257) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (13257) FINGERPRINT: Processing fingerprint in mode: 2[0m
+[0;32mI (13317) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (13317) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (13317) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (13317) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (13317) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (13327) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (13327) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (13767) FINGERPRINT: Returning response with 3 packets[0m
+[0;32mI (13767) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (13767) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (13767) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (13767) FINGERPRINT: First enrollment image captured successfully[0m
+[0;32mI (13777) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (13777) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (13787) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (13797) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (13807) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (13807) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (13777) FINGERPRINT: Please remove your finger...[0m
+[0;32mI (14067) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (14067) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (14067) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (14067) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (14567) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (14567) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (15267) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (15267) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (15267) FINGERPRINT: Finger removal confirmed[0m
+[0;32mI (15567) FINGERPRINT: Fingerprint operation mode set to 3[0m
+[0;32mI (15567) FINGERPRINT: Please place the same finger again (via interrupt)...[0m
+[0;32mI (15567) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (15967) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (15967) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (16567) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (16877) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (16877) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (19387) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (19387) FINGERPRINT: Processing fingerprint in mode: 3[0m
+[0;32mI (19897) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (19897) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (19897) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (19897) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (19897) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (19907) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (19927) FINGERPRINT: Second fingerprint image captured successfully![0m
+[0;32mI (20007) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (20007) FINGERPRINT: Second enrollment image captured, creating model[0m
+[0;32mI (20177) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (20177) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (20177) FINGERPRINT: Unknown event triggered. Status: 0x00[0m
+[0;32mI (20177) FINGERPRINT: Fingerprint model created successfully![0m
+[0;32mI (20387) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (20387) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (20387) FINGERPRINT: Search returned success but match score is 0, treating as no match[0m
+[0;32mI (20387) FINGERPRINT: Fingerprint mismatch. Status: 0x00[0m
+[1;31mE (20397) FINGERPRINT: Fingerprint already exists in database![0m
+[0;32mI (20397) FINGERPRINT: Fingerprint operation mode set to 2[0m
+[0;32mI (20407) FINGERPRINT: Waiting for a finger to be placed (via interrupt)...[0m
+[0;32mI (20607) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (20607) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (20607) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (20677) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (21607) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (21937) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (21937) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m

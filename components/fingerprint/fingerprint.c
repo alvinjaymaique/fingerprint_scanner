@@ -52,9 +52,6 @@ static bool finger_detected_flag = false;
 static uint32_t last_interrupt_time = 0;
 static const uint32_t DEBOUNCE_TIME_MS = 300; // Debounce time in milliseconds
 
-static QueueHandle_t template_data_queue = NULL;
-static SemaphoreHandle_t template_data_mutex = NULL;
-
 // bool template_available = false;
 // uint8_t saved_template_size = 0;
 
@@ -819,13 +816,6 @@ esp_err_t fingerprint_init(void) {
         ESP_LOGE(TAG, "Failed to create queues");
         return ESP_FAIL;
     }
-
-    template_data_queue = xQueueCreate(TEMPLATE_QUEUE_SIZE, sizeof(template_data_chunk_t));
-    template_data_mutex = xSemaphoreCreateMutex();
-    if (!template_data_queue || !template_data_mutex) {
-        ESP_LOGE(TAG, "Failed to create template data queue or mutex");
-        return ESP_FAIL;
-    }
     
 // 4. HANDSHAKE FIRST - BEFORE ANY INTERRUPTS OR TASKS
 uint8_t handshake;
@@ -1211,6 +1201,68 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 
 //     return packet;
 // }
+
+// Add these function implementations right before the fingerprint_init function
+
+/**
+ * @brief Register a callback function to handle fingerprint events.
+ *
+ * This function sets the global event handler function pointer to the provided
+ * callback function, allowing it to be called when fingerprint events occur.
+ *
+ * @param handler Function pointer to the event handler callback
+ */
+void register_fingerprint_event_handler(fingerprint_event_handler_t handler) {
+    g_fingerprint_event_handler = handler;
+    ESP_LOGI(TAG, "Fingerprint event handler registered");
+}
+
+/**
+ * @brief Trigger a fingerprint event and call the registered event handler.
+ *
+ * This function is called internally when a fingerprint event occurs.
+ * It checks if an event handler is registered and calls it with the event data.
+ *
+ * @param event The fingerprint event to trigger
+ */
+void trigger_fingerprint_event(fingerprint_event_t event) {
+    if (g_fingerprint_event_handler != NULL) {
+        // Create a copy of the event to avoid any data races
+        fingerprint_event_t event_copy = event;
+        
+        // Handle deep copy of template data if needed
+        if (event.type == EVENT_TEMPLATE_UPLOADED && 
+            event.data.template_data.data != NULL &&
+            event.data.template_data.size > 0) {
+            
+            // Make a deep copy of template data
+            uint8_t* template_copy = heap_caps_malloc(event.data.template_data.size, MALLOC_CAP_8BIT);
+            if (template_copy) {
+                memcpy(template_copy, event.data.template_data.data, event.data.template_data.size);
+                event_copy.data.template_data.data = template_copy;
+                // Other fields are already copied
+            } else {
+                // If allocation fails, set data to NULL to prevent accessing invalid memory
+                event_copy.data.template_data.data = NULL;
+                event_copy.data.template_data.size = 0;
+                event_copy.data.template_data.is_complete = false;
+                ESP_LOGE(TAG, "Failed to allocate memory for template data copy");
+            }
+        }
+        
+        // Call the handler with the event copy
+        g_fingerprint_event_handler(event_copy);
+        
+        // Free any allocated memory
+        if (event.type == EVENT_TEMPLATE_UPLOADED && 
+            event_copy.data.template_data.data != NULL &&
+            event_copy.data.template_data.data != event.data.template_data.data) {
+            heap_caps_free(event_copy.data.template_data.data);
+        }
+    } else {
+        ESP_LOGW(TAG, "No fingerprint event handler registered");
+    }
+}
 
 
 MultiPacketResponse* fingerprint_read_response(void) {
@@ -2489,16 +2541,13 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
     fingerprint_event_t event;
     event.status = status;
     event.command = last_sent_command;
-    // event.packet = *packet;  // Store full response packet
 
     if (packet != NULL) {
         event.packet = *packet;  // Store full response packet
     } else {
         memset(&event.packet, 0, sizeof(FingerprintPacket));  // Clear packet structure to avoid garbage values
     }
-    // uint16_t packet_length = sizeof(packet);
-    // ESP_LOGI(TAG, "Outside fingerprint status handler: 0x%02X", status);
-    // ESP_LOG_BUFFER_HEX(TAG, packet, packet_length);
+
     switch (status) {
         case FINGERPRINT_OK:
             // Signal success for GetImage command
@@ -2511,16 +2560,29 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
                 ESP_LOGI(TAG, "Feature extraction successful, signaling event group");
             }
-            // ESP_LOGI(TAG, "Fingerprint operation successful: 0x%02X", status);
+
+            // In the fingerprint_status_event_handler function, modify the FINGERPRINT_CMD_SEARCH handling:
             if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
-                event_type = EVENT_SEARCH_SUCCESS;
-                event.packet = *packet;
-                // Parse parameters into structured format
+                // Parse match information first
                 event.data.match_info.page_id = (packet->parameters[1] << 8) | packet->parameters[0];
                 event.data.match_info.template_id = convert_page_id_to_index(event.data.match_info.page_id);
                 event.data.match_info.match_score = (packet->parameters[3] << 8) | packet->parameters[2];
-                if (enroll_event_group) {
-                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);  // Changed from FAIL to SUCCESS
+                
+                // Only consider it a match if score is greater than 0
+                if (event.data.match_info.match_score > 0) {
+                    // This is a real match with a positive score
+                    event_type = EVENT_SEARCH_SUCCESS;
+                    if (enroll_event_group) {
+                        xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                    }
+                    ESP_LOGI(TAG, "Real match found with score %d", event.data.match_info.match_score);
+                } else {
+                    // Score of 0 means no real match was found (common with empty database)
+                    event_type = EVENT_MATCH_FAIL;
+                    if (enroll_event_group) {
+                        xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                    }
+                    ESP_LOGI(TAG, "Search returned success but match score is 0, treating as no match");
                 }
             } else if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE && enroll_event_group!=NULL) {
                 event_type = EVENT_FINGER_DETECTED;
@@ -2530,45 +2592,40 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             } else if (last_sent_command == FINGERPRINT_CMD_VALID_TEMPLATE_NUM) {
                 event_type = EVENT_TEMPLATE_COUNT;
                 event.data.template_count.count = (packet->parameters[0] << 8) | packet->parameters[1];
-                // ESP_LOGI(TAG, "Number of valid templates: %d", event.data.template_count.count);
             } else if (last_sent_command == FINGERPRINT_CMD_READ_INDEX_TABLE) {
                 event_type = EVENT_INDEX_TABLE_READ;
-                // if (enroll_event_group) {
-                //     EventBits_t flags = xEventGroupGetBits(enroll_event_group);
-                //     if (flags & CHECKING_LOCATION_BIT) {  // Check if location check is active
-                //         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
-                //     }
-                // }
-
-                if (packet != NULL && enroll_event_group) {
+                
+                // Check if we're validating a location during enrollment
+                if (packet != NULL && enroll_event_group && 
+                    xEventGroupGetBits(enroll_event_group) & CHECKING_LOCATION_BIT) {
+                    
                     uint8_t template_exists = 0;
-                    
-                    // // Debug print the index table data
-                    // ESP_LOGI(TAG, "Index Table Response received:");
-                    // ESP_LOG_BUFFER_HEX(TAG, packet->parameters, packet->length); // Print all 32 bytes of index data
-                    
-                    // The index table response format has 32 bytes of index data
-                    // Each bit represents one template location
                     uint8_t position = global_location & 0xFF;
                     uint8_t byte_offset = position / 8;    // Which byte contains our bit
                     uint8_t bit_position = position % 8;   // Which bit in that byte
                     
-                    // ESP_LOGI(TAG, "Checking template at position %d (byte %d, bit %d)", 
-                    //          position, byte_offset, bit_position);
+                    ESP_LOGI(TAG, "Checking template at position %d (byte %d, bit %d)", 
+                             position, byte_offset, bit_position);
                     
                     // Check if the bit is set in the index table
                     if (byte_offset < 32) { // We have 32 bytes of index data
                         if (packet->parameters[byte_offset] & (1 << bit_position)) {
                             template_exists = 1;
-                            // ESP_LOGW(TAG, "Template exists at position %d", position);
+                            ESP_LOGW(TAG, "Template exists at position %d", position);
                         } else {
-                            // ESP_LOGI(TAG, "Position %d is free", position);
+                            ESP_LOGI(TAG, "Position %d is free", position);
                         }
                     }
                     
+                    // Set appropriate event bit based on whether template exists
                     if (template_exists) {
                         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
                     } else {
+                        xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                    }
+                } else {
+                    // For normal index table reads, just signal success
+                    if (enroll_event_group) {
                         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
                     }
                 }
@@ -2591,13 +2648,11 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 event.data.sys_params.data_packet_size = (1 << 5) << ((packet->parameters[12] << 8) | packet->parameters[13]); // 32 << N
                 event.data.sys_params.baud_rate = ((packet->parameters[14] << 8) | packet->parameters[15]) * 9600;
             } else if (last_sent_command == FINGERPRINT_CMD_LOAD_CHAR) {
-                // ESP_LOGI(TAG, "Template loaded successfully");
                 event_type = EVENT_TEMPLATE_LOADED;
             } if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
                 event_type = EVENT_TEMPLATE_UPLOADED;
                 if (packet->packet_id == 0x02) {  // Data packet
                     ESP_LOGI(TAG, "Received data packet");
-                    // Process the template data here
                 } else if (packet->packet_id == 0x07) {  // Initial acknowledgment
                     ESP_LOGI(TAG, "Upload starting");
                 } else if (packet->packet_id == 0x08) {  // Final packet
@@ -2698,7 +2753,6 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         case FINGERPRINT_DB_RANGE_ERROR:
         case FINGERPRINT_READ_TEMPLATE_ERROR:
         case FINGERPRINT_UPLOAD_FEATURE_FAIL:
-            // This is the status code 0x0D that appears in your logs
             ESP_LOGE(TAG, "Template upload failed with status 0x%02X - template may not exist", status);
             event_type = EVENT_TEMPLATE_UPLOAD_FAIL;
             
@@ -2711,25 +2765,12 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         case FINGERPRINT_DB_EMPTY:
         case FINGERPRINT_ENTRY_COUNT_ERROR:
         case FINGERPRINT_ALREADY_EXISTS:
-        // if (last_sent_command == FINGERPRINT_CMD_STORE_CHAR || 
-        //     last_sent_command == FINGERPRINT_CMD_REG_MODEL ||
-        //     (last_sent_command == FINGERPRINT_CMD_GEN_CHAR && packet->parameters[0] == 0x01) ||  // Gen Char 1
-        //     (last_sent_command == FINGERPRINT_CMD_GEN_CHAR && packet->parameters[0] == 0x02))   // Gen Char 2
-        //     {
-        //         event_type = EVENT_ENROLL_FAIL;  // ❌ Enrollment failed
-        //         if (enroll_event_group) {   
-        //             xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
-        //         }
-        //     } else {
-        //         event_type = EVENT_MATCH_FAIL;
-        //     }
             ESP_LOGI(TAG, "Template exists at specified location");
             if(last_sent_command == FINGERPRINT_CMD_STORE_CHAR){
                 event_type = EVENT_TEMPLATE_EXISTS;
             } else {
                 event_type = EVENT_MATCH_FAIL;
             }
-            // event_type = EVENT_TEMPLATE_EXISTS;
             if (enroll_event_group) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
             }
@@ -2750,8 +2791,6 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             break;
 
         default:
-            // ESP_LOGE("Fingerprint", "Unknown status: 0x%02X", status);
-            // event_type = EVENT_ERROR;
             ESP_LOGW(TAG, "Unhandled status code: 0x%02X", status);
             if (status == 0x02) { // Scanner ready status
                 event_type = EVENT_SCANNER_READY;
@@ -2765,31 +2804,13 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
     }
     if(event_type != EVENT_NONE && g_fingerprint_event_handler){
         event.type = event_type;
-        // ESP_LOGI("Fingerprint", "Triggering event: %d for status: 0x%02X", event_type, status);
         trigger_fingerprint_event(event);
     }
-    // ESP_LOGI("Fingerprint", "Triggering event: %d for status: 0x%02X", event_type, status);
-    // trigger_fingerprint_event(event_type, status);
 
     // Log event group bits for debugging
     if (enroll_event_group) {
         EventBits_t bits = xEventGroupGetBits(enroll_event_group);
-        // ESP_LOGI(TAG, "Current event bits: 0x%02X", (unsigned int)bits);
-    }
-}
-
-// Function to register the event handler
-void register_fingerprint_event_handler(fingerprint_event_handler_t handler) {
-    g_fingerprint_event_handler = handler;
-}
-
-// Function to trigger the event (you can call this inside your fingerprint processing flow)
-void trigger_fingerprint_event(fingerprint_event_t event) {
-    if (g_fingerprint_event_handler != NULL) {
-        // fingerprint_event_t event = {event_type, status};
-        g_fingerprint_event_handler(event);  /**< Call the registered event handler. */
-    } else {
-        ESP_LOGE("Fingerprint", "No event handler registered.");
+        ESP_LOGD(TAG, "Current event bits: 0x%02X", (unsigned int)bits);
     }
 }
 
@@ -2807,12 +2828,22 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         }
     }
 
+    // Clear any stale bits before starting
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL | CHECKING_LOCATION_BIT);
+    
     // Set checking location flag
     xEventGroupSetBits(enroll_event_group, CHECKING_LOCATION_BIT);
     
     // First, validate if the location is available
     uint8_t page = location >> 8;  // Get the page number
     uint8_t position = location & 0xFF;  // Get position within page
+    
+    ESP_LOGI(TAG, "Checking if location %d is available (page %d, position %d)", location, page, position);
+    
+    // Clear any stale data in UART and queues
+    uart_flush(UART_NUM);
+    xQueueReset(fingerprint_command_queue);
+    xQueueReset(fingerprint_response_queue);
     
     uint8_t index_params[] = {page};  // Use the calculated page number
     fingerprint_set_command(&PS_ReadIndexTable, FINGERPRINT_CMD_READ_INDEX_TABLE, 
@@ -2821,6 +2852,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     err = fingerprint_send_command(&PS_ReadIndexTable, DEFAULT_FINGERPRINT_ADDRESS);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to read index table");
+        xEventGroupClearBits(enroll_event_group, CHECKING_LOCATION_BIT);
         goto cleanup;
     }
 
@@ -2831,8 +2863,12 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     // Clear checking location flag
     xEventGroupClearBits(enroll_event_group, CHECKING_LOCATION_BIT);
 
+    // Check if the location is occupied
     if (bits & ENROLL_BIT_FAIL) {
         ESP_LOGE(TAG, "Location %d is already occupied", location);
+        goto cleanup;
+    } else if (!(bits & ENROLL_BIT_SUCCESS)) {
+        ESP_LOGE(TAG, "Failed to check if location is available (timeout)");
         goto cleanup;
     }
 
@@ -2963,16 +2999,39 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         }
 
         bits = xEventGroupWaitBits(enroll_event_group,
-                            ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                            pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
 
-        if (bits & ENROLL_BIT_SUCCESS) {  // Match found = duplicate exists
-            ESP_LOGE(TAG, "Fingerprint already exists in database!");
+        // Don't rely just on event bits - check the actual match score
+        bool duplicate_found = false;
+        fingerprint_response_t response;
+
+        // Check if we received a valid response with match data
+        if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(100)) == pdTRUE) {
+            // Extract match score
+            uint16_t match_score = (response.packet.parameters[3] << 8) | response.packet.parameters[2];
+            
+            // Only consider it a duplicate if the match score is greater than 0
+            if (match_score > 0) {
+                uint16_t page_id = (response.packet.parameters[1] << 8) | response.packet.parameters[0];
+                ESP_LOGE(TAG, "Fingerprint already exists in database! (ID: %d, Score: %d)",
+                        convert_page_id_to_index(page_id), match_score);
+                duplicate_found = true;
+            } else {
+                ESP_LOGI(TAG, "Search returned zero score, not a duplicate");
+            }
+        } else if (bits & ENROLL_BIT_SUCCESS) {
+            // No response data but success bit set - be cautious and check
+            ESP_LOGW(TAG, "Search returned success but no response data available");
+            // If in doubt, continue with enrollment
+        }
+
+        if (duplicate_found) {
             attempts++;
             continue;
-        } else if (bits & ENROLL_BIT_FAIL) {  // No match found = good to proceed
-            ESP_LOGI(TAG, "No duplicate found, continuing enrollment...");
         }
+
+        ESP_LOGI(TAG, "No duplicate found, continuing enrollment...");
 
         // Store template at specified location
         uint8_t store_params[] = {1, (uint8_t)(location >> 8), (uint8_t)(location & 0xFF)};
@@ -3018,6 +3077,7 @@ esp_err_t verify_fingerprint(void) {
     EventBits_t bits;
     uint8_t attempts = 0;
     const uint8_t max_attempts = 3;
+    bool match_found = false;
 
     // Create event group if it doesn't exist
     if (enroll_event_group == NULL) {
@@ -3035,7 +3095,7 @@ esp_err_t verify_fingerprint(void) {
     
     ESP_LOGI(TAG, "Starting fingerprint verification...");
 
-    while (attempts < max_attempts) {
+    while (attempts < max_attempts && !match_found) {  // Add match_found to exit condition
         ESP_LOGI(TAG, "Please place your finger on the sensor (via interrupt)...");
         
         // Clear states more thoroughly
@@ -3070,7 +3130,45 @@ esp_err_t verify_fingerprint(void) {
                                  ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                                  pdTRUE, pdFALSE, pdMS_TO_TICKS(3000));
         
-        if (bits & ENROLL_BIT_SUCCESS) {
+        // We received a response, but we need to process ALL available responses
+        uint32_t start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+        uint32_t timeout = 2000; // 2 seconds to receive all responses
+        
+        while ((xTaskGetTickCount() * portTICK_PERIOD_MS - start_time) < timeout) {
+            fingerprint_response_t response;
+            
+            if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(100)) == pdTRUE) {
+                // Process each response packet
+                if (response.packet.code.confirmation == FINGERPRINT_OK && 
+                    last_sent_command == FINGERPRINT_CMD_SEARCH) {
+                    
+                    // Extract match data from this packet
+                    uint16_t page_id = (response.packet.parameters[1] << 8) | response.packet.parameters[0];
+                    uint16_t match_score = (response.packet.parameters[3] << 8) | response.packet.parameters[2];
+                    
+                    // Only consider it a real match if score is greater than 0
+                    if (match_score > 0) {
+                        match_found = true;
+                        ESP_LOGI(TAG, "Real match found! Template ID: %d, Score: %d", 
+                                convert_page_id_to_index(page_id), match_score);
+                        
+                        // Reset queue to prevent stale packets in future calls
+                        xQueueReset(fingerprint_response_queue);
+                        break; // Exit the inner loop, we found a match
+                    }
+                }
+            } else {
+                // No more packets in queue, check if we should break
+                if (match_found || (bits & ENROLL_BIT_FAIL)) {
+                    break;
+                }
+                
+                // Short delay before trying to receive again
+                vTaskDelay(pdMS_TO_TICKS(10));
+            }
+        }
+        
+        if (match_found) {
             ESP_LOGI(TAG, "Fingerprint verification successful!");
             // Reset operation mode
             fingerprint_set_operation_mode(FINGER_OP_NONE);
