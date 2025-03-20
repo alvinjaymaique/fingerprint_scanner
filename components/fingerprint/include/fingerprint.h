@@ -2093,6 +2093,8 @@ typedef struct {
     bool is_final;
 } template_data_chunk_t;
 
+const char* fingerprint_status_to_str(fingerprint_status_t status);
+
 
 
  #ifdef __cplusplus

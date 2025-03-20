@@ -96,14 +96,14 @@ void app_main(void)
     //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
     // }
     
-    // err = enroll_fingerprint(location);
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Fingerprint Enrolled!");
-    //     // Add your access control logic here
-    // } else {
-    //     ESP_LOGE(TAG, "Fingeprint not enrolled!");
-    //     // Add your failure handling heres
-    // }
+    err = enroll_fingerprint(location);
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Fingerprint Enrolled!");
+        // Add your access control logic here
+    } else {
+        ESP_LOGE(TAG, "Fingeprint not enrolled!");
+        // Add your failure handling heres
+    }
 
     // esp_err_t out = delete_fingerprint(location);
     // if (out == ESP_OK) {
@@ -112,12 +112,12 @@ void app_main(void)
     //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
     // }
 
-    err = clear_database();
-    if (err == ESP_OK) {
-        ESP_LOGI(TAG, "Fingerprint database cleared successfully!");
-    } else {
-        ESP_LOGE(TAG, "Failed to clear fingerprint database!");
-    }
+    // err = clear_database();
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Fingerprint database cleared successfully!");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to clear fingerprint database!");
+    // }
 
     
     ESP_LOGI(TAG, "Starting fingerprint verification...");
@@ -294,7 +294,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Match score: %d", event.data.match_info.match_score);
             break;
         case EVENT_MATCH_FAIL:
-            ESP_LOGI(TAG, "Fingerprint mismatch. Status: 0x%02X", event.status);
+            ESP_LOGE(TAG, "Fingerprint mismatch. Status: 0x%02X", event.status);
             break;
         case EVENT_ERROR:
             ESP_LOGE(TAG, "An error occurred during fingerprint processing. Status: 0x%02X", event.status);

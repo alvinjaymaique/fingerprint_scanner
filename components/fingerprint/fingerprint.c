@@ -2693,7 +2693,9 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 }
             }
             if (enroll_event_group) {
-                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                if (last_sent_command != FINGERPRINT_CMD_SEARCH) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                }
             }
             break;
 
