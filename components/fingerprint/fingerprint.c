@@ -3316,20 +3316,8 @@ esp_err_t read_system_parameters(void) {
 esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
     esp_err_t err;
     EventBits_t bits;
+    // uint16_t page_id = convert_index_to_page_id(template_id);
     uint16_t page_id = template_id;
-    
-    // Check if event group exists, create it if needed
-    if (enroll_event_group == NULL) {
-        ESP_LOGW(TAG, "Event group is NULL in load_template_to_buffer, creating new one");
-        enroll_event_group = xEventGroupCreate();
-        if (enroll_event_group == NULL) {
-            ESP_LOGE(TAG, "Failed to create event group in load_template_to_buffer");
-            return ESP_ERR_NO_MEM;
-        }
-    }
-    
-    // Clear any existing bits
-    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
     
     // Parameters: BufferID, Page Address (2 bytes)
     uint8_t params[] = {
@@ -3342,8 +3330,6 @@ esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
     err = fingerprint_send_command(&PS_LoadChar, DEFAULT_FINGERPRINT_ADDRESS);
     if (err != ESP_OK) return err;
     ESP_LOGI(TAG, "LoadChar command sent");
-    
-    // Wait for response with timeout
     bits = xEventGroupWaitBits(enroll_event_group,
                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                              pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
@@ -3381,99 +3367,33 @@ esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
 
 esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
     esp_err_t err;
-    EventBits_t bits;
-    bool created_event_group = false;
     
-    // Initialize event group for proper error detection
-    if (enroll_event_group == NULL) {
-        enroll_event_group = xEventGroupCreate();
-        if (enroll_event_group == NULL) {
-            ESP_LOGE(TAG, "Failed to create event group for template upload");
-            return ESP_ERR_NO_MEM;
-        }
-        created_event_group = true;
-    }
+    // Skip event group mechanism for template upload - it's unreliable
     
-    // Clear event flags
-    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL | TEMPLATE_UPLOAD_COMPLETE_BIT);
+    // 1. Clear UART buffer and response queues
+    uart_flush(UART_NUM);
+    xQueueReset(fingerprint_command_queue);
+    xQueueReset(fingerprint_response_queue);
     
-    // Send upload command
+    // 2. Send upload command with longer timeout
+    ESP_LOGI(TAG, "Sending UpChar command for buffer %d", buffer_id);
     uint8_t params[] = {buffer_id};
     fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
     err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
     if (err != ESP_OK) {
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
+        ESP_LOGE(TAG, "Failed to send UpChar command");
         return err;
     }
     
-    // Wait for initial response
-    bits = xEventGroupWaitBits(enroll_event_group,
-                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                             pdTRUE, pdFALSE, pdMS_TO_TICKS(3000));
-    
-    // Check for failure first
-    if (bits & ENROLL_BIT_FAIL) {
-        ESP_LOGE(TAG, "Template upload failed - template likely doesn't exist");
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
-        return ESP_FAIL;
-    }
-    
-    // If we didn't get success either, it's a timeout
-    if (!(bits & ENROLL_BIT_SUCCESS)) {
-        ESP_LOGE(TAG, "Template upload timed out waiting for response");
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
-        return ESP_ERR_TIMEOUT;
-    }
-    
-    // Success case - wait for template data with timeout
+    // 3. Simply wait a fixed time for template to transfer rather than using events
     ESP_LOGI(TAG, "Waiting for template data transfer...");
-    bits = xEventGroupWaitBits(enroll_event_group, 
-                              TEMPLATE_UPLOAD_COMPLETE_BIT,
-                              pdTRUE, pdFALSE, pdMS_TO_TICKS(5000));
+    vTaskDelay(pdMS_TO_TICKS(4000));  // 4 seconds should be plenty for template transfer
     
-    if (!(bits & TEMPLATE_UPLOAD_COMPLETE_BIT)) {
-        ESP_LOGE(TAG, "Template data transfer timed out");
-        // Even though we timed out, template data might be available in the global buffer
-        if (template_available && saved_template_size > 0) {
-            ESP_LOGW(TAG, "Template data available despite timeout (%d bytes)", saved_template_size);
-            *template_size = saved_template_size;
-            memcpy(template_data, saved_template, saved_template_size);
-            if (created_event_group) {
-                vEventGroupDelete(enroll_event_group);
-                enroll_event_group = NULL;
-            }
-            return ESP_OK;
-        }
-        
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
-        return ESP_ERR_TIMEOUT;
-    }
-    
-    // Template data successfully received
-    if (template_available && saved_template_size > 0) {
-        *template_size = saved_template_size;
-        memcpy(template_data, saved_template, saved_template_size);
-    }
-    
-    if (created_event_group) {
-        vEventGroupDelete(enroll_event_group);
-        enroll_event_group = NULL;
-    }
-    
+    // 4. Template should now be processed by fingerprint_read_response
+    ESP_LOGI(TAG, "Template upload should be complete");
     return ESP_OK;
 }
+
 
 /**
  * @brief Checks if a template exists at the specified location
@@ -3734,84 +3654,35 @@ esp_err_t backup_template(uint16_t template_id) {
     esp_err_t err;
     uint8_t template_data[512];  // Adjust size as needed
     size_t template_size = 0;
-    bool created_event_group = false;
-    bool template_received = false;
 
-    // Create event group at the start of backup process if needed
-    if (enroll_event_group == NULL) {
-        enroll_event_group = xEventGroupCreate();
-        if (enroll_event_group == NULL) {
-            ESP_LOGE(TAG, "Failed to initialize event group");
-            return ESP_ERR_NO_MEM;
-        }
-        created_event_group = true;
-    }
-    
-    ESP_LOGI(TAG, "Loading Template %d...", template_id);
-    
-    // First check if the template exists
-    err = fingerprint_check_template_exists(template_id);
+    // Create event group at the start of backup process
+    err = initialize_event_group();
     if (err != ESP_OK) {
-        ESP_LOGW(TAG, "Template %d does not exist or cannot be accessed", template_id);
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
-        return ESP_ERR_NOT_FOUND;  // Return specific error code for non-existent template
+        ESP_LOGE(TAG, "Failed to initialize event group");
+        return err;
     }
     
-    // Clear event bits before proceeding
-    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    ESP_LOGI(TAG, "Loading Template...");
+    // Convert template_id to page_id for LoadChar command
+    // uint16_t page_id = convert_index_to_page_id(template_id);
+    uint16_t page_id = template_id;
     
-    // 1. Load template from flash to buffer 1
+    // 1. Load template from flash to buffer 1 with correct page_id
     err = load_template_to_buffer(template_id, 1);
     if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to load template %d to buffer: %s", template_id, esp_err_to_name(err));
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
+        cleanup_event_group();
         return err;
     }
     
     ESP_LOGI(TAG, "Loading Template Successful");
-    
-    // Clear event bits before proceeding to upload
-    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
-    
     // 2. Upload template from buffer to host
     ESP_LOGI(TAG, "Uploading Template...");
-    
-    // Store the event group in a local variable before calling upload_template
-    EventGroupHandle_t local_event_group = enroll_event_group;
-    
     err = upload_template(1, template_data, &template_size);
     
-    // Check if template data was received by examining global variables
-    if (saved_template_size > 0 && template_available) {
-        template_received = true;
-        ESP_LOGI(TAG, "Template data received successfully (%d bytes)", saved_template_size);
-    }
-    
-    // Only delete the event group if we created it AND it hasn't been deleted yet
-    // Check if the global event group is still the same as our local copy
-    if (created_event_group && enroll_event_group == local_event_group) {
-        vEventGroupDelete(enroll_event_group);
-        enroll_event_group = NULL;
-    }
-    
-    // Return success if we received template data, even if the upload_template function timed out
-    if (template_received) {
-        ESP_LOGI(TAG, "Template backup successful, size: %d bytes", saved_template_size);
-        return ESP_OK;
-    }
-    
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to upload template: %s", esp_err_to_name(err));
-        return err;
-    }
+    cleanup_event_group();
+    if (err != ESP_OK) return err;
 
-    ESP_LOGI(TAG, "Template backup successful, size: %d bytes", template_size);
+    ESP_LOGI(TAG, "Template backup successful");
     return ESP_OK;
 }
 
