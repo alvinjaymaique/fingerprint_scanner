@@ -2026,6 +2026,75 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
  */
 void finger_detection_task(void *pvParameter);
 
+/**
+ * @brief Fingerprint operation modes for the finger detection task
+ */
+typedef enum {
+    FINGER_OP_NONE = 0,       /*!< No specific operation, default search behavior */
+    FINGER_OP_VERIFY,         /*!< Verification mode - search database for match */
+    FINGER_OP_ENROLL_FIRST,   /*!< First step of enrollment - capture first image */
+    FINGER_OP_ENROLL_SECOND,  /*!< Second step of enrollment - capture second image */
+    FINGER_OP_CUSTOM          /*!< Custom operation mode - caller handles next steps */
+} finger_operation_mode_t;
+
+/**
+ * @brief Set the operation mode for the finger detection task
+ * 
+ * This function configures how the finger detection task will process
+ * the next detected fingerprint.
+ * 
+ * @param mode The operation mode to set
+ * @return ESP_OK on success, or an error code on failure
+ */
+esp_err_t fingerprint_set_operation_mode(finger_operation_mode_t mode);
+
+/**
+ * @brief Get the current operation mode of the finger detection task
+ * 
+ * @return The current operation mode
+ */
+finger_operation_mode_t fingerprint_get_operation_mode(void);
+
+/**
+ * @brief Wait for a finger to be detected and processed according to the current operation mode
+ * 
+ * This function blocks until a finger is detected and processed, or until the timeout expires.
+ * 
+ * @param timeout_ms Timeout in milliseconds, or 0 for no timeout
+ * @return ESP_OK if finger was detected and processed successfully,
+ *         ESP_ERR_TIMEOUT if the timeout expired,
+ *         or another error code on failure
+ */
+esp_err_t fingerprint_wait_for_finger(uint32_t timeout_ms);
+
+/**
+ * @brief Checks if a template exists at the specified location
+ * 
+ * This function attempts to upload a template from the specified location.
+ * If the template exists, the function returns ESP_OK.
+ * If the template doesn't exist, the function returns ESP_FAIL.
+ * 
+ * @param template_id The ID of the template to check
+ * @return ESP_OK if template exists, ESP_FAIL if not, or other error code
+ */
+esp_err_t fingerprint_check_template_exists(uint16_t template_id);
+
+// Add VIN control pin definition
+#define FINGERPRINT_VIN_PIN GPIO_NUM_9  // D9 for VIN control
+
+esp_err_t fingerprint_power_control(bool power_on);
+
+#define TEMPLATE_QUEUE_SIZE 10
+#define TEMPLATE_MAX_SIZE 2048
+
+typedef struct {
+    uint8_t *data;
+    size_t size;
+    bool is_final;
+} template_data_chunk_t;
+
+
+
  #ifdef __cplusplus
  }
  #endif

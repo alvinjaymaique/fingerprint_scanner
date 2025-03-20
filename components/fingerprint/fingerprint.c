@@ -42,14 +42,42 @@ static QueueHandle_t fingerprint_response_queue = NULL;
 static QueueHandle_t fingerprint_command_queue = NULL;
 static QueueHandle_t finger_detected_queue = NULL;
 
+// Add these variables at the top of the file with other static variables
+static finger_operation_mode_t current_operation = FINGER_OP_NONE;
+static SemaphoreHandle_t finger_op_mutex = NULL;
+
+// Add these variables at the top of the file with other static variables
+static SemaphoreHandle_t finger_detect_mutex = NULL;
+static bool finger_detected_flag = false;
+static uint32_t last_interrupt_time = 0;
+static const uint32_t DEBOUNCE_TIME_MS = 300; // Debounce time in milliseconds
+
+static QueueHandle_t template_data_queue = NULL;
+static SemaphoreHandle_t template_data_mutex = NULL;
+
+// bool template_available = false;
+// uint8_t saved_template_size = 0;
+
 bool enrollment_in_progress = false;
 
-// ISR handler for fingerprint detection interrupt, sending detection signal to the queue.
+// Replace the existing finger_detected_isr function with this improved version
 void IRAM_ATTR finger_detected_isr(void* arg) {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    uint8_t finger_detected = 1; // Flag for finger detection
-    xQueueSendFromISR(finger_detected_queue, &finger_detected, &xHigherPriorityTaskWoken);
-    portYIELD_FROM_ISR(xHigherPriorityTaskWoken); // Yield if needed
+    uint32_t current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+    
+    // Simple debounce - ignore interrupts that come too quickly after the previous one
+    if (current_time - last_interrupt_time < DEBOUNCE_TIME_MS) {
+        return; // Ignore this interrupt (debounce)
+    }
+    
+    last_interrupt_time = current_time;
+    
+    // Only send to queue if we're not already processing a fingerprint
+    if (!is_fingerprint_validating) {
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        uint8_t finger_detected = 1;
+        xQueueSendFromISR(finger_detected_queue, &finger_detected, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
 }
 
 
@@ -57,6 +85,15 @@ void finger_detection_task(void *pvParameter) {
     uint8_t finger_detected;
     esp_err_t err;
     EventBits_t bits;
+    uint32_t process_start_time = 0;
+    const uint32_t PROCESS_TIMEOUT_MS = 5000; // 5 second timeout
+    
+    // Create mutex for finger detection
+    finger_detect_mutex = xSemaphoreCreateMutex();
+    if (finger_detect_mutex == NULL) {
+        ESP_LOGE(TAG, "Failed to create finger detection mutex");
+        return;
+    }
     
     ESP_LOGI(TAG, "Finger detection task started");
     
@@ -65,84 +102,164 @@ void finger_detection_task(void *pvParameter) {
         if (xQueueReceive(finger_detected_queue, &finger_detected, portMAX_DELAY) == pdTRUE) {
             ESP_LOGI(TAG, "Finger detected via interrupt!");
             
-            // Debounce - short delay to ensure finger is stable
-            vTaskDelay(pdMS_TO_TICKS(50));
+            // Take mutex to prevent concurrent processing
+            if (xSemaphoreTake(finger_detect_mutex, pdMS_TO_TICKS(100)) != pdTRUE) {
+                ESP_LOGW(TAG, "Could not take finger detection mutex, skipping");
+                continue;
+            }
             
             // Only proceed if we're not already processing a fingerprint
             if (!is_fingerprint_validating) {
                 is_fingerprint_validating = true;
+                process_start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
                 
-                // Clear states
-                uart_flush(UART_NUM);
+                // Get current operation mode with mutex protection
+                finger_operation_mode_t current_op = fingerprint_get_operation_mode();
+                ESP_LOGI(TAG, "Processing fingerprint in mode: %d", current_op);
+                
+                // Clear states - but be careful not to flush important data
                 xQueueReset(fingerprint_command_queue);
-                xQueueReset(fingerprint_response_queue);
                 
                 if (enroll_event_group != NULL) {
                     xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
                 }
                 
-                // Capture fingerprint image
-                err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
-                if (err != ESP_OK) {
-                    ESP_LOGE(TAG, "Failed to send GetImage command: %s", esp_err_to_name(err));
+                // Confirm finger presence with multiple checks
+                bool finger_confirmed = false;
+                for (int attempt = 0; attempt < 3; attempt++) {
+                    // Delay to ensure finger is stable
+                    vTaskDelay(pdMS_TO_TICKS(50));
+                    
+                    // Step 1: Try to capture fingerprint image
+                    err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
+                    if (err != ESP_OK) {
+                        ESP_LOGE(TAG, "Failed to send GetImage command: %s", esp_err_to_name(err));
+                        continue;
+                    }
+                    
+                    // Wait for image capture response with short timeout
+                    if (enroll_event_group != NULL) {
+                        bits = xEventGroupWaitBits(enroll_event_group,
+                                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(800));
+                        
+                        if (bits & ENROLL_BIT_SUCCESS) {
+                            // Image captured successfully, finger is confirmed
+                            finger_confirmed = true;
+                            ESP_LOGI(TAG, "Finger presence confirmed on attempt %d", attempt + 1);
+                            break;
+                        } else {
+                            ESP_LOGW(TAG, "Finger presence check failed on attempt %d", attempt + 1);
+                        }
+                    }
+                    
+                    // Short delay before next attempt
+                    vTaskDelay(pdMS_TO_TICKS(100));
+                }
+                
+                if (!finger_confirmed) {
+                    ESP_LOGW(TAG, "Could not confirm finger presence after multiple attempts");
                     is_fingerprint_validating = false;
+                    xSemaphoreGive(finger_detect_mutex);
                     continue;
                 }
                 
-                // Wait for response with timeout
-                if (enroll_event_group != NULL) {
-                    bits = xEventGroupWaitBits(enroll_event_group,
-                                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                             pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
-                    
-                    if (bits & ENROLL_BIT_SUCCESS) {
-                        // Image captured successfully, proceed with feature extraction
-                        err = fingerprint_send_command(&PS_GenChar1, DEFAULT_FINGERPRINT_ADDRESS);
-                        if (err != ESP_OK) {
-                            ESP_LOGE(TAG, "Failed to send GenChar1 command: %s", esp_err_to_name(err));
-                            is_fingerprint_validating = false;
-                            continue;
-                        }
-                        
-                        bits = xEventGroupWaitBits(enroll_event_group,
-                                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
-                        
-                        if (bits & ENROLL_BIT_SUCCESS) {
-                            // Feature extraction successful, proceed with search
-                            uint8_t search_params[] = {0x01,    // BufferID = 1
-                                                     0x00, 0x00, // Start page = 0
-                                                     0x00, 0x64}; // Number of pages = 100
-                            
-                            fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
-                            err = fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
-                            if (err != ESP_OK) {
-                                ESP_LOGE(TAG, "Failed to send Search command: %s", esp_err_to_name(err));
-                                is_fingerprint_validating = false;
-                                continue;
-                            }
-                            
-                            // Wait for search result
-                            bits = xEventGroupWaitBits(enroll_event_group,
-                                                     ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                                     pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-                            
-                            // Result will be handled by the event handler
-                        } else {
-                            ESP_LOGW(TAG, "Feature extraction failed");
-                        }
-                    } else {
-                        ESP_LOGW(TAG, "Image capture failed or timed out");
-                    }
-                } else {
-                    // No event group available, just wait a bit for response processing
-                    vTaskDelay(pdMS_TO_TICKS(1000));
+                // Now that we've confirmed a finger is present, proceed with feature extraction
+                ESP_LOGI(TAG, "Image capture successful, processing features");
+                
+                // Determine which buffer to use based on operation
+                uint8_t buffer_id = (current_op == FINGER_OP_ENROLL_SECOND) ? 2 : 1;
+                
+                // Step 2: Extract features into the appropriate buffer
+                FingerprintPacket *gen_char_cmd = (buffer_id == 1) ? &PS_GenChar1 : &PS_GenChar2;
+                err = fingerprint_send_command(gen_char_cmd, DEFAULT_FINGERPRINT_ADDRESS);
+                
+                if (err != ESP_OK) {
+                    ESP_LOGE(TAG, "Failed to send GenChar%d command: %s", buffer_id, esp_err_to_name(err));
+                    is_fingerprint_validating = false;
+                    xSemaphoreGive(finger_detect_mutex);
+                    continue;
                 }
                 
+                // Add a small delay to ensure command is processed
+                vTaskDelay(pdMS_TO_TICKS(100));
+                
+                // Wait for feature extraction response with longer timeout
+                bits = xEventGroupWaitBits(enroll_event_group,
+                                         ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                         pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+                
+                if (bits & ENROLL_BIT_SUCCESS) {
+                    // Feature extraction successful
+                    ESP_LOGI(TAG, "Fingerprint features extracted successfully! Status: 0x00");
+                    
+                    switch (current_op) {
+                        case FINGER_OP_VERIFY:
+                            ESP_LOGI(TAG, "Verification mode: searching database");
+                            uint8_t search_params[] = {0x01, 0x00, 0x00, 0x00, 0x64};
+                            fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
+                            fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
+                            
+                            // Wait for search response with timeout
+                            vTaskDelay(pdMS_TO_TICKS(1000));
+                            break;
+                            
+                        case FINGER_OP_ENROLL_FIRST:
+                            ESP_LOGI(TAG, "First enrollment image captured successfully");
+                            if (enroll_event_group != NULL) {
+                                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                            }
+                            break;
+                            
+                        case FINGER_OP_ENROLL_SECOND:
+                            ESP_LOGI(TAG, "Second enrollment image captured, creating model");
+                            fingerprint_send_command(&PS_RegModel, DEFAULT_FINGERPRINT_ADDRESS);
+                            // Wait for model creation response
+                            vTaskDelay(pdMS_TO_TICKS(500));
+                            break;
+                            
+                        case FINGER_OP_CUSTOM:
+                            ESP_LOGI(TAG, "Custom operation: feature extraction complete");
+                            if (enroll_event_group != NULL) {
+                                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                            }
+                            break;
+                            
+                        case FINGER_OP_NONE:
+                        default:
+                            ESP_LOGI(TAG, "Default mode: searching database");
+                            uint8_t default_params[] = {0x01, 0x00, 0x00, 0x00, 0x64};
+                            fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, default_params, sizeof(default_params));
+                            fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
+                            
+                            // Wait for search response with timeout
+                            vTaskDelay(pdMS_TO_TICKS(1000));
+                            break;
+                    }
+                } else {
+                    ESP_LOGW(TAG, "Feature extraction failed or timed out");
+                    // Signal failure
+                    if (enroll_event_group != NULL) {
+                        xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                    }
+                }
+                
+                // Always reset the validation flag when processing is complete
                 is_fingerprint_validating = false;
+                ESP_LOGI(TAG, "Fingerprint processing completed");
             } else {
-                ESP_LOGW(TAG, "Ignoring finger detection - already processing");
+                // Check if processing has been going on too long (stuck case)
+                uint32_t current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+                if (current_time - process_start_time > PROCESS_TIMEOUT_MS) {
+                    ESP_LOGW(TAG, "Fingerprint processing timed out - forcing reset");
+                    is_fingerprint_validating = false;
+                } else {
+                    ESP_LOGW(TAG, "Ignoring finger detection - already processing");
+                }
             }
+            
+            // Release mutex
+            xSemaphoreGive(finger_detect_mutex);
             
             // Wait a bit before accepting new interrupts to prevent rapid triggering
             vTaskDelay(pdMS_TO_TICKS(500));
@@ -659,101 +776,175 @@ static inline uint16_t max(uint16_t a, uint16_t b) {
 
 esp_err_t fingerprint_init(void) {
     ESP_LOGI(TAG, "Initializing fingerprint scanner...");
+    esp_err_t err;
 
-    // UART configuration
+    // // FIRST STEP: Power up the fingerprint module
+    // err = fingerprint_power_control(true);
+    // if (err != ESP_OK) {
+    //     ESP_LOGE(TAG, "Failed to power up fingerprint module");
+    //     return err;
+    // }
+    
+    // 1. INITIALIZE FLAGS FIRST - CRITICAL
+    is_fingerprint_validating = false;
+    last_interrupt_time = 0;
+    
+    // 2. UART CONFIGURATION FIRST
     uart_config_t uart_config = {
-        .baud_rate = baud_rate,  // Use provided DEFAULT_BAUD_RATE
+        .baud_rate = baud_rate,
         .data_bits = UART_DATA_8_BITS,
         .parity = UART_PARITY_DISABLE,
         .stop_bits = UART_STOP_BITS_1,
         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
     };
-
-    esp_err_t err;
-
-    // Set UART pins first
-    err = uart_set_pin(UART_NUM, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to set UART pins");
-        return err;
-    }
-
-    // Now configure UART
+    
+    // First configure UART
     err = uart_param_config(UART_NUM, &uart_config);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to configure UART");
-        return err;
-    }
-
-    // Install UART driver
+    if (err != ESP_OK) return err;
+    
+    // Set pins
+    err = uart_set_pin(UART_NUM, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+    if (err != ESP_OK) return err;
+    
+    // Install driver
     err = uart_driver_install(UART_NUM, RX_BUF_SIZE * 2, 0, 0, NULL, 0);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to install UART driver");
-        return err;
-    }
-
-    // Prevent Reinitialization
-    if (fingerprint_task_handle != NULL) {
-        ESP_LOGW(TAG, "Fingerprint library already initialized.");
-        return ESP_OK;
-    }
-
-    // Handshake detection loop (0x55)
-    uint8_t handshake;
-    int length;
-    while (1) {
-        length = uart_read_bytes(UART_NUM, &handshake, 1, pdMS_TO_TICKS(200));  // Timeout 500ms
-        if (length > 0 && handshake == 0x55) {
-            ESP_LOGI(TAG, "Fingerprint module handshake received: 0x%02X", handshake);
-            break;  // Exit the loop once handshake is received
-        } else {
-            ESP_LOGW(TAG, "No handshake received, retrying...");
-            vTaskDelay(pdMS_TO_TICKS(200));  // Delay to ensure module is ready before retrying
-        }
-    }
-
-    // Create Queue for Response Handling
-    fingerprint_response_queue = xQueueCreate(QUEUE_SIZE, sizeof(fingerprint_response_t));
-    if (fingerprint_response_queue == NULL) {
-        ESP_LOGE(TAG, "Failed to create response queue");
-        return ESP_FAIL;
-    }
-
-    // Create Queue for Storing Sent Commands
+    if (err != ESP_OK) return err;
+    
+    // 3. CREATE QUEUES BEFORE STARTING ANY TASKS
     fingerprint_command_queue = xQueueCreate(QUEUE_SIZE, sizeof(fingerprint_command_info_t));
-    if (fingerprint_command_queue == NULL) {
-        ESP_LOGE(TAG, "Failed to create command queue");
-        return ESP_FAIL;
-    }
-
-    // Create Response Handling Task
-    if (xTaskCreate(read_response_task, "FingerprintReadResponse", 4096, NULL, configMAX_PRIORITIES - 2, &fingerprint_task_handle) != pdPASS) {
-        ESP_LOGE(TAG, "Failed to create fingerprint response task");
-        return ESP_FAIL;
-    }
-
-    // Create Response Processing Task
-    if (xTaskCreate(process_response_task, "FingerprintProcessResponse", 4096, NULL, configMAX_PRIORITIES - 1, NULL) != pdPASS) {
-        ESP_LOGE(TAG, "Failed to create fingerprint response task");
-        return ESP_FAIL;
-    }
-
-    // Create the queue for finger detection
+    fingerprint_response_queue = xQueueCreate(QUEUE_SIZE, sizeof(fingerprint_response_t));
     finger_detected_queue = xQueueCreate(10, sizeof(uint8_t));
-    if (finger_detected_queue == NULL) {
-        ESP_LOGE(TAG, "Failed to create finger detection queue");
+    
+    if (!fingerprint_command_queue || !fingerprint_response_queue || !finger_detected_queue) {
+        ESP_LOGE(TAG, "Failed to create queues");
         return ESP_FAIL;
     }
 
-    // Install GPIO ISR service
+    template_data_queue = xQueueCreate(TEMPLATE_QUEUE_SIZE, sizeof(template_data_chunk_t));
+    template_data_mutex = xSemaphoreCreateMutex();
+    if (!template_data_queue || !template_data_mutex) {
+        ESP_LOGE(TAG, "Failed to create template data queue or mutex");
+        return ESP_FAIL;
+    }
+    
+// 4. HANDSHAKE FIRST - BEFORE ANY INTERRUPTS OR TASKS
+uint8_t handshake;
+int length;
+bool handshake_received = false;
+const int max_retries = 10;  // Set a maximum retry count
+int retry = 0;
+int power_cycles = 0;
+const int max_power_cycles = 3;  // Maximum number of full power cycles to try
+
+// First, do a complete power cycle OUTSIDE the retry loop
+ESP_LOGI(TAG, "Initial power cycle of fingerprint module...");
+
+
+
+err = fingerprint_power_control(true);   // ON - 800ms delay built in
+if (err != ESP_OK) {
+    ESP_LOGE(TAG, "Failed to power up fingerprint module");
+    return err;
+}
+
+// Power off then on to ensure clean start
+err = fingerprint_power_control(false);  // OFF - 500ms delay built in
+if (err != ESP_OK) {
+    ESP_LOGE(TAG, "Failed to power down fingerprint module");
+    return err;
+}
+
+// Extra stabilization time after power-on
+vTaskDelay(pdMS_TO_TICKS(500));
+
+// Flush UART buffer to clear any garbage data
+uart_flush(UART_NUM);
+vTaskDelay(pdMS_TO_TICKS(300));
+
+ESP_LOGI(TAG, "Waiting for fingerprint module handshake...");
+
+// Attempt to receive handshake with multiple retries
+while (retry < max_retries && !handshake_received) {
+    // Try to read handshake byte
+    length = uart_read_bytes(UART_NUM, &handshake, 1, pdMS_TO_TICKS(300));
+    
+    if (length > 0) {
+        ESP_LOGI(TAG, "Received byte: 0x%02X", handshake);
+        
+        if (handshake == 0x55) {
+            handshake_received = true;
+            ESP_LOGI(TAG, "Fingerprint module handshake received: 0x%02X", handshake);
+            break;
+        }
+    } else {
+        ESP_LOGW(TAG, "No handshake received, retry %d/%d...", retry + 1, max_retries);
+        retry++;
+        
+        // Power cycle again only after several failed attempts
+        if (retry % 5 == 0 && power_cycles < max_power_cycles) {
+            power_cycles++;
+            ESP_LOGI(TAG, "Performing power cycle %d/%d...", power_cycles, max_power_cycles);
+            
+            // Power cycle the module
+            err = fingerprint_power_control(false);
+            if (err != ESP_OK) {
+                ESP_LOGE(TAG, "Failed to power down fingerprint module");
+                return err;
+            }
+            
+            // Longer off period to ensure complete discharge
+            vTaskDelay(pdMS_TO_TICKS(800));
+            
+            err = fingerprint_power_control(true);
+            if (err != ESP_OK) {
+                ESP_LOGE(TAG, "Failed to power up fingerprint module");
+                return err;
+            }
+            
+            // Extra delay for stabilization after power cycle
+            vTaskDelay(pdMS_TO_TICKS(500));
+            
+            // Flush UART buffer again after power cycle
+            uart_flush(UART_NUM);
+        }
+        
+        // Short delay between retry attempts
+        vTaskDelay(pdMS_TO_TICKS(200));
+    }
+}
+
+// if (!handshake_received) {
+//     ESP_LOGE(TAG, "Failed to receive handshake after %d attempts and %d power cycles", 
+//              retry, power_cycles);
+//     return ESP_ERR_TIMEOUT;
+// }
+    
+    // 5. CREATE RESPONSE TASKS ONLY AFTER HANDSHAKE
+    if (xTaskCreate(read_response_task, "FingerprintReadResponse", 4096, NULL, 
+                   configMAX_PRIORITIES - 2, &fingerprint_task_handle) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create read response task");
+        return ESP_FAIL;
+    }
+    
+    if (xTaskCreate(process_response_task, "FingerprintProcessResponse", 4096, NULL, 
+                   configMAX_PRIORITIES - 1, NULL) != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create process response task");
+        return ESP_FAIL;
+    }
+    
+    // 6. INITIALIZE COMMANDS
+    uint8_t buffer_id1 = 0x01;
+    uint8_t buffer_id2 = 0x02;
+    fingerprint_set_command(&PS_GenChar1, FINGERPRINT_CMD_GEN_CHAR, &buffer_id1, 1);
+    fingerprint_set_command(&PS_GenChar2, FINGERPRINT_CMD_GEN_CHAR, &buffer_id2, 1);
+    
+    // 7. ONLY NOW SETUP GPIO AND INTERRUPTS
     esp_err_t gpio_ret = gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1);
     if (gpio_ret != ESP_OK && gpio_ret != ESP_ERR_INVALID_STATE) {
-        // ESP_ERR_INVALID_STATE means the service is already installed, which is fine
         ESP_LOGE(TAG, "Failed to install GPIO ISR service: %s", esp_err_to_name(gpio_ret));
         return gpio_ret;
     }
-
-    // Initialize GPIO for interrupt
+    
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << FINGERPRINT_GPIO_PIN),
         .mode = GPIO_MODE_INPUT,
@@ -763,31 +954,18 @@ esp_err_t fingerprint_init(void) {
     };
     
     err = gpio_config(&io_conf);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to configure GPIO: %s", esp_err_to_name(err));
-        return err;
-    }
+    if (err != ESP_OK) return err;
     
-    // Add ISR handler
     err = gpio_isr_handler_add(FINGERPRINT_GPIO_PIN, finger_detected_isr, NULL);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to add ISR handler: %s", esp_err_to_name(err));
-        return err;
-    }
-
-    // Create finger detection task
-    if (xTaskCreate(finger_detection_task, "FingerDetectionTask", 4096, NULL, configMAX_PRIORITIES - 1, &finger_detection_task_handle) != pdPASS) {
+    if (err != ESP_OK) return err;
+    
+    // 8. FINALLY CREATE FINGER DETECTION TASK
+    if (xTaskCreate(finger_detection_task, "FingerDetectionTask", 4096, NULL, 
+                  configMAX_PRIORITIES - 1, &finger_detection_task_handle) != pdPASS) {
         ESP_LOGE(TAG, "Failed to create finger detection task");
         return ESP_FAIL;
     }
-
-    // Initialize Fingerprint Commands
-    uint8_t buffer_id1 = 0x01;  // Buffer ID for CharBuffer1
-    uint8_t buffer_id2 = 0x02;  // Buffer ID for CharBuffer2
-
-    fingerprint_set_command(&PS_GenChar1, FINGERPRINT_CMD_GEN_CHAR, &buffer_id1, 1);
-    fingerprint_set_command(&PS_GenChar2, FINGERPRINT_CMD_GEN_CHAR, &buffer_id2, 1);
-
+    
     ESP_LOGI(TAG, "Fingerprint scanner initialized successfully with interrupt-based detection.");
     return ESP_OK;
 }
@@ -1034,6 +1212,7 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 //     return packet;
 // }
 
+
 MultiPacketResponse* fingerprint_read_response(void) {
     static ParserState state = WAIT_HEADER;
     static size_t content_length = 0;
@@ -1086,10 +1265,15 @@ MultiPacketResponse* fingerprint_read_response(void) {
     if (bytes_read <= 0 && buffer_pos == 0) return NULL;
     buffer_pos += (bytes_read > 0) ? bytes_read : 0;
     
-    // Debug: Print received bytes only at debug level
+    // Add a small consistent delay instead of conditional logging
+    // This ensures timing is consistent whether debug is enabled or not
     if (bytes_read > 0) {
+        // Small fixed delay to maintain consistent timing
+        vTaskDelay(pdMS_TO_TICKS(1));
+        
+        // Only log at debug level to avoid affecting timing in production
         ESP_LOGD(TAG, "Read %d bytes, buffer now contains %d bytes", bytes_read, buffer_pos);
-        ESP_LOG_BUFFER_HEX_LEVEL(TAG, buffer, min(buffer_pos, 256), ESP_LOG_INFO);
+        ESP_LOG_BUFFER_HEX_LEVEL(TAG, buffer, min(buffer_pos, 256), ESP_LOG_DEBUG);
     }
     
     // Special bulk processing for template upload data
@@ -1454,6 +1638,7 @@ buffer_shift:
     return response;
 }
 
+
 // void read_response_task(void *pvParameter) {
 //     while (1) {
 //         FingerprintPacket *response = fingerprint_read_response();
@@ -1539,8 +1724,12 @@ FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, 
     
     return NULL;
 }
+
+static uint8_t saved_template[1024]; // Buffer for template data
 bool template_available = false;
 uint8_t saved_template_size = 0;
+
+// Replace the existing read_response_task function with this improved version
 void read_response_task(void *pvParameter) {
     // Static timer for template timeouts
     static uint32_t template_start_time = 0;
@@ -1569,7 +1758,9 @@ void read_response_task(void *pvParameter) {
                 // Process if we have a valid accumulator
                 if (g_template_accumulator) {
                     bool found_final_packet = false;
-                    bool found_raw_final_packet = false;  // Declare here for proper scope
+                    bool found_raw_final_packet = false;
+                    bool found_foof_marker = false;
+                    size_t foof_position = 0;
                     
                     // Check if we have a final packet (0x08) already
                     for (size_t i = 0; i < g_template_accumulator->count; i++) {
@@ -1616,6 +1807,47 @@ void read_response_task(void *pvParameter) {
                                     
                                     // Use the calculated checksum
                                     new_packet->checksum = calc_checksum;
+                                    
+                                    // Check for FOOF marker in this packet's data
+                                    if (src_packet->packet_id == 0x02) {
+                                        for (size_t j = 0; j < param_len - 3; j++) {
+                                            if (src_packet->parameters[j] == 'F' && 
+                                                src_packet->parameters[j+1] == 'O' &&
+                                                src_packet->parameters[j+2] == 'O' &&
+                                                src_packet->parameters[j+3] == 'F') {
+                                                found_foof_marker = true;
+                                                foof_position = j;
+                                                ESP_LOGI(TAG, "Found FOOF marker in packet at position %d", j);
+                                                
+                                                // Truncate this packet at the FOOF marker
+                                                size_t new_data_length = j + 4; // Include the FOOF marker
+                                                size_t new_packet_length = new_data_length + 2; // Add checksum bytes
+                                                
+                                                // Update packet length
+                                                new_packet->length = new_packet_length;
+                                                
+                                                // Recalculate checksum for truncated packet
+                                                calc_checksum = new_packet->packet_id;
+                                                calc_checksum += (new_packet_length >> 8) & 0xFF;
+                                                calc_checksum += new_packet_length & 0xFF;
+                                                
+                                                for (size_t k = 0; k < new_data_length; k++) {
+                                                    calc_checksum += new_packet->parameters[k];
+                                                }
+                                                
+                                                new_packet->checksum = calc_checksum;
+                                                ESP_LOGI(TAG, "Truncated packet at FOOF marker, new length: %d", new_data_length);
+                                                
+                                                // CRITICAL FIX: Set the TEMPLATE_UPLOAD_COMPLETE_BIT immediately upon finding FOOF
+                                                if (enroll_event_group != NULL) {
+                                                    xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
+                                                    ESP_LOGI(TAG, "Template upload completion signaled (FOOF marker found)");
+                                                }
+                                                
+                                                break;
+                                            }
+                                        }
+                                    }
                                     
                                     g_template_accumulator->packets[g_template_accumulator->count++] = new_packet;
                                     
@@ -1677,206 +1909,28 @@ void read_response_task(void *pvParameter) {
                         }
                     }
                     
-                    // Now search for final packet (0x08) in the raw data if we don't have one already
-                    if (!found_final_packet && g_template_accumulator->template_data && g_template_accumulator->template_size > 7) {
-                        for (size_t i = 0; i < g_template_accumulator->template_size - 7; i++) {
-                            // Check for specific pattern: ef 01 ff ff ff ff 08
-                            if (g_template_accumulator->template_data[i] == 0xEF && 
-                                g_template_accumulator->template_data[i+1] == 0x01 &&
-                                g_template_accumulator->template_data[i+2] == 0xFF &&
-                                g_template_accumulator->template_data[i+3] == 0xFF &&
-                                g_template_accumulator->template_data[i+4] == 0xFF &&
-                                g_template_accumulator->template_data[i+5] == 0xFF &&
-                                g_template_accumulator->template_data[i+6] == 0x08) {
-                                
-                                ESP_LOGI(TAG, "Found final packet signature (EF 01 FF FF FF FF 08) at position %d", i);
-                                
-                                // Before truncating existing packets, log what we found for debugging
-                                ESP_LOGI(TAG, "Raw bytes at pattern location: %02X %02X %02X %02X %02X %02X %02X %02X",
-                                        g_template_accumulator->template_data[i], 
-                                        g_template_accumulator->template_data[i+1],
-                                        g_template_accumulator->template_data[i+2],
-                                        g_template_accumulator->template_data[i+3],
-                                        g_template_accumulator->template_data[i+4],
-                                        g_template_accumulator->template_data[i+5],
-                                        g_template_accumulator->template_data[i+6],
-                                        g_template_accumulator->template_data[i+7]);
-                                
-                                // CRITICAL STEP: Create a copy of the embedded final packet data before truncating
-                                uint8_t* final_packet_data = NULL;
-                                size_t final_packet_data_len = 0;
-                                
-                                // Determine length from the packet structure if available
-                                if (i+8 < g_template_accumulator->template_size) {
-                                    uint16_t packet_length = (g_template_accumulator->template_data[i+7] << 8) | 
-                                                           g_template_accumulator->template_data[i+8];
-                                    
-                                    // The total size we need to preserve is: header(7) + length(2) + data(packet_length-2) + checksum(2)
-                                    size_t total_size = 7 + 2 + (packet_length > 2 ? packet_length - 2 : 0) + 2;
-                                    
-                                    if (i + total_size <= g_template_accumulator->template_size) {
-                                        final_packet_data_len = total_size;
-                                        final_packet_data = heap_caps_malloc(final_packet_data_len, MALLOC_CAP_8BIT);
-                                        
-                                        if (final_packet_data) {
-                                            memcpy(final_packet_data, &g_template_accumulator->template_data[i], final_packet_data_len);
-                                            ESP_LOGI(TAG, "Preserved %d bytes of final packet data", final_packet_data_len);
-                                            ESP_LOG_BUFFER_HEX("Preserved Final Packet", final_packet_data, final_packet_data_len);
-                                        }
-                                    }
-                                }
-                                
-                                // CRITICAL STEP: Truncate the raw template data at the signature position
-                                size_t original_size = g_template_accumulator->template_size;
-                                g_template_accumulator->template_size = i;
-                                ESP_LOGI(TAG, "Truncated raw template data buffer from %d to %d bytes", 
-                                        original_size, g_template_accumulator->template_size);
-                                
-                                // Find the packet containing this signature and truncate it
-                                for (size_t p = 0; p < g_template_accumulator->count; p++) {
-                                    // Calculate data offset within template buffer
-                                    size_t data_offset = 0;
-                                    for (size_t k = 0; k < p; k++) {
-                                        if (g_template_accumulator->packets[k]->length > 2) {
-                                            data_offset += g_template_accumulator->packets[k]->length - 2;
-                                        }
-                                    }
-                                    
-                                    // Calculate data end for this packet
-                                    size_t packet_data_length = g_template_accumulator->packets[p]->length > 2 ? 
-                                                            g_template_accumulator->packets[p]->length - 2 : 0;
-                                    size_t data_end = data_offset + packet_data_length;
-                                    
-                                    // Check if signature is within this packet's data
-                                    if (i >= data_offset && i < data_end) {
-                                        ESP_LOGI(TAG, "Found packet %d containing final packet data at offset %d, truncating", 
-                                                p, i);
-                                        
-                                        // Calculate new packet length (truncate at signature position)
-                                        size_t new_data_length = i - data_offset;
-                                        size_t new_packet_length = new_data_length + 2; // Add checksum bytes
-                                        size_t old_packet_length = g_template_accumulator->packets[p]->length;
-                                        
-                                        // Update the packet length
-                                        g_template_accumulator->packets[p]->length = new_packet_length;
-                                        
-                                        // Clear out any remaining data in the parameters array
-                                        if (new_data_length < sizeof(g_template_accumulator->packets[p]->parameters)) {
-                                            memset(
-                                                &g_template_accumulator->packets[p]->parameters[new_data_length],
-                                                0,
-                                                sizeof(g_template_accumulator->packets[p]->parameters) - new_data_length
-                                            );
-                                        }
-                                        
-                                        // Recalculate checksum
-                                        uint16_t calc_checksum = g_template_accumulator->packets[p]->packet_id;
-                                        calc_checksum += (new_packet_length >> 8) & 0xFF;
-                                        calc_checksum += new_packet_length & 0xFF;
-                                        
-                                        for (size_t j = 0; j < new_data_length; j++) {
-                                            calc_checksum += g_template_accumulator->packets[p]->parameters[j];
-                                        }
-                                        
-                                        g_template_accumulator->packets[p]->checksum = calc_checksum;
-                                        
-                                        ESP_LOGI(TAG, "Truncated packet %d from %d to %d bytes with new checksum 0x%04X", 
-                                                p, old_packet_length, new_packet_length, calc_checksum);
-                                        
-                                        // Log truncated packet data
-                                        if (new_data_length > 0) {
-                                            ESP_LOGI(TAG, "Truncated packet data (%d bytes):", new_data_length);
-                                            ESP_LOG_BUFFER_HEX("Truncated Packet", g_template_accumulator->packets[p]->parameters, new_data_length);
-                                        }
-                                        
-                                        found_raw_final_packet = true;
-                                        break;
-                                    }
-                                }
-                                
-                                // Create a new final packet from the extracted data
-                                FingerprintPacket* final_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
-                                if (final_packet) {
-                                    memset(final_packet, 0, sizeof(FingerprintPacket));
-                                    final_packet->header = 0xEF01;
-                                    final_packet->address = 0xFFFFFFFF;
-                                    final_packet->packet_id = 0x08;  // Final packet ID
-                                    
-                                    // Extract length from stored data if available
-                                    if (final_packet_data && final_packet_data_len > 8) {
-                                        final_packet->length = (final_packet_data[7] << 8) | final_packet_data[8];
-                                    } else {
-                                        final_packet->length = 2;  // Default length
-                                    }
-                                    
-                                    // Copy parameter data if available
-                                    size_t param_start = 9;  // Start of parameters in the preserved data
-                                    size_t param_len = 0;
-                                    
-                                    if (final_packet_data && final_packet_data_len > param_start && final_packet->length > 2) {
-                                        param_len = final_packet->length - 2; // Subtract checksum bytes
-                                        param_len = min(param_len, sizeof(final_packet->parameters));
-                                        
-                                        // Make sure we don't exceed buffer
-                                        if (param_start + param_len <= final_packet_data_len) {
-                                            memcpy(final_packet->parameters, 
-                                                 &final_packet_data[param_start], 
-                                                 param_len);
-                                            ESP_LOGI(TAG, "Copied %d bytes of parameter data to new final packet", param_len);
-                                        }
-                                    }
-                                    
-                                    // Calculate checksum
-                                    uint16_t calc_checksum = final_packet->packet_id;
-                                    calc_checksum += (final_packet->length >> 8) & 0xFF;
-                                    calc_checksum += final_packet->length & 0xFF;
-                                    
-                                    for (size_t j = 0; j < param_len; j++) {
-                                        calc_checksum += final_packet->parameters[j];
-                                    }
-                                    
-                                    final_packet->checksum = calc_checksum;
-                                    
-                                    // Add this final packet to the accumulator
-                                    size_t new_count = g_template_accumulator->count + 1;
-                                    FingerprintPacket** new_packets = heap_caps_realloc(
-                                        g_template_accumulator->packets,
-                                        sizeof(FingerprintPacket*) * new_count,
-                                        MALLOC_CAP_8BIT
-                                    );
-                                    
-                                    if (new_packets) {
-                                        g_template_accumulator->packets = new_packets;
-                                        g_template_accumulator->packets[g_template_accumulator->count++] = final_packet;
-                                        ESP_LOGI(TAG, "Added extracted final packet (ID=0x08) with length %d and checksum 0x%04X", 
-                                                final_packet->length, final_packet->checksum);
-                                        found_final_packet = true;
-                                    } else {
-                                        // Failed to resize array
-                                        heap_caps_free(final_packet);
-                                    }
-                                    
-                                    // Clean up preserved data buffer
-                                    if (final_packet_data) {
-                                        heap_caps_free(final_packet_data);
-                                    }
-                                }
-                                
-                                break;  // Exit loop after handling first occurrence
-                            }
-                        }
-                    }
-                    
-                    // Check for FOOF marker at the end which also indicates template completion
-                    bool found_foof_marker = false;
-                    if (g_template_accumulator->template_data && g_template_accumulator->template_size > 4) {
+                    // Check for FOOF marker in the raw data if we haven't found one already
+                    if (!found_foof_marker && g_template_accumulator->template_data && g_template_accumulator->template_size > 4) {
                         for (size_t i = 0; i < g_template_accumulator->template_size - 4; i++) {
                             if (g_template_accumulator->template_data[i] == 'F' && 
                                 g_template_accumulator->template_data[i+1] == 'O' &&
                                 g_template_accumulator->template_data[i+2] == 'O' && 
                                 g_template_accumulator->template_data[i+3] == 'F') {
                                 found_foof_marker = true;
-                                ESP_LOGI(TAG, "Found FOOF marker at position %d", i);
+                                foof_position = i;
+                                ESP_LOGI(TAG, "Found FOOF marker in raw data at position %d", i);
+                                
+                                // Truncate the raw template data to include the FOOF marker
+                                g_template_accumulator->template_size = i + 4;
+                                ESP_LOGI(TAG, "Truncated raw template data to %d bytes (including FOOF marker)", 
+                                         g_template_accumulator->template_size);
+                                
+                                // CRITICAL FIX: Set the template completion bit immediately
+                                if (enroll_event_group != NULL) {
+                                    xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
+                                    ESP_LOGI(TAG, "Template upload completion signaled (FOOF marker in raw data)");
+                                }
+                                
                                 break;
                             }
                         }
@@ -1903,306 +1957,140 @@ void read_response_task(void *pvParameter) {
                     }
                     
                     if (template_complete) {
-                        // Log accumulated packets for debugging
-                        ESP_LOGI(TAG, "Template accumulator has %d packets:", g_template_accumulator->count);
-                         
-                        // FINAL CHECK: Scan all packets for embedded final packet and fix before processing
-                        bool found_valid_final_packet = false;
-                        size_t final_packet_index = 0;
-                        
-                        // First check if we already have a valid final packet
-                        for (size_t i = 0; i < g_template_accumulator->count; i++) {
-                            if (g_template_accumulator->packets[i] != NULL && 
-                                g_template_accumulator->packets[i]->packet_id == 0x08 &&
-                                g_template_accumulator->packets[i]->length > 2) {
-                                // We have a valid final packet already
-                                found_valid_final_packet = true;
-                                final_packet_index = i;
-                                ESP_LOGI(TAG, "Found existing valid final packet at index %d with length %d", 
-                                         i, g_template_accumulator->packets[i]->length);
-                                break;
+                        // If we found a FOOF marker but don't have a final packet, create one
+                        if (found_foof_marker && !found_final_packet) {
+                            // Create a new final packet
+                            FingerprintPacket* final_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                            if (final_packet) {
+                                memset(final_packet, 0, sizeof(FingerprintPacket));
+                                final_packet->header = 0xEF01;
+                                final_packet->address = 0xFFFFFFFF;
+                                final_packet->packet_id = 0x08;  // Final packet ID
+                                final_packet->length = 8;  // Standard length for final packet
+                                
+                                // Calculate checksum
+                                uint16_t calc_checksum = final_packet->packet_id;
+                                calc_checksum += (final_packet->length >> 8) & 0xFF;
+                                calc_checksum += final_packet->length & 0xFF;
+                                
+                                for (size_t j = 0; j < 6; j++) {  // 6 bytes of zeros in parameters
+                                    calc_checksum += final_packet->parameters[j];
+                                }
+                                
+                                final_packet->checksum = calc_checksum;
+                                
+                                // Add this final packet to the accumulator
+                                size_t new_count = g_template_accumulator->count + 1;
+                                FingerprintPacket** new_packets = heap_caps_realloc(
+                                    g_template_accumulator->packets,
+                                    sizeof(FingerprintPacket*) * new_count,
+                                    MALLOC_CAP_8BIT
+                                );
+                                
+                                if (new_packets) {
+                                    g_template_accumulator->packets = new_packets;
+                                    g_template_accumulator->packets[g_template_accumulator->count++] = final_packet;
+                                    ESP_LOGI(TAG, "Added synthetic final packet (ID=0x08) with checksum 0x%04X", 
+                                            final_packet->checksum);
+                                    found_final_packet = true;
+                                } else {
+                                    // Failed to resize array
+                                    heap_caps_free(final_packet);
+                                }
                             }
                         }
                         
-                        // Remove any empty or invalid final packets
+                        // Create event with accumulated data
+                        fingerprint_event_t event = {
+                            .type = EVENT_TEMPLATE_UPLOADED,
+                            .status = FINGERPRINT_OK,
+                            .command = FINGERPRINT_CMD_UP_CHAR
+                        };
+                        
+                        // Use the last packet for event details
+                        if (g_template_accumulator->count > 0) {
+                            event.packet = *(g_template_accumulator->packets[g_template_accumulator->count-1]);
+                        }
+                        
+                        // Add the multi-packet response to the event
+                        MultiPacketResponse* event_multi_packet = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
+                        if (event_multi_packet) {
+                            // Copy basic details
+                            event_multi_packet->count = g_template_accumulator->count;
+                            event_multi_packet->collecting_template = g_template_accumulator->collecting_template;
+                            event_multi_packet->template_complete = true;  // Mark as complete
+                            event_multi_packet->start_time = g_template_accumulator->start_time;
+                            event_multi_packet->template_size = g_template_accumulator->template_size;
+                            event_multi_packet->template_capacity = g_template_accumulator->template_capacity;
+                            
+                            // Copy packets
+                            event_multi_packet->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * g_template_accumulator->count, MALLOC_CAP_8BIT);
+                            if (event_multi_packet->packets) {
+                                for (size_t i = 0; i < g_template_accumulator->count; i++) {
+                                    if (g_template_accumulator->packets[i] != NULL) {
+                                        event_multi_packet->packets[i] = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
+                                        if (event_multi_packet->packets[i]) {
+                                            memcpy(event_multi_packet->packets[i], g_template_accumulator->packets[i], sizeof(FingerprintPacket));
+                                        }
+                                    } else {
+                                        event_multi_packet->packets[i] = NULL;
+                                    }
+                                }
+                            } else {
+                                event_multi_packet->packets = NULL;
+                            }
+                            
+                            // Copy template data if available
+                            if (g_template_accumulator->template_data && g_template_accumulator->template_size > 0) {
+                                event_multi_packet->template_data = heap_caps_malloc(g_template_accumulator->template_size, MALLOC_CAP_8BIT);
+                                if (event_multi_packet->template_data) {
+                                    memcpy(event_multi_packet->template_data, 
+                                          g_template_accumulator->template_data,
+                                          g_template_accumulator->template_size);
+                                } else {
+                                    event_multi_packet->template_data = NULL;
+                                }
+                            } else {
+                                event_multi_packet->template_data = NULL;
+                            }
+                            
+                            // Assign to event
+                            event.multi_packet = event_multi_packet;
+                        } else {
+                            event.multi_packet = NULL;
+                            ESP_LOGE(TAG, "Failed to allocate memory for multi-packet response");
+                        }
+                        
+                        // Add debug output before triggering the event
+                        ESP_LOGI(TAG, "Triggering EVENT_TEMPLATE_UPLOADED with %d packets", 
+                                 event.multi_packet ? event.multi_packet->count : 0);
+                        
+                        // Set global variables to indicate template is available
+                        template_available = true;
+                        saved_template_size = g_template_accumulator->template_size;
+                        
+                        // Signal completion
+                        if (enroll_event_group != NULL) {
+                            xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
+                            ESP_LOGI(TAG, "Template upload complete");
+                        }
+                        
+                        // Trigger the event
+                        trigger_fingerprint_event(event);
+                        
+                        // Clean up accumulator after triggering the event
                         for (size_t i = 0; i < g_template_accumulator->count; i++) {
-                            if (g_template_accumulator->packets[i] != NULL && 
-                                g_template_accumulator->packets[i]->packet_id == 0x08 &&
-                                g_template_accumulator->packets[i]->length <= 2) {
-                                // This is an empty/invalid final packet - mark for removal
-                                ESP_LOGI(TAG, "Removing empty final packet at index %d", i);
+                            if (g_template_accumulator->packets[i] != NULL) {
                                 heap_caps_free(g_template_accumulator->packets[i]);
                                 g_template_accumulator->packets[i] = NULL;
                             }
                         }
-                        
-                        // Compact the array to remove NULL entries
-                        if (!found_valid_final_packet) {
-                            size_t write_index = 0;
-                            for (size_t read_index = 0; read_index < g_template_accumulator->count; read_index++) {
-                                if (g_template_accumulator->packets[read_index] != NULL) {
-                                    g_template_accumulator->packets[write_index++] = g_template_accumulator->packets[read_index];
-                                }
-                            }
-                            size_t new_count = write_index;
-                            for (size_t i = new_count; i < g_template_accumulator->count; i++) {
-                                g_template_accumulator->packets[i] = NULL;
-                            }
-                            g_template_accumulator->count = new_count;
-                            ESP_LOGI(TAG, "Compacted packet array, new count: %d", g_template_accumulator->count);
+                        heap_caps_free(g_template_accumulator->packets);
+                        if (g_template_accumulator->template_data) {
+                            heap_caps_free(g_template_accumulator->template_data);
                         }
-                     
-                        // Now scan for embedded final packet in data packets
-                        for (size_t i = 0; i < g_template_accumulator->count; i++) {
-                            if (g_template_accumulator->packets[i] != NULL && 
-                                g_template_accumulator->packets[i]->packet_id == 0x02 &&  // Only check data packets
-                                g_template_accumulator->packets[i]->length > 9) { // Need at least 7 bytes for signature + 2 for length
-                                
-                                FingerprintPacket *current = g_template_accumulator->packets[i];
-                                size_t param_len = current->length - 2;
-                                bool found_embedded = false;
-                                size_t embedded_pos = 0;
-                                
-                                // Scan for embedded final packet signature
-                                for (size_t scan = 0; scan < param_len - 7; scan++) {
-                                    if (current->parameters[scan] == 0xEF && 
-                                        current->parameters[scan+1] == 0x01 &&
-                                        current->parameters[scan+2] == 0xFF &&
-                                        current->parameters[scan+3] == 0xFF &&
-                                        current->parameters[scan+4] == 0xFF &&
-                                        current->parameters[scan+5] == 0xFF &&
-                                        current->parameters[scan+6] == 0x08) {
-                                        
-                                        found_embedded = true;
-                                        embedded_pos = scan;
-                                        ESP_LOGI(TAG, "CRITICAL: Found embedded final packet in packet %d at position %d", i, scan);
-                                        break;
-                                    }
-                                }
-                                
-                                if (found_embedded) {
-                                    // 1. Truncate this packet
-                                    size_t new_data_length = embedded_pos;
-                                    size_t old_packet_length = current->length;
-                                    size_t new_packet_length = new_data_length + 2; // Add checksum bytes
-                                    
-                                    // Update packet length
-                                    current->length = new_packet_length;
-                                    
-                                    // Clear out remaining data
-                                    if (new_data_length < sizeof(current->parameters)) {
-                                        memset(
-                                            &current->parameters[new_data_length],
-                                            0,
-                                            sizeof(current->parameters) - new_data_length
-                                        );
-                                    }
-                                    
-                                    // Recalculate checksum
-                                    uint16_t calc_checksum = current->packet_id;
-                                    calc_checksum += (new_packet_length >> 8) & 0xFF;
-                                    calc_checksum += new_packet_length & 0xFF;
-                                    
-                                    for (size_t j = 0; j < new_data_length; j++) {
-                                        calc_checksum += current->parameters[j];
-                                    }
-                                    
-                                    current->checksum = calc_checksum;
-                                    
-                                    ESP_LOGI(TAG, "Fixed packet %d by truncating from %d to %d bytes with new checksum 0x%04X", 
-                                            i, old_packet_length, new_packet_length, calc_checksum);
-                                    
-                                    // Skip creating a new final packet if we already have a valid one
-                                    if (found_valid_final_packet) {
-                                        ESP_LOGI(TAG, "Skipping creation of new final packet - already have a valid one");
-                                        continue;
-                                    }
-                                    
-                                    // 2. Create a new final packet
-                                    FingerprintPacket* final_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
-                                    if (final_packet) {
-                                        memset(final_packet, 0, sizeof(FingerprintPacket));
-                                        final_packet->header = 0xEF01;
-                                        final_packet->address = 0xFFFFFFFF;
-                                        final_packet->packet_id = 0x08;  // Final packet ID
-                                        
-                                        // Extract length if available
-                                        if (embedded_pos + 8 < param_len) {
-                                            final_packet->length = (current->parameters[embedded_pos+7] << 8) | 
-                                                                current->parameters[embedded_pos+8];
-                                            ESP_LOGI(TAG, "Extracted length from embedded final packet: %d", final_packet->length);
-                                        } else {
-                                            final_packet->length = 2;  // Default length
-                                            ESP_LOGI(TAG, "Using default length for final packet: 2");
-                                        }
-                                        
-                                        // Copy parameter data if available
-                                        size_t param_start = embedded_pos + 9;  // Position after header + packetID + length
-                                        size_t final_param_len = 0;
-                                        
-                                        if (final_packet->length > 2 && param_start < param_len) {
-                                            final_param_len = final_packet->length - 2;
-                                            final_param_len = min(final_param_len, sizeof(final_packet->parameters));
-                                            final_param_len = min(final_param_len, param_len - param_start);
-                                            
-                                            if (final_param_len > 0) {
-                                                memcpy(final_packet->parameters, 
-                                                    &current->parameters[param_start], 
-                                                    final_param_len);
-                                                ESP_LOGI(TAG, "Copied %d bytes of parameter data to new final packet", final_param_len);
-                                            }
-                                        }
-                                        
-                                        // Calculate checksum
-                                        calc_checksum = final_packet->packet_id;
-                                        calc_checksum += (final_packet->length >> 8) & 0xFF;
-                                        calc_checksum += final_packet->length & 0xFF;
-                                        
-                                        for (size_t j = 0; j < final_param_len; j++) {
-                                            calc_checksum += final_packet->parameters[j];
-                                        }
-                                        
-                                        final_packet->checksum = calc_checksum;
-                                        ESP_LOGI(TAG, "Created final packet with length %d and checksum 0x%04X", 
-                                                final_packet->length, final_packet->checksum);
-                                        
-                                        // 3. Add the final packet to the end of the array
-                                        FingerprintPacket** new_packets = heap_caps_malloc(
-                                            sizeof(FingerprintPacket*) * (g_template_accumulator->count + 1),
-                                            MALLOC_CAP_8BIT
-                                        );
-                                        
-                                        if (new_packets) {
-                                            // Copy all existing packets
-                                            for (size_t j = 0; j < g_template_accumulator->count; j++) {
-                                                new_packets[j] = g_template_accumulator->packets[j];
-                                            }
-                                            
-                                            // Add final packet at the end
-                                            new_packets[g_template_accumulator->count] = final_packet;
-                                            
-                                            // Replace packet array
-                                            heap_caps_free(g_template_accumulator->packets);
-                                            g_template_accumulator->packets = new_packets;
-                                            g_template_accumulator->count++;
-                                            
-                                            ESP_LOGI(TAG, "Added new final packet at the end (position %d)", g_template_accumulator->count - 1);
-                                            found_valid_final_packet = true;
-                                            final_packet_index = g_template_accumulator->count - 1;
-                                        } else {
-                                            heap_caps_free(final_packet);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        
-                        // // Now log the fixed packets
-                        // for (size_t i = 0; i < g_template_accumulator->count; i++) {
-                        //     if (g_template_accumulator->packets[i] != NULL) {
-                        //         ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
-                        //             i, 
-                        //             g_template_accumulator->packets[i]->packet_id,
-                        //             (unsigned int)g_template_accumulator->packets[i]->address,
-                        //             g_template_accumulator->packets[i]->length,
-                        //             (unsigned int)g_template_accumulator->packets[i]->checksum);
-                                
-                        //         // Additional details for critical packets
-                        //         if (g_template_accumulator->packets[i]->packet_id == 0x08) {
-                        //             ESP_LOGI(TAG, "** FOUND FINAL PACKET (0x08) AT INDEX %d **", i);
-                        //         }
-                                
-                        //         // Print full packet data
-                        //         if (g_template_accumulator->packets[i]->length > 2) {
-                        //             ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
-                        //                                    g_template_accumulator->packets[i]->parameters,
-                        //                                    g_template_accumulator->packets[i]->length - 2,
-                        //                                    ESP_LOG_INFO);
-                        //         }
-                        //     }
-                        // }
-
-                                       // Create event with accumulated data - no filtering
-                                       fingerprint_event_t event = {
-                                        .type = EVENT_TEMPLATE_UPLOADED,
-                                        .status = FINGERPRINT_OK,
-                                        .command = FINGERPRINT_CMD_UP_CHAR
-                                    };
-                                    
-                                    // Use the last packet for event details
-                                    if (g_template_accumulator->count > 0) {
-                                        event.packet = *(g_template_accumulator->packets[g_template_accumulator->count-1]);
-                                    }
-            
-                                    // Add the multi-packet response to the event
-                                    MultiPacketResponse* event_multi_packet = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
-                                    if (event_multi_packet) {
-                                        // Copy basic details
-                                        event_multi_packet->count = g_template_accumulator->count;
-                                        event_multi_packet->collecting_template = g_template_accumulator->collecting_template;
-                                        event_multi_packet->template_complete = g_template_accumulator->template_complete;
-                                        event_multi_packet->start_time = g_template_accumulator->start_time;
-                                        event_multi_packet->template_size = g_template_accumulator->template_size;
-                                        event_multi_packet->template_capacity = g_template_accumulator->template_capacity;
-                                        
-                                        // Copy packets
-                                        event_multi_packet->packets = heap_caps_malloc(sizeof(FingerprintPacket*) * g_template_accumulator->count, MALLOC_CAP_8BIT);
-                                        if (event_multi_packet->packets) {
-                                            for (size_t i = 0; i < g_template_accumulator->count; i++) {
-                                                if (g_template_accumulator->packets[i] != NULL) {
-                                                    event_multi_packet->packets[i] = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
-                                                    if (event_multi_packet->packets[i]) {
-                                                        memcpy(event_multi_packet->packets[i], g_template_accumulator->packets[i], sizeof(FingerprintPacket));
-                                                    }
-                                                } else {
-                                                    event_multi_packet->packets[i] = NULL;
-                                                }
-                                            }
-                                        } else {
-                                            event_multi_packet->packets = NULL;
-                                        }
-                                        
-                                        // Copy template data if available
-                                        if (g_template_accumulator->template_data && g_template_accumulator->template_size > 0) {
-                                            event_multi_packet->template_data = heap_caps_malloc(g_template_accumulator->template_size, MALLOC_CAP_8BIT);
-                                            if (event_multi_packet->template_data) {
-                                                memcpy(event_multi_packet->template_data, 
-                                                      g_template_accumulator->template_data,
-                                                      g_template_accumulator->template_size);
-                                            } else {
-                                                event_multi_packet->template_data = NULL;
-                                            }
-                                        } else {
-                                            event_multi_packet->template_data = NULL;
-                                        }
-            
-                                        // Assign to event
-                                        event.multi_packet = event_multi_packet;
-                                    } else {
-                                        event.multi_packet = NULL;
-                                        ESP_LOGE(TAG, "Failed to allocate memory for multi-packet response");
-                                    }
-                                    
-                                    // Add debug output before triggering the event
-                                    ESP_LOGI(TAG, "Triggering EVENT_TEMPLATE_UPLOADED with %d packets", 
-                                             event.multi_packet ? event.multi_packet->count : 0);
-                                    
-                                    // Trigger the event
-                                    trigger_fingerprint_event(event);
-                                    
-                                    // Clean up accumulator after triggering the event
-                                    for (size_t i = 0; i < g_template_accumulator->count; i++) {
-                                        if (g_template_accumulator->packets[i] != NULL) {
-                                            heap_caps_free(g_template_accumulator->packets[i]);
-                                            g_template_accumulator->packets[i] = NULL;
-                                        }
-                                    }
-                                    heap_caps_free(g_template_accumulator->packets);
-                                    if (g_template_accumulator->template_data) {
-                                        heap_caps_free(g_template_accumulator->template_data);
-                                    }
-                                    heap_caps_free(g_template_accumulator);
-                                    g_template_accumulator = NULL;
+                        heap_caps_free(g_template_accumulator);
+                        g_template_accumulator = NULL;
                     }
                 }
                 
@@ -2239,6 +2127,7 @@ void read_response_task(void *pvParameter) {
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
+
 // In process_response_task
 // In process_response_task function
 
@@ -2299,6 +2188,8 @@ void process_response_task(void *pvParameter) {
                 template_size = 0;
                 template_start_time = current_time;
                 template_data_complete = false;
+                template_available = false;  // Reset global flag
+                saved_template_size = 0;     // Reset global size
                 
                 // Use explicit safe buffer clearing
                 memset(template_buffer, 0, sizeof(template_buffer));
@@ -2384,6 +2275,10 @@ void process_response_task(void *pvParameter) {
                                 template_event.data.template_data.is_complete = true;
                                 ESP_LOGI(TAG, "Including complete template data (%d bytes) in event", template_size);
                                 
+                                // Set global variables to indicate template is available
+                                template_available = true;
+                                saved_template_size = template_size;
+                                
                                 // Signal completion - IMMEDIATELY after finding FOOF
                                 if (enroll_event_group != NULL) {
                                     xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
@@ -2440,6 +2335,10 @@ void process_response_task(void *pvParameter) {
                                 template_event.data.template_data.size = template_size;
                                 template_event.data.template_data.is_complete = true;
                                 ESP_LOGI(TAG, "Including complete template data (%d bytes) in final event", template_size);
+                                
+                                // Set global variables to indicate template is available
+                                template_available = true;
+                                saved_template_size = template_size;
                             } else {
                                 ESP_LOGE(TAG, "Failed to allocate memory for template copy");
                             }
@@ -2483,6 +2382,7 @@ void process_response_task(void *pvParameter) {
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
+
 
 // void process_response_task(void *pvParameter) {
 //     fingerprint_command_info_t last_cmd;
@@ -2601,6 +2501,16 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
     // ESP_LOG_BUFFER_HEX(TAG, packet, packet_length);
     switch (status) {
         case FINGERPRINT_OK:
+            // Signal success for GetImage command
+            if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE && enroll_event_group != NULL) {
+                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                ESP_LOGI(TAG, "Image capture successful, signaling event group");
+            }
+            // Signal success for GenChar command
+            else if ((last_sent_command == FINGERPRINT_CMD_GEN_CHAR) && enroll_event_group != NULL) {
+                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                ESP_LOGI(TAG, "Feature extraction successful, signaling event group");
+            }
             // ESP_LOGI(TAG, "Fingerprint operation successful: 0x%02X", status);
             if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
                 event_type = EVENT_SEARCH_SUCCESS;
@@ -2733,10 +2643,10 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             break;
 
         case FINGERPRINT_NO_FINGER:
-        event_type = EVENT_NO_FINGER_DETECTED;
-        if (enroll_event_group) {
-            xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
-        }
+            event_type = EVENT_NO_FINGER_DETECTED;
+            if (enroll_event_group) {
+                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+            }
             break;
 
         case FINGERPRINT_IMAGE_FAIL:
@@ -2788,7 +2698,14 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         case FINGERPRINT_DB_RANGE_ERROR:
         case FINGERPRINT_READ_TEMPLATE_ERROR:
         case FINGERPRINT_UPLOAD_FEATURE_FAIL:
-            event_type = EVENT_ERROR;
+            // This is the status code 0x0D that appears in your logs
+            ESP_LOGE(TAG, "Template upload failed with status 0x%02X - template may not exist", status);
+            event_type = EVENT_TEMPLATE_UPLOAD_FAIL;
+            
+            // Make sure to set the event bits
+            if (enroll_event_group) {
+                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+            }
             break;
         case FINGERPRINT_DELETE_TEMPLATE_FAIL:
         case FINGERPRINT_DB_EMPTY:
@@ -2925,6 +2842,9 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     enrollment_in_progress = true;
 
     while (attempts < 3) {
+        // Set operation mode for first enrollment image
+        fingerprint_set_operation_mode(FINGER_OP_ENROLL_FIRST);
+        
         ESP_LOGI(TAG, "Waiting for a finger to be placed (via interrupt)...");
         
         // Clear states
@@ -2933,59 +2853,48 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         xQueueReset(fingerprint_response_queue);
         xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
 
-        // Wait for finger detection via interrupt
-        // The finger_detection_task will handle the initial detection
-        // We'll wait for the event to be set
-        bits = xEventGroupWaitBits(enroll_event_group,
-                                 ENROLL_BIT_SUCCESS,
-                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(30000)); // 30 second timeout
+        // Wait for finger detection and processing via interrupt
+        err = fingerprint_wait_for_finger(30000); // 30 second timeout
         
-        if (!(bits & ENROLL_BIT_SUCCESS)) {
-            ESP_LOGW(TAG, "Timeout waiting for finger placement");
-            attempts++;
-            continue;
-        }
-        
-        ESP_LOGI(TAG, "Finger detected for enrollment!");
-
-        // Generate first template
-        err = fingerprint_send_command(&PS_GenChar1, DEFAULT_FINGERPRINT_ADDRESS);
         if (err != ESP_OK) {
+            ESP_LOGW(TAG, "Timeout or error waiting for first finger placement");
             attempts++;
             continue;
         }
-
-        bits = xEventGroupWaitBits(enroll_event_group,
-                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-                                 
-        if (!(bits & ENROLL_BIT_SUCCESS)) {
-            attempts++;
-            continue;
-        }
+        
+        ESP_LOGI(TAG, "First fingerprint image captured successfully!");
 
         ESP_LOGI(TAG, "Remove finger and place it again...");
         vTaskDelay(pdMS_TO_TICKS(2000));
 
-        // Wait for finger removal
+        // Wait for finger removal with improved reliability
         finger_removed = false;
         uint8_t no_finger_count = 0;
-        while (!finger_removed && no_finger_count < 20) { 
+        uint32_t removal_start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+        
+        while (!finger_removed) { 
+            // Check for timeout on finger removal
+            uint32_t current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+            if (current_time - removal_start_time > 10000) {  // 10 second timeout
+                ESP_LOGW(TAG, "Timeout waiting for finger removal");
+                break;
+            }
+            
             xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
             err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
             if (err != ESP_OK) {
-                attempts++;
+                vTaskDelay(pdMS_TO_TICKS(200));
                 continue;
             }
             
             bits = xEventGroupWaitBits(enroll_event_group,
                                     ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                    pdTRUE, pdFALSE, pdMS_TO_TICKS(500));
+                                    pdTRUE, pdFALSE, pdMS_TO_TICKS(800));
             
             // Check specifically for ENROLL_BIT_FAIL which is set when NO_FINGER is detected
             if (bits & ENROLL_BIT_FAIL) {  
                 no_finger_count++;
-                if (no_finger_count >= 1) {
+                if (no_finger_count >= 2) {  // Require multiple confirmations
                     finger_removed = true;
                     ESP_LOGI(TAG, "Finger removal confirmed");
                 }
@@ -2993,6 +2902,8 @@ esp_err_t enroll_fingerprint(uint16_t location) {
                 no_finger_count = 0;
                 ESP_LOGI(TAG, "Please remove your finger...");
             }
+            
+            vTaskDelay(pdMS_TO_TICKS(300));  // Delay between checks
         }
 
         if (!finger_removed) {
@@ -3001,55 +2912,43 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             continue;
         }
 
+        // Set operation mode for second enrollment image
+        fingerprint_set_operation_mode(FINGER_OP_ENROLL_SECOND);
+        
         // Wait for second finger placement via interrupt
         ESP_LOGI(TAG, "Please place the same finger again (via interrupt)...");
         xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
         
-        // Wait for finger detection via interrupt
-        bits = xEventGroupWaitBits(enroll_event_group,
-                                 ENROLL_BIT_SUCCESS,
-                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(30000)); // 30 second timeout
+        // Wait for finger detection and processing via interrupt
+        err = fingerprint_wait_for_finger(30000); // 30 second timeout
         
-        if (!(bits & ENROLL_BIT_SUCCESS)) {
-            ESP_LOGW(TAG, "Timeout waiting for second finger placement");
-            attempts++;
-            continue;
-        }
-        
-        ESP_LOGI(TAG, "Second finger placement detected!");
-
-        // Generate Char 2
-        xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
-        err = fingerprint_send_command(&PS_GenChar2, DEFAULT_FINGERPRINT_ADDRESS);
         if (err != ESP_OK) {
+            ESP_LOGW(TAG, "Timeout or error waiting for second finger placement");
             attempts++;
             continue;
         }
-
-        bits = xEventGroupWaitBits(enroll_event_group,
-                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-                                 
-        if (!(bits & ENROLL_BIT_SUCCESS)) {
-            attempts++;
-            continue;
-        }
-
-        // Create template model
+        
+        ESP_LOGI(TAG, "Second fingerprint image captured successfully!");
+        
+        // Create model from the two fingerprint images
         err = fingerprint_send_command(&PS_RegModel, DEFAULT_FINGERPRINT_ADDRESS);
         if (err != ESP_OK) {
+            ESP_LOGE(TAG, "Failed to send RegModel command");
             attempts++;
             continue;
         }
-
+        
         bits = xEventGroupWaitBits(enroll_event_group,
                                  ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                                  pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
                                  
         if (!(bits & ENROLL_BIT_SUCCESS)) {
+            ESP_LOGE(TAG, "Failed to create fingerprint model");
             attempts++;
             continue;
         }
+        
+        ESP_LOGI(TAG, "Fingerprint model created successfully!");
 
         // Check for duplicate fingerprint
         uint8_t search_params[] = {0x01,    // BufferID = 1
@@ -3090,6 +2989,8 @@ esp_err_t enroll_fingerprint(uint16_t location) {
                                  
         if (bits & ENROLL_BIT_SUCCESS) {
             ESP_LOGI(TAG, "Fingerprint enrolled successfully!");
+            // Reset operation mode
+            fingerprint_set_operation_mode(FINGER_OP_NONE);
             enrollment_in_progress = false;
             vEventGroupDelete(enroll_event_group);
             enroll_event_group = NULL;
@@ -3102,6 +3003,8 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     ESP_LOGE(TAG, "Enrollment failed after %d attempts", attempts);
     
 cleanup:
+    // Reset operation mode
+    fingerprint_set_operation_mode(FINGER_OP_NONE);
     enrollment_in_progress = false;
     if (enroll_event_group) {
         vEventGroupDelete(enroll_event_group);
@@ -3116,6 +3019,7 @@ esp_err_t verify_fingerprint(void) {
     uint8_t attempts = 0;
     const uint8_t max_attempts = 3;
 
+    // Create event group if it doesn't exist
     if (enroll_event_group == NULL) {
         enroll_event_group = xEventGroupCreate();
         if (enroll_event_group == NULL) {
@@ -3123,8 +3027,13 @@ esp_err_t verify_fingerprint(void) {
         }
     }
 
-    // Set verification in progress flag
-    is_fingerprint_validating = true;
+    // Make sure validation flag is reset at the start
+    is_fingerprint_validating = false;
+    
+    // Set operation mode to verification
+    fingerprint_set_operation_mode(FINGER_OP_VERIFY);
+    
+    ESP_LOGI(TAG, "Starting fingerprint verification...");
 
     while (attempts < max_attempts) {
         ESP_LOGI(TAG, "Please place your finger on the sensor (via interrupt)...");
@@ -3136,57 +3045,35 @@ esp_err_t verify_fingerprint(void) {
         xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
         vTaskDelay(pdMS_TO_TICKS(100)); // Short delay after clearing
 
-        // Wait for finger detection via interrupt
-        bits = xEventGroupWaitBits(enroll_event_group,
-                                 ENROLL_BIT_SUCCESS,
-                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(30000)); // 30 second timeout
+        // Wait for finger detection and processing via interrupt
+        err = fingerprint_wait_for_finger(30000); // 30 second timeout
         
-        if (!(bits & ENROLL_BIT_SUCCESS)) {
-            ESP_LOGW(TAG, "Timeout waiting for finger placement");
-            attempts++;
-            continue;
-        }
-        
-        ESP_LOGI(TAG, "Finger detected for verification!");
-
-        // Generate character file
-        xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
-        err = fingerprint_send_command(&PS_GenChar1, DEFAULT_FINGERPRINT_ADDRESS);
         if (err != ESP_OK) {
+            ESP_LOGW(TAG, "Timeout or error waiting for finger placement");
             attempts++;
             continue;
         }
-
-        bits = xEventGroupWaitBits(enroll_event_group,
-                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
         
-        if (!(bits & ENROLL_BIT_SUCCESS)) {
-            attempts++;
-            continue;
-        }
-
-        // Search for match with modified parameters
-        uint8_t search_params[] = {0x01,    // BufferID = 1
-                                 0x00, 0x00, // Start page = 0
-                                 0x00, 0x64}; // Number of pages = 100 (increased range)
-        
-        xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+        // Manually trigger the search after successful image capture and feature extraction
+        uint8_t search_params[] = {0x01, 0x00, 0x00, 0x00, 0x64};
         fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
         err = fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
         
         if (err != ESP_OK) {
+            ESP_LOGE(TAG, "Failed to send search command");
             attempts++;
             continue;
         }
-
-        ESP_LOGI(TAG, "Searching for fingerprint match...");
+        
+        // Wait for search result
         bits = xEventGroupWaitBits(enroll_event_group,
                                  ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                                  pdTRUE, pdFALSE, pdMS_TO_TICKS(3000));
         
         if (bits & ENROLL_BIT_SUCCESS) {
-            is_fingerprint_validating = false;
+            ESP_LOGI(TAG, "Fingerprint verification successful!");
+            // Reset operation mode
+            fingerprint_set_operation_mode(FINGER_OP_NONE);
             vEventGroupDelete(enroll_event_group);
             enroll_event_group = NULL;
             return ESP_OK;
@@ -3198,7 +3085,9 @@ esp_err_t verify_fingerprint(void) {
     }
 
     ESP_LOGE(TAG, "Verification failed after %d attempts", attempts);
-    is_fingerprint_validating = false;
+    
+    // Reset operation mode
+    fingerprint_set_operation_mode(FINGER_OP_NONE);
     vEventGroupDelete(enroll_event_group);
     enroll_event_group = NULL;
     return ESP_FAIL;
@@ -3359,12 +3248,24 @@ esp_err_t read_system_parameters(void) {
     return err;
 }
 
-// Helper function to load template from flash to buffer
+/// Helper function to load template from flash to buffer
 esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
     esp_err_t err;
     EventBits_t bits;
-    // uint16_t page_id = convert_index_to_page_id(template_id);
     uint16_t page_id = template_id;
+    
+    // Check if event group exists, create it if needed
+    if (enroll_event_group == NULL) {
+        ESP_LOGW(TAG, "Event group is NULL in load_template_to_buffer, creating new one");
+        enroll_event_group = xEventGroupCreate();
+        if (enroll_event_group == NULL) {
+            ESP_LOGE(TAG, "Failed to create event group in load_template_to_buffer");
+            return ESP_ERR_NO_MEM;
+        }
+    }
+    
+    // Clear any existing bits
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
     
     // Parameters: BufferID, Page Address (2 bytes)
     uint8_t params[] = {
@@ -3377,6 +3278,8 @@ esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
     err = fingerprint_send_command(&PS_LoadChar, DEFAULT_FINGERPRINT_ADDRESS);
     if (err != ESP_OK) return err;
     ESP_LOGI(TAG, "LoadChar command sent");
+    
+    // Wait for response with timeout
     bits = xEventGroupWaitBits(enroll_event_group,
                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                              pdTRUE, pdFALSE, pdMS_TO_TICKS(1000));
@@ -3414,31 +3317,231 @@ esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
 
 esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
     esp_err_t err;
+    EventBits_t bits;
+    bool created_event_group = false;
     
-    // Skip event group mechanism for template upload - it's unreliable
+    // Initialize event group for proper error detection
+    if (enroll_event_group == NULL) {
+        enroll_event_group = xEventGroupCreate();
+        if (enroll_event_group == NULL) {
+            ESP_LOGE(TAG, "Failed to create event group for template upload");
+            return ESP_ERR_NO_MEM;
+        }
+        created_event_group = true;
+    }
     
-    // 1. Clear UART buffer and response queues
-    uart_flush(UART_NUM);
-    xQueueReset(fingerprint_command_queue);
-    xQueueReset(fingerprint_response_queue);
+    // Clear event flags
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL | TEMPLATE_UPLOAD_COMPLETE_BIT);
     
-    // 2. Send upload command with longer timeout
-    ESP_LOGI(TAG, "Sending UpChar command for buffer %d", buffer_id);
+    // Send upload command
     uint8_t params[] = {buffer_id};
     fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
     err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
     if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to send UpChar command");
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
         return err;
     }
     
-    // 3. Simply wait a fixed time for template to transfer rather than using events
-    ESP_LOGI(TAG, "Waiting for template data transfer...");
-    vTaskDelay(pdMS_TO_TICKS(4000));  // 4 seconds should be plenty for template transfer
+    // Wait for initial response
+    bits = xEventGroupWaitBits(enroll_event_group,
+                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(3000));
     
-    // 4. Template should now be processed by fingerprint_read_response
-    ESP_LOGI(TAG, "Template upload should be complete");
+    // Check for failure first
+    if (bits & ENROLL_BIT_FAIL) {
+        ESP_LOGE(TAG, "Template upload failed - template likely doesn't exist");
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
+        return ESP_FAIL;
+    }
+    
+    // If we didn't get success either, it's a timeout
+    if (!(bits & ENROLL_BIT_SUCCESS)) {
+        ESP_LOGE(TAG, "Template upload timed out waiting for response");
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
+        return ESP_ERR_TIMEOUT;
+    }
+    
+    // Success case - wait for template data with timeout
+    ESP_LOGI(TAG, "Waiting for template data transfer...");
+    bits = xEventGroupWaitBits(enroll_event_group, 
+                              TEMPLATE_UPLOAD_COMPLETE_BIT,
+                              pdTRUE, pdFALSE, pdMS_TO_TICKS(5000));
+    
+    if (!(bits & TEMPLATE_UPLOAD_COMPLETE_BIT)) {
+        ESP_LOGE(TAG, "Template data transfer timed out");
+        // Even though we timed out, template data might be available in the global buffer
+        if (template_available && saved_template_size > 0) {
+            ESP_LOGW(TAG, "Template data available despite timeout (%d bytes)", saved_template_size);
+            *template_size = saved_template_size;
+            memcpy(template_data, saved_template, saved_template_size);
+            if (created_event_group) {
+                vEventGroupDelete(enroll_event_group);
+                enroll_event_group = NULL;
+            }
+            return ESP_OK;
+        }
+        
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
+        return ESP_ERR_TIMEOUT;
+    }
+    
+    // Template data successfully received
+    if (template_available && saved_template_size > 0) {
+        *template_size = saved_template_size;
+        memcpy(template_data, saved_template, saved_template_size);
+    }
+    
+    if (created_event_group) {
+        vEventGroupDelete(enroll_event_group);
+        enroll_event_group = NULL;
+    }
+    
     return ESP_OK;
+}
+
+/**
+ * @brief Checks if a template exists at the specified location
+ * 
+ * This function attempts to upload a template from the specified location.
+ * If the template exists, the function returns ESP_OK.
+ * If the template doesn't exist, the function returns ESP_FAIL.
+ * 
+ * @param template_id The ID of the template to check
+ * @return ESP_OK if template exists, ESP_FAIL if not, or other error code
+ */
+// Fix the fingerprint_check_template_exists function to properly handle the event group
+esp_err_t fingerprint_check_template_exists(uint16_t template_id) {
+    esp_err_t err;
+    bool created_event_group = false;
+    
+    // Create event group for this operation if needed
+    if (enroll_event_group == NULL) {
+        enroll_event_group = xEventGroupCreate();
+        if (enroll_event_group == NULL) {
+            ESP_LOGE(TAG, "Failed to create event group for template check");
+            return ESP_ERR_NO_MEM;
+        }
+        created_event_group = true;
+    }
+    
+    // First try to read the index table to check if the template exists
+    uint8_t page = template_id >> 8;  // Get the page number
+    uint8_t position = template_id & 0xFF;  // Get position within page
+    
+    ESP_LOGI(TAG, "Checking if template %d exists (page %d, position %d)", template_id, page, position);
+    
+    // Clear any stale data
+    uart_flush(UART_NUM);
+    xQueueReset(fingerprint_command_queue);
+    xQueueReset(fingerprint_response_queue);
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    
+    // Read the index table for the page
+    uint8_t index_params[] = {page};
+    fingerprint_set_command(&PS_ReadIndexTable, FINGERPRINT_CMD_READ_INDEX_TABLE, 
+                          index_params, sizeof(index_params));
+    
+    err = fingerprint_send_command(&PS_ReadIndexTable, DEFAULT_FINGERPRINT_ADDRESS);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to send ReadIndexTable command");
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
+        return err;
+    }
+    
+    // Wait for response with timeout
+    EventBits_t bits = xEventGroupWaitBits(enroll_event_group,
+                                         ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                         pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+    
+    if (bits & ENROLL_BIT_SUCCESS) {
+        // Check if the bit corresponding to this template is set in the index table
+        // This requires accessing the response packet directly
+        fingerprint_response_t response;
+        bool template_exists = false;
+        
+        if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(100)) == pdTRUE) {
+            uint8_t bit_position = position % 8;
+            uint8_t byte_offset = position / 8;
+            
+            if (byte_offset < 32 && response.packet.parameters[byte_offset] & (1 << bit_position)) {
+                template_exists = true;
+                ESP_LOGI(TAG, "Template %d exists according to index table", template_id);
+            } else {
+                ESP_LOGI(TAG, "Template %d does not exist according to index table", template_id);
+            }
+        }
+        
+        // Don't delete the event group here if we didn't create it
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
+        
+        return template_exists ? ESP_OK : ESP_ERR_NOT_FOUND;
+    }
+    
+    // If reading index table failed, try loading the template as a fallback
+    ESP_LOGW(TAG, "Reading index table failed, trying to load template directly");
+    
+    // Clear any stale data again
+    uart_flush(UART_NUM);
+    xQueueReset(fingerprint_command_queue);
+    xQueueReset(fingerprint_response_queue);
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    
+    // Try to load the template to buffer 1
+    uint8_t load_params[] = {
+        1,  // Buffer ID = 1
+        (uint8_t)(template_id >> 8),
+        (uint8_t)(template_id & 0xFF)
+    };
+    
+    fingerprint_set_command(&PS_LoadChar, FINGERPRINT_CMD_LOAD_CHAR, load_params, sizeof(load_params));
+    err = fingerprint_send_command(&PS_LoadChar, DEFAULT_FINGERPRINT_ADDRESS);
+    
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to send LoadChar command");
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
+        return err;
+    }
+    
+    // Wait for response with timeout
+    bits = xEventGroupWaitBits(enroll_event_group,
+                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+    
+    // Clean up only if we created the event group
+    if (created_event_group) {
+        vEventGroupDelete(enroll_event_group);
+        enroll_event_group = NULL;
+    }
+    
+    // Interpret results
+    if (bits & ENROLL_BIT_SUCCESS) {
+        ESP_LOGI(TAG, "Template %d exists (load successful)", template_id);
+        return ESP_OK;
+    } else {
+        ESP_LOGI(TAG, "Template %d does not exist (load failed)", template_id);
+        return ESP_ERR_NOT_FOUND;
+    }
 }
 
 // Download template from host to module buffer
@@ -3567,35 +3670,84 @@ esp_err_t backup_template(uint16_t template_id) {
     esp_err_t err;
     uint8_t template_data[512];  // Adjust size as needed
     size_t template_size = 0;
+    bool created_event_group = false;
+    bool template_received = false;
 
-    // Create event group at the start of backup process
-    err = initialize_event_group();
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to initialize event group");
-        return err;
+    // Create event group at the start of backup process if needed
+    if (enroll_event_group == NULL) {
+        enroll_event_group = xEventGroupCreate();
+        if (enroll_event_group == NULL) {
+            ESP_LOGE(TAG, "Failed to initialize event group");
+            return ESP_ERR_NO_MEM;
+        }
+        created_event_group = true;
     }
     
-    ESP_LOGI(TAG, "Loading Template...");
-    // Convert template_id to page_id for LoadChar command
-    // uint16_t page_id = convert_index_to_page_id(template_id);
-    uint16_t page_id = template_id;
+    ESP_LOGI(TAG, "Loading Template %d...", template_id);
     
-    // 1. Load template from flash to buffer 1 with correct page_id
+    // First check if the template exists
+    err = fingerprint_check_template_exists(template_id);
+    if (err != ESP_OK) {
+        ESP_LOGW(TAG, "Template %d does not exist or cannot be accessed", template_id);
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
+        return ESP_ERR_NOT_FOUND;  // Return specific error code for non-existent template
+    }
+    
+    // Clear event bits before proceeding
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    
+    // 1. Load template from flash to buffer 1
     err = load_template_to_buffer(template_id, 1);
     if (err != ESP_OK) {
-        cleanup_event_group();
+        ESP_LOGE(TAG, "Failed to load template %d to buffer: %s", template_id, esp_err_to_name(err));
+        if (created_event_group) {
+            vEventGroupDelete(enroll_event_group);
+            enroll_event_group = NULL;
+        }
         return err;
     }
     
     ESP_LOGI(TAG, "Loading Template Successful");
+    
+    // Clear event bits before proceeding to upload
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    
     // 2. Upload template from buffer to host
     ESP_LOGI(TAG, "Uploading Template...");
+    
+    // Store the event group in a local variable before calling upload_template
+    EventGroupHandle_t local_event_group = enroll_event_group;
+    
     err = upload_template(1, template_data, &template_size);
     
-    cleanup_event_group();
-    if (err != ESP_OK) return err;
+    // Check if template data was received by examining global variables
+    if (saved_template_size > 0 && template_available) {
+        template_received = true;
+        ESP_LOGI(TAG, "Template data received successfully (%d bytes)", saved_template_size);
+    }
+    
+    // Only delete the event group if we created it AND it hasn't been deleted yet
+    // Check if the global event group is still the same as our local copy
+    if (created_event_group && enroll_event_group == local_event_group) {
+        vEventGroupDelete(enroll_event_group);
+        enroll_event_group = NULL;
+    }
+    
+    // Return success if we received template data, even if the upload_template function timed out
+    if (template_received) {
+        ESP_LOGI(TAG, "Template backup successful, size: %d bytes", saved_template_size);
+        return ESP_OK;
+    }
+    
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to upload template: %s", esp_err_to_name(err));
+        return err;
+    }
 
-    ESP_LOGI(TAG, "Template backup successful");
+    ESP_LOGI(TAG, "Template backup successful, size: %d bytes", template_size);
     return ESP_OK;
 }
 
@@ -3649,30 +3801,38 @@ esp_err_t restore_template(uint16_t template_id, const uint8_t* template_data, s
     
     return err;
 }
-
 esp_err_t initialize_event_group(void) {
-    if (enroll_event_group == NULL) {
-        enroll_event_group = xEventGroupCreate();
-        if (enroll_event_group == NULL) {
-            // ESP_LOGE(TAG, "Failed to create event group");
-            return ESP_ERR_NO_MEM;
-        }
+    // Check if event group already exists
+    if (enroll_event_group != NULL) {
+        // Just clear the bits and return success
+        xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+        return ESP_OK;
     }
-
+    
+    // Create a new event group
+    enroll_event_group = xEventGroupCreate();
+    if (enroll_event_group == NULL) {
+        ESP_LOGE(TAG, "Failed to create event group");
+        return ESP_ERR_NO_MEM;
+    }
+    
     // Clear any existing bits to ensure a clean state
     xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    ESP_LOGD(TAG, "Event group initialized successfully");
     return ESP_OK;
 }
-
 esp_err_t cleanup_event_group(void) {
     if (enroll_event_group == NULL) {
-        // ESP_LOGW(TAG, "Event group is already NULL.");
+        ESP_LOGW(TAG, "Event group is already NULL.");
         return ESP_ERR_INVALID_STATE;  // Indicates it was already deleted
     }
 
-    vEventGroupDelete(enroll_event_group);
-    enroll_event_group = NULL;
-    // ESP_LOGI(TAG, "Enrollment event group deleted successfully.");
+    // Delete the event group and set to NULL
+    EventGroupHandle_t temp = enroll_event_group;
+    enroll_event_group = NULL;  // Set to NULL BEFORE deleting to prevent race conditions
+    vEventGroupDelete(temp);
+    
+    ESP_LOGD(TAG, "Enrollment event group deleted successfully.");
     return ESP_OK;
 }
 
@@ -3838,3 +3998,137 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
     return err;
 }
 
+esp_err_t fingerprint_set_operation_mode(finger_operation_mode_t mode) {
+    // Create mutex if it doesn't exist
+    if (finger_op_mutex == NULL) {
+        finger_op_mutex = xSemaphoreCreateMutex();
+        if (finger_op_mutex == NULL) {
+            ESP_LOGE(TAG, "Failed to create operation mode mutex");
+            return ESP_ERR_NO_MEM;
+        }
+    }
+    
+    // Set the operation mode with mutex protection
+    if (xSemaphoreTake(finger_op_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+        current_operation = mode;
+        xSemaphoreGive(finger_op_mutex);
+        ESP_LOGI(TAG, "Fingerprint operation mode set to %d", mode);
+        return ESP_OK;
+    } else {
+        ESP_LOGE(TAG, "Failed to take mutex for setting operation mode");
+        return ESP_ERR_TIMEOUT;
+    }
+}
+
+finger_operation_mode_t fingerprint_get_operation_mode(void) {
+    finger_operation_mode_t mode = FINGER_OP_NONE;
+    
+    // Get the operation mode with mutex protection
+    if (finger_op_mutex != NULL && xSemaphoreTake(finger_op_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+        mode = current_operation;
+        xSemaphoreGive(finger_op_mutex);
+    }
+    
+    return mode;
+}
+
+esp_err_t fingerprint_wait_for_finger(uint32_t timeout_ms) {
+    if (enroll_event_group == NULL) {
+        enroll_event_group = xEventGroupCreate();
+        if (enroll_event_group == NULL) {
+            ESP_LOGE(TAG, "Failed to create event group for wait_for_finger");
+            return ESP_ERR_NO_MEM;
+        }
+    }
+    
+    // Clear any previous bits
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    
+    // Start time for timeout tracking
+    uint32_t start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+    uint32_t current_time;
+    bool success = false;
+    
+    // Wait for finger with active polling as a backup to the interrupt
+    while (1) {
+        // Check if we've exceeded timeout
+        current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+        if (timeout_ms > 0 && (current_time - start_time) > timeout_ms) {
+            ESP_LOGW(TAG, "Timeout waiting for finger placement");
+            return ESP_ERR_TIMEOUT;
+        }
+        
+        // Check if event bits were set by interrupt handler
+        EventBits_t bits = xEventGroupGetBits(enroll_event_group);
+        if (bits & ENROLL_BIT_SUCCESS) {
+            success = true;
+            break;
+        } else if (bits & ENROLL_BIT_FAIL) {
+            ESP_LOGW(TAG, "Finger detection failed");
+            return ESP_FAIL;
+        }
+        
+        // If no interrupt has triggered, periodically check for finger directly
+        // This provides a backup method if the interrupt isn't working reliably
+        if ((current_time - start_time) % 1000 == 0) {  // Check every second
+            // Only do this if we're not already processing
+            if (!is_fingerprint_validating && xSemaphoreTake(finger_detect_mutex, pdMS_TO_TICKS(10)) == pdTRUE) {
+                ESP_LOGI(TAG, "Polling for finger presence...");
+                
+                // Try to capture image
+                esp_err_t err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
+                if (err == ESP_OK) {
+                    // Wait for response
+                    bits = xEventGroupWaitBits(enroll_event_group,
+                                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                             pdTRUE, pdFALSE, pdMS_TO_TICKS(800));
+                    
+                    if (bits & ENROLL_BIT_SUCCESS) {
+                        ESP_LOGI(TAG, "Finger detected through polling");
+                        success = true;
+                        xSemaphoreGive(finger_detect_mutex);
+                        break;
+                    }
+                }
+                xSemaphoreGive(finger_detect_mutex);
+            }
+        }
+        
+        // Short delay to prevent CPU hogging
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+    
+    return success ? ESP_OK : ESP_FAIL;
+}
+
+// Function to control power to fingerprint module
+esp_err_t fingerprint_power_control(bool power_on) {
+    // Configure GPIO for output if not already done
+    gpio_config_t io_conf = {
+        .pin_bit_mask = (1ULL << FINGERPRINT_VIN_PIN),
+        .mode = GPIO_MODE_OUTPUT,
+        .pull_up_en = GPIO_PULLUP_DISABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_DISABLE,
+    };
+    
+    esp_err_t err = gpio_config(&io_conf);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to configure VIN control pin: %s", esp_err_to_name(err));
+        return err;
+    }
+    
+    // Set pin level according to power_on parameter
+    gpio_set_level(FINGERPRINT_VIN_PIN, power_on ? 1 : 0);
+    ESP_LOGI(TAG, "Fingerprint module power %s", power_on ? "ON" : "OFF");
+    
+    if (power_on) {
+        // If powering on, add longer delay for module to initialize
+        vTaskDelay(pdMS_TO_TICKS(800));  // Increased from 500ms to 800ms
+    } else {
+        // CRITICAL FIX: Add delay after powering OFF to ensure proper discharge
+        vTaskDelay(pdMS_TO_TICKS(500));  // Need at least 500ms for capacitors to discharge
+    }
+    
+    return ESP_OK;
+}

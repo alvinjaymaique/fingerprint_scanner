@@ -7,7 +7,7 @@
 #define TAG "FINGERPRINT"
 #define TEST_PIN (GPIO_NUM_46)
 #define SCANNER_GPIO GPIO_NUM_46  // Change this if needed (should support 40mA)
-void handle_fingerprint_event(fingerprint_event_t event);
+static void internal_handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
 
 // Add this global variable to store the template
@@ -55,7 +55,7 @@ void configure_scanner_gpio() {
 void app_main(void)
 {
     // set_all_pins_high();
-    register_fingerprint_event_handler(handle_fingerprint_event);
+    register_fingerprint_event_handler(internal_handle_fingerprint_event);
     // configure_scanner_gpio();
     // // Set GPIO 11 as output
     // gpio_set_direction(TEST_PIN, GPIO_MODE_OUTPUT);
@@ -102,7 +102,7 @@ void app_main(void)
         // Add your access control logic here
     } else {
         ESP_LOGE(TAG, "Fingeprint not enrolled!");
-        // Add your failure handling here
+        // Add your failure handling heres
     }
 
     // esp_err_t out = delete_fingerprint(location);
@@ -269,7 +269,7 @@ void send_command_task(void *pvParameter)
 }
 
 // Event handler function
-void handle_fingerprint_event(fingerprint_event_t event) {
+static void internal_handle_fingerprint_event(fingerprint_event_t event) {
     switch (event.type) {
         case EVENT_SCANNER_READY:
             // ESP_LOGI(TAG, "Fingerprint scanner is ready for operation. Status: 0x%02X", event.status);
