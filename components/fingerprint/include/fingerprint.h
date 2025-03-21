@@ -218,8 +218,8 @@
  /**
   * @brief Default UART pins (modifiable at runtime).
   */
- #define DEFAULT_TX_PIN (GPIO_NUM_17)
- #define DEFAULT_RX_PIN (GPIO_NUM_18)
+ #define DEFAULT_TX_PIN (GPIO_NUM_5) //17
+ #define DEFAULT_RX_PIN (GPIO_NUM_6) //18
  
  /**
   * @brief Default fingerprint module header identifier.
@@ -995,7 +995,10 @@ extern FingerprintPacket PS_ReadINFPage;
  
      /** @brief Encryption and function mismatch. Value: `0x30` */
      FINGERPRINT_ENCRYPTION_MISMATCH = 0x30,     
- 
+
+     /** @brief Function does not match the required encryption level. Value: `0x31` */
+     FINGERPRINT_FUNCTION_ENCRYPTION_MISMATCH = 0x31,
+
      /** @brief Secret key is locked. Value: `0x32` */
      FINGERPRINT_KEY_LOCKED = 0x32,              
  
@@ -1518,6 +1521,7 @@ typedef struct {
      */
     EVENT_TEMPLATE_LOADED,
 
+    EVENT_PACKET_RECEPTION_FAIL, /**< Failed to receive subsequent data packets */
 
  } fingerprint_event_type_t;
 
@@ -2092,8 +2096,6 @@ typedef struct {
     size_t size;
     bool is_final;
 } template_data_chunk_t;
-
-const char* fingerprint_status_to_str(fingerprint_status_t status);
 
 
 

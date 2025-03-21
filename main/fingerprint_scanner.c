@@ -88,7 +88,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 4;  // Storage location for fingerprint template
+    uint16_t location = 0;  // Storage location for fingerprint template
     // esp_err_t out = delete_fingerprint(location);
     // if (out == ESP_OK) {
     //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
@@ -386,7 +386,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                 }
             }
 
-            // packets = event.multi_packet;
+            packets = event.multi_packet;
             // // Restore Template
             uint16_t new_location = 10;
             if (packets != NULL){
@@ -441,6 +441,15 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_TEMPLATE_LOADED:
             ESP_LOGI(TAG, "Template loaded successfully. Status: 0x%02X", event.status);
+            break;
+        case EVENT_TEMPLATE_STORE_PACKET_ERROR:
+            ESP_LOGE(TAG, "Error storing template packet. Status: 0x%02X", event.status);
+            break;
+        case EVENT_PACKET_RECEPTION_FAIL:
+            ESP_LOGE(TAG, "Error in data packet. Status: 0x%02X", event.status);
+            break;
+        case EVENT_TEMPLATE_STORE_ENCRYPTION_MISMATCH:
+            ESP_LOGE(TAG, "Encryption mismatch. Status: 0x%02X", event.status);
             break;
         default:
             ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);
