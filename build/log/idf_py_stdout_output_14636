@@ -1,0 +1,376 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e8a0h ( 59552) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001e8c8 vaddr=3fc93a00 size=01750h (  5968) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f5ech (128492) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003f614 vaddr=3fc95150 size=01fc0h (  8128) load[0m
+[0;32mI (146) esp_image: segment 4: paddr=000415dc vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=00050fc8 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      c661cd6-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 24 2025 10:46:30[0m
+[0;32mI (207) app_init: ELF file SHA256:  c9940566d...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC9CE78 len 0004C898 (306 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Finger detection task started[0m
+[0;32mI (326) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;33mW (516) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (766) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (766) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (766) Status Event Handler: Status: 0[0m
+[0;32mI (1516) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1516) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (1816) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (1816) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (1816) Status Event Handler: Status: 0[0m
+[0;32mI (1816) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (1816) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (1826) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (1836) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1836) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1846) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1856) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1856) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1866) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1886) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (1896) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (1896) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (1896) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1916) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1936) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1946) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1956) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1956) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[0;33mW (1966) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[1;31mE (1966) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (1976) FINGERPRINT: Starting fingerprint verification...[0m
+[0;33mW (2166) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (2436) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (2436) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (2436) Status Event Handler: Status: 2[0m
+[0;33mW (2536) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (2706) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (2706) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (2706) Status Event Handler: Status: 2[0m
+[0;32mI (3966) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (3966) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (4176) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4466) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4466) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4466) Status Event Handler: Status: 0[0m
+[0;32mI (4466) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (4466) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (4466) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (4486) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (4586) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (4586) FINGERPRINT: Default mode: searching database[0m
+[0;32mI (4746) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4746) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4746) Status Event Handler: Status: 0[0m
+[0;32mI (4746) FINGERPRINT: Search returned success but match score is 0, waiting for more responses[0m
+[0;32mI (5056) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5056) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (5056) Status Event Handler: Status: 0[0m
+[0;32mI (5056) FINGERPRINT: Real match found with score 3328[0m
+[0;32mI (5056) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (5066) FINGERPRINT: Match found at Enrollee ID: 0[0m
+[0;32mI (5066) FINGERPRINT: Match score: 3328[0m
+[0;32mI (5286) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5286) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (5286) Status Event Handler: Status: 0[0m
+[0;32mI (5746) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (5756) FINGERPRINT: Fingerprint verification successful![0m
+[0;32mI (5756) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (6126) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (6126) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (6126) Status Event Handler: Status: 0[0m
+[0;32mI (6126) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
+[0;32mI (6126) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (6136) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (6146) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (6336) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (6546) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (6546) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (6546) Status Event Handler: Status: 0[0m
+[0;32mI (6546) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (6546) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (6556) FINGERPRINT: Uploading Template...[0m
+[0;32mI (6556) FINGERPRINT: Sending UpChar command for buffer 1[0m
+[0;32mI (6756) FINGERPRINT: Waiting for template data transfer...[0m
+[0;32mI (6806) FINGERPRINT: Received template data packet 1[0m
+[0;32mI (6806) FINGERPRINT: Starting template collection[0m
+[0;32mI (6806) FINGERPRINT: Received 3 packets for template[0m
+[0;32mI (6856) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (6906) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (6956) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7006) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7056) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7106) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7156) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7206) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7256) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7276) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7326) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7376) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7426) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7476) FINGERPRINT: Received 1 packets for template[0m
+[0;32mI (7526) FINGERPRINT: Found FOOF end marker at position 242[0m
+[0;32mI (7526) FINGERPRINT: Copied 256 bytes to template buffer[0m
+[0;32mI (7536) FINGERPRINT: Received 2 packets for template[0m
+[0;32mI (7536) FINGERPRINT: Final template packet (0x08) received[0m
+[0;32mI (7536) FINGERPRINT: FOOF marker found at position 2377[0m
+[0;32mI (7546) FINGERPRINT: Added 256 bytes of raw template data (total: 2637)[0m
+[0;32mI (7546) FINGERPRINT: FOOF marker found in raw data at position 2623[0m
+[0;32mI (7556) FINGERPRINT: Template upload complete signaled[0m
+[0;32mI (7566) Template Buffer: 0x3fc98a28   00 00 54 1e 56 01 04 93  07 50 52 45 43 49 53 45  |..T.V....PRECISE|[0m
+[0;32mI (7576) Template Buffer: 0x3fc98a38   00 01 02 75 50 f2 cf 00  56 00 00 00 27 66 0d a8  |...uP...V...'f..|[0m
+[0;32mI (7576) Template Buffer: 0x3fc98a48   db 00 0c 00 50 00 45 00  00 00 01 6b 00 50 00 45  |....P.E....k.P.E|[0m
+[0;32mI (7586) Template Buffer: 0x3fc98a58   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (7596) Template Buffer: 0x3fc98a68   00 ff ff 00 00 00 00 00  00 4f 00 00 07 46 13 d5  |.........O...F..|[0m
+[0;32mI (7606) Template Buffer: 0x3fc98a78   40 c7 00 0a 12 34 00 0d  00 10 00 45 00 50 00 9b  |@....4.....E.P..|[0m
+[0;32mI (7616) Template Buffer: 0x3fc98a88   00 00 00 00 00 00 06 00  08 01 00 10 08 a6 d7 7c  |...............||[0m
+[0;32mI (7626) Template Buffer: 0x3fc98a98   88 00 01 03 28 01 00 00  00 49 2b 28 2c 77 a4 f4  |....(....I+(,w..|[0m
+[0;32mI (7636) Template Buffer: 0x3fc98aa8   ad 6c 99 ef a8 36 2e b4  25 cc 15 c6 7d a5 bf 5c  |.l...6..%...}..\|[0m
+[0;32mI (7646) Template Buffer: 0x3fc98ab8   17 45 2d 3e da e9 10 6e  fd 3f bd 18 33 2b 86 b5  |.E->...n.?..3+..|[0m
+[0;32mI (7656) Template Buffer: 0x3fc98ac8   a0 f8 d6 16 83 a0 30 25  2f 12 26 e3 4e 4f 53 3b  |......0%/.&.NOS;|[0m
+[0;32mI (7666) Template Buffer: 0x3fc98ad8   f4 2f 43 b7 fe 6a 97 08  5d d8 98 47 37 28 b5 5f  |./C..j..]..G7(._|[0m
+[0;32mI (7676) Template Buffer: 0x3fc98ae8   a9 97 d6 ee 23 fb 5e 33  35 b5 3c ec 04 fe af 34  |....#.^35.<....4|[0m
+[0;32mI (7686) Template Buffer: 0x3fc98af8   0f 5a 31 1e 31 5f 64 67  9c 45 57 af 48 29 0d ab  |.Z1.1_dg.EW.H)..|[0m
+[0;32mI (7696) Template Buffer: 0x3fc98b08   d2 db 14 96 11 16 20 e8  6d 91 85 0d dc d3 72 1f  |...... .m.....r.|[0m
+[0;32mI (7706) Template Buffer: 0x3fc98b18   2f 2b 0c e8 51 cc ef 46  ae cc 14 40 ac dc c8 51  |/+..Q..F...@...Q|[0m
+[0;32mI (7716) Template Buffer: 0x3fc98b28   41 c7 04 00 89 28 3f b2  66 cb 32 4e 8c 10 4a c8  |A....(?.f.2N..J.|[0m
+[0;32mI (7726) Template Buffer: 0x3fc98b38   3b 40 b9 ef e8 e7 1c 69  54 89 76 35 23 35 0e 38  |;@.....iT.v5#5.8|[0m
+[0;32mI (7736) Template Buffer: 0x3fc98b48   34 b8 ee 57 bf 68 2f 11  2d 36 80 ed 88 e9 1a 4c  |4..W.h/.-6.....L|[0m
+[0;32mI (7746) Template Buffer: 0x3fc98b58   c8 29 06 28 1f 84 a0 0b  72 87 aa 4c 33 3c 36 5f  |.).(....r..L3<6_|[0m
+[0;32mI (7756) Template Buffer: 0x3fc98b68   24 23 ca 49 16 6e 18 25  1d 2d c6 34 73 89 c9 97  |$#.I.n.%.-.4s...|[0m
+[0;32mI (7756) Template Buffer: 0x3fc98b78   9d 08 11 2a 25 ea c7 e6  b7 da 18 15 6a 0b 46 a7  |...*%.......j.F.|[0m
+[0;32mI (7766) Template Buffer: 0x3fc98b88   4f 85 d6 dd 9c 02 00 18  2e 3d b4 0d cd 95 1e b1  |O........=......|[0m
+[0;32mI (7776) Template Buffer: 0x3fc98b98   1c ae 72 1b 37 b1 19 7c  f5 be ed bf bf 54 3e 46  |..r.7..|.....T>F|[0m
+[0;32mI (7786) Template Buffer: 0x3fc98ba8   39 fd 00 85 14 48 1b b4  0c 12 48 2a 5a 14 17 20  |9....H....H*Z.. |[0m
+[0;32mI (7796) Template Buffer: 0x3fc98bb8   8e 23 29 a4 04 44 a5 b1  a0 7f 88 fd 8d d8 d2 1a  |.#)..D..........|[0m
+[0;32mI (7806) Template Buffer: 0x3fc98bc8   2b 29 48 00 33 7c 47 46  be 9c 1f 28 2a 16 cd c5  |+)H.3|GF...(*...|[0m
+[0;32mI (7816) Template Buffer: 0x3fc98bd8   6a 1e 3c b3 ad ed f3 3e  35 10 99 34 3a 3a 37 01  |j.<....>5..4::7.|[0m
+[0;32mI (7826) Template Buffer: 0x3fc98be8   62 23 98 7b 33 4d 86 29  22 2d 46 65 e0 8e 6d 9b  |b#.{3M.)"-Fe..m.|[0m
+[0;32mI (7836) Template Buffer: 0x3fc98bf8   dd 48 35 42 35 14 e4 34  cf 6e 50 7f c0 30 17 af  |.H5B5..4.nP..0..|[0m
+[0;32mI (7846) Template Buffer: 0x3fc98c08   ff cd c1 0f 05 56 4d 26  3a 33 b5 b7 cd 10 cd c5  |.....VM&:3......|[0m
+[0;32mI (7856) Template Buffer: 0x3fc98c18   02 5f 30 21 34 ab 7f 08  91 45 de c2 3f 89 0d 11  |._0!4....E..?...|[0m
+[0;32mI (7866) Template Buffer: 0x3fc98c28   22 fe 6a c5 bb 6f f1 5d  a7 06 32 a4 34 c5 df ef  |".j..o.]..2.4...|[0m
+[0;32mI (7876) Template Buffer: 0x3fc98c38   ef 27 58 99 2e 31 ad 1f  c6 bd 66 f6 e0 33 fb 0d  |.'X..1....f..3..|[0m
+[0;32mI (7886) Template Buffer: 0x3fc98c48   1b 1e d6 c9 cd 6d 2f 95  09 a1 3e 32 b7 dd a9 07  |.....m/...>2....|[0m
+[0;32mI (7896) Template Buffer: 0x3fc98c58   6c 55 44 1f 83 0e 3d 27  2b 44 f5 fe 4f 23 8e 86  |lUD...='+D..O#..|[0m
+[0;32mI (7906) Template Buffer: 0x3fc98c68   1b 23 ac ae 65 a1 a8 65  1c ed 56 26 39 b4 ee 08  |.#..e..e..V&9...|[0m
+[0;32mI (7916) Template Buffer: 0x3fc98c78   a2 da 91 c6 b6 66 08 29  28 cd 0a f3 ab b1 56 a8  |.....f.)(.....V.|[0m
+[0;32mI (7926) Template Buffer: 0x3fc98c88   46 25 2b 2c cd 68 4f 9c  ec dd ad 1c 2b 1a 2d 1b  |F%+,.hO.....+.-.|[0m
+[0;32mI (7926) Template Buffer: 0x3fc98c98   40 47 0f 49 12 31 cf f9  c3 0f 65 57 a9 64 10 07  |@G.I.1....eW.d..|[0m
+[0;32mI (7936) Template Buffer: 0x3fc98ca8   2d 8c f6 03 95 7d 06 e9  44 09 15 23 e6 59 6b 29  |-....}..D..#.Yk)|[0m
+[0;32mI (7946) Template Buffer: 0x3fc98cb8   d0 cb 15 e7 04 3c a5 5a  14 df 2e bf 0d 1d ae 30  |.....<.Z.......0|[0m
+[0;32mI (7956) Template Buffer: 0x3fc98cc8   09 ab a7 28 d9 2f 88 d2  3f b4 3c 21 36 4c 2a b5  |...(./..?.<!6L*.|[0m
+[0;32mI (7966) Template Buffer: 0x3fc98cd8   be 7f 3f 3f d2 14 2f 25  f2 67 42 be 8a d3 77 6a  |..??../%.gB...wj|[0m
+[0;32mI (7976) Template Buffer: 0x3fc98ce8   3c 0a ae b4 ac f1 7a 89  06 4d a0 3b 12 af 96 81  |<.....z..M.;....|[0m
+[0;32mI (7986) Template Buffer: 0x3fc98cf8   47 4b e3 54 08 30 09 0b  26 f3 fb dd 93 e2 17 0e  |GK.T.0..&.......|[0m
+[0;32mI (7996) Template Buffer: 0x3fc98d08   64 25 48 33 ed f8 25 df  cd 5c c1 5c 37 1c 33 2a  |d%H3..%..\.\7.3*|[0m
+[0;32mI (8006) Template Buffer: 0x3fc98d18   26 22 56 65 04 ae 58 0d  25 24 2f 87 77 f7 78 7b  |&"Ve..X.%$/.w.x{|[0m
+[0;32mI (8016) Template Buffer: 0x3fc98d28   1c 61 1f 06 a2 40 58 a0  52 6b 85 0f e0 00 01 03  |.a...@X.Rk......|[0m
+[0;32mI (8026) Template Buffer: 0x3fc98d38   54 02 00 49 00 4d 2b 30  2b 44 88 4d df fb 0c 1d  |T..I.M+0+D.M....|[0m
+[0;32mI (8036) Template Buffer: 0x3fc98d48   b6 30 33 32 84 fd af 35  45 4c b5 65 09 44 a8 19  |.032...5EL.e.D..|[0m
+[0;32mI (8046) Template Buffer: 0x3fc98d58   8d 49 ea 2f 29 ae bd 35  9c 07 54 ec d7 db 3b 30  |.I./)..5..T...;0|[0m
+[0;32mI (8056) Template Buffer: 0x3fc98d68   35 97 9f c9 bf 87 69 73  b7 22 30 2b fb d7 f2 ab  |5.....is."0+....|[0m
+[0;32mI (8066) Template Buffer: 0x3fc98d78   11 7c d7 da 35 32 b4 c9  f3 fa 29 11 58 c0 a9 10  |.|..52....).X...|[0m
+[0;32mI (8076) Template Buffer: 0x3fc98d88   3f a9 30 35 7d b0 38 e9  ef 2e 30 46 38 31 d7 df  |?.05}.8...0F81..|[0m
+[0;32mI (8086) Template Buffer: 0x3fc98d98   16 3c ef 5b 1b 28 1f ae  50 57 1e 66 76 69 63 99  |.<.[.(..PW.fvic.|[0m
+[0;32mI (8096) Template Buffer: 0x3fc98da8   0c 2a a6 25 97 9d 64 4e  3d d9 d5 1e 2c ab 52 b5  |.*.%..dN=...,.R.|[0m
+[0;32mI (8106) Template Buffer: 0x3fc98db8   0e fb e2 29 54 39 28 0a  27 f4 fd 1f 2f 0d fc c1  |...)T9(.'.../...|[0m
+[0;32mI (8106) Template Buffer: 0x3fc98dc8   77 2c 41 b4 c0 92 ce f1  7e 23 32 9d 15 43 ac e0  |w,A.....~#2..C..|[0m
+[0;32mI (8116) Template Buffer: 0x3fc98dd8   77 3a a2 5f af f5 0a 06  2e 25 57 3e 23 62 5c e4  |w:._.....%W>#b\.|[0m
+[0;32mI (8126) Template Buffer: 0x3fc98de8   a3 1e 2c 24 ad 2b 57 ae  c6 56 65 76 fd 1b 4b 29  |..,$.+W..Vev..K)|[0m
+[0;32mI (8136) Template Buffer: 0x3fc98df8   db 25 d1 4f 30 ab 77 bd  36 20 b5 11 d7 4c df 2a  |.%.O0.w.6 ...L.*|[0m
+[0;32mI (8146) Template Buffer: 0x3fc98e08   47 39 f1 c7 3f 77 d4 29  3d 7f 31 21 31 ee c6 9e  |G9..?w.)=.1!1...|[0m
+[0;32mI (8156) Template Buffer: 0x3fc98e18   63 11 a8 40 27 23 22 aa  a7 1b 69 e4 f5 7f f3 cd  |c..@'#"...i.....|[0m
+[0;32mI (8166) Template Buffer: 0x3fc98e28   3a 2a 36 e2 c3 7e 7f 47  03 64 a0 37 3e b6 61 53  |:*6..~.G.d.7>.aS|[0m
+[0;32mI (8176) Template Buffer: 0x3fc98e38   5b 65 44 65 d3 7b 2c 16  af 66 d3 99 f1 ca 69 d2  |[eDe.{,..f....i.|[0m
+[0;32mI (8186) Template Buffer: 0x3fc98e48   ab 33 12 2e 8d df 53 63  92 5c e2 b9 2d 1c 2e ec  |.3....Sc.\..-...|[0m
+[0;32mI (8196) Template Buffer: 0x3fc98e58   df 2d 73 06 e8 02 b3 33  3f b6 13 d7 58 67 86 61  |.-s....3?...Xg.a|[0m
+[0;32mI (8206) Template Buffer: 0x3fc98e68   60 a9 39 37 b5 38 37 6e  b0 51 e7 e0 7f 2b 10 b0  |`.97.87n.Q...+..|[0m
+[0;32mI (8216) Template Buffer: 0x3fc98e78   b6 cf 18 63 b8 38 02 d7  17 1c a1 54 24 4a ed 7b  |...c.8.....T$J.{|[0m
+[0;32mI (8226) Template Buffer: 0x3fc98e88   c7 26 b8 40 3c ba c1 76  7e f0 be 3d 31 da 3c 43  |.&.@<..v~..=1.<C|[0m
+[0;32mI (8236) Template Buffer: 0x3fc98e98   ba 31 c5 f8 f7 be a9 57  8b 25 3d b3 0f 95 df 20  |.1.....W.%=.... |[0m
+[0;32mI (8246) Template Buffer: 0x3fc98ea8   f8 28 25 6f 97 91 73 40  65 a1 ec 04 40 a6 60 1b  |.(%o..s@e...@.`.|[0m
+[0;32mI (8256) Template Buffer: 0x3fc98eb8   02 e9 56 60 e4 ed 04 28  25 e1 d2 7b e4 8c e1 72  |..V`...(%..{...r|[0m
+[0;32mI (8266) Template Buffer: 0x3fc98ec8   58 3d 36 b8 00 56 7c e3  7e e9 b0 10 2e 06 2b a9  |X=6..V|.~.....+.|[0m
+[0;32mI (8276) Template Buffer: 0x3fc98ed8   c9 e1 76 5d a6 56 27 3c  0e b1 09 06 2f c4 de a9  |..v].V'<..../...|[0m
+[0;32mI (8286) Template Buffer: 0x3fc98ee8   d6 9e 28 26 ac 72 56 f9  e4 52 2b 75 a3 0e 30 26  |..(&.rV..R+u..0&|[0m
+[0;32mI (8286) Template Buffer: 0x3fc98ef8   0c d6 1d 73 5a 65 80 d1  3f 1d b8 61 2a 2e 94 9e  |...sZe..?..a*...|[0m
+[0;32mI (8296) Template Buffer: 0x3fc98f08   79 50 1f 12 19 9b dc ff  17 85 5b ff f3 37 0f 39  |yP........[..7.9|[0m
+[0;32mI (8306) Template Buffer: 0x3fc98f18   ab 7a 56 34 a3 6d 39 59  1f 23 37 b0 2a 64 2e f5  |.zV4.m9Y.#7.*d..|[0m
+[0;32mI (8316) Template Buffer: 0x3fc98f28   70 2d c2 57 15 23 a7 70  7a 8a 91 7f 63 e9 0d 3b  |p-.W.#.pz...c..;|[0m
+[0;32mI (8326) Template Buffer: 0x3fc98f38   07 2e b0 bf 9b 50 96 f4  d6 99 18 2a 63 7e 8d 31  |.....P.....*c~.1|[0m
+[0;32mI (8336) Template Buffer: 0x3fc98f48   2b 2f fb 3f 42 5c 47 d6  b2 4c 1d 47 aa b2 1d 93  |+/.?B\G..L.G....|[0m
+[0;32mI (8346) Template Buffer: 0x3fc98f58   8d 14 56 43 2f 17 18 9c  8b d7 74 4c 90 10 1d 4b  |..VC/.....tL...K|[0m
+[0;32mI (8356) Template Buffer: 0x3fc98f68   18 36 b0 bf 9f 49 cf 91  08 16 a7 00 05 00 18 00  |.6...I..........|[0m
+[0;32mI (8366) Template Buffer: 0x3fc98f78   00 00 9b 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (8376) Template Buffer: 0x3fc98f88   00 00 00 00 00 00 00 00  0b 00 43 01 10 04 00 00  |..........C.....|[0m
+[0;32mI (8386) Template Buffer: 0x3fc98f98   00 00 00 00 02 00 00 00  17 18 00 00 09 0d 00 00  |................|[0m
+[0;32mI (8396) Template Buffer: 0x3fc98fa8   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (8406) Template Buffer: 0x3fc98fb8   00 00 00 00 04 00 00 00  1e 12 00 00 10 10 00 00  |................|[0m
+[0;32mI (8416) Template Buffer: 0x3fc98fc8   00 00 00 00 00 00 00 00  00 88 00 01 03 07 01 00  |................|[0m
+[0;32mI (8426) Template Buffer: 0x3fc98fd8   00 00 46 2e 25 ab d4 cb  87 58 cf 10 ab 24 3a 2b  |..F.%....X...$:+|[0m
+[0;32mI (8436) Template Buffer: 0x3fc98fe8   b3 46 d0 76 d4 ef e5 9f  ce 1a 44 2a 7f 1a a9 20  |.F.v......D*... |[0m
+[0;32mI (8446) Template Buffer: 0x3fc98ff8   c6 fd 71 25 39 26 32 19  75 c1 88 be 19 19 24 19  |..q%9&2.u.....$.|[0m
+[0;32mI (8456) Template Buffer: 0x3fc99008   3e 2c 4b 36 fe 3c 6c 63  fd c8 1e 1a 24 22 22 e0  |>,K6.<lc....$"".|[0m
+[0;32mI (8456) Template Buffer: 0x3fc99018   c8 f3 61 4c 90 2b 0b a8  fd c0 f5 46 ee eb 14 fb  |..aL.+.....F....|[0m
+[0;32mI (8466) Template Buffer: 0x3fc99028   27 2a 29 cd c8 ae d8 ee  0d bd 5c 34 40 b5 ff a8  |'*).......\4@...|[0m
+[0;32mI (8476) Template Buffer: 0x3fc99038   b3 88 9d dc d9 66 1a 37  ad 2f 2d ca 7e f9 8e 96  |.....f.7./-.~...|[0m
+[0;32mI (8486) Template Buffer: 0x3fc99048   d0 3b 44 35 4d 65 bb b8  92 d9 91 12 ca f5 44 be  |.;D5Me........D.|[0m
+[0;32mI (8496) Template Buffer: 0x3fc99058   f8 5a c7 14 29 23 6f 47  e6 bf c6 59 55 9a 3d 37  |.Z..)#oG...YU.=7|[0m
+[0;32mI (8506) Template Buffer: 0x3fc99068   35 0c 60 b7 84 0a 1d 5d  c0 28 1b 2c c6 34 f1 b8  |5.`....].(.,.4..|[0m
+[0;32mI (8516) Template Buffer: 0x3fc99078   49 54 9d 2e 2e 09 ab f4  20 1f 45 1c d1 2b ae 15  |IT...... .E..+..|[0m
+[0;32mI (8526) Template Buffer: 0x3fc99088   47 25 19 43 83 71 14 33  c8 e4 1c 31 29 82 b5 a0  |G%.C.q.3...1)...|[0m
+[0;32mI (8536) Template Buffer: 0x3fc99098   e8 c6 95 b2 a0 3f 3c b9  cf 9a e5 46 e5 4c ad 5d  |.....?<....F.L.]|[0m
+[0;32mI (8546) Template Buffer: 0x3fc990a8   36 39 b5 ee 6c 32 8a 8d  9c 8f 06 38 20 34 0a 38  |69..l2.....8 4.8|[0m
+[0;32mI (8556) Template Buffer: 0x3fc990b8   20 b8 aa 77 9f 29 21 3a  b1 b7 cd d1 3e 7d 1a a9  | ..w.)!:....>}..|[0m
+[0;32mI (8566) Template Buffer: 0x3fc990c8   66 1e 29 29 35 1c cd 56  10 10 20 ff c8 85 a3 7f  |f.))5..V.. .....|[0m
+[0;32mI (8576) Template Buffer: 0x3fc990d8   b1 79 a7 12 05 ad ee f6  63 0f 1a ac fd 65 23 26  |.y......c....e#&|[0m
+[0;32mI (8586) Template Buffer: 0x3fc990e8   28 f6 cc c4 ce 75 06 ff  62 08 22 20 04 d0 0c 0d  |(....u..b." ....|[0m
+[0;32mI (8596) Template Buffer: 0x3fc990f8   b9 0c 2c d0 06 19 9d a5  c9 4c 7f 97 3c 4d 0c 27  |..,......L..<M.'|[0m
+[0;32mI (8606) Template Buffer: 0x3fc99108   3f 2f 5b 85 e1 6e 8f 92  4d 2c 35 46 b7 fe 28 a4  |?/[..n..M,5F..(.|[0m
+[0;32mI (8616) Template Buffer: 0x3fc99118   b4 68 33 bd 24 31 47 b9  0d 38 3f 3d dc fd 9f 58  |.h3.$1G..8?=...X|[0m
+[0;32mI (8626) Template Buffer: 0x3fc99128   2a 12 2f 9f bd c3 0f 65  56 28 34 0c 28 26 fd 4b  |*./....eV(4.(&.K|[0m
+[0;32mI (8636) Template Buffer: 0x3fc99138   67 74 20 05 a1 ec d8 a4  5a 0d a9 65 e4 00 01 03  |gt .....Z..e....|[0m
+[0;32mI (8636) Template Buffer: 0x3fc99148   5f 02 00 46 00 4e 2e 2e  2a 64 88 ed de 7b 28 9c  |_..F.N..*d...{(.|[0m
+[0;32mI (8646) Template Buffer: 0x3fc99158   d6 21 31 2a 7d 7b cf b7  10 fd f1 7f 0d 43 a6 ae  |.!1*}{.......C..|[0m
+[0;32mI (8656) Template Buffer: 0x3fc99168   57 3f e5 0b e7 23 8b 32  26 ac 38 37 9e 0d 30 af  |W?...#.2&.87..0.|[0m
+[0;32mI (8666) Template Buffer: 0x3fc99178   57 f3 34 30 31 8d 69 e8  49 47 6d b5 75 0a 2d a4  |W.401.i.IGm.u.-.|[0m
+[0;32mI (8676) Template Buffer: 0x3fc99188   c8 96 a8 70 96 32 23 55  39 2f b3 fd dd fa 2b 53  |...p.2#U9/....+S|[0m
+[0;32mI (8686) Template Buffer: 0x3fc99198   5c c4 a8 56 1f a7 78 2d  37 8b 22 2a a9 14 95 4d  |\..V..x-7."*...M|[0m
+[0;32mI (8696) Template Buffer: 0x3fc991a8   fe a6 a9 05 2a 2b 1d ac  52 97 35 67 16 2a 33 d9  |....*+..R.5g.*3.|[0m
+[0;32mI (8706) Template Buffer: 0x3fc991b8   37 3c b5 11 57 7c 77 66  62 44 a9 2f 38 32 6d 8c  |7<..W|wfbD./82m.|[0m
+[0;32mI (8716) Template Buffer: 0x3fc991c8   cc e3 af 24 75 21 13 11  20 55 30 6e 78 9a 23 6c  |...$u!.. U0nx.#l|[0m
+[0;32mI (8726) Template Buffer: 0x3fc991d8   88 25 20 27 95 bb 2a 33  c7 6c c2 74 26 2e a8 44  |.% '..*3.l.t&..D|[0m
+[0;32mI (8736) Template Buffer: 0x3fc991e8   f5 aa fb 51 2d a1 6a 1b  3a ae d3 df f1 2f 2f 21  |...Q-.j.:....//!|[0m
+[0;32mI (8746) Template Buffer: 0x3fc991f8   2c 9c cb ca 57 b3 4c d2  53 18 29 25 65 d8 df 0b  |,...W.L.S.)%e...|[0m
+[0;32mI (8756) Template Buffer: 0x3fc99208   e7 fc 20 dd 3c 34 b4 b3  76 ee 73 b4 2b f0 3e 12  |.. .<4..v.s.+.>.|[0m
+[0;32mI (8766) Template Buffer: 0x3fc99218   46 24 05 98 53 1e 15 1e  74 19 06 31 a1 67 76 b8  |F$..S...t..1.gv.|[0m
+[0;32mI (8776) Template Buffer: 0x3fc99228   30 91 7a a2 35 2e 14 ad  73 9b d8 71 52 60 56 eb  |0.z.5...s..qR`V.|[0m
+[0;32mI (8786) Template Buffer: 0x3fc99238   18 42 ab 51 37 f8 5b 37  07 2b b5 d7 b2 ca 7e 04  |.B.Q7.[7.+....~.|[0m
+[0;32mI (8796) Template Buffer: 0x3fc99248   f1 25 12 2f a4 4c 9e ab  76 8c a2 33 7d 18 22 a6  |.%./.L..v..3}.".|[0m
+[0;32mI (8806) Template Buffer: 0x3fc99258   e4 5a 03 a5 07 66 f9 8d  0d 3c 24 89 3a 9d 91 88  |.Z...f...<$.:...|[0m
+[0;32mI (8806) Template Buffer: 0x3fc99268   e6 31 6f 3b 05 2e a8 c5  a6 c2 9e f8 56 bb 13 37  |.1o;........V..7|[0m
+[0;32mI (8816) Template Buffer: 0x3fc99278   a9 70 46 b6 e1 6e 29 58  9f 26 43 a9 e7 3d f0 a1  |.pF..n)X.&C..=..|[0m
+[0;32mI (8826) Template Buffer: 0x3fc99288   11 57 f5 65 12 1d 1a ab  37 32 b0 40 67 b4 4b 0f  |.W.e....72.@g.K.|[0m
+[0;32mI (8836) Template Buffer: 0x3fc99298   15 20 14 96 3a 40 fa 0a  02 d9 1e 0d 9e 41 92 2a  |. ..:@.......A.*|[0m
+[0;32mI (8846) Template Buffer: 0x3fc992a8   d6 ea 23 28 d1 00 01 00  52 03 00 94 00 07 1c 2e  |..#(....R.......|[0m
+[0;32mI (8856) Template Buffer: 0x3fc992b8   a8 51 95 1a e7 37 a1 04  99 34 28 2d f8 37 40 d0  |.Q...7...4(-.7@.|[0m
+[0;32mI (8866) Template Buffer: 0x3fc992c8   c6 d7 d2 49 1c 34 2e 43  b3 3a 36 3a a7 b4 7a 1a  |...I.4.C.:6:..z.|[0m
+[0;32mI (8876) Template Buffer: 0x3fc992d8   16 9a db ff 74 4c c0 50  92 59 27 07 21 00 01 b1  |....tL.P.Y'.!...|[0m
+[0;32mI (8886) Template Buffer: 0x3fc992e8   36 2a 47 f6 c4 40 2a 33  90 cc 56 ca ed 3c 38 45  |6*G..@*3..V..<8E|[0m
+[0;32mI (8896) Template Buffer: 0x3fc992f8   20 48 26 9f 6b d9 43 18  f7 f6 6d 00 05 00 18 00  | H&.k.C...m.....|[0m
+[0;32mI (8906) Template Buffer: 0x3fc99308   00 00 9b 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (8916) Template Buffer: 0x3fc99318   00 00 00 00 00 00 00 00  0b 00 43 01 10 04 00 00  |..........C.....|[0m
+[0;32mI (8926) Template Buffer: 0x3fc99328   00 00 00 00 03 01 00 00  1d 15 00 00 09 0b 00 00  |................|[0m
+[0;32mI (8936) Template Buffer: 0x3fc99338   00 00 00 00 00 00 51 f6  ef 01 ff ff ff ff 02 01  |......Q.........|[0m
+[0;32mI (8946) Template Buffer: 0x3fc99348   02 00 00 00 00 00 00 00  00 00 00 00 00 00 00 04  |................|[0m
+[0;32mI (8956) Template Buffer: 0x3fc99358   00 00 00 1e 16 00 00 07  12 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (8966) Template Buffer: 0x3fc99368   00 00 00 00 00 00 00 00  00 46 4f 4f 46 58 9f 26  |.........FOOFX.&|[0m
+[0;32mI (8976) Template Buffer: 0x3fc99378   43 a9 e7 3d f0 a1 11 57  f5 65 12 1d 1a ab 37 32  |C..=...W.e....72|[0m
+[0;32mI (8986) Template Buffer: 0x3fc99388   b0 40 67 b4 4b 0f 15 20  14 96 3a 40 fa 0a 02 d9  |.@g.K.. ..:@....|[0m
+[0;32mI (8986) Template Buffer: 0x3fc99398   1e 0d 9e 41 92 2a d6 ea  23 28 d1 00 01 00 52 03  |...A.*..#(....R.|[0m
+[0;32mI (8996) Template Buffer: 0x3fc993a8   00 94 00 07 1c 2e a8 51  95 1a e7 37 a1 04 99 34  |.......Q...7...4|[0m
+[0;32mI (9006) Template Buffer: 0x3fc993b8   28 2d f8 37 40 d0 c6 d7  d2 49 1c 34 2e 43 b3 3a  |(-.7@....I.4.C.:|[0m
+[0;32mI (9016) Template Buffer: 0x3fc993c8   36 3a a7 b4 7a 1a 16 9a  db ff 74 4c c0 50 92 59  |6:..z.....tL.P.Y|[0m
+[0;32mI (9026) Template Buffer: 0x3fc993d8   27 07 21 00 01 b1 36 2a  47 f6 c4 40 2a 33 90 cc  |'.!...6*G..@*3..|[0m
+[0;32mI (9036) Template Buffer: 0x3fc993e8   56 ca ed 3c 38 45 20 48  26 9f 6b d9 43 18 f7 f6  |V..<8E H&.k.C...|[0m
+[0;32mI (9046) Template Buffer: 0x3fc993f8   6d 00 05 00 18 00 00 00  9b 00 00 00 00 00 00 00  |m...............|[0m
+[0;32mI (9056) Template Buffer: 0x3fc99408   00 00 00 00 00 00 00 00  00 00 00 00 00 00 0b 00  |................|[0m
+[0;32mI (9066) Template Buffer: 0x3fc99418   43 01 10 04 00 00 00 00  00 00 03 01 00 00 1d 15  |C...............|[0m
+[0;32mI (9076) Template Buffer: 0x3fc99428   00 00 09 0b 00 00 00 00  00 00 00 00 51 f6 ef 01  |............Q...|[0m
+[0;32mI (9086) Template Buffer: 0x3fc99438   ff ff ff ff 02 01 02 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (9096) Template Buffer: 0x3fc99448   00 00 00 00 00 04 00 00  00 1e 16 00 00 07 12 00  |................|[0m
+[0;32mI (9106) Template Buffer: 0x3fc99458   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 46  |...............F|[0m
+[0;32mI (9116) Template Buffer: 0x3fc99468   4f 4f 46                                          |OOF|[0m
+[0;32mI (9126) FINGERPRINT: Template uploaded successfully[0m
+[0;32mI (9126) FINGERPRINT: Multi-packet data available: 0 packets[0m
+[0;32mI (9136) FINGERPRINT: Complete template data received (2627 bytes)[0m
+[0;32mI (9136) Template Data: 0x3fca80d8   00 00 54 1e 56 01 04 93  07 50 52 45 43 49 53 45  |..T.V....PRECISE|[0m
+[0;32mI (9146) Template Data: 0x3fca80e8   00 01 02 75 50 f2 cf 00  56 00 00 00 27 66 0d a8  |...uP...V...'f..|[0m
+[0;32mI (9156) Template Data: 0x3fca80f8   db 00 0c 00 50 00 45 00  00 00 01 6b 00 50 00 45  |....P.E....k.P.E|[0m
+[0;32mI (9166) Template Data: 0x3fca8108   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[1;31mE (9176) FINGERPRINT: Template too large to save (2627 bytes)[0m
+[0;32mI (9176) FINGERPRINT: Preparing to download template (size: 2627 bytes) to location 10[0m
+[0;32mI (9186) FINGERPRINT: Found template validation marker at offset 2377[0m
+[0;32mI (10196) FINGERPRINT: Downloading template to buffer 1...[0m
+[1;31mE (11196) FINGERPRINT: Module not ready to receive template data[0m
+[1;31mE (11196) FINGERPRINT: Failed to download template to buffer: ESP_FAIL[0m
+[1;31mE (11196) FINGERPRINT: Failed to restore template.[0m
+[0;32mI (11196) FINGERPRINT: Template event triggered successfully[0m
+[0;32mI (11206) FINGERPRINT: Template upload should be complete[0m
+[1;31mE (11206) FINGERPRINT: No template data available after upload complete[0m
+[1;31mE (11216) FINGERPRINT: Failed to upload template: ESP_ERR_NOT_FOUND[0m
+[1;31mE (11216) FINGERPRINT: Failed to backup template.[0m
+[0;32mI (11226) main_task: Returned from app_main()[0m
+[0;32mI (11416) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (11416) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (11416) Status Event Handler: Status: 0[0m
+[0;32mI (12616) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (12616) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;33mW (12896) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (13166) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (13166) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (13166) Status Event Handler: Status: 2[0m
+[0;33mW (13476) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (13646) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (13646) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (13646) Status Event Handler: Status: 2[0m

@@ -1,0 +1,862 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e8d0h ( 59600) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001e8f8 vaddr=3fc93a00 size=01720h (  5920) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f62ch (128556) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003f654 vaddr=3fc95120 size=01ff0h (  8176) load[0m
+[0;32mI (146) esp_image: segment 4: paddr=0004164c vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=00051038 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      c661cd6-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 24 2025 10:46:30[0m
+[0;32mI (207) app_init: ELF file SHA256:  d59b31b81...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC9DD78 len 0004B998 (302 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Finger detection task started[0m
+[0;32mI (326) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (516) FINGERPRINT: Raw UART data (1 bytes):[0m
+[0;32mI (516) RAW PACKET: 00[0m
+[0;33mW (516) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (766) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (766) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 e0[0m
+[0;32mI (766) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (766) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (766) Status Event Handler: Status: 0[0m
+[0;32mI (1516) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1516) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (1826) FINGERPRINT: Raw UART data (44 bytes):[0m
+[0;32mI (1826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 0a 00[0m
+[0;32mI (1836) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (1836) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (1846) Status Event Handler: Status: 0[0m
+[0;32mI (1846) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (1856) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (1856) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (1866) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1866) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1886) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1886) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1896) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1916) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1916) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1936) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1936) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1946) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1956) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1966) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1966) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (1976) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (1986) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (1986) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (1986) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (4076) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4076) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (4366) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (4466) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (4576) FINGERPRINT: Raw UART data (17 bytes):[0m
+[0;32mI (4576) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 2b[0m
+[0;32mI (4576) RAW PACKET: 00[0m
+[0;32mI (4576) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4576) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (4586) Status Event Handler: Status: 2[0m
+[0;32mI (4866) FINGERPRINT: Raw UART data (2 bytes):[0m
+[0;32mI (4866) RAW PACKET: 00 55[0m
+[0;33mW (4866) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (5076) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (5286) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (5496) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (5656) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (5656) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (6066) FINGERPRINT: Raw UART data (6 bytes):[0m
+[0;32mI (6066) RAW PACKET: 00 00 00 0c 00 00[0m
+[0;33mW (6066) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (6336) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (6336) RAW PACKET: 00 00 00 00 00 00 00 00 00 0c 00 55[0m
+[0;32mI (6336) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (6336) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (6336) Status Event Handler: Status: 2[0m
+[0;33mW (6346) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (7046) FINGERPRINT: Raw UART data (15 bytes):[0m
+[0;32mI (7046) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 0c 00[0m
+[0;32mI (7046) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7046) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (7056) Status Event Handler: Status: 2[0m
+[0;33mW (7056) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (7306) FINGERPRINT: Raw UART data (23 bytes):[0m
+[0;32mI (7306) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (7306) RAW PACKET: 00 00 00 00 0c 00 00[0m
+[0;33mW (7306) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (7576) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (7576) RAW PACKET: 00 00 00 00 00 00 00 00 00 0c 00 55[0m
+[0;32mI (7576) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7576) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (7576) Status Event Handler: Status: 2[0m
+[0;33mW (7586) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (7686) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x39 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e8d0h ( 59600) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001e8f8 vaddr=3fc93a00 size=01720h (  5920) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f62ch (128556) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003f654 vaddr=3fc95120 size=01ff0h (  8176) load[0m
+[0;32mI (146) esp_image: segment 4: paddr=0004164c vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=00051038 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      c661cd6-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 24 2025 10:46:30[0m
+[0;32mI (207) app_init: ELF file SHA256:  d59b31b81...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC9DD78 len 0004B998 (302 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Finger detection task started[0m
+[0;32mI (326) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (516) FINGERPRINT: Raw UART data (1 bytes):[0m
+[0;32mI (516) RAW PACKET: 00[0m
+[0;33mW (516) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (766) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (766) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 e0[0m
+[0;32mI (766) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (766) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (766) Status Event Handler: Status: 0[0m
+[0;32mI (1516) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1516) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (1826) FINGERPRINT: Raw UART data (44 bytes):[0m
+[0;32mI (1826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 0a 00[0m
+[0;32mI (1836) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (1836) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (1846) Status Event Handler: Status: 0[0m
+[0;32mI (1846) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (1856) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (1856) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (1866) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1866) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1886) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1886) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1896) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1916) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1916) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1936) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1936) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1946) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1956) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1966) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1966) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (1976) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (1986) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (1986) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (1986) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (4076) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4076) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (4346) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (4346) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 2b 00[0m
+[0;32mI (4346) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4346) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (4346) Status Event Handler: Status: 2[0m
+[0;32mI (4556) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (4556) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (5126) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (5126) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 0c 00[0m
+[0;32mI (5126) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5126) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (5126) Status Event Handler: Status: 0[0m
+[0;32mI (5136) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (5136) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (5136) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (5156) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (5256) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (5256) FINGERPRINT: Default mode: searching database[0m
+[0;32mI (5476) FINGERPRINT: Raw UART data (28 bytes):[0m
+[0;32mI (5476) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (5476) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 0a 00[0m
+[0;32mI (5476) FINGERPRINT: Returning response with 2 packets[0m
+[0;32mI (5476) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (5486) Status Event Handler: Status: 9[0m
+[0;32mI (5486) FINGERPRINT: No match found during verification[0m
+[1;31mE (5496) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (5496) Status Event Handler: Status: 0[0m
+[0;32mI (5506) FINGERPRINT: Search returned success but match score is 0, waiting for more responses[0m
+[0;32mI (5736) FINGERPRINT: Raw UART data (16 bytes):[0m
+[0;32mI (5736) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0a 00[0m
+[0;32mI (5736) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5736) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (5746) Status Event Handler: Status: 9[0m
+[0;32mI (5746) FINGERPRINT: No match found during verification[0m
+[1;31mE (5746) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;33mW (6156) FINGERPRINT: No match found, attempt 1 of 3[0m
+[0;32mI (6476) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (6976) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (6976) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (7316) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (7316) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 17 00[0m
+[0;32mI (7316) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7316) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (7316) Status Event Handler: Status: 0[0m
+[0;32mI (7326) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (7326) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (7326) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (7346) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (7326) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (7606) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (7606) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 0a 00[0m
+[0;32mI (7606) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7606) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (7606) Status Event Handler: Status: 0[0m
+[0;32mI (7616) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (7616) FINGERPRINT: Feature extraction successful, signaling event group[0m
+[0;32mI (7616) FINGERPRINT: Default mode: searching database[0m
+[0;32mI (7636) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (7896) FINGERPRINT: Raw UART data (16 bytes):[0m
+[0;32mI (7896) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0a 00[0m
+[0;32mI (7896) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7896) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (7906) Status Event Handler: Status: 9[0m
+[0;32mI (7906) FINGERPRINT: No match found during verification[0m
+[1;31mE (7906) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (8176) FINGERPRINT: Raw UART data (16 bytes):[0m
+[0;32mI (8176) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 17 00[0m
+[0;32mI (8176) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (8176) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
+[0;32mI (8186) Status Event Handler: Status: 9[0m
+[0;32mI (8186) FINGERPRINT: No match found during verification[0m
+[1;31mE (8186) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
+[0;32mI (8636) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (8916) FINGERPRINT: Fingerprint verification successful![0m
+[0;32mI (8916) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (9246) FINGERPRINT: Raw UART data (14 bytes):[0m
+[0;32mI (9246) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 17 00[0m
+[0;32mI (9246) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9246) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (9246) Status Event Handler: Status: 0[0m
+[0;32mI (9256) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
+[0;32mI (9256) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (9266) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (9266) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (9466) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (9676) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (9676) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 0d 00[0m
+[0;32mI (9676) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9676) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (9676) Status Event Handler: Status: 0[0m
+[0;32mI (9686) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (9686) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (9696) FINGERPRINT: Uploading Template...[0m
+[0;32mI (9696) FINGERPRINT: Sending UpChar command for buffer 1[0m
+[0;32mI (9896) FINGERPRINT: Waiting for template data transfer...[0m
+[0;32mI (10666) FINGERPRINT: Raw UART data (4096 bytes):[0m
+[0;32mI (10666) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10666) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10676) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10686) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10686) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10696) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10696) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10706) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10716) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10716) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10726) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10736) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10736) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10746) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10746) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10756) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10766) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10766) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10776) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10776) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10786) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10796) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10796) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10806) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10816) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10816) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10836) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10846) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10846) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10856) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10856) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10866) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10876) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10876) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10886) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10896) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10896) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10906) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10906) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10916) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10926) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10926) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10936) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10936) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10946) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10956) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10956) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10966) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10976) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10976) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10986) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10986) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (10996) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11006) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11006) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11016) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11016) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11026) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11036) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11036) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11046) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11056) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11056) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11066) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11066) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11076) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11086) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11086) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11096) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11106) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11106) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11116) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11116) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11126) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11136) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11136) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11146) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11146) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11156) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11166) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11166) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11176) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11186) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11186) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11196) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11196) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11206) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11216) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11216) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11226) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11226) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11236) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11246) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11246) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11256) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11266) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11266) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11276) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11276) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11286) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11296) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11296) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11306) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11306) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11316) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11326) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11326) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11336) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11346) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11346) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11356) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11356) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11366) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11376) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11376) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11386) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11386) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11396) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11406) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11406) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11416) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11426) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11426) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11436) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11436) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11446) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11456) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11456) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11466) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11466) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11476) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11486) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11486) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11496) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11506) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11506) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11516) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11516) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11526) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11536) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11536) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11546) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11546) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11556) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11566) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11566) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11576) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11586) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11586) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11596) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11596) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11606) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11616) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11616) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11626) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11636) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11636) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11646) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11646) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11656) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11666) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11666) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11676) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11676) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11686) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11696) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11696) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11706) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11716) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11716) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11726) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11726) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11736) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11746) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11746) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11756) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11756) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11766) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11776) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11776) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11786) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11796) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11796) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11806) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11806) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11816) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11826) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11836) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11836) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11846) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11856) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11856) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11866) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11876) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11876) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11886) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11886) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11896) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11906) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11906) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11916) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11916) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11926) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11936) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11936) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11946) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11956) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11956) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11966) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11966) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11976) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11986) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11986) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11996) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (11996) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12006) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12016) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12016) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12026) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12036) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12036) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12046) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12046) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12056) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12066) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12066) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12076) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12076) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12086) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12096) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12096) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12106) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12116) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12116) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12126) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12126) RAW PACKET: 00 00 00 00 00 00 00 00 03 00 00 00 02 00 00 00[0m
+[0;32mI (12136) RAW PACKET: 01 ef 00 00 ff ff ff ff 07 00 03 00 00 00 00 00[0m
+[0;32mI (12146) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12146) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12156) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12156) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12166) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12176) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12176) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12186) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12196) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12196) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12206) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12206) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12216) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12226) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12226) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (12236) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0a 00[0m
+[0;32mI (12246) FINGERPRINT: Found FOOF end marker at position 4082[0m
+[0;32mI (12246) FINGERPRINT: Copied 4096 bytes to template buffer[0m
+[0;32mI (12266) FINGERPRINT: Starting template collection[0m
+[0;32mI (12266) FINGERPRINT: Received 2 packets for template[0m
+[0;32mI (12266) FINGERPRINT: Final template packet (0x08) received[0m
+[0;32mI (12266) FINGERPRINT: Added 4096 bytes of raw template data (total: 4350)[0m
+[0;32mI (12276) FINGERPRINT: FOOF marker found in raw data at position 2307[0m
+[0;32mI (12276) FINGERPRINT: Template upload complete signaled[0m
+[0;32mI (12286) Template Buffer: 0x3fc98a28   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
+[0;32mI (12296) Template Buffer: 0x3fc98a38   ff ff 02 00 07 00 00 54  1e 56 00 d1 ef 01 ff ff  |.......T.V......|[0m
+[0;32mI (12306) Template Buffer: 0x3fc98a48   ff ff 02 01 02 01 04 93  07 50 52 45 43 49 53 45  |.........PRECISE|[0m
+[0;32mI (12316) Template Buffer: 0x3fc98a58   00 01 02 75 50 f2 cf 00  56 00 00 00 27 66 0d a8  |...uP...V...'f..|[0m
+[0;32mI (12326) Template Buffer: 0x3fc98a68   db 00 0c 00 50 00 45 00  00 00 01 6b 00 50 00 45  |....P.E....k.P.E|[0m
+[0;32mI (12336) Template Buffer: 0x3fc98a78   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (12346) Template Buffer: 0x3fc98a88   00 ff ff 00 00 00 00 00  00 4f 00 00 07 46 13 d5  |.........O...F..|[0m
+[0;32mI (12356) Template Buffer: 0x3fc98a98   40 c7 00 0a 12 34 00 0d  00 10 00 45 00 50 00 9b  |@....4.....E.P..|[0m
+[0;32mI (12356) Template Buffer: 0x3fc98aa8   00 00 00 00 00 00 06 00  08 01 00 10 08 a6 d7 7c  |...............||[0m
+[0;32mI (12366) Template Buffer: 0x3fc98ab8   88 00 01 03 28 01 00 00  00 49 2b 28 2c 77 a4 f4  |....(....I+(,w..|[0m
+[0;32mI (12376) Template Buffer: 0x3fc98ac8   ad 6c 99 ef a8 36 2e b4  25 cc 15 c6 7d a5 bf 5c  |.l...6..%...}..\|[0m
+[0;32mI (12386) Template Buffer: 0x3fc98ad8   17 45 2d 3e da e9 10 6e  fd 3f bd 18 33 2b 86 b5  |.E->...n.?..3+..|[0m
+[0;32mI (12396) Template Buffer: 0x3fc98ae8   a0 f8 d6 16 83 a0 30 25  2f 12 26 e3 4e 4f 53 3b  |......0%/.&.NOS;|[0m
+[0;32mI (12406) Template Buffer: 0x3fc98af8   f4 2f 43 b7 fe 6a 97 08  5d d8 98 47 37 28 b5 5f  |./C..j..]..G7(._|[0m
+[0;32mI (12416) Template Buffer: 0x3fc98b08   a9 97 d6 ee 23 fb 5e 33  35 b5 3c ec 04 fe af 34  |....#.^35.<....4|[0m
+[0;32mI (12426) Template Buffer: 0x3fc98b18   0f 5a 31 1e 31 5f 64 67  9c 45 57 af 48 29 ef 01  |.Z1.1_dg.EW.H)..|[0m
+[0;32mI (12436) Template Buffer: 0x3fc98b28   ff ff ff ff 07 00 03 00  00 0a ef 01 ff ff ff ff  |................|[0m
+[0;32mI (12446) Template Buffer: 0x3fc98b38   02 00 07 00 00 54 1e 56  00 d1 ef 01 ff ff ff ff  |.....T.V........|[0m
+[0;32mI (12456) Template Buffer: 0x3fc98b48   02 01 02 01 04 93 07 50  52 45 43 49 53 45 00 01  |.......PRECISE..|[0m
+[0;32mI (12466) Template Buffer: 0x3fc98b58   02 75 50 f2 cf 00 56 00  00 00 27 66 0d a8 db 00  |.uP...V...'f....|[0m
+[0;32mI (12476) Template Buffer: 0x3fc98b68   0c 00 50 00 45 00 00 00  01 6b 00 50 00 45 00 00  |..P.E....k.P.E..|[0m
+[0;32mI (12486) Template Buffer: 0x3fc98b78   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 ff  |................|[0m
+[0;32mI (12496) Template Buffer: 0x3fc98b88   ff 00 00 00 00 00 00 4f  00 00 07 46 13 d5 40 c7  |.......O...F..@.|[0m
+[0;32mI (12506) Template Buffer: 0x3fc98b98   00 0a 12 34 00 0d 00 10  00 45 00 50 00 9b 00 00  |...4.....E.P....|[0m
+[0;32mI (12516) Template Buffer: 0x3fc98ba8   00 00 00 00 06 00 08 01  00 10 08 a6 d7 7c 88 00  |.............|..|[0m
+[0;32mI (12526) Template Buffer: 0x3fc98bb8   01 03 28 01 00 00 00 49  2b 28 2c 77 a4 f4 ad 6c  |..(....I+(,w...l|[0m
+[0;32mI (12536) Template Buffer: 0x3fc98bc8   99 ef a8 36 2e b4 25 cc  15 c6 7d a5 bf 5c 17 45  |...6..%...}..\.E|[0m
+[0;32mI (12546) Template Buffer: 0x3fc98bd8   2d 3e da e9 10 6e fd 3f  bd 18 33 2b 86 b5 a0 f8  |->...n.?..3+....|[0m
+[0;32mI (12556) Template Buffer: 0x3fc98be8   d6 16 83 a0 30 25 2f 12  26 e3 4e 4f 53 3b f4 2f  |....0%/.&.NOS;./|[0m
+[0;32mI (12566) Template Buffer: 0x3fc98bf8   43 b7 fe 6a 97 08 5d d8  98 47 37 28 b5 5f a9 97  |C..j..]..G7(._..|[0m
+[0;32mI (12576) Template Buffer: 0x3fc98c08   d6 ee 23 fb 5e 33 35 b5  3c ec 04 fe af 34 0f 5a  |..#.^35.<....4.Z|[0m
+[0;32mI (12576) Template Buffer: 0x3fc98c18   31 1e 31 5f 64 67 9c 45  57 af 48 29 0d ab fd 60  |1.1_dg.EW.H)...`|[0m
+[0;32mI (12586) Template Buffer: 0x3fc98c28   f5 05 c4 eb 3b be 3c 2d  35 1a ed 82 48 cc 9c a8  |....;.<-5...H...|[0m
+[0;32mI (12596) Template Buffer: 0x3fc98c38   47 1b 1c 26 62 06 e0 c8  b3 10 4e 98 38 47 36 ab  |G..&b.....N.8G6.|[0m
+[0;32mI (12606) Template Buffer: 0x3fc98c48   60 ae dd 51 4a ef 01 ff  ff ff ff 02 01 02 d2 db  |`..QJ...........|[0m
+[0;32mI (12616) Template Buffer: 0x3fc98c58   14 96 11 16 20 e8 6d 91  85 0d dc d3 72 1f 2f 2b  |.... .m.....r./+|[0m
+[0;32mI (12626) Template Buffer: 0x3fc98c68   0c e8 51 cc ef 46 ae cc  14 40 ac dc c8 51 41 c7  |..Q..F...@...QA.|[0m
+[0;32mI (12636) Template Buffer: 0x3fc98c78   04 00 89 28 3f b2 66 cb  32 4e 8c 10 4a c8 3b 40  |...(?.f.2N..J.;@|[0m
+[0;32mI (12646) Template Buffer: 0x3fc98c88   b9 ef e8 e7 1c 69 54 89  76 35 23 35 0e 38 34 b8  |.....iT.v5#5.84.|[0m
+[0;32mI (12656) Template Buffer: 0x3fc98c98   ee 57 bf 68 2f 11 2d 36  80 ed 88 e9 1a 4c c8 29  |.W.h/.-6.....L.)|[0m
+[0;32mI (12666) Template Buffer: 0x3fc98ca8   06 28 1f 84 a0 0b 72 87  aa 4c 33 3c 36 5f 24 23  |.(....r..L3<6_$#|[0m
+[0;32mI (12676) Template Buffer: 0x3fc98cb8   ca 49 16 6e 18 25 1d 2d  c6 34 73 89 c9 97 9d 08  |.I.n.%.-.4s.....|[0m
+[0;32mI (12686) Template Buffer: 0x3fc98cc8   11 2a 25 ea c7 e6 b7 da  18 15 6a 0b 46 a7 4f 85  |.*%.......j.F.O.|[0m
+[0;32mI (12696) Template Buffer: 0x3fc98cd8   d6 dd 9c 02 00 18 2e 3d  b4 0d cd 95 1e b1 1c ae  |.......=........|[0m
+[0;32mI (12706) Template Buffer: 0x3fc98ce8   72 1b 37 b1 19 7c f5 be  ed bf bf 54 3e 46 39 fd  |r.7..|.....T>F9.|[0m
+[0;32mI (12716) Template Buffer: 0x3fc98cf8   00 85 14 48 1b b4 0c 12  48 2a 5a 14 17 20 8e 23  |...H....H*Z.. .#|[0m
+[0;32mI (12726) Template Buffer: 0x3fc98d08   29 a4 04 44 a5 b1 a0 7f  88 fd 8d d8 d2 1a 2b 29  |)..D..........+)|[0m
+[0;32mI (12736) Template Buffer: 0x3fc98d18   48 00 33 7c 47 46 be 9c  1f 28 2a 16 cd c5 4e ef  |H.3|GF...(*...N.|[0m
+[0;32mI (12746) Template Buffer: 0x3fc98d28   0e ef 6c 16 39 30 95 45  d3 3b 4f 57 8a dc 2c 0b  |..l.90.E.;OW..,.|[0m
+[0;32mI (12756) Template Buffer: 0x3fc98d38   ac f5 41 7f 6e ce c9 31  ae 0b 2e a6 7e e0 c7 9b  |..A.n..1....~...|[0m
+[0;32mI (12766) Template Buffer: 0x3fc98d48   b5 1a 48 7c 36 06 2e 37  2c 41 93 68 1e a8 69 9b  |..H|6..7,A.h..i.|[0m
+[0;32mI (12776) Template Buffer: 0x3fc98d58   ef 01 ff ff ff ff 02 01  02 6a 1e 3c b3 ad ed f3  |.........j.<....|[0m
+[0;32mI (12786) Template Buffer: 0x3fc98d68   3e 35 10 99 34 3a 3a 37  01 62 23 98 7b 33 4d 86  |>5..4::7.b#.{3M.|[0m
+[0;32mI (12786) Template Buffer: 0x3fc98d78   29 22 2d 46 65 e0 8e 6d  9b dd 48 35 42 35 14 e4  |)"-Fe..m..H5B5..|[0m
+[0;32mI (12796) Template Buffer: 0x3fc98d88   34 cf 6e 50 7f c0 30 17  af ff cd c1 0f 05 56 4d  |4.nP..0.......VM|[0m
+[0;32mI (12806) Template Buffer: 0x3fc98d98   26 3a 33 b5 b7 cd 10 cd  c5 02 5f 30 21 34 ab 7f  |&:3......._0!4..|[0m
+[0;32mI (12816) Template Buffer: 0x3fc98da8   08 91 45 de c2 3f 89 0d  11 22 fe 6a c5 bb 6f f1  |..E..?...".j..o.|[0m
+[0;32mI (12826) Template Buffer: 0x3fc98db8   5d a7 06 32 a4 34 c5 df  ef ef 27 58 99 2e 31 ad  |]..2.4....'X..1.|[0m
+[0;32mI (12836) Template Buffer: 0x3fc98dc8   1f c6 bd 66 f6 e0 33 fb  0d 1b 1e d6 c9 cd 6d 2f  |...f..3.......m/|[0m
+[0;32mI (12846) Template Buffer: 0x3fc98dd8   95 09 a1 3e 32 b7 dd a9  07 6c 55 44 1f 83 0e 3d  |...>2....lUD...=|[0m
+[0;32mI (12856) Template Buffer: 0x3fc98de8   27 2b 44 f5 fe 4f 23 8e  86 1b 23 ac ae 65 a1 a8  |'+D..O#...#..e..|[0m
+[0;32mI (12866) Template Buffer: 0x3fc98df8   65 1c ed 56 26 39 b4 ee  08 a2 da 91 c6 b6 66 08  |e..V&9........f.|[0m
+[0;32mI (12876) Template Buffer: 0x3fc98e08   29 28 cd 0a f3 ab b1 56  a8 46 25 2b 2c cd 68 4f  |)(.....V.F%+,.hO|[0m
+[0;32mI (12886) Template Buffer: 0x3fc98e18   9c ec dd ad 1c 2b 1a 2d  1b 40 47 0f 49 12 bc 18  |.....+.-.@G.I...|[0m
+[0;32mI (12896) Template Buffer: 0x3fc98e28   21 42 32 85 21 e1 cf b5  93 6f a6 36 0d ac 56 c1  |!B2.!....o.6..V.|[0m
+[0;32mI (12906) Template Buffer: 0x3fc98e38   cd 8d e1 d0 1c 9b 05 22  a1 17 cc 5d 2d 69 a1 59  |......."...]-i.Y|[0m
+[0;32mI (12916) Template Buffer: 0x3fc98e48   95 2c 4a 3b ae 05 c9 e8  3f 86 c5 a4 21 18 2a 67  |.,J;....?...!.*g|[0m
+[0;32mI (12926) Template Buffer: 0x3fc98e58   b6 36 38 9e 99 1f 44 28  14 6e 1c ef 01 ff ff ff  |.68...D(.n......|[0m
+[0;32mI (12936) Template Buffer: 0x3fc98e68   ff 02 01 02 31 cf f9 c3  0f 65 57 a9 64 10 07 2d  |....1....eW.d..-|[0m
+[0;32mI (12946) Template Buffer: 0x3fc98e78   8c f6 03 95 7d 06 e9 44  09 15 23 e6 59 6b 29 d0  |....}..D..#.Yk).|[0m
+[0;32mI (12956) Template Buffer: 0x3fc98e88   cb 15 e7 04 3c a5 5a 14  df 2e bf 0d 1d ae 30 09  |....<.Z.......0.|[0m
+[0;32mI (12966) Template Buffer: 0x3fc98e98   ab a7 28 d9 2f 88 d2 3f  b4 3c 21 36 4c 2a b5 be  |..(./..?.<!6L*..|[0m
+[0;32mI (12976) Template Buffer: 0x3fc98ea8   7f 3f 3f d2 14 2f 25 f2  67 42 be 8a d3 77 6a 3c  |.??../%.gB...wj<|[0m
+[0;32mI (12986) Template Buffer: 0x3fc98eb8   0a ae b4 ac f1 7a 89 06  4d a0 3b 12 af 96 81 47  |.....z..M.;....G|[0m
+[0;32mI (12996) Template Buffer: 0x3fc98ec8   4b e3 54 08 30 09 0b 26  f3 fb dd 93 e2 17 0e 64  |K.T.0..&.......d|[0m
+[0;32mI (12996) Template Buffer: 0x3fc98ed8   25 48 33 ed f8 25 df cd  5c c1 5c 37 1c 33 2a 26  |%H3..%..\.\7.3*&|[0m
+[0;32mI (13006) Template Buffer: 0x3fc98ee8   22 56 65 04 ae 58 0d 25  24 2f 87 77 f7 78 7b 1c  |"Ve..X.%$/.w.x{.|[0m
+[0;32mI (13016) Template Buffer: 0x3fc98ef8   61 1f 06 a2 40 58 a0 52  6b 85 0f e0 00 01 03 54  |a...@X.Rk......T|[0m
+[0;32mI (13026) Template Buffer: 0x3fc98f08   02 00 49 00 4d 2b 30 2b  44 88 4d df fb 0c 1d b6  |..I.M+0+D.M.....|[0m
+[0;32mI (13036) Template Buffer: 0x3fc98f18   30 33 32 84 fd af 35 45  4c b5 65 09 44 a8 ca 5f  |032...5EL.e.D.._|[0m
+[0;32mI (13046) Template Buffer: 0x3fc98f28   0f 6f 4f 87 21 fd 1d 33  2d d9 ef 7e 37 74 ff f1  |.oO.!..3-..~7t..|[0m
+[0;32mI (13056) Template Buffer: 0x3fc98f38   7d 16 3c b0 41 f2 2e a1  3e 65 75 99 1a 46 ad 49  |}.<.A...>eu..F.I|[0m
+[0;32mI (13066) Template Buffer: 0x3fc98f48   f2 6e 0d a9 9b 0d ba 39  4a b6 a0 31 7f be 65 6d  |.n.....9J..1..em|[0m
+[0;32mI (13076) Template Buffer: 0x3fc98f58   e3 17 31 2d 30 e5 29 6d  bf 21 fc d5 7e 15 49 2a  |..1-0.)m.!..~.I*|[0m
+[0;32mI (13086) Template Buffer: 0x3fc98f68   85 d4 32 9f 69 6b ef 01  ff ff ff ff 02 01 02 19  |..2.ik..........|[0m
+[0;32mI (13096) Template Buffer: 0x3fc98f78   8d 49 ea 2f 29 ae bd 35  9c 07 54 ec d7 db 3b 30  |.I./)..5..T...;0|[0m
+[0;32mI (13106) Template Buffer: 0x3fc98f88   35 97 9f c9 bf 87 69 73  b7 22 30 2b fb d7 f2 ab  |5.....is."0+....|[0m
+[0;32mI (13116) Template Buffer: 0x3fc98f98   11 7c d7 da 35 32 b4 c9  f3 fa 29 11 58 c0 a9 10  |.|..52....).X...|[0m
+[0;32mI (13126) Template Buffer: 0x3fc98fa8   3f a9 30 35 7d b0 38 e9  ef 2e 30 46 38 31 d7 df  |?.05}.8...0F81..|[0m
+[0;32mI (13136) Template Buffer: 0x3fc98fb8   16 3c ef 5b 1b 28 1f ae  50 57 1e 66 76 69 63 99  |.<.[.(..PW.fvic.|[0m
+[0;32mI (13146) Template Buffer: 0x3fc98fc8   0c 2a a6 25 97 9d 64 4e  3d d9 d5 1e 2c ab 52 b5  |.*.%..dN=...,.R.|[0m
+[0;32mI (13156) Template Buffer: 0x3fc98fd8   0e fb e2 29 54 39 28 0a  27 f4 fd 1f 2f 0d fc c1  |...)T9(.'.../...|[0m
+[0;32mI (13166) Template Buffer: 0x3fc98fe8   77 2c 41 b4 c0 92 ce f1  7e 23 32 9d 15 43 ac e0  |w,A.....~#2..C..|[0m
+[0;32mI (13176) Template Buffer: 0x3fc98ff8   77 3a a2 5f af f5 0a 06  2e 25 57 3e 23 62 5c e4  |w:._.....%W>#b\.|[0m
+[0;32mI (13186) Template Buffer: 0x3fc99008   a3 1e 2c 24 ad 2b 57 ae  c6 56 65 76 fd 1b 4b 29  |..,$.+W..Vev..K)|[0m
+[0;32mI (13196) Template Buffer: 0x3fc99018   db 25 d1 4f 30 ab 77 bd  36 20 b5 11 d7 4c 85 7e  |.%.O0.w.6 ...L.~|[0m
+[0;32mI (13206) Template Buffer: 0x3fc99028   2a 7d d8 05 37 26 ce 0f  23 66 54 65 73 5f 28 2d  |*}..7&..#fTes_(-|[0m
+[0;32mI (13206) Template Buffer: 0x3fc99038   ac 1b 8f 39 72 f6 2b 36  59 2b 3b b3 74 72 4d a1  |...9r.+6Y+;.trM.|[0m
+[0;32mI (13216) Template Buffer: 0x3fc99048   7c e2 e1 a7 1d 1e 28 dd  29 bb 76 34 a7 b1 7e 23  ||.....(.).v4..~#|[0m
+[0;32mI (13226) Template Buffer: 0x3fc99058   29 ab 49 d6 2e f3 97 29  f6 d9 11 12 a1 b7 cf 90  |).I....)........|[0m
+[0;32mI (13236) Template Buffer: 0x3fc99068   64 9c fa 51 e7 15 2b a6  b6 1e 13 a7 6d ed ff 73  |d..Q..+.....m..s|[0m
+[0;32mI (13246) Template Buffer: 0x3fc99078   99 ef 01 ff ff ff ff 02  01 02 df 2a 47 39 f1 c7  |...........*G9..|[0m
+[0;32mI (13256) Template Buffer: 0x3fc99088   3f 77 d4 29 3d 7f 31 21  31 ee c6 9e 63 11 a8 40  |?w.)=.1!1...c..@|[0m
+[0;32mI (13266) Template Buffer: 0x3fc99098   27 23 22 aa a7 1b 69 e4  f5 7f f3 cd 3a 2a 36 e2  |'#"...i.....:*6.|[0m
+[0;32mI (13276) Template Buffer: 0x3fc990a8   c3 7e 7f 47 03 64 a0 37  3e b6 61 53 5b 65 44 65  |.~.G.d.7>.aS[eDe|[0m
+[0;32mI (13286) Template Buffer: 0x3fc990b8   d3 7b 2c 16 af 66 d3 99  f1 ca 69 d2 ab 33 12 2e  |.{,..f....i..3..|[0m
+[0;32mI (13296) Template Buffer: 0x3fc990c8   8d df 53 63 92 5c e2 b9  2d 1c 2e ec df 2d 73 06  |..Sc.\..-....-s.|[0m
+[0;32mI (13306) Template Buffer: 0x3fc990d8   e8 02 b3 33 3f b6 13 d7  58 67 86 61 60 a9 39 37  |...3?...Xg.a`.97|[0m
+[0;32mI (13316) Template Buffer: 0x3fc990e8   b5 38 37 6e b0 51 e7 e0  7f 2b 10 b0 b6 cf 18 63  |.87n.Q...+.....c|[0m
+[0;32mI (13326) Template Buffer: 0x3fc990f8   b8 38 02 d7 17 1c a1 54  24 4a ed 7b c7 26 b8 40  |.8.....T$J.{.&.@|[0m
+[0;32mI (13336) Template Buffer: 0x3fc99108   3c ba c1 76 7e f0 be 3d  31 da 3c 43 ba 31 c5 f8  |<..v~..=1.<C.1..|[0m
+[0;32mI (13346) Template Buffer: 0x3fc99118   f7 be a9 57 8b 25 3d b3  0f 95 df 20 f8 28 f1 9b  |...W.%=.... .(..|[0m
+[0;32mI (13356) Template Buffer: 0x3fc99128   10 27 a5 ac 1e 16 24 7c  75 e0 df 0d 48 26 85 db  |.'....$|u...H&..|[0m
+[0;32mI (13366) Template Buffer: 0x3fc99138   af 44 1d 7b fc 99 19 41  b1 80 36 04 89 f2 a7 36  |.D.{...A..6....6|[0m
+[0;32mI (13376) Template Buffer: 0x3fc99148   d4 35 0a ad 58 d7 a0 32  3e 79 e7 8f 30 0d ab 48  |.5..X..2>y..0..H|[0m
+[0;32mI (13386) Template Buffer: 0x3fc99158   9f 22 f8 6d 26 f0 69 0a  3c 26 88 3b 1a 93 7a cc  |.".m&.i.<&.;..z.|[0m
+[0;32mI (13396) Template Buffer: 0x3fc99168   d1 cd 1e 25 aa 44 5b 7f  e4 e7 60 10 ab 33 1a b1  |...%.D[...`..3..|[0m
+[0;32mI (13406) Template Buffer: 0x3fc99178   04 86 3e f0 ae 28 f1 cb  0a 33 76 14 ef 01 ff ff  |..>..(...3v.....|[0m
+[0;32mI (13416) Template Buffer: 0x3fc99188   ff ff 02 01 02 25 6f 97  91 73 40 65 a1 ec 04 40  |.....%o..s@e...@|[0m
+[0;32mI (13416) Template Buffer: 0x3fc99198   a6 60 1b 02 e9 56 60 e4  ed 04 28 25 e1 d2 7b e4  |.`...V`...(%..{.|[0m
+[0;32mI (13426) Template Buffer: 0x3fc991a8   8c e1 72 58 3d 36 b8 00  56 7c e3 7e e9 b0 10 2e  |..rX=6..V|.~....|[0m
+[0;32mI (13436) Template Buffer: 0x3fc991b8   06 2b a9 c9 e1 76 5d a6  56 27 3c 0e b1 09 06 2f  |.+...v].V'<..../|[0m
+[0;32mI (13446) Template Buffer: 0x3fc991c8   c4 de a9 d6 9e 28 26 ac  72 56 f9 e4 52 2b 75 a3  |.....(&.rV..R+u.|[0m
+[0;32mI (13456) Template Buffer: 0x3fc991d8   0e 30 26 0c d6 1d 73 5a  65 80 d1 3f 1d b8 61 2a  |.0&...sZe..?..a*|[0m
+[0;32mI (13466) Template Buffer: 0x3fc991e8   2e 94 9e 79 50 1f 12 19  9b dc ff 17 85 5b ff f3  |...yP........[..|[0m
+[0;32mI (13476) Template Buffer: 0x3fc991f8   37 0f 39 ab 7a 56 34 a3  6d 39 59 1f 23 37 b0 2a  |7.9.zV4.m9Y.#7.*|[0m
+[0;32mI (13486) Template Buffer: 0x3fc99208   64 2e f5 70 2d c2 57 15  23 a7 70 7a 8a 91 7f 63  |d..p-.W.#.pz...c|[0m
+[0;32mI (13496) Template Buffer: 0x3fc99218   e9 0d 3b 07 2e b0 bf 9b  50 96 f4 d6 99 18 12 9b  |..;.....P.......|[0m
+[0;32mI (13506) Template Buffer: 0x3fc99228   64 1a 2f f3 7f a7 a8 67  26 19 ad c1 97 1c 41 16  |d./....g&.....A.|[0m
+[0;32mI (13516) Template Buffer: 0x3fc99238   20 40 eb 22 45 ad f1 1f  18 3d 51 d5 d7 65 1b 0f  | @."E....=Q..e..|[0m
+[0;32mI (13526) Template Buffer: 0x3fc99248   9f 53 92 2a 96 6a 23 00  4d 0d 16 a1 f7 5b 53 46  |.S.*.j#.M....[SF|[0m
+[0;32mI (13536) Template Buffer: 0x3fc99258   bc 72 e2 0f 0f 1e 1c ab  37 22 90 40 67 b4 4a 24  |.r......7".@g.J$|[0m
+[0;32mI (13546) Template Buffer: 0x3fc99268   06 a2 d0 62 8e 91 d7 33  f8 15 05 14 a0 51 1f ba  |...b...3.....Q..|[0m
+[0;32mI (13556) Template Buffer: 0x3fc99278   61 7a 52 ec 73 00 01 00  3c 03 00 96 00 05 25 09  |azR.s...<.....%.|[0m
+[0;32mI (13566) Template Buffer: 0x3fc99288   23 8b 05 22 32 67 aa ef  01 ff ff ff ff 02 01 02  |#.."2g..........|[0m
+[0;32mI (13576) Template Buffer: 0x3fc99298   2a 63 7e 8d 31 2b 2f fb  3f 42 5c 47 d6 b2 4c 1d  |*c~.1+/.?B\G..L.|[0m
+[0;32mI (13586) Template Buffer: 0x3fc992a8   47 aa b2 1d 93 8d 14 56  43 2f 17 18 9c 8b d7 74  |G......VC/.....t|[0m
+[0;32mI (13596) Template Buffer: 0x3fc992b8   4c 90 10 1d 4b 18 36 b0  bf 9f 49 cf 91 08 16 a7  |L...K.6...I.....|[0m
+[0;32mI (13606) Template Buffer: 0x3fc992c8   00 05 00 18 00 00 00 9b  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (13616) Template Buffer: 0x3fc992d8   00 00 00 00 00 00 00 00  00 00 00 00 00 0b 00 43  |...............C|[0m
+[0;32mI (13626) Template Buffer: 0x3fc992e8   01 10 04 00 00 00 00 00  00 02 00 00 00 17 18 00  |................|[0m
+[0;32mI (13626) Template Buffer: 0x3fc992f8   00 09 0d 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (13636) Template Buffer: 0x3fc99308   00 00 00 00 00 00 00 00  00 04 00 00 00 1e 12 00  |................|[0m
+[0;32mI (13646) Template Buffer: 0x3fc99318   00 10 10 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (13656) Template Buffer: 0x3fc99328   00 00 00 46 4f 4f 46                              |...FOOF|[0m
+[0;32mI (13666) FINGERPRINT: Template uploaded successfully[0m
+[0;32mI (13676) FINGERPRINT: Multi-packet data available: 0 packets[0m
+[0;32mI (13676) FINGERPRINT: Complete template data received (2311 bytes)[0m
+[0;32mI (13686) Template Data: 0x3fca9ed8   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
+[0;32mI (13696) Template Data: 0x3fca9ee8   ff ff 02 00 07 00 00 54  1e 56 00 d1 ef 01 ff ff  |.......T.V......|[0m
+[0;32mI (13706) Template Data: 0x3fca9ef8   ff ff 02 01 02 01 04 93  07 50 52 45 43 49 53 45  |.........PRECISE|[0m
+[0;32mI (13716) Template Data: 0x3fca9f08   00 01 02 75 50 f2 cf 00  56 00 00 00 27 66 0d a8  |...uP...V...'f..|[0m
+[1;31mE (13726) FINGERPRINT: Template too large to save (2311 bytes)[0m
+[0;32mI (13726) FINGERPRINT: Preparing to download template (size: 2311 bytes) to location 10[0m
+[0;32mI (13736) FINGERPRINT: Template upload should be complete[0m
+[1;31mE (13736) FINGERPRINT: No template data available after upload complete[0m
+[1;31mE (13746) FINGERPRINT: Failed to upload template: ESP_ERR_NOT_FOUND[0m
+[1;31mE (13756) FINGERPRINT: Failed to backup template.[0m
+[0;32mI (13756) main_task: Returned from app_main()[0m
+[0;32mI (14736) FINGERPRINT: Downloading template to buffer 1...[0m
+[0;32mI (15676) FINGERPRINT: Storing template to location 10...[0m
+
+assert failed: xEventGroupWaitBits event_groups.c:345 (xEventGroup)
+
+
+Backtrace: 0x40375be9:0x3fca5d20 0x4037abc1:0x3fca5d40 0x40381a3d:0x3fca5d60 0x4037c095:0x3fca5e80 0x4200e52d:0x3fca5eb0 0x4200e954:0x3fca5ee0 0x4200bd8e:0x3fca5f20 0x4200c53b:0x3fca5f50 0x4200db2f:0x3fca61d0 0x4037b715:0x3fca6450
+
+
+
+
+ELF file SHA256: d59b31b81
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x39 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375b28
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e8d0h ( 59600) map[0m
+[0;32mI (114) esp_image: segment 1: paddr=0001e8f8 vaddr=3fc93a00 size=01720h (  5920) load[0m
+[0;32mI (116) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f62ch (128556) map[0m
+[0;32mI (148) esp_image: segment 3: paddr=0003f654 vaddr=3fc95120 size=01ff0h (  8176) load[0m
+[0;32mI (151) esp_image: segment 4: paddr=0004164c vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (170) esp_image: segment 5: paddr=00051038 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (176) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (176) boot: Disabling RNG early entropy source...[0m
+[0;32mI (188) cpu_start: Multicore app[0m
+[0;32mI (196) cpu_start: Pro cpu start user code[0m
+[0;32mI (197) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (197) app_init: Application information:[0m
+[0;32mI (197) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (202) app_init: App version:      c661cd6-dirty[0m
+[0;32mI (206) app_init: Compile time:     Mar 24 2025 10:46:30[0m
+[0;32mI (211) app_init: ELF file SHA256:  d59b31b81...[0m
+[0;32mI (215) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (220) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (223) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (227) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (231) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (237) heap_init: At 3FC9DD78 len 0004B998 (302 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (248) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (253) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (259) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (268) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (272) spi_flash: flash io: opi_str[0m
+[0;33mW (275) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (288) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (294) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (301) main_task: Started on CPU0[0m
+[0;32mI (311) main_task: Calling app_main()[0m
+[0;32mI (311) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (311) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (321) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (321) FINGERPRINT: Finger detection task started[0m
+[0;32mI (331) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (771) FINGERPRINT: Raw UART data (12 bytes):[0m
+[0;32mI (771) RAW PACKET: 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (771) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (771) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (771) Status Event Handler: Status: 0[0m
+[0;32mI (1521) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1521) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m

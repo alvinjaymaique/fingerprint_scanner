@@ -1,0 +1,834 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e7b0h ( 59312) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001e7d8 vaddr=3fc93a00 size=01840h (  6208) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f564h (128356) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003f58c vaddr=3fc95240 size=01ed0h (  7888) load[0m
+[0;32mI (146) esp_image: segment 4: paddr=00041464 vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=00050e50 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      c661cd6-dirty[0m
+[0;32mI (201) app_init: Compile time:     Mar 24 2025 10:46:30[0m
+[0;32mI (206) app_init: ELF file SHA256:  0288e9985...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC98E88 len 00050888 (322 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (248) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (263) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (267) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (289) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Finger detection task started[0m
+[0;32mI (326) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;33mW (516) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (766) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (766) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (766) Status Event Handler: Status: 0[0m
+[0;32mI (1516) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1516) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (1816) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (1816) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (1816) Status Event Handler: Status: 0[0m
+[0;32mI (1816) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (1816) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (1826) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (1836) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1836) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1846) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1856) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1856) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1866) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1886) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1896) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1916) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1936) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (1946) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (1946) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (1956) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (1956) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (3816) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (3816) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (4046) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4336) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4336) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4336) Status Event Handler: Status: 0[0m
+[0;32mI (4336) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (4336) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (4336) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (4356) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (4456) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (4456) FINGERPRINT: Default mode: searching database[0m
+[0;32mI (4616) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4616) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4616) Status Event Handler: Status: 0[0m
+[0;32mI (4616) FINGERPRINT: Search returned success but match score is 0, waiting for more responses[0m
+[0;32mI (5176) FINGERPRINT: Returning response with 2 packets[0m
+[0;32mI (5176) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (5176) Status Event Handler: Status: 0[0m
+[0;32mI (5176) FINGERPRINT: Real match found with score 3584[0m
+[0;32mI (5176) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (5186) FINGERPRINT: Match found at Enrollee ID: 0[0m
+[0;32mI (5186) FINGERPRINT: Match score: 3584[0m
+[0;32mI (5196) Status Event Handler: Status: 0[0m
+[0;32mI (5616) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (5626) FINGERPRINT: Fingerprint verification successful![0m
+[0;32mI (5626) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (6036) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (6036) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (6036) Status Event Handler: Status: 0[0m
+[0;32mI (6036) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
+[0;32mI (6036) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (6046) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (6056) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (6246) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (6456) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (6456) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (6456) Status Event Handler: Status: 0[0m
+[0;32mI (6456) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (6456) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (6466) FINGERPRINT: Uploading Template...[0m
+[0;32mI (6466) TEMPLATE_MGR: Template collection started[0m
+[0;32mI (6716) FINGERPRINT: Received template data packet 1[0m
+[0;32mI (6716) Status Event Handler: Status: 0[0m
+[0;32mI (6716) FINGERPRINT: Upload starting[0m
+[0;32mI (6716) FINGERPRINT: Allocating memory for template data copy: 1070207712 bytes[0m
+[1;31mE (6726) FINGERPRINT: Failed to allocate 1070207712 bytes for template data copy (available memory: 343184 bytes)[0m
+[0;32mI (6736) FINGERPRINT: Trying reduced allocation of 512 bytes[0m
+[0;32mI (6746) FINGERPRINT: Reduced allocation successful[0m
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x40056f5c  PS      : 0x00060f30  A0      : 0x8200c5c0  A1      : 0x3fca0dd0  
+A2      : 0x3fca4938  A3      : 0x8037b718  A4      : 0x00000200  A5      : 0x3fca4938  
+A6      : 0x3c0257d8  A7      : 0x00000020  A8      : 0x00000000  A9      : 0x3fca0d60  
+A10     : 0x00000001  A11     : 0x3c0257d8  A12     : 0x3c0267d8  A13     : 0x3fca0dc0  
+A14     : 0x3fca0da0  A15     : 0x0000000c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x8037b718  LBEG    : 0x40056f5c  LEND    : 0x40056f72  LCOUNT  : 0x0000001f  
+
+
+Backtrace: 0x40056f59:0x3fca0dd0 0x4200c5bd:0x3fca0de0 0x4200d887:0x3fca1060 0x4200d91a:0x3fca12e0 0x4037b715:0x3fca1560
+
+
+
+
+ELF file SHA256: 0288e9985
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x3b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375b28
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e7b0h ( 59312) map[0m
+[0;32mI (114) esp_image: segment 1: paddr=0001e7d8 vaddr=3fc93a00 size=01840h (  6208) load[0m
+[0;32mI (116) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f564h (128356) map[0m
+[0;32mI (148) esp_image: segment 3: paddr=0003f58c vaddr=3fc95240 size=01ed0h (  7888) load[0m
+[0;32mI (151) esp_image: segment 4: paddr=00041464 vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (170) esp_image: segment 5: paddr=00050e50 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (176) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (176) boot: Disabling RNG early entropy source...[0m
+[0;32mI (188) cpu_start: Multicore app[0m
+[0;32mI (196) cpu_start: Pro cpu start user code[0m
+[0;32mI (196) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (196) app_init: Application information:[0m
+[0;32mI (196) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (201) app_init: App version:      c661cd6-dirty[0m
+[0;32mI (206) app_init: Compile time:     Mar 24 2025 10:46:30[0m
+[0;32mI (211) app_init: ELF file SHA256:  0288e9985...[0m
+[0;32mI (215) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (219) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (223) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (227) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (231) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (237) heap_init: At 3FC98E88 len 00050888 (322 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (248) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (253) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (259) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (268) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (272) spi_flash: flash io: opi_str[0m
+[0;33mW (275) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (287) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (294) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (300) main_task: Started on CPU0[0m
+[0;32mI (310) main_task: Calling app_main()[0m
+[0;32mI (310) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (310) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (320) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (320) FINGERPRINT: Finger detection task started[0m
+[0;32mI (330) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;33mW (370) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (390) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (400) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (410) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (420) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (430) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (440) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (450) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (460) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (470) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (480) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (490) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (500) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (510) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (520) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (530) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (540) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (550) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (560) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (570) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (580) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (590) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (600) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (610) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (620) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (630) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (640) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (650) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (660) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (670) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (680) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (690) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (700) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (710) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (720) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (730) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (740) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (750) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (760) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (770) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (780) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (790) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (800) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (810) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (820) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (830) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (840) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (850) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (860) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (870) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (880) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (890) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (900) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (910) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (920) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (930) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (940) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (950) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (960) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (970) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (980) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (990) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1000) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1010) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1020) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1030) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1040) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1050) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1060) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1070) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1080) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1090) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1100) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1110) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1120) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1130) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1140) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1150) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1160) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1170) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1180) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1190) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1200) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1210) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1220) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1230) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1240) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1250) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1260) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1270) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1280) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1290) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1300) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1310) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1320) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1330) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1340) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1350) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1360) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1370) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1380) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1390) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1400) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1410) FINGERPRINT: Timeout waiting for more data, resetting state[0m
+[0;33mW (1410) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1420) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1430) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1440) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (1440) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1440) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;33mW (1450) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1460) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1470) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1480) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1490) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1500) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1510) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1520) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1530) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1540) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1550) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1560) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1570) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1580) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1590) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1600) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1610) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1620) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1630) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1640) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1650) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1660) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1670) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1680) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1690) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1700) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1710) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1720) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1730) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1740) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1750) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1760) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1770) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1780) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1790) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1800) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1810) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1820) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1830) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1840) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1850) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1860) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1870) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1880) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1890) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1900) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1910) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1920) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1930) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1940) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1950) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1960) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1970) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1980) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1990) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2000) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2010) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2020) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2030) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2040) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2050) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2060) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2070) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2080) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2090) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2100) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2110) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2120) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2130) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2140) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2150) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2160) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2170) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2180) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2190) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2200) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2210) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2220) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2230) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2240) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2250) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2260) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2270) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2280) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2290) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2300) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2310) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2320) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2330) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2340) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2350) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2360) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2370) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2380) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2390) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2400) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2410) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2420) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2430) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2440) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2450) FINGERPRINT: Timeout waiting for more data, resetting state[0m
+[0;33mW (2450) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (2660) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (2660) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (2660) Status Event Handler: Status: 0[0m
+[0;32mI (2660) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (2660) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (2670) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (2680) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2680) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2690) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2700) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2700) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2710) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2720) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2720) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2730) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2740) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2750) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2750) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2760) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2770) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2770) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2780) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (2790) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (2790) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (2800) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (2800) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (4150) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (4150) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (4570) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4570) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (4570) Status Event Handler: Status: 0[0m
+[0;32mI (4890) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4890) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (4890) Status Event Handler: Status: 2[0m
+[0;33mW (4890) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;32mI (4890) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;33mW (4990) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (5170) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5170) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (5170) Status Event Handler: Status: 2[0m
+[0;33mW (5200) FINGERPRINT: Finger detection failed[0m
+[0;32mI (5380) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (5380) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (5660) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5660) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (5660) Status Event Handler: Status: 2[0m
+[0;32mI (7750) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (7760) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (8260) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (8260) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (8260) Status Event Handler: Status: 0[0m
+[0;32mI (8260) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (8260) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (8260) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (8280) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (8380) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (8380) FINGERPRINT: Default mode: searching database[0m
+[0;32mI (8540) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (8540) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (8540) Status Event Handler: Status: 0[0m
+[0;32mI (8540) FINGERPRINT: Search returned success but match score is 0, waiting for more responses[0m
+[0;32mI (9080) FINGERPRINT: Returning response with 2 packets[0m
+[0;32mI (9080) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (9080) Status Event Handler: Status: 0[0m
+[0;32mI (9080) FINGERPRINT: Real match found with score 2816[0m
+[0;32mI (9080) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (9090) FINGERPRINT: Match found at Enrollee ID: 0[0m
+[0;32mI (9090) FINGERPRINT: Match score: 2816[0m
+[0;32mI (9100) Status Event Handler: Status: 0[0m
+[0;32mI (9540) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (9550) FINGERPRINT: Fingerprint verification successful![0m
+[0;32mI (9550) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (9940) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (9940) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (9940) Status Event Handler: Status: 0[0m
+[0;32mI (9940) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
+[0;32mI (9940) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (9950) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (9960) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (10150) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (10360) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (10360) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (10360) Status Event Handler: Status: 0[0m
+[0;32mI (10360) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (10360) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (10370) FINGERPRINT: Uploading Template...[0m
+[0;32mI (10370) TEMPLATE_MGR: Template collection started[0m
+[0;32mI (10620) FINGERPRINT: Received template data packet 1[0m
+[0;32mI (10620) Status Event Handler: Status: 0[0m
+[0;32mI (10620) FINGERPRINT: Upload starting[0m
+[0;32mI (10620) FINGERPRINT: Allocating memory for template data copy: 1070207712 bytes[0m
+[1;31mE (10630) FINGERPRINT: Failed to allocate 1070207712 bytes for template data copy (available memory: 343184 bytes)[0m
+[0;32mI (10640) FINGERPRINT: Trying reduced allocation of 512 bytes[0m
+[0;32mI (10650) FINGERPRINT: Reduced allocation successful[0m
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x40056f5c  PS      : 0x00060730  A0      : 0x8200c5c0  A1      : 0x3fca0dd0  
+A2      : 0x3fca4938  A3      : 0x8037b718  A4      : 0x00000200  A5      : 0x3fca4938  
+A6      : 0x3c0257d8  A7      : 0x00000020  A8      : 0x00000000  A9      : 0x3fca0d60  
+A10     : 0x00000001  A11     : 0x3c0257d8  A12     : 0x3c0267d8  A13     : 0x3fca0dc0  
+A14     : 0x3fca0da0  A15     : 0x0000000c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0x8037b718  LBEG    : 0x40056f5c  LEND    : 0x40056f72  LCOUNT  : 0x0000001f  
+
+
+Backtrace: 0x40056f59:0x3fca0dd0 0x4200c5bd:0x3fca0de0 0x4200d887:0x3fca1060 0x4200d91a:0x3fca12e0 0x4037b715:0x3fca1560
+
+
+
+
+ELF file SHA256: 0288e9985
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x3b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375b28
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e7b0h ( 59312) map[0m
+[0;32mI (114) esp_image: segment 1: paddr=0001e7d8 vaddr=3fc93a00 size=01840h (  6208) load[0m
+[0;32mI (116) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f564h (128356) map[0m
+[0;32mI (148) esp_image: segment 3: paddr=0003f58c vaddr=3fc95240 size=01ed0h (  7888) load[0m
+[0;32mI (151) esp_image: segment 4: paddr=00041464 vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (170) esp_image: segment 5: paddr=00050e50 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (176) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (176) boot: Disabling RNG early entropy source...[0m
+[0;32mI (188) cpu_start: Multicore app[0m
+[0;32mI (196) cpu_start: Pro cpu start user code[0m
+[0;32mI (196) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (196) app_init: Application information:[0m
+[0;32mI (196) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (201) app_init: App version:      c661cd6-dirty[0m
+[0;32mI (206) app_init: Compile time:     Mar 24 2025 10:46:30[0m
+[0;32mI (211) app_init: ELF file SHA256:  0288e9985...[0m
+[0;32mI (215) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (219) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (223) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (227) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (231) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (237) heap_init: At 3FC98E88 len 00050888 (322 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (248) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (253) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (259) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (268) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (272) spi_flash: flash io: opi_str[0m
+[0;33mW (275) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (287) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (294) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (300) main_task: Started on CPU0[0m
+[0;32mI (310) main_task: Calling app_main()[0m
+[0;32mI (310) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (310) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (320) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (320) FINGERPRINT: Finger detection task started[0m
+[0;32mI (330) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;33mW (370) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (400) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (410) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (420) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (430) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (440) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (450) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (460) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (470) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (480) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (490) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (500) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (510) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (520) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (530) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (540) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (550) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (560) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (570) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (580) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (590) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (600) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (610) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (620) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (630) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (640) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (650) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (660) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (670) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (680) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (690) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (700) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (710) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (720) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (730) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (740) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (750) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (760) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (770) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (780) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (790) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (800) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (810) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (820) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (830) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (840) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (850) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (860) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (870) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (880) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (890) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (900) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (910) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (920) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (930) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (940) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (950) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (960) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (970) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (980) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (990) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1000) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1010) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1020) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1030) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1040) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1050) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1060) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1070) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1080) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1090) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1100) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1110) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1120) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1130) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1140) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1150) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1160) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1170) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1180) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1190) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1200) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1210) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1220) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1230) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1240) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1250) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1260) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1270) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1280) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1290) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1300) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1310) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1320) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1330) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1340) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1350) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1360) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1370) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1380) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1390) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1400) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1410) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1420) FINGERPRINT: Timeout waiting for more data, resetting state[0m
+[0;33mW (1420) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1430) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1440) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;32mI (1440) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1440) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;33mW (1450) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1460) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1470) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1480) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1490) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1500) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1510) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1520) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1530) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1540) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1550) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1560) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1570) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1580) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1590) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1600) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1610) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1620) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1630) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1640) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1650) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1660) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1670) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1680) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1690) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1700) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1710) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1720) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1730) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1740) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1750) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1760) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1770) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1780) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1790) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1800) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1810) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1820) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1830) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1840) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1850) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1860) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1870) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1880) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1890) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1900) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1910) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1920) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1930) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1940) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1950) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1960) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1970) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1980) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (1990) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2000) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2010) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2020) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2030) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2040) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2050) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2060) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2070) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2080) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2090) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2100) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2110) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2120) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2130) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2140) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2150) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2160) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2170) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2180) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2190) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2200) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2210) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2220) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2230) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2240) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2250) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2260) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2270) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2280) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2290) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2300) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2310) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2320) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2330) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2340) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2350) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2360) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2370) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2380) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2390) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2400) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2410) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2420) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2430) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2440) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2450) FINGERPRINT: No complete packets found, returning NULL[0m
+[0;33mW (2460) FINGERPRINT: Timeout waiting for more data, resetting state[0m
+[0;33mW (2460) FINGERPRINT: No complete packets found, returning NULL[0m
