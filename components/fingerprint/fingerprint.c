@@ -1333,6 +1333,12 @@ MultiPacketResponse* fingerprint_read_response(void) {
                                    timeout / portTICK_PERIOD_MS);
 
     // ESP_LOG_BUFFER_HEXDUMP("Fingerprint Response", buffer, buffer_pos + bytes_read, ESP_LOG_INFO);
+    // Only log the raw buffer once before processing
+    // if (bytes_read > 0) {
+    //     ESP_LOGI(TAG, "Read %d bytes", bytes_read);
+    //     // Use EARLY_LEVEL to minimize impact
+    //     ESP_LOG_BUFFER_HEX_LEVEL("Raw data", buffer, buffer_pos, ESP_LOG_INFO);
+    // }
     
     if (bytes_read <= 0 && buffer_pos == 0) return NULL;
     buffer_pos += (bytes_read > 0) ? bytes_read : 0;
@@ -1736,8 +1742,9 @@ buffer_shift:
 // Insert this function right before the read_response_task function
 FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, uint8_t target_packet_id) {
     for (size_t i = 0; i < data_len - 9; i++) {
-        // Find header and packet ID
+        // Find header (0xEF01) followed by the correct packet ID
         if (data[i] == 0xEF && data[i+1] == 0x01 && i+6 < data_len && data[i+6] == target_packet_id) {
+            // Allocate memory for the packet
             FingerprintPacket* packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
             if (!packet) return NULL;
             
@@ -1758,10 +1765,28 @@ FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, 
             size_t param_len = 0;
             if (packet->length > 2) {
                 param_len = packet->length - 2; // Subtract 2 bytes for checksum
-                param_len = min(param_len, sizeof(packet->parameters));
                 
-                // Make sure we don't exceed buffer
-                if (param_start + param_len <= data_len) {
+                // Check for FOOF marker in parameter data
+                for (size_t j = 0; j < param_len && param_start + j < data_len - 3; j++) {
+                    if (data[param_start + j] == 'F' && 
+                        data[param_start + j+1] == 'O' && 
+                        data[param_start + j+2] == 'O' && 
+                        data[param_start + j+3] == 'F') {
+                        
+                        // Found FOOF marker - adjust packet length to include up to FOOF
+                        param_len = j + 4; // Include the FOOF marker
+                        packet->length = param_len + 2; // +2 for checksum
+                        ESP_LOGI(TAG, "FOOF marker found in embedded packet at position %d", j);
+                        break;
+                    }
+                }
+                
+                // Limit to available data and parameter buffer size
+                param_len = min(param_len, sizeof(packet->parameters));
+                param_len = min(param_len, data_len - param_start);
+                
+                // Copy parameter data
+                if (param_len > 0) {
                     memcpy(packet->parameters, &data[param_start], param_len);
                 }
             }
@@ -1775,7 +1800,7 @@ FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, 
                 ESP_LOGI(TAG, "Extracted packet ID=0x%02X with checksum 0x%04X at position %d", 
                          packet->packet_id, packet->checksum, i);
                 
-                // Optional: Verify checksum
+                // Verify checksum
                 uint16_t calc_checksum = target_packet_id;
                 calc_checksum += (packet->length >> 8) & 0xFF;
                 calc_checksum += packet->length & 0xFF;
@@ -1785,8 +1810,11 @@ FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, 
                 }
                 
                 if (calc_checksum != packet->checksum) {
+                    // Just warn, don't stop processing
                     ESP_LOGW(TAG, "Checksum mismatch for packet 0x%02X: extracted=0x%04X, calculated=0x%04X", 
                              target_packet_id, packet->checksum, calc_checksum);
+                    // Update with calculated checksum
+                    packet->checksum = calc_checksum;
                 }
             }
             
@@ -2030,47 +2058,7 @@ void read_response_task(void *pvParameter) {
                     
                     if (template_complete) {
                         // If we found a FOOF marker but don't have a final packet, create one
-                        if (found_foof_marker && !found_final_packet) {
-                            // Create a new final packet
-                            FingerprintPacket* final_packet = heap_caps_malloc(sizeof(FingerprintPacket), MALLOC_CAP_8BIT);
-                            if (final_packet) {
-                                memset(final_packet, 0, sizeof(FingerprintPacket));
-                                final_packet->header = 0xEF01;
-                                final_packet->address = 0xFFFFFFFF;
-                                final_packet->packet_id = 0x08;  // Final packet ID
-                                final_packet->length = 8;  // Standard length for final packet
-                                
-                                // Calculate checksum
-                                uint16_t calc_checksum = final_packet->packet_id;
-                                calc_checksum += (final_packet->length >> 8) & 0xFF;
-                                calc_checksum += final_packet->length & 0xFF;
-                                
-                                for (size_t j = 0; j < 6; j++) {  // 6 bytes of zeros in parameters
-                                    calc_checksum += final_packet->parameters[j];
-                                }
-                                
-                                final_packet->checksum = calc_checksum;
-                                
-                                // Add this final packet to the accumulator
-                                size_t new_count = g_template_accumulator->count + 1;
-                                FingerprintPacket** new_packets = heap_caps_realloc(
-                                    g_template_accumulator->packets,
-                                    sizeof(FingerprintPacket*) * new_count,
-                                    MALLOC_CAP_8BIT
-                                );
-                                
-                                if (new_packets) {
-                                    g_template_accumulator->packets = new_packets;
-                                    g_template_accumulator->packets[g_template_accumulator->count++] = final_packet;
-                                    ESP_LOGI(TAG, "Added synthetic final packet (ID=0x08) with checksum 0x%04X", 
-                                            final_packet->checksum);
-                                    found_final_packet = true;
-                                } else {
-                                    // Failed to resize array
-                                    heap_caps_free(final_packet);
-                                }
-                            }
-                        }
+                       
                         
                         // Create event with accumulated data
                         fingerprint_event_t event = {
@@ -2732,7 +2720,8 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                     }
                 }
             }
-        }
+        } 
+        
         if (enroll_event_group) {
             if (last_sent_command != FINGERPRINT_CMD_SEARCH) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
@@ -3998,6 +3987,12 @@ esp_err_t read_info_page(void) {
  * @return ESP_OK on success, or appropriate error code on failure
  */
 esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketResponse *response) {
+    // Save previous event group and track our own
+    EventGroupHandle_t previous_event_group = enroll_event_group;
+    EventGroupHandle_t restore_event_group = NULL;
+    esp_err_t err;
+    bool created_event_group = false;
+    
     // Validate input parameters
     if (response == NULL) {
         ESP_LOGE(TAG, "Invalid MultiPacketResponse (NULL)");
@@ -4015,61 +4010,100 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
     
     // Check template for validity (FOOF marker or minimum size)
     bool valid_template = false;
+    size_t marker_pos = 0;
     
     // Look for FOOF validation marker
     for (size_t i = 0; i < response->template_size - 4; i++) {
         if (response->template_data[i] == 'F' && response->template_data[i+1] == 'O' && 
             response->template_data[i+2] == 'O' && response->template_data[i+3] == 'F') {
             valid_template = true;
+            marker_pos = i + 4;  // Position right after FOOF
             ESP_LOGI(TAG, "Found template validation marker at offset %d", i);
             break;
         }
     }
     
-    // Also accept templates above a minimum size even without marker
-    if (!valid_template && response->template_size >= 256) {
-        valid_template = true;
-        ESP_LOGW(TAG, "No validation marker found, but template size (%d bytes) seems reasonable", 
-                response->template_size);
-    }
-    
-    if (!valid_template) {
-        ESP_LOGW(TAG, "Template data may be invalid (no FOOF marker and small size: %d bytes)", 
-                response->template_size);
-    }
-    
     // Create a specific event group for this operation
-    EventGroupHandle_t restore_event_group = xEventGroupCreate();
+    restore_event_group = xEventGroupCreate();
     if (restore_event_group == NULL) {
         ESP_LOGE(TAG, "Failed to create event group for template restore");
         return ESP_ERR_NO_MEM;
     }
     
-    // Set global event group to our local one
+    created_event_group = true;
     enroll_event_group = restore_event_group;
+    
+    // Add a longer delay before attempting to download the template
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    
+    // Reset any pending UART data and queues
+    uart_flush(UART_NUM);
+    xQueueReset(fingerprint_command_queue);
+    xQueueReset(fingerprint_response_queue);
+    
+    // Make sure we have at least 16 bytes after the FOOF marker for proper padding
+    uint8_t* download_data = response->template_data;
+    size_t download_size = response->template_size;
+    uint8_t* extended_data = NULL;
+    
+    if (valid_template) {
+        size_t proper_size = marker_pos + 16;
+        if (proper_size > response->template_size) {
+            // Need to extend the template data for proper padding
+            extended_data = heap_caps_malloc(proper_size, MALLOC_CAP_8BIT);
+            if (extended_data) {
+                // Copy existing data
+                memcpy(extended_data, response->template_data, response->template_size);
+                // Add padding zeros
+                memset(extended_data + response->template_size, 0, proper_size - response->template_size);
+                
+                download_data = extended_data;
+                download_size = proper_size;
+                
+                ESP_LOGI(TAG, "Extended template from %d to %d bytes for proper padding", 
+                         response->template_size, proper_size);
+            }
+        }
+    }
     
     // Download template to buffer 1
     ESP_LOGI(TAG, "Downloading template to buffer 1...");
-    esp_err_t err = download_template(1, response->template_data, response->template_size);
+    err = download_template(1, download_data, download_size);
+    
+    // Free extended data if we allocated it
+    if (extended_data) {
+        heap_caps_free(extended_data);
+        extended_data = NULL;
+    }
+    
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to download template to buffer: %s", esp_err_to_name(err));
-        vEventGroupDelete(restore_event_group);
-        enroll_event_group = NULL;
-        return err;
+        goto cleanup;
     }
+    
+    // Add delay between download and store operations
+    vTaskDelay(pdMS_TO_TICKS(300));
     
     // Store template from buffer to flash at specified location
     ESP_LOGI(TAG, "Storing template to location %d...", template_id);
     err = store_template(1, template_id);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to store template: %s", esp_err_to_name(err));
+        goto cleanup;
     } else {
         ESP_LOGI(TAG, "Template successfully stored at location %d", template_id);
     }
     
-    // Clean up
-    vEventGroupDelete(restore_event_group);
-    enroll_event_group = NULL;
+cleanup:
+    // IMPORTANT: First restore the previous event group, then delete our local one
+    if (created_event_group) {
+        EventGroupHandle_t temp = restore_event_group;
+        enroll_event_group = previous_event_group;  // Restore previous event group
+        
+        if (temp != NULL) {
+            vEventGroupDelete(temp);  // Delete our temporary group
+        }
+    }
     
     return err;
 }
