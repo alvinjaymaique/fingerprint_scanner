@@ -1,49 +1,78 @@
-[1/5] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/MELBEN/esp/fingerprint_scanner/build/partition_table/partition-table.bin C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin"
-fingerprint_scanner.bin binary size 0x40d40 bytes. Smallest app partition is 0x100000 bytes. 0xbf2c0 bytes (75%) free.
-[2/5] Performing build step for 'bootloader'
+[1/11] Performing build step for 'bootloader'
 [1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
 Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
-[3/5] No install step for 'bootloader'
-[4/5] Completed 'bootloader'
-[4/5] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.4\components\esptool_py && C:\Espressif\tools\cmake\3.30.2\bin\cmake.exe -D IDF_PATH=C:/Espressif/frameworks/esp-idf-v5.4 -D SERIAL_TOOL=C:/Espressif/python_env/idf5.4_py3.11_env/Scripts/python.exe;;C:/Espressif/frameworks/esp-idf-v5.4/components/esptool_py/esptool/esptool.py;--chip;esp32s3 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=C:/Users/MELBEN/esp/fingerprint_scanner/build -P C:/Espressif/frameworks/esp-idf-v5.4/components/esptool_py/run_serial_tool.cmake"
-esptool.py --chip esp32s3 -p COM9 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 2MB 0x0 bootloader/bootloader.bin 0x10000 fingerprint_scanner.bin 0x8000 partition_table/partition-table.bin
-esptool.py v4.8.1
-Serial port COM9
-Connecting....
-Chip is ESP32-S3 (QFN56) (revision v0.1)
-Features: WiFi, BLE, Embedded PSRAM 8MB (AP_1v8)
-Crystal is 40MHz
-MAC: 68:b6:b3:3c:e5:80
-Uploading stub...
-Running stub...
-Stub running...
-Changing baud rate to 460800
-Changed.
-Configuring flash size...
-Flash will be erased from 0x00000000 to 0x00005fff...
-Flash will be erased from 0x00010000 to 0x00050fff...
-Flash will be erased from 0x00008000 to 0x00008fff...
-SHA digest in image updated
-Compressed 21008 bytes to 13378...
-Writing at 0x00000000... (100 %)
-Wrote 21008 bytes (13378 compressed) at 0x00000000 in 0.6 seconds (effective 288.1 kbit/s)...
-Hash of data verified.
-Compressed 265536 bytes to 139091...
-Writing at 0x00010000... (11 %)
-Writing at 0x0001cb47... (22 %)
-Writing at 0x00024d07... (33 %)
-Writing at 0x0002b71d... (44 %)
-Writing at 0x00031db0... (55 %)
-Writing at 0x000396bb... (66 %)
-Writing at 0x0004149a... (77 %)
-Writing at 0x0004756b... (88 %)
-Writing at 0x0004db57... (100 %)
-Wrote 265536 bytes (139091 compressed) at 0x00010000 in 4.1 seconds (effective 521.7 kbit/s)...
-Hash of data verified.
-Compressed 3072 bytes to 103...
-Writing at 0x00008000... (100 %)
-Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.0 seconds (effective 508.4 kbit/s)...
-Hash of data verified.
-
-Leaving...
-Hard resetting via RTS pin...
+[2/11] No install step for 'bootloader'
+[3/11] Completed 'bootloader'
+[4/11] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/fingerprint_scanner.c.obj
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c: In function 'app_main':
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:136:14: warning: unused variable 'enrolled_count' [-Wunused-variable]
+  136 |     uint16_t enrolled_count;
+      |              ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:35:13: warning: 'template_accumulation_active' defined but not used [-Wunused-variable]
+   35 | static bool template_accumulation_active = false;
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:34:15: warning: 'complete_template_size' defined but not used [-Wunused-variable]
+   34 | static size_t complete_template_size = 0;
+      |               ^~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:33:15: warning: 'complete_template_capacity' defined but not used [-Wunused-variable]
+   33 | static size_t complete_template_capacity = 4096;  // Start with 4KB capacity
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:32:17: warning: 'complete_template_buffer' defined but not used [-Wunused-variable]
+   32 | static uint8_t* complete_template_buffer = NULL;
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:5:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h:1764:27: warning: 'enroll_event_group' defined but not used [-Wunused-variable]
+ 1764 | static EventGroupHandle_t enroll_event_group = NULL;
+      |                           ^~~~~~~~~~~~~~~~~~
+[5/11] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_set_command':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:972:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  972 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
+      |                      ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_read_response':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1297:17: warning: variable 'final_packet_sent' set but not used [-Wunused-but-set-variable]
+ 1297 |     static bool final_packet_sent = false;
+      |                 ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'extract_packet_from_raw_data':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1720:22: warning: variable 'found_foof_marker' set but not used [-Wunused-but-set-variable]
+ 1720 |                 bool found_foof_marker = false;
+      |                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_response_task':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1836:28: warning: variable 'foof_position' set but not used [-Wunused-but-set-variable]
+ 1836 |                     size_t foof_position = 0;
+      |                            ^~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3286:28: warning: unused variable 'response' [-Wunused-variable]
+ 3286 |     fingerprint_response_t response;
+      |                            ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'upload_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3400:17: warning: variable 'bits' set but not used [-Wunused-but-set-variable]
+ 3400 |     EventBits_t bits;
+      |                 ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3753:10: warning: unused variable 'template_valid' [-Wunused-variable]
+ 3753 |     bool template_valid = false;
+      |          ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2151:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
+ 2151 | static fingerprint_template_buffer_t g_template_buffer = {
+      |                                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1801:16: warning: 'saved_template' defined but not used [-Wunused-variable]
+ 1801 | static uint8_t saved_template[1024]; // Buffer for template data
+      |                ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:51:13: warning: 'finger_detected_flag' defined but not used [-Wunused-variable]
+   51 | static bool finger_detected_flag = false;
+      |             ^~~~~~~~~~~~~~~~~~~~
+[6/11] Linking C static library esp-idf\fingerprint\libfingerprint.a
+[7/11] Linking C static library esp-idf\main\libmain.a
+[8/11] Generating ld/sections.ld
+[9/11] Linking CXX executable fingerprint_scanner.elf
+[10/11] Generating binary image from built executable
+esptool.py v4.8.1
+Creating esp32s3 image...
+Merged 2 ELF sections
+Successfully created esp32s3 image.
+Generated C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin
+[11/11] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/MELBEN/esp/fingerprint_scanner/build/partition_table/partition-table.bin C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin"
+fingerprint_scanner.bin binary size 0x41a10 bytes. Smallest app partition is 0x100000 bytes. 0xbe5f0 bytes (74%) free.

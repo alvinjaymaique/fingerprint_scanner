@@ -11,7 +11,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
 
 // Add this global variable to store the template
-static uint8_t saved_template[2048] = {0};
+static uint8_t saved_template[8500] = {0};
 static size_t saved_template_size = 0;
 static bool template_available = false;
 
@@ -359,20 +359,20 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                         (unsigned int)event.multi_packet->packets[i]->checksum);
             
                     
-                    // // Print full packet data
-                    // if (event.multi_packet->packets[i]->length > 2) {
-                    //     ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
-                    //                             event.multi_packet->packets[i]->parameters,
-                    //                             event.multi_packet->packets[i]->length - 2,
-                    //                             ESP_LOG_INFO);
-                    // }
+                    // Print full packet data
+                    if (event.multi_packet->packets[i]->length > 2) {
+                        ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
+                                                event.multi_packet->packets[i]->parameters,
+                                                event.multi_packet->packets[i]->length - 2,
+                                                ESP_LOG_INFO);
+                    }
                 }
                 vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
             }
             
             // If template data is available in the multi_packet
             if (event.multi_packet->template_data && event.multi_packet->template_size > 0) {
-                ESP_LOGI(TAG, "Complete template data received (%d bytes)", event.multi_packet->template_size);
+                ESP_LOGI(TAG, "Complete template data received (%d bits)", event.multi_packet->template_size);
                 ESP_LOG_BUFFER_HEXDUMP("Template Data", event.multi_packet->template_data, 
                                     (event.multi_packet->template_size > 64) ? 64 : event.multi_packet->template_size, 
                                     ESP_LOG_INFO);
@@ -401,41 +401,29 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             // }
 
             // Make a deep copy of the template data to ensure we own it
-            uint16_t new_location = 10;
-            if (event.multi_packet != NULL && event.multi_packet->template_data != NULL) {
-                // Allocate our own buffer for the template data
-                uint8_t* template_copy = heap_caps_malloc(event.multi_packet->template_size, MALLOC_CAP_8BIT);
-                if (template_copy) {
-                    // Copy the data
-                    memcpy(template_copy, event.multi_packet->template_data, event.multi_packet->template_size);
+            if (event.multi_packet != NULL) {
+                // Log that we received a template
+                ESP_LOGI(TAG, "Template uploaded successfully with %d packets", 
+                        event.multi_packet->count);
+                
+                if (event.multi_packet->template_data != NULL && 
+                    event.multi_packet->template_size > 0) {
                     
-                    // Create a temporary response structure with our copy
-                    MultiPacketResponse temp_response = {
-                        .template_data = template_copy,
-                        .template_size = event.multi_packet->template_size,
-                        .template_capacity = event.multi_packet->template_size,
-                        .template_complete = true,
-                        .packets = NULL,  // We don't need the packets for restore
-                        .count = 0
-                    };
+                    uint16_t new_location = 10; // Target storage location
+                    ESP_LOGI(TAG, "Restoring template to location %d", new_location);
                     
-                    // Now use our owned copy for restoration
-                    esp_err_t err = restore_template_from_multipacket(new_location, &temp_response);
+                    // Option 1: Directly use the event.multi_packet (simplest)
+                    esp_err_t err = restore_template_from_multipacket(new_location, event.multi_packet);
+                    
                     if (err == ESP_OK) {
-                        ESP_LOGI(TAG, "Template restored successfully.");
+                        ESP_LOGI(TAG, "Template restored successfully to location %d", new_location);
                     } else {
-                        ESP_LOGE(TAG, "Failed to restore template.");
+                        ESP_LOGE(TAG, "Failed to restore template: %s", esp_err_to_name(err));
                     }
-                    
-                    // Clean up our copy when done
-                    heap_caps_free(template_copy);
                 } else {
-                    ESP_LOGE(TAG, "Failed to allocate memory for template copy");
+                    ESP_LOGW(TAG, "Template data is empty or missing");
                 }
             }
-
-            // Reset the global pointer (was being used unsafely)
-            packets = NULL;
             
             
             // // Free the multi-packet memory when done processing
