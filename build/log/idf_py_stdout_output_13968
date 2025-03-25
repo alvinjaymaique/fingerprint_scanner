@@ -15,55 +15,36 @@ C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:129
  1297 |     static bool final_packet_sent = false;
       |                 ^~~~~~~~~~~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'extract_packet_from_raw_data':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1680:22: warning: variable 'found_foof_marker' set but not used [-Wunused-but-set-variable]
- 1680 |                 bool found_foof_marker = false;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1721:22: warning: variable 'found_foof_marker' set but not used [-Wunused-but-set-variable]
+ 1721 |                 bool found_foof_marker = false;
       |                      ^~~~~~~~~~~~~~~~~
-In file included from C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:16,
-                 from C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h:201,
-                 from C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1:
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_response_task':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1886:86: error: 'buffer' undeclared (first use in this function); did you mean 'setbuffer'?
- 1886 |                                         ESP_LOG_BUFFER_HEX("Final packet raw data", &buffer[data_start], data_length > 32 ? 32 : data_length);
-      |                                                                                      ^~~~~~
-C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_buffer.h:83:76: note: in definition of macro 'ESP_LOG_BUFFER_HEX_LEVEL'
-   83 |     do { if (LOG_LOCAL_LEVEL >= (level)) {esp_log_buffer_hex_internal(tag, buffer, buff_len, level);} } while(0)
-      |                                                                            ^~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1886:41: note: in expansion of macro 'ESP_LOG_BUFFER_HEX'
- 1886 |                                         ESP_LOG_BUFFER_HEX("Final packet raw data", &buffer[data_start], data_length > 32 ? 32 : data_length);
-      |                                         ^~~~~~~~~~~~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1886:86: note: each undeclared identifier is reported only once for each function it appears in
- 1886 |                                         ESP_LOG_BUFFER_HEX("Final packet raw data", &buffer[data_start], data_length > 32 ? 32 : data_length);
-      |                                                                                      ^~~~~~
-C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_buffer.h:83:76: note: in definition of macro 'ESP_LOG_BUFFER_HEX_LEVEL'
-   83 |     do { if (LOG_LOCAL_LEVEL >= (level)) {esp_log_buffer_hex_internal(tag, buffer, buff_len, level);} } while(0)
-      |                                                                            ^~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1886:41: note: in expansion of macro 'ESP_LOG_BUFFER_HEX'
- 1886 |                                         ESP_LOG_BUFFER_HEX("Final packet raw data", &buffer[data_start], data_length > 32 ? 32 : data_length);
-      |                                         ^~~~~~~~~~~~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1889:73: error: 'buffer_pos' undeclared (first use in this function)
- 1889 |                                         if (data_start + data_length <= buffer_pos && data_length <= sizeof(new_packet->parameters)) {
-      |                                                                         ^~~~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1796:28: warning: variable 'foof_position' set but not used [-Wunused-but-set-variable]
- 1796 |                     size_t foof_position = 0;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1837:28: warning: variable 'foof_position' set but not used [-Wunused-but-set-variable]
+ 1837 |                     size_t foof_position = 0;
       |                            ^~~~~~~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3269:28: warning: unused variable 'response' [-Wunused-variable]
- 3269 |     fingerprint_response_t response;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3307:28: warning: unused variable 'response' [-Wunused-variable]
+ 3307 |     fingerprint_response_t response;
       |                            ^~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'upload_template':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3383:17: warning: variable 'bits' set but not used [-Wunused-but-set-variable]
- 3383 |     EventBits_t bits;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3421:17: warning: variable 'bits' set but not used [-Wunused-but-set-variable]
+ 3421 |     EventBits_t bits;
       |                 ^~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3736:10: warning: unused variable 'template_valid' [-Wunused-variable]
- 3736 |     bool template_valid = false;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3774:10: warning: unused variable 'template_valid' [-Wunused-variable]
+ 3774 |     bool template_valid = false;
       |          ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'restore_template_from_multipacket':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:4003:5: error: unknown type name 'Event_bits_t'; did you mean 'EventBits_t'?
+ 4003 |     Event_bits_t bits;
+      |     ^~~~~~~~~~~~
+      |     EventBits_t
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2134:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
- 2134 | static fingerprint_template_buffer_t g_template_buffer = {
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2152:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
+ 2152 | static fingerprint_template_buffer_t g_template_buffer = {
       |                                      ^~~~~~~~~~~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1761:16: warning: 'saved_template' defined but not used [-Wunused-variable]
- 1761 | static uint8_t saved_template[1024]; // Buffer for template data
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1802:16: warning: 'saved_template' defined but not used [-Wunused-variable]
+ 1802 | static uint8_t saved_template[1024]; // Buffer for template data
       |                ^~~~~~~~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:51:13: warning: 'finger_detected_flag' defined but not used [-Wunused-variable]
    51 | static bool finger_detected_flag = false;

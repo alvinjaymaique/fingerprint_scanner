@@ -2679,7 +2679,27 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                     }
                 }
             }
-        } 
+        }
+        if (last_sent_command == FINGERPRINT_CMD_DOWN_CHAR) {
+            ESP_LOGI(TAG, "Module ready to receive template data");
+            // event_type = EVENT_TEMPLATE_DOWNLOAD_READY;
+            
+            // CRITICAL: Log that we're setting the success bit explicitly for DownChar
+            ESP_LOGI(TAG, "Setting success bit for DownChar command");
+            
+            // Set the success bit with HIGH priority
+            if (enroll_event_group) {
+                BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+                
+                // Use 'FromISR' version to ensure higher priority
+                xEventGroupSetBitsFromISR(enroll_event_group, ENROLL_BIT_SUCCESS, 
+                                        &xHigherPriorityTaskWoken);
+                
+                if (xHigherPriorityTaskWoken) {
+                    portYIELD_FROM_ISR();
+                }
+            }
+        }
         
         if (enroll_event_group) {
             if (last_sent_command != FINGERPRINT_CMD_SEARCH) {
@@ -3472,24 +3492,25 @@ esp_err_t upload_template(uint8_t buffer_id, uint8_t *template_data, size_t *tem
              g_template_accumulator->template_size,
              g_template_accumulator->template_complete);
     
-    // Check if template was successfully received
-    if (g_template_accumulator->template_data != NULL && g_template_accumulator->template_size > 0) {
-        // Copy the template data with explicit size limit checks
-        size_t copy_size = g_template_accumulator->template_size;
-        if (copy_size > 512) {
-            ESP_LOGW(TAG, "Template size exceeds buffer size (%d > 512), truncating", copy_size);
-            copy_size = 512; 
-        }
+    // // Check if template was successfully received
+    // if (g_template_accumulator->template_data != NULL && g_template_accumulator->template_size > 0) {
+    //     // Copy the template data with explicit size limit checks
+    //     size_t copy_size = g_template_accumulator->template_size;
+    //     if (copy_size > 512) {
+    //         ESP_LOGW(TAG, "Template size exceeds buffer size (%d > 512), truncating", copy_size);
+    //         copy_size = 512; 
+    //     }
         
-        memcpy(template_data, g_template_accumulator->template_data, copy_size);
-        *template_size = copy_size;
+    //     memcpy(template_data, g_template_accumulator->template_data, copy_size);
+    //     *template_size = copy_size;
         
-        ESP_LOGI(TAG, "Template data copied successfully: %d bytes", copy_size);
-        return ESP_OK;
-    } else {
-        ESP_LOGE(TAG, "No template data available after upload complete");
-        return ESP_ERR_NOT_FOUND;
-    }
+    //     ESP_LOGI(TAG, "Template data copied successfully: %d bytes", copy_size);
+    //     return ESP_OK;
+    // } else {
+    //     ESP_LOGE(TAG, "No template data available after upload complete");
+    //     return ESP_ERR_NOT_FOUND;
+    // }
+    return ESP_OK;
 }
 
 /**
@@ -3980,6 +4001,7 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
     // Save previous event group and track our own
     EventGroupHandle_t previous_event_group = enroll_event_group;
     EventGroupHandle_t restore_event_group = NULL;
+    EventBits_t bits;
     esp_err_t err;
     bool created_event_group = false;
     
@@ -4017,28 +4039,66 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
     xQueueReset(fingerprint_command_queue);
     xQueueReset(fingerprint_response_queue);
     
-    // Send DownChar command to prepare the module
-    uint8_t buffer_id = 1;
-    fingerprint_set_command(&PS_DownChar, FINGERPRINT_CMD_DOWN_CHAR, &buffer_id, 1);
-    err = fingerprint_send_command(&PS_DownChar, DEFAULT_FINGERPRINT_ADDRESS);
-    
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to send DownChar command: %s", esp_err_to_name(err));
-        goto cleanup;
-    }
-    
-    // Wait for acknowledgment that module is ready to receive data
-    EventBits_t bits = xEventGroupWaitBits(restore_event_group,
-                                          ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                          pdTRUE, pdFALSE, pdMS_TO_TICKS(5000));
-    
-    if (!(bits & ENROLL_BIT_SUCCESS)) {
-        ESP_LOGE(TAG, "Module not ready to receive template data");
-        err = ESP_FAIL;
-        goto cleanup;
-    }
-    
-    ESP_LOGI(TAG, "Module ready to receive template data");
+     // Send DownChar command to prepare the module
+     uint8_t buffer_id = 1;
+     fingerprint_set_command(&PS_DownChar, FINGERPRINT_CMD_DOWN_CHAR, &buffer_id, 1);
+     err = fingerprint_send_command(&PS_DownChar, DEFAULT_FINGERPRINT_ADDRESS);
+     
+     if (err != ESP_OK) {
+         ESP_LOGE(TAG, "Failed to send DownChar command: %s", esp_err_to_name(err));
+         goto cleanup;
+     }
+     
+     // Small delay after sending command
+     vTaskDelay(pdMS_TO_TICKS(200));
+     
+     // DIRECT UART READING APPROACH for acknowledgment only
+     uint8_t direct_buffer[64] = {0};
+     bool response_found = false;
+     uint32_t start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+     
+     ESP_LOGI(TAG, "Starting direct UART reading for DownChar acknowledgment");
+     
+     // Try direct reading with multiple attempts over 6 seconds max
+     while (!response_found && (xTaskGetTickCount() * portTICK_PERIOD_MS - start_time < 6000)) {
+         // Read directly from UART with short timeout
+         int bytes_read = uart_read_bytes(UART_NUM, 
+                                        direct_buffer, 
+                                        sizeof(direct_buffer), 
+                                        pdMS_TO_TICKS(200));
+                                        
+         if (bytes_read > 0) {
+             ESP_LOGI(TAG, "Direct UART read: %d bytes", bytes_read);
+             ESP_LOG_BUFFER_HEX("DownChar direct response", direct_buffer, bytes_read);
+             
+             // Look for valid response pattern: header + packet ID 0x07 + confirmation code 0x00
+             for (int i = 0; i < bytes_read - 9; i++) {
+                 if (direct_buffer[i] == 0xEF && direct_buffer[i+1] == 0x01 && // Header
+                     direct_buffer[i+6] == 0x07 &&                             // Packet ID 0x07 (response)
+                     direct_buffer[i+9] == 0x00) {                             // Status 0x00 (success)
+                     
+                     ESP_LOGI(TAG, "Found successful DownChar response at position %d", i);
+                     response_found = true;
+                     
+                     // Set event bit for success - important for downstream code
+                     xEventGroupSetBits(restore_event_group, ENROLL_BIT_SUCCESS);
+                     break;
+                 }
+             }
+         }
+         
+         // Short delay between read attempts to avoid CPU hogging
+         vTaskDelay(pdMS_TO_TICKS(50));
+     }
+     
+     // Check result of direct reading
+     if (!response_found) {
+         ESP_LOGE(TAG, "Failed to get valid response for DownChar command (direct reading)");
+         err = ESP_FAIL;
+         goto cleanup;
+     }
+     
+     ESP_LOGI(TAG, "Module ready to receive template data");
     
     // APPROACH 1: USING EXISTING PACKET STRUCTURES IF AVAILABLE
     if (has_packets) {
@@ -4047,6 +4107,7 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
         // Look for 0x02 (data) and 0x08 (final) packets
         bool found_data_packets = false;
         bool found_final_packet = false;
+        bool sent_final_packet = false;  // New flag to track if we actually sent a final packet
         
         // First, count how many data and final packets we have
         for (size_t i = 0; i < response->count; i++) {
@@ -4062,6 +4123,7 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
         ESP_LOGI(TAG, "Packet analysis: data packets: %s, final packet: %s",
                found_data_packets ? "yes" : "no",
                found_final_packet ? "yes" : "no");
+        ESP_LOGI(TAG, "Response Count: %d", response->count);
         
         // Send all packets in order
         for (size_t i = 0; i < response->count; i++) {
@@ -4072,8 +4134,16 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
                 continue;
             }
             
+            ESP_LOGI(TAG, "Sending packet %d with ID 0x%02X", i, response->packets[i]->packet_id);
+            
             // Send packet over UART
             FingerprintPacket *packet = response->packets[i];
+            
+            // Check if this is a final packet (0x08)
+            if (packet->packet_id == 0x08) {
+                sent_final_packet = true;  // Mark that we've sent a final packet
+                ESP_LOGI(TAG, "Sending final packet (0x08)");
+            }
             
             // Create a new packet with the right format for sending
             FingerprintPacket send_packet = {
@@ -4093,13 +4163,14 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
             // Calculate new checksum
             send_packet.checksum = fingerprint_calculate_checksum(&send_packet);
             
-            // Log parameters for 0x08 packet
-            if (packet->packet_id == 0x08) {
-                ESP_LOGI(TAG, "Sending final packet (0x08) with %d bytes", param_len);
-                ESP_LOG_BUFFER_HEX("Final packet data", packet->parameters, 
-                                  param_len > 32 ? 32 : param_len);
-            }
-            
+            // // Log parameters for 0x08 packet
+            // if (packet->packet_id == 0x08) {
+            //     ESP_LOGI(TAG, "Sending final packet (0x08) with %d bytes", param_len);
+            //     ESP_LOG_BUFFER_HEX("Final packet data", packet->parameters, 
+            //                       sizeof(packet->parameters));
+            // }
+            ESP_LOG_BUFFER_HEX("Send Packet Data", send_packet.parameters, 
+                             sizeof(send_packet.parameters));
             // Send the packet
             err = fingerprint_send_command(&send_packet, DEFAULT_FINGERPRINT_ADDRESS);
             if (err != ESP_OK) {
@@ -4108,106 +4179,31 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
             }
             
             // Short delay between packets
-            vTaskDelay(pdMS_TO_TICKS(20));
+            vTaskDelay(pdMS_TO_TICKS(100));
         }
         
-        // If we didn't find a final packet, send an empty one
-        if (!found_final_packet) {
-            ESP_LOGW(TAG, "No final packet (0x08) found, sending an empty one");
+        // // If we didn't SEND a final packet, send an empty one
+        // if (!sent_final_packet) {
+        //     ESP_LOGW(TAG, "No final packet (0x08) sent, sending an empty one");
             
-            FingerprintPacket final_packet = {
-                .header = FINGERPRINT_PACKET_HEADER,
-                .address = DEFAULT_FINGERPRINT_ADDRESS,
-                .packet_id = 0x08,  // Final packet
-                .length = 2,  // Empty data
-                .code.command = 0x00
-            };
+        //     FingerprintPacket final_packet = {
+        //         .header = FINGERPRINT_PACKET_HEADER,
+        //         .address = DEFAULT_FINGERPRINT_ADDRESS,
+        //         .packet_id = 0x08,  // Final packet
+        //         .length = 2,  // Empty data
+        //         .code.command = 0x00
+        //     };
             
-            final_packet.checksum = fingerprint_calculate_checksum(&final_packet);
-            err = fingerprint_send_command(&final_packet, DEFAULT_FINGERPRINT_ADDRESS);
+        //     final_packet.checksum = fingerprint_calculate_checksum(&final_packet);
+        //     ESP_LOG_BUFFER_HEX("Final Packet Data", final_packet.parameters, 
+        //         sizeof(final_packet.parameters));
+        //     err = fingerprint_send_command(&final_packet, DEFAULT_FINGERPRINT_ADDRESS);
             
-            if (err != ESP_OK) {
-                ESP_LOGE(TAG, "Failed to send empty final packet: %s", esp_err_to_name(err));
-                goto cleanup;
-            }
-        }
-    }
-    // APPROACH 2: FALL BACK TO RAW DATA IF NO PACKETS
-    else if (has_template_data) {
-        ESP_LOGI(TAG, "Using raw template data (%d bytes) for download", response->template_size);
-        
-        // Packetize raw data
-        const size_t CHUNK_SIZE = 128;
-        size_t remaining = response->template_size;
-        size_t offset = 0;
-        
-        // Send data packets (0x02) for all chunks except the last
-        while (remaining > CHUNK_SIZE) {
-            FingerprintPacket data_packet = {
-                .header = FINGERPRINT_PACKET_HEADER,
-                .address = DEFAULT_FINGERPRINT_ADDRESS,
-                .packet_id = 0x02,  // Data packet
-                .length = CHUNK_SIZE + 2,  // Add 2 for checksum
-                .code.command = 0x00  // Not used for data packets
-            };
-            
-            // Copy chunk of data
-            memcpy(data_packet.parameters, response->template_data + offset, CHUNK_SIZE);
-            data_packet.checksum = fingerprint_calculate_checksum(&data_packet);
-            
-            // Send packet
-            err = fingerprint_send_command(&data_packet, DEFAULT_FINGERPRINT_ADDRESS);
-            if (err != ESP_OK) {
-                ESP_LOGE(TAG, "Failed to send data packet: %s", esp_err_to_name(err));
-                goto cleanup;
-            }
-            
-            offset += CHUNK_SIZE;
-            remaining -= CHUNK_SIZE;
-            
-            // Short delay between packets
-            vTaskDelay(pdMS_TO_TICKS(20));
-        }
-        
-        // Send final packet (0x08) with remaining data
-        if (remaining > 0) {
-            FingerprintPacket final_packet = {
-                .header = FINGERPRINT_PACKET_HEADER,
-                .address = DEFAULT_FINGERPRINT_ADDRESS,
-                .packet_id = 0x08,  // Final packet
-                .length = remaining + 2,  // Add 2 for checksum
-                .code.command = 0x00  // Not used for data packets
-            };
-            
-            // Copy remaining data
-            memcpy(final_packet.parameters, response->template_data + offset, remaining);
-            final_packet.checksum = fingerprint_calculate_checksum(&final_packet);
-            
-            // Send packet
-            err = fingerprint_send_command(&final_packet, DEFAULT_FINGERPRINT_ADDRESS);
-            if (err != ESP_OK) {
-                ESP_LOGE(TAG, "Failed to send final packet: %s", esp_err_to_name(err));
-                goto cleanup;
-            }
-        }
-        else {
-            // Send empty final packet if data aligns perfectly with chunk size
-            FingerprintPacket final_packet = {
-                .header = FINGERPRINT_PACKET_HEADER,
-                .address = DEFAULT_FINGERPRINT_ADDRESS,
-                .packet_id = 0x08,  // Final packet
-                .length = 2,  // Empty data
-                .code.command = 0x00
-            };
-            
-            final_packet.checksum = fingerprint_calculate_checksum(&final_packet);
-            err = fingerprint_send_command(&final_packet, DEFAULT_FINGERPRINT_ADDRESS);
-            
-            if (err != ESP_OK) {
-                ESP_LOGE(TAG, "Failed to send empty final packet: %s", esp_err_to_name(err));
-                goto cleanup;
-            }
-        }
+        //     if (err != ESP_OK) {
+        //         ESP_LOGE(TAG, "Failed to send empty final packet: %s", esp_err_to_name(err));
+        //         goto cleanup;
+        //     }
+        // }
     }
     
     // Wait for module to process the data

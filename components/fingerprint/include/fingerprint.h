@@ -275,7 +275,7 @@
  * @note A larger value increases buffering but consumes more memory. 
  *       Adjust as needed based on system constraints.
  */
-#define QUEUE_SIZE 32
+#define QUEUE_SIZE 64
 
 /**
  * @brief GPIO pin for the fingerprint sensor interrupt.
