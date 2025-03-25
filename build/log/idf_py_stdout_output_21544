@@ -1,0 +1,376 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ec10h ( 60432) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001ec38 vaddr=3fc93a00 size=013e0h (  5088) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f904h (129284) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003f92c vaddr=3fc94de0 size=02330h (  9008) load[0m
+[0;32mI (147) esp_image: segment 4: paddr=00041c64 vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (166) esp_image: segment 5: paddr=00051650 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (184) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (193) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      40b12c8-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 24 2025 13:22:15[0m
+[0;32mI (207) app_init: ELF file SHA256:  b7d79f455...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC9B370 len 0004E3A0 (312 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (297) main_task: Started on CPU0[0m
+[0;32mI (307) main_task: Calling app_main()[0m
+[0;32mI (307) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (307) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (317) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (317) FINGERPRINT: Finger detection task started[0m
+[0;32mI (327) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (567) Template Data: 0x3fc9a944   e0                                                |.|[0m
+[0;32mI (837) Template Data: 0x3fc9a945   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
+[0;32mI (847) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (847) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (847) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x15[0m
+[0;32mI (847) FINGERPRINT: Response found![0m
+[0;32mI (857) Status Event Handler: Status: 0[0m
+[0;32mI (1567) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1567) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (1897) Template Data: 0x3fc9a944   ef 01 ff ff ff ff 07 00  23 00 01 00 00 00 00 00  |........#.......|[0m
+[0;32mI (1897) Template Data: 0x3fc9a954   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (1897) Template Data: 0x3fc9a964   00 00 00 00 00 00 00 00  00 00 00 2b              |...........+|[0m
+[0;32mI (1917) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (1917) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (1917) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1F[0m
+[0;32mI (1927) FINGERPRINT: Response found![0m
+[0;32mI (1927) Status Event Handler: Status: 0[0m
+[0;32mI (1937) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (1937) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (1947) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (1947) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1957) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1967) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1967) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1977) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1987) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1997) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1997) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2007) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2017) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2017) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2027) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2037) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2047) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2047) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (2057) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (2067) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (2067) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (2077) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (2077) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (4147) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4147) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (4147) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (4247) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (4447) Template Data: 0x3fc9a944   00 55                                             |.U|[0m
+[0;32mI (5147) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (5257) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (5357) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (5597) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (5697) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (5807) Template Data: 0x3fc9a945   ef 01 ff ff ff ff 07 00  03 00 00 0a 00 00 55     |..............U|[0m
+[0;32mI (5817) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (5817) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (5817) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x01[0m
+[0;32mI (5817) FINGERPRINT: Response found![0m
+[0;32mI (5827) Status Event Handler: Status: 0[0m
+[0;32mI (5827) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (5837) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (5837) FINGERPRINT: Finger detected through polling[0m
+[0;32mI (6097) Template Data: 0x3fc9a945   55                                                |U|[0m
+[0;33mW (6707) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;32mI (6837) FINGERPRINT: Fingerprint verification successful![0m
+[0;32mI (6837) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (7167) Template Data: 0x3fc9a944   ef 01 ff ff ff ff 07 00  05 00 00 01 00 0d        |..............|[0m
+[0;32mI (7177) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7177) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (7177) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1D[0m
+[0;32mI (7177) FINGERPRINT: Response found![0m
+[0;32mI (7187) Status Event Handler: Status: 0[0m
+[0;32mI (7187) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
+[0;32mI (7187) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (7197) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (7207) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (7207) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (7447) Template Data: 0x3fc9a944   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
+[0;32mI (7457) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (7457) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (7457) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x07[0m
+[0;32mI (7457) FINGERPRINT: Response found![0m
+[0;32mI (7467) Status Event Handler: Status: 0[0m
+[0;32mI (7467) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (7467) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (7477) FINGERPRINT: Uploading Template...[0m
+[0;32mI (7477) FINGERPRINT: Created new template accumulator[0m
+[0;32mI (7487) FINGERPRINT: Sending UpChar command for buffer 1[0m
+[0;32mI (7487) FINGERPRINT: Waiting for template data transfer...[0m
+[0;32mI (7887) Template Data: 0x3fc9a944   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
+[0;32mI (7887) Template Data: 0x3fc9a954   ff ff 02 00 07 00 00 54  1e 3b 00 b6 ef 01 ff ff  |.......T.;......|[0m
+[0;32mI (7897) Template Data: 0x3fc9a964   ff ff 02 01 02 01 04 8a  07 50 52 45 43 49 53 45  |.........PRECISE|[0m
+[0;32mI (7907) Template Data: 0x3fc9a974   00 01 02 91 7d 38 52 00  56 00 00 00 27 66 0d a8  |....}8R.V...'f..|[0m
+[0;32mI (7917) Template Data: 0x3fc9a984   db 00 0c 00 50 00 45 00  00 00 01 6b 00 50 00 45  |....P.E....k.P.E|[0m
+[0;32mI (7927) Template Data: 0x3fc9a994   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (7927) Template Data: 0x3fc9a9a4   00 ff ff 00 00 00 00 00  00 4f 00 00 07 3d ea 14  |.........O...=..|[0m
+[0;32mI (7937) Template Data: 0x3fc9a9b4   45 af 00 0a 12 34 00 0d  00 10 00 45 00 50 00 9b  |E....4.....E.P..|[0m
+[0;32mI (7947) Template Data: 0x3fc9a9c4   00 00 00 00 00 00 06 00  08 01 00 10 08 a6 d7 7c  |...............||[0m
+[0;32mI (7957) Template Data: 0x3fc9a9d4   88 00 01 03 5f 01 00 00  00 4e 24 47 77 fb c4 c7  |...._....N$Gw...|[0m
+[0;32mI (7967) Template Data: 0x3fc9a9e4   8f b3 1d 0e 90 2d 1d f5  07 38 22 cc fa 23 26 d0  |.....-...8"..#&.|[0m
+[0;32mI (7977) Template Data: 0x3fc9a9f4   31 43 fa 94 24 f1 9f 81  12 6d 08 1d 43 76 e3 e0  |1C..$....m..Cv..|[0m
+[0;32mI (7987) Template Data: 0x3fc9aa04   14 0d 60 d6 3c c2 2b 4a  78 41 8d 67 d6 c1 90 9c  |..`.<.+JxA.g....|[0m
+[0;32mI (7997) Template Data: 0x3fc9aa14   73 27 1d 71 c9 f7 5c 0c  b0 17 9d 43 38 15 7f 5e  |s'.q..\....C8..^|[0m
+[0;32mI (7997) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (8007) Template Data: 0x3fc9aa24   c9 b5 4b e1 0c 8c 27 2b  0d 85 ae ef 43 3f 7d 38  |..K...'+....C?}8|[0m
+[0;32mI (8007) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (8027) Template Data: 0x3fc9aa34   ff 57 23 41 78 fb 80 d3  9f c9 d7 5c ee 21 37 76  |.W#Ax......\.!7v|[0m
+[0;32mI (8037) Template Data: 0x3fc9aa44   c3 50 1c 8d 51 de 7c 85  22 22 f7 fd a9 93 ac 4d  |.P..Q.|."".....M|[0m
+[0;32mI (8047) Template Data: 0x3fc9aa54   d6 f3 46 20 0a f6 e1 1a  b0 be 31 37 7e 05 1f 05  |..F ......17~...|[0m
+[0;32mI (8057) Template Data: 0x3fc9aa64   fa b5 80 08 1f 51 8d ef  01 ff ff ff ff 02 01 02  |.....Q..........|[0m
+[0;32mI (8067) Template Data: 0x3fc9aa74   5f 05 2c 40 3f 1d 7d e4  5c 16 ef 8e 50 b9 c8 3f  |_.,@?.}.\...P..?|[0m
+[0;32mI (8067) Template Data: 0x3fc9aa84   14 f9 1c c2 dd 04 d3 dd  50 a7 3b 2a fa b4 f6 69  |........P.;*...i|[0m
+[0;32mI (8077) Template Data: 0x3fc9aa94   df a9 41 7f 68 3f 0e 07  ca bf e7 95 c3 5f 3a 38  |..A.h?......._:8|[0m
+[0;32mI (8087) Template Data: 0x3fc9aaa4   32 15 ff 4e 34 3b b9 5b  55 dd a8 29 39 fa ad c0  |2..N4;.[U..)9...|[0m
+[0;32mI (8097) Template Data: 0x3fc9aab4   e1 1f 01 5e 7c 50 2b 45  fa 94 b4 61 9f 61 54 ec  |...^|P+E...a.aT.|[0m
+[0;32mI (8107) Template Data: 0x3fc9aac4   0e 1d 28 f9 e6 28 3b 3f  40 d2 23 64 33 20 7f ae  |..(..(;?@.#d3 ..|[0m
+[0;32mI (8117) Template Data: 0x3fc9aad4   2d b3 3e 75 5c 9f 56 39  0a 07 ee 34 26 94 70 05  |-.>u\.V9...4&.p.|[0m
+[0;32mI (8127) Template Data: 0x3fc9aae4   af 40 1b 21 f7 b6 4a 9f  8f 5b 83 3d a7 38 46 f6  |.@.!..J..[.=.8F.|[0m
+[0;32mI (8137) Template Data: 0x3fc9aaf4   7a f4 9e b4 92 b3 55 c4  1c 3f f6 8d 06 bf 5f 71  |z.....U..?...._q|[0m
+[0;32mI (8147) Template Data: 0x3fc9ab04   0b 1c 44 22 3d 7a d4 a8  61 9d 41 56 78 66 3a 24  |..D"=z..a.AVxf:$|[0m
+[0;32mI (8157) Template Data: 0x3fc9ab14   fb 89 48 3b 5e 59 05 3c  88 16 42 f4 0f c6 a5 7b  |..H;^Y.<..B....{|[0m
+[0;32mI (8167) Template Data: 0x3fc9ab24   a1 18 0c 43 34 27 fa a1  c4 f0 17 80 b2 1b 58 37  |...C4'........X7|[0m
+[0;32mI (8177) Template Data: 0x3fc9ab34   40 7b ae cb d1 1b 81 56  9c 06 30 3e fb 2a 11 66  |@{.....V..0>.*.f|[0m
+[0;32mI (8187) Template Data: 0x3fc9ab44   1f 41 54 8c 4c 32 07 82  f8 5c 04 c9 31 00 ec 82  |.AT.L2...\..1...|[0m
+[0;32mI (8197) Template Data: 0x3fc9ab54   24 27 f0 96 c5 c5 ed 8f  fb 15 a1 38 0f 81 cd 88  |$'.........8....|[0m
+[0;32mI (8197) Template Data: 0x3fc9ab64   41 59 fd 16 ec 98 36 39  7b be c1 d5 0b 81 d4 cc  |AY....69{.......|[0m
+[0;32mI (8207) Template Data: 0x3fc9ab74   72 b6 ef 01 ff ff ff ff  02 01 02 96 35 33 7c cf  |r...........53|.|[0m
+[0;32mI (8217) Template Data: 0x3fc9ab84   48 85 5b 61 54 ec c4 2f  38 7c ef c9 b5 cf 41 54  |H.[aT../8|....AT|[0m
+[0;32mI (8227) Template Data: 0x3fc9ab94   8c 56 1f 31 73 63 84 4f  3b 93 b1 2c 98 0f 2f 75  |.V.1sc.O;..,../u|[0m
+[0;32mI (8237) Template Data: 0x3fc9aba4   f8 ce 02 69 d1 e4 0c 03  1a 37 73 a3 64 db af 5b  |...i.....7s.d..[|[0m
+[0;32mI (8247) Template Data: 0x3fc9abb4   e1 17 83 14 1b 7f 58 db  ab 2f 71 e4 ef 04 3e 43  |......X../q...>C|[0m
+[0;32mI (8257) Template Data: 0x3fc9abc4   fb 4a 1d 18 de 15 a7 ff  64 2c 06 01 b4 ca 68 c4  |.J......d,....h.|[0m
+[0;32mI (8267) Template Data: 0x3fc9abd4   f9 bc 5c 8d 0b 14 f7 5b  a7 36 f0 81 9b af f0 3a  |..\....[.6.....:|[0m
+[0;32mI (8277) Template Data: 0x3fc9abe4   1d fd 76 c5 20 ef 67 46  6e 19 32 48 f6 53 24 46  |..v. .gFn.2H.S$F|[0m
+[0;32mI (8287) Template Data: 0x3fc9abf4   cd 0a f2 fc 83 0a 38 f4  79 14 b2 f7 f1 87 77 60  |......8.y.....w`|[0m
+[0;32mI (8297) Template Data: 0x3fc9ac04   18 4a f8 6e 13 91 79 c2  4d cd 49 12 36 72 a1 4d  |.J.n..y.M.I.6r.M|[0m
+[0;32mI (8307) Template Data: 0x3fc9ac14   2b 2d dd ab 4f 98 2e 2d  79 51 a5 01 bc a3 e7 76  |+-..O..-yQ.....v|[0m
+[0;32mI (8317) Template Data: 0x3fc9ac24   28 17 2d f5 f2 60 1e 3b  10 18 45 00 2f 33 fe ff  |(.-..`.;..E./3..|[0m
+[0;32mI (8327) Template Data: 0x3fc9ac34   2f 33 37 01 d6 b8 6e 2c  15 fc 65 56 37 3a aa b8  |/37...n,..eV7:..|[0m
+[0;32mI (8327) Template Data: 0x3fc9ac44   3c c4 25 05 7f d4 01 1b  8f d3 cc b9 aa 18 31 f5  |<.%...........1.|[0m
+[0;32mI (8337) Template Data: 0x3fc9ac54   a5 ae 6c 7f 81 10 6c 40  08 30 74 19 34 a3 1f 61  |..l...l@.0t.4..a|[0m
+[0;32mI (8347) Template Data: 0x3fc9ac64   d7 4e 61 10 06 79 dc f7  f0 79 b3 0a 6f 62 14 22  |.Na..y...y..ob."|[0m
+[0;32mI (8357) Template Data: 0x3fc9ac74   fc d5 a8 8f 8b 03 c7 2a  64 3d 39 72 9f ef 01 ff  |.......*d=9r....|[0m
+[0;32mI (8367) Template Data: 0x3fc9ac84   ff ff ff 02 01 02 fc ca  ac 9c 7e 6d ec af e0 32  |..........~m...2|[0m
+[0;32mI (8377) Template Data: 0x3fc9ac94   0d 00 51 48 4f 07 39 b1  7c 91 18 07 f7 f7 5a 3b  |..QHO.9.|.....Z;|[0m
+[0;32mI (8387) Template Data: 0x3fc9aca4   49 60 07 1f ab 28 32 78  53 65 9b 0d 53 e7 3f 80  |I`...(2xSe..S.?.|[0m
+[0;32mI (8397) Template Data: 0x3fc9acb4   0c 19 76 f6 c0 0f 31 52  db 11 a7 3c 31 7a 10 22  |..v...1R...<1z."|[0m
+[0;32mI (8407) Template Data: 0x3fc9acc4   0f 06 c0 32 68 1b 0f 47  f6 b4 a0 be 2b 81 5f ef  |...2h..G....+._.|[0m
+[0;32mI (8417) Template Data: 0x3fc9acd4   55 14 3c 73 a3 f4 db bf  35 87 37 82 15 27 76 15  |U.<s....5.7..'v.|[0m
+[0;32mI (8427) Template Data: 0x3fc9ace4   b4 af 7c d1 c8 9f a0 0a  0d 77 ab e6 32 69 e9 43  |..|......w..2i.C|[0m
+[0;32mI (8437) Template Data: 0x3fc9acf4   4f 8c 0d 40 f3 8b a7 fb  39 71 e4 0f b0 13 12 f7  |O..@....9q......|[0m
+[0;32mI (8447) Template Data: 0x3fc9ad04   13 b7 1f 73 c3 88 c7 a0  1b 11 78 ae 2b 23 32 61  |...s......x.+#2a|[0m
+[0;32mI (8457) Template Data: 0x3fc9ad14   e5 ef 64 07 06 f6 2f 60  86 17 55 cf eb 4d 05 3f  |..d.../`..U..M.?|[0m
+[0;32mI (8457) Template Data: 0x3fc9ad24   76 2f 8a b3 3f 4d 36 6d  44 23 10 73 f0 24 8b ba  |v/..?M6mD#.s.$..|[0m
+[0;32mI (8467) Template Data: 0x3fc9ad34   07 dd 07 96 0d 28 f5 e1  2a 3f 73 51 a1 5f 67 26  |.....(..*?sQ._g&|[0m
+[0;32mI (8477) Template Data: 0x3fc9ad44   2c 75 d2 30 8f ad 13 ab  f7 24 0c 22 79 0c 96 b7  |,u.0.....$."y...|[0m
+[0;32mI (8487) Template Data: 0x3fc9ad54   59 b3 38 cf 90 00 01 03  54 02 00 4e 00 4d 3d 20  |Y.8.....T..N.M= |[0m
+[0;32mI (8497) Template Data: 0x3fc9ad64   7c 76 bd 60 c0 a6 2b 23  2c 2a 1f f1 8e d5 d3 b3  ||v.`..+#,*......|[0m
+[0;32mI (8507) Template Data: 0x3fc9ad74   8d d8 99 fb 29 08 03 63  fb 1a 63 0e a3 b1 25 36  |....)..c..c...%6|[0m
+[0;32mI (8517) Template Data: 0x3fc9ad84   12 81 54 13 87 42 6a 52  ef 01 ff ff ff ff 02 01  |..T..BjR........|[0m
+[0;32mI (8527) Template Data: 0x3fc9ad94   02 46 2a f1 c6 2d 41 fa  69 bf 97 60 fe 6f 93 f7  |.F*..-A.i..`.o..|[0m
+[0;32mI (8537) Template Data: 0x3fc9ada4   2f 0a 04 a1 16 14 f0 86  59 93 f6 32 31 7c 7d 1f  |/.......Y..21|}.|[0m
+[0;32mI (8547) Template Data: 0x3fc9adb4   47 00 be 38 41 6f 22 06  fb 37 d1 02 03 74 58 01  |G..8Ao"..7...tX.|[0m
+[0;32mI (8557) Template Data: 0x3fc9adc4   d3 36 19 7a e7 3f 6b fa  75 56 f3 5e 3d 4b f9 73  |.6.z.?k.uV.^=K.s|[0m
+[0;32mI (8567) Template Data: 0x3fc9add4   3a 73 12 7e 33 e4 88 23  0b 75 64 3a ee f0 17 af  |:s.~3..#.ud:....|[0m
+[0;32mI (8577) Template Data: 0x3fc9ade4   07 ac 25 21 75 b2 d9 de  85 be 59 57 ab 3b 45 78  |..%!u.....YW.;Ex|[0m
+[0;32mI (8587) Template Data: 0x3fc9adf4   da 36 f8 bc 5f c7 63 04  2e 47 fb 77 5e 8d 22 fe  |.6.._.c..G.w^.".|[0m
+[0;32mI (8587) Template Data: 0x3fc9ae04   af 70 fb 36 0c 82 66 bb  22 b2 4e 6f a0 7c 32 37  |.p.6..f.".No.|27|[0m
+[0;32mI (8597) Template Data: 0x3fc9ae14   fc 77 9b 52 42 be 2a 41  eb 1b 4b f8 54 ba 8b 60  |.w.RB.*A..K.T..`|[0m
+[0;32mI (8607) Template Data: 0x3fc9ae24   9e 6c 83 09 3d 27 fd fb  ea d7 72 f8 68 4a db 33  |.l..='....r.hJ.3|[0m
+[0;32mI (8617) Template Data: 0x3fc9ae34   3c fa e7 df 8b 60 96 4c  83 75 22 4a 76 70 97 61  |<....`.L.u"Jvp.a|[0m
+[0;32mI (8627) Template Data: 0x3fc9ae44   f8 af 62 c7 f0 20 26 76  76 0f 43 c6 ee e1 62 bf  |..b.. &vv.C...b.|[0m
+[0;32mI (8637) Template Data: 0x3fc9ae54   34 43 fa 47 ef bf 72 3e  38 c3 f1 1e 20 f7 40 1c  |4C.G..r>8... .@.|[0m
+[0;32mI (8647) Template Data: 0x3fc9ae64   68 71 9e 29 4d 98 2c 3b  f9 c7 df 20 60 94 6e a3  |hq.)M.,;... `.n.|[0m
+[0;32mI (8657) Template Data: 0x3fc9ae74   ad 3d 1a 7d 8f 3c 3a 7f  4f 00 e8 5d 31 2a 7b dd  |.=.}.<:.O..]1*{.|[0m
+[0;32mI (8667) Template Data: 0x3fc9ae84   5a 96 11 7c 6d 40 d3 22  1a ef 9e bd c3 a1 dd fc  |Z..|m@."........|[0m
+[0;32mI (8677) Template Data: 0x3fc9ae94   f7 7a 61 ef 01 ff ff ff  ff 02 01 02 9f 37 28 fa  |.za..........7(.|[0m
+[0;32mI (8687) Template Data: 0x3fc9aea4   37 9b c7 49 7f 26 90 3d  1e 3a f8 12 95 44 e2 7e  |7..I.&.=.:...D.~|[0m
+[0;32mI (8697) Template Data: 0x3fc9aeb4   c2 42 8b 3c 11 80 a8 67  12 c3 4c e7 f3 5f 1a 44  |.B.<...g..L.._.D|[0m
+[0;32mI (8707) Template Data: 0x3fc9aec4   75 65 9f c2 10 bc 5e e2  5f 20 41 78 60 17 e5 72  |ue....^._ Ax`..r|[0m
+[0;32mI (8717) Template Data: 0x3fc9aed4   be 68 82 1b 3d 0b 88 74  7e 24 f9 2e 2b d4 8c 25  |.h..=..t~$..+..%|[0m
+[0;32mI (8717) Template Data: 0x3fc9aee4   3a fb 95 d4 00 c0 fe 09  10 bb 2b 36 fb 95 d0 53  |:.........+6...S|[0m
+[0;32mI (8727) Template Data: 0x3fc9aef4   ca ee 0a 41 a3 27 44 f9  eb df 53 63 5e 6b f3 ad  |...A.'D...Sc^k..|[0m
+[0;32mI (8737) Template Data: 0x3fc9af04   2f 19 79 a3 3f ec fa 70  26 a2 47 20 15 74 59 93  |/.y.?..p&.G .tY.|[0m
+[0;32mI (8747) Template Data: 0x3fc9af14   78 86 2a 23 1c d9 35 48  74 59 7b 53 b8 24 6b e3  |x.*#..5HtY{S.$k.|[0m
+[0;32mI (8757) Template Data: 0x3fc9af24   17 08 17 f7 be d9 7b ba  5d e5 51 67 3a 3d 7c 14  |......{.].Qg:=|.|[0m
+[0;32mI (8767) Template Data: 0x3fc9af34   36 4a 48 be ab 81 aa 26  40 f9 e5 df 50 63 94 62  |6JH....&@...Pc.b|[0m
+[0;32mI (8777) Template Data: 0x3fc9af44   42 e7 2b 2f 79 ef 5b e6  63 6c 18 c0 d3 1d 35 73  |B.+/y.[.cl....5s|[0m
+[0;32mI (8787) Template Data: 0x3fc9af54   dc db f4 54 7c 5e e1 6c  0d 0a f5 04 35 42 9e 4f  |...T|^.l....5B.O|[0m
+[0;32mI (8797) Template Data: 0x3fc9af64   37 f0 f4 09 1d 02 11 1b  b6 2e 9f 1b a3 39 39 35  |7............995|[0m
+[0;32mI (8807) Template Data: 0x3fc9af74   fc 0f b7 6a 41 9e 6b 0b  0b 1a 2b 78 52 10 4c c1  |...jA.k...+xR.L.|[0m
+[0;32mI (8817) Template Data: 0x3fc9af84   5e 40 48 3b 1e 0f 75 4e  15 53 81 6e c5 38 b9 3c  |^@H;..uN.S.n.8.<|[0m
+[0;32mI (8827) Template Data: 0x3fc9af94   16 7d b3 6a dd a6 74 6d  e2 07 10 16 6f e5 ef 01  |.}.j..tm....o...|[0m
+[0;32mI (8837) Template Data: 0x3fc9afa4   ff ff ff ff 02 01 02 f9  fa 4b 68 80 46 13 38 2f  |.........Kh.F.8/|[0m
+[0;32mI (8847) Template Data: 0x3fc9afb4   1d 09 76 f4 97 cb d3 df  62 f8 17 39 30 7b fc cd  |..v.....b..90{..|[0m
+[0;32mI (8847) Template Data: 0x3fc9afc4   b3 c6 ec 2a 21 67 18 3e  f6 50 fd 40 e0 9e e1 d0  |...*!g.>.P.@....|[0m
+[0;32mI (8857) Template Data: 0x3fc9afd4   b9 2e 11 00 96 c7 e0 c6  75 5e c2 1b 28 28 ed ab  |........u^..((..|[0m
+[0;32mI (8867) Template Data: 0x3fc9afe4   79 3c d2 40 25 80 46 14  04 7a 56 63 c6 83 c8 13  |y<.@%.F..zVc....|[0m
+[0;33mW (8877) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (8887) Template Data: 0x3fc9aff4   a0 b0 16 38 f2 99 7b 90  d0 27 46 b0 0e 27 17 f7  |...8..{..'F..'..|[0m
+[0;32mI (8897) Template Data: 0x3fc9b004   33 87 53 66 7c 22 60 6a  05 20 6e 8c ab 65 b1 11  |3.Sf|"`j. n..e..|[0m
+[0;32mI (8907) Template Data: 0x3fc9b014   f8 fe 97 0d 33 77 a6 4a  44 c1 9e f8 18 bb 24 35  |....3w.JD.....$5|[0m
+[0;32mI (8917) Template Data: 0x3fc9b024   f7 b2 5b d1 60 0e 62 42  2f 27 0e fb 04 35 e0 dc  |..[.`.bB/'...5..|[0m
+[0;32mI (8927) Template Data: 0x3fc9b034   e3 02 c4 40 10 24 7c 40  30 ca cb 56 65 a5 8a 37  |...@.$|@0..Ve..7|[0m
+[0;32mI (8927) Template Data: 0x3fc9b044   06 03 39 7f 80 18 c1 43  71 21 07 12 77 88 88 ed  |..9....Cq!..w...|[0m
+[0;32mI (8937) Template Data: 0x3fc9b054   c5 c6 2c a0 59 07 3a 74  e1 db 73 81 93 1b b8 8f  |..,.Y.:t..s.....|[0m
+[0;32mI (8947) Template Data: 0x3fc9b064   0b 2d 73 65 2f b4 97 22  18 b0 77 0e 10 f9 43 d8  |.-se/.."..w...C.|[0m
+[0;32mI (8957) Template Data: 0x3fc9b074   6e 84 7e dd f0 b5 18 18  80 ee 67 65 94 a8 38 d0  |n.~.......ge..8.|[0m
+[0;32mI (8967) Template Data: 0x3fc9b084   f7 19 26 77 e4 c8 58 93  6e 36 d8 6f 17 20 fd 33  |..&w..X.n6.o. .3|[0m
+[0;32mI (8977) Template Data: 0x3fc9b094   56 78 f0 fc 38 c5 9b 15  0a 74 6d 3d 62 9a 6b 57  |Vx..8....tm=b.kW|[0m
+[0;32mI (8987) Template Data: 0x3fc9b0a4   f0 5f 30 25 78 fc 7a 75  5d ef 01 ff ff ff ff 02  |._0%x.zu].......|[0m
+[0;32mI (8997) Template Data: 0x3fc9b0b4   01 02 65 91 4c 76 e9 45  17 11 78 4a 35 cc cd 9e  |..e.Lv.E..xJ5...|[0m
+[0;32mI (9007) Template Data: 0x3fc9b0c4   1c d8 3b 27 49 f7 d4 bf  55 f3 d5 5c a8 3d 0f 1c  |..;'I...U..\.=..|[0m
+[0;32mI (9017) Template Data: 0x3fc9b0d4   fb 27 27 3a 7a 8a 7a b0  46 00 05 00 18 00 00 00  |.'':z.z.F.......|[0m
+[0;32mI (9027) Template Data: 0x3fc9b0e4   9b 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (9037) Template Data: 0x3fc9b0f4   00 00 00 00 00 00 0b 00  43 01 10 04 00 00 07 02  |........C.......|[0m
+[0;32mI (9047) Template Data: 0x3fc9b104   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (9057) Template Data: 0x3fc9b114   00 00 00 00 00 00 01 00  00 00 34 0f 00 00 05 03  |..........4.....|[0m
+[0;32mI (9057) Template Data: 0x3fc9b124   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (9067) Template Data: 0x3fc9b134   00 00 00 00 00 00 02 00  00 00 34 10 46 4f 4f 46  |..........4.FOOF|[0m
+[0;32mI (9727) FINGERPRINT: Returning response with 9 packets[0m
+[0;32mI (9727) FINGERPRINT: Processing packet ID=0x34, Command=0x48, LastCommand=0x01[0m
+[0;32mI (9727) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x01[0m
+[0;32mI (9727) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x01[0m
+[0;32mI (9737) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x01[0m
+[0;32mI (9747) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x01[0m
+[0;32mI (9747) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x01[0m
+[0;32mI (9757) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x01[0m
+[0;32mI (9767) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x01[0m
+[0;32mI (9777) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x01[0m
+
+assert failed: tlsf_free tlsf.c:629 (!block_is_free(block) && "block already marked as free")
+
+
+Backtrace: 0x40375be9:0x3fca37e0 0x4037abc1:0x3fca3800 0x40381a3d:0x3fca3820 0x4038044e:0x3fca3940 0x403802ec:0x3fca3960 0x403763be:0x3fca3980 0x4200de05:0x3fca39a0 0x4037b715:0x3fca3c40
+
+
+
+
+ELF file SHA256: b7d79f455
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x3b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375b28
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ec10h ( 60432) map[0m
+[0;32mI (114) esp_image: segment 1: paddr=0001ec38 vaddr=3fc93a00 size=013e0h (  5088) load[0m
+[0;32mI (116) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f904h (129284) map[0m
+[0;32mI (149) esp_image: segment 3: paddr=0003f92c vaddr=3fc94de0 size=02330h (  9008) load[0m
+[0;32mI (151) esp_image: segment 4: paddr=00041c64 vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (170) esp_image: segment 5: paddr=00051650 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (176) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (177) boot: Disabling RNG early entropy source...[0m
+[0;32mI (188) cpu_start: Multicore app[0m
+[0;32mI (197) cpu_start: Pro cpu start user code[0m
+[0;32mI (197) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (197) app_init: Application information:[0m
+[0;32mI (197) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (202) app_init: App version:      40b12c8-dirty[0m
+[0;32mI (206) app_init: Compile time:     Mar 24 2025 13:22:15[0m
+[0;32mI (211) app_init: ELF file SHA256:  b7d79f455...[0m
+[0;32mI (216) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (220) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (224) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (228) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (231) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (238) heap_init: At 3FC9B370 len 0004E3A0 (312 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (248) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (253) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (259) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (268) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (272) spi_flash: flash io: opi_str[0m
+[0;33mW (276) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (288) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (294) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (301) main_task: Started on CPU0[0m
+[0;32mI (311) main_task: Calling app_main()[0m
+[0;32mI (311) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (311) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (321) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (321) FINGERPRINT: Finger detection task started[0m
+[0;32mI (331) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (831) Template Data: 0x3fc9a944   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
+[0;32mI (841) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (841) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (841) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x15[0m
+[0;32mI (841) FINGERPRINT: Response found![0m
+[0;32mI (851) Status Event Handler: Status: 0[0m

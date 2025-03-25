@@ -1543,12 +1543,11 @@ typedef struct {
     uint16_t status_register;
 
     /**
-     * @brief System identifier code.
-     *
-     * A unique identifier assigned to the fingerprint module for verification
-     * and compatibility checks.
+     * @brief Template size for fingerprint data.
+     * 
+     * Specifies the size of a single fingerprint template in bytes.
      */
-    uint16_t system_id;
+    uint16_t template_size;
 
     /**
      * @brief Number of fingerprints that can be stored in the library.
@@ -1556,7 +1555,7 @@ typedef struct {
      * Represents the maximum capacity of stored fingerprint templates
      * in the module's internal storage.
      */
-    uint16_t finger_library;
+    uint16_t database_size;
 
     /**
      * @brief Security level setting of the fingerprint module.
@@ -1589,6 +1588,8 @@ typedef struct {
      * and the microcontroller. Typically set in multiples of 9600 baud.
      */
     uint16_t baud_rate;
+
+
 } fingerprint_sys_params_t;
 
 

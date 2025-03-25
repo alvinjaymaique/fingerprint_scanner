@@ -11,7 +11,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
 
 // Add this global variable to store the template
-static uint8_t saved_template[512] = {0};
+static uint8_t saved_template[2048] = {0};
 static size_t saved_template_size = 0;
 static bool template_available = false;
 
@@ -271,6 +271,7 @@ void send_command_task(void *pvParameter)
 
 // Event handler function
 static void internal_handle_fingerprint_event(fingerprint_event_t event) {
+    vTaskDelay(pdMS_TO_TICKS(50));  // Delay before processing the event and prevent watchdog trigger
     switch (event.type) {
         case EVENT_SCANNER_READY:
             // ESP_LOGI(TAG, "Fingerprint scanner is ready for operation. Status: 0x%02X", event.status);
@@ -332,8 +333,8 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
         case EVENT_SYS_PARAMS_READ:
             ESP_LOGI(TAG, "System parameters read successfully. Status: 0x%02X", event.status);
             ESP_LOGI(TAG, "Status Register: 0x%04X", event.data.sys_params.status_register);
-            ESP_LOGI(TAG, "System ID: 0x%04X", event.data.sys_params.system_id);
-            ESP_LOGI(TAG, "Fingerprint Database Size: 0x%04X", event.data.sys_params.finger_library);
+            ESP_LOGI(TAG, "Fingerprint Template Size:: 0x%04X", event.data.sys_params.template_size);
+            ESP_LOGI(TAG, "Fingerprint Database Size: 0x%04X", event.data.sys_params.database_size);
             ESP_LOGI(TAG, "Security Level: 0x%04X", event.data.sys_params.security_level);
             ESP_LOGI(TAG, "Device Address: 0x%08" PRIX32, event.data.sys_params.device_address);  // Fix for uint32_t
             ESP_LOGI(TAG, "Data Packet Size: %u bytes", event.data.sys_params.data_packet_size); // No need for hex
@@ -358,14 +359,15 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                         (unsigned int)event.multi_packet->packets[i]->checksum);
             
                     
-                    // Print full packet data
-                    if (event.multi_packet->packets[i]->length > 2) {
-                        ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
-                                                event.multi_packet->packets[i]->parameters,
-                                                event.multi_packet->packets[i]->length - 2,
-                                                ESP_LOG_INFO);
-                    }
+                    // // Print full packet data
+                    // if (event.multi_packet->packets[i]->length > 2) {
+                    //     ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
+                    //                             event.multi_packet->packets[i]->parameters,
+                    //                             event.multi_packet->packets[i]->length - 2,
+                    //                             ESP_LOG_INFO);
+                    // }
                 }
+                vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
             }
             
             // If template data is available in the multi_packet
@@ -386,17 +388,54 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                 }
             }
 
-            packets = event.multi_packet;
-            // // Restore Template
+            // packets = event.multi_packet;
+            // // // Restore Template
+            // uint16_t new_location = 10;
+            // if (packets != NULL){
+            //     esp_err_t err = restore_template_from_multipacket(new_location ,event.multi_packet);
+            //     if (err == ESP_OK) {
+            //         ESP_LOGI(TAG, "Template restored successfully.");
+            //     } else {
+            //         ESP_LOGE(TAG, "Failed to restore template.");
+            //     }
+            // }
+
+            // Make a deep copy of the template data to ensure we own it
             uint16_t new_location = 10;
-            if (packets != NULL){
-                esp_err_t err = restore_template_from_multipacket(new_location ,event.multi_packet);
-                if (err == ESP_OK) {
-                    ESP_LOGI(TAG, "Template restored successfully.");
+            if (event.multi_packet != NULL && event.multi_packet->template_data != NULL) {
+                // Allocate our own buffer for the template data
+                uint8_t* template_copy = heap_caps_malloc(event.multi_packet->template_size, MALLOC_CAP_8BIT);
+                if (template_copy) {
+                    // Copy the data
+                    memcpy(template_copy, event.multi_packet->template_data, event.multi_packet->template_size);
+                    
+                    // Create a temporary response structure with our copy
+                    MultiPacketResponse temp_response = {
+                        .template_data = template_copy,
+                        .template_size = event.multi_packet->template_size,
+                        .template_capacity = event.multi_packet->template_size,
+                        .template_complete = true,
+                        .packets = NULL,  // We don't need the packets for restore
+                        .count = 0
+                    };
+                    
+                    // Now use our owned copy for restoration
+                    esp_err_t err = restore_template_from_multipacket(new_location, &temp_response);
+                    if (err == ESP_OK) {
+                        ESP_LOGI(TAG, "Template restored successfully.");
+                    } else {
+                        ESP_LOGE(TAG, "Failed to restore template.");
+                    }
+                    
+                    // Clean up our copy when done
+                    heap_caps_free(template_copy);
                 } else {
-                    ESP_LOGE(TAG, "Failed to restore template.");
+                    ESP_LOGE(TAG, "Failed to allocate memory for template copy");
                 }
             }
+
+            // Reset the global pointer (was being used unsafely)
+            packets = NULL;
             
             
             // // Free the multi-packet memory when done processing

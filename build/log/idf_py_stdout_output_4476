@@ -1,0 +1,637 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0eb10h ( 60176) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001eb38 vaddr=3fc93a00 size=014e0h (  5344) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f8a0h (129184) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003f8c8 vaddr=3fc94ee0 size=02230h (  8752) load[0m
+[0;32mI (147) esp_image: segment 4: paddr=00041b00 vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=000514ec vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      40b12c8-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 24 2025 13:22:15[0m
+[0;32mI (207) app_init: ELF file SHA256:  efb5d2f35...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC98E70 len 000508A0 (322 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Finger detection task started[0m
+[0;32mI (326) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (766) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x15[0m
+[0;32mI (766) FINGERPRINT: Response found![0m
+[0;32mI (766) Status Event Handler: Status: 0[0m
+[0;32mI (1516) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1516) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (1816) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1F[0m
+[0;32mI (1816) FINGERPRINT: Response found![0m
+[0;32mI (1816) Status Event Handler: Status: 0[0m
+[0;32mI (1816) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (1816) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (1826) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (1826) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1836) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1846) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1856) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1856) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1866) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1886) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1896) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1916) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1936) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (1946) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (1946) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (1956) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (1956) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (4046) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4046) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (4326) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (4326) FINGERPRINT: Response found![0m
+[0;32mI (4326) Status Event Handler: Status: 2[0m
+[0;32mI (8946) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (8946) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;33mW (9956) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (11006) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;33mW (11986) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (12086) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;33mW (13316) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;32mI (13796) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (13796) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;33mW (14806) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (16096) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;33mW (16336) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;32mI (16596) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (16596) FINGERPRINT: Response found![0m
+[0;32mI (16596) Status Event Handler: Status: 2[0m
+[0;33mW (16596) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (16696) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (17096) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (17096) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (17576) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (17576) FINGERPRINT: Response found![0m
+[0;32mI (17576) Status Event Handler: Status: 2[0m
+[0;33mW (17576) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (18056) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (18056) FINGERPRINT: Response found![0m
+[0;32mI (18056) Status Event Handler: Status: 2[0m
+[0;33mW (18056) FINGERPRINT: Finger presence check failed on attempt 2[0m
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0eb10h ( 60176) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001eb38 vaddr=3fc93a00 size=014e0h (  5344) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f8a0h (129184) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003f8c8 vaddr=3fc94ee0 size=02230h (  8752) load[0m
+[0;32mI (147) esp_image: segment 4: paddr=00041b00 vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=000514ec vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      40b12c8-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 24 2025 13:22:15[0m
+[0;32mI (207) app_init: ELF file SHA256:  efb5d2f35...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC98E70 len 000508A0 (322 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Finger detection task started[0m
+[0;32mI (326) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (766) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x15[0m
+[0;32mI (766) FINGERPRINT: Response found![0m
+[0;32mI (766) Status Event Handler: Status: 0[0m
+[0;32mI (1516) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1516) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (1816) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1F[0m
+[0;32mI (1816) FINGERPRINT: Response found![0m
+[0;32mI (1816) Status Event Handler: Status: 0[0m
+[0;32mI (1816) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (1816) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (1826) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (1826) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1836) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1846) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1856) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1856) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1866) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1876) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1886) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1896) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1906) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1916) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1926) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1936) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (1946) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (1946) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (1956) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (1956) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (4046) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4046) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (4326) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (4326) FINGERPRINT: Response found![0m
+[0;32mI (4326) Status Event Handler: Status: 2[0m
+[0;32mI (4546) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (4546) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (5036) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x01[0m
+[0;32mI (5036) FINGERPRINT: Response found![0m
+[0;32mI (5036) Status Event Handler: Status: 0[0m
+[0;32mI (5036) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (5036) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (5036) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (5056) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (5156) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (5156) FINGERPRINT: Default mode: searching database[0m
+[0;32mI (5316) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
+[0;32mI (5316) FINGERPRINT: Response found![0m
+[0;32mI (5316) Status Event Handler: Status: 0[0m
+[0;32mI (5316) FINGERPRINT: Search returned success but match score is 0, waiting for more responses[0m
+[0;32mI (5676) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
+[0;32mI (5676) FINGERPRINT: Response found![0m
+[0;32mI (5676) Status Event Handler: Status: 0[0m
+[0;32mI (5676) FINGERPRINT: Real match found with score 4608[0m
+[0;32mI (5676) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (5686) FINGERPRINT: Match found at Enrollee ID: 0[0m
+[0;32mI (5686) FINGERPRINT: Match score: 4608[0m
+[0;32mI (5906) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
+[0;32mI (5906) FINGERPRINT: Response found![0m
+[0;32mI (5906) Status Event Handler: Status: 0[0m
+[0;32mI (6316) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (6326) FINGERPRINT: Fingerprint verification successful![0m
+[0;32mI (6326) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (6536) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1D[0m
+[0;32mI (6536) FINGERPRINT: Response found![0m
+[0;32mI (6536) Status Event Handler: Status: 0[0m
+[0;32mI (6536) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
+[0;32mI (6536) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (6546) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (6546) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (6746) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (6956) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x07[0m
+[0;32mI (6956) FINGERPRINT: Response found![0m
+[0;32mI (6956) Status Event Handler: Status: 0[0m
+[0;32mI (6956) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (6956) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (6966) FINGERPRINT: Uploading Template...[0m
+[0;32mI (6966) FINGERPRINT: Sending UpChar command for buffer 1[0m
+[0;32mI (7166) FINGERPRINT: Waiting for template data transfer...[0m
+[0;32mI (7216) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7216) FINGERPRINT: Template accumulator initialized[0m
+[0;32mI (7216) FINGERPRINT: Added packet ID=0x07 with calculated checksum 0x000A[0m
+[0;32mI (7226) FINGERPRINT: Added packet ID=0x02 with calculated checksum 0x00D1[0m
+[0;32mI (7236) FINGERPRINT: Added 256 bytes to template accumulator[0m
+[0;32mI (7246) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7246) FINGERPRINT: Added 256 bytes to template accumulator (total: 512 bytes)[0m
+[0;32mI (7266) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7266) FINGERPRINT: Added 256 bytes to template accumulator (total: 768 bytes)[0m
+[0;32mI (7276) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7276) FINGERPRINT: Added 256 bytes to template accumulator (total: 1024 bytes)[0m
+[0;32mI (7296) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7296) FINGERPRINT: Added 256 bytes to template accumulator (total: 1280 bytes)[0m
+[0;32mI (7306) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7306) FINGERPRINT: Added 256 bytes to template accumulator (total: 1536 bytes)[0m
+[0;32mI (7316) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7316) FINGERPRINT: Added 256 bytes to template accumulator (total: 1792 bytes)[0m
+[0;32mI (7336) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7336) FINGERPRINT: Added 256 bytes to template accumulator (total: 2048 bytes)[0m
+[0;32mI (7346) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7346) FINGERPRINT: Added 256 bytes to template accumulator (total: 2304 bytes)[0m
+[0;32mI (7366) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7366) FINGERPRINT: Added 256 bytes to template accumulator (total: 2560 bytes)[0m
+[0;32mI (7376) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7376) FINGERPRINT: Added 256 bytes to template accumulator (total: 2816 bytes)[0m
+[0;32mI (7396) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7396) FINGERPRINT: Added 256 bytes to template accumulator (total: 3072 bytes)[0m
+[0;32mI (7406) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7406) FINGERPRINT: Added 256 bytes to template accumulator (total: 3328 bytes)[0m
+[0;32mI (7426) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7426) FINGERPRINT: Added 256 bytes to template accumulator (total: 3584 bytes)[0m
+[0;32mI (7436) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7436) FINGERPRINT: Added 256 bytes to template accumulator (total: 3840 bytes)[0m
+[0;32mI (7456) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7456) FINGERPRINT: Added 256 bytes to template accumulator (total: 4096 bytes)[0m
+[0;32mI (7466) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7466) FINGERPRINT: Added 256 bytes to template accumulator (total: 4352 bytes)[0m
+[0;32mI (7486) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7486) FINGERPRINT: Added 256 bytes to template accumulator (total: 4608 bytes)[0m
+[0;32mI (7496) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7496) FINGERPRINT: Added 256 bytes to template accumulator (total: 4864 bytes)[0m
+[0;32mI (7506) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7506) FINGERPRINT: Added 256 bytes to template accumulator (total: 5120 bytes)[0m
+[0;32mI (7526) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7526) FINGERPRINT: Added 256 bytes to template accumulator (total: 5376 bytes)[0m
+[0;32mI (7536) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7536) FINGERPRINT: Added 256 bytes to template accumulator (total: 5632 bytes)[0m
+[0;32mI (7556) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7556) FINGERPRINT: Added 256 bytes to template accumulator (total: 5888 bytes)[0m
+[0;32mI (7566) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7566) FINGERPRINT: Added 256 bytes to template accumulator (total: 6144 bytes)[0m
+[0;32mI (7586) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7586) FINGERPRINT: Added 256 bytes to template accumulator (total: 6400 bytes)[0m
+[0;32mI (7596) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7596) FINGERPRINT: Added 256 bytes to template accumulator (total: 6656 bytes)[0m
+[0;32mI (7616) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7616) FINGERPRINT: Added 256 bytes to template accumulator (total: 6912 bytes)[0m
+[0;32mI (7626) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7626) FINGERPRINT: Added 256 bytes to template accumulator (total: 7168 bytes)[0m
+[0;32mI (7646) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7646) FINGERPRINT: Added 256 bytes to template accumulator (total: 7424 bytes)[0m
+[0;32mI (7656) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7656) FINGERPRINT: Added 256 bytes to template accumulator (total: 7680 bytes)[0m
+[0;32mI (7676) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7676) FINGERPRINT: Added 256 bytes to template accumulator (total: 7936 bytes)[0m
+[0;32mI (7686) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7686) FINGERPRINT: Added 256 bytes to template accumulator (total: 8192 bytes)[0m
+[0;32mI (7696) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7696) FINGERPRINT: Added 256 bytes to template accumulator (total: 8448 bytes)[0m
+[0;32mI (7716) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7716) FINGERPRINT: Added 256 bytes to template accumulator (total: 8704 bytes)[0m
+[0;32mI (7726) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7726) FINGERPRINT: Added 256 bytes to template accumulator (total: 8960 bytes)[0m
+[0;32mI (7746) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7746) FINGERPRINT: Added 256 bytes to template accumulator (total: 9216 bytes)[0m
+[0;32mI (7756) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7756) FINGERPRINT: Added 256 bytes to template accumulator (total: 9472 bytes)[0m
+[0;32mI (7776) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7776) FINGERPRINT: Added 256 bytes to template accumulator (total: 9728 bytes)[0m
+[0;32mI (7786) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7786) FINGERPRINT: Added 256 bytes to template accumulator (total: 9984 bytes)[0m
+[0;32mI (7806) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7806) FINGERPRINT: Added 256 bytes to template accumulator (total: 10240 bytes)[0m
+[0;32mI (7816) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7816) FINGERPRINT: Added 256 bytes to template accumulator (total: 10496 bytes)[0m
+[0;32mI (7836) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7836) FINGERPRINT: Added 256 bytes to template accumulator (total: 10752 bytes)[0m
+[0;32mI (7846) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7846) FINGERPRINT: Added 256 bytes to template accumulator (total: 11008 bytes)[0m
+[0;32mI (7866) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7866) FINGERPRINT: Added 256 bytes to template accumulator (total: 11264 bytes)[0m
+[0;32mI (7876) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7876) FINGERPRINT: Added 256 bytes to template accumulator (total: 11520 bytes)[0m
+[0;32mI (7886) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7886) FINGERPRINT: Added 256 bytes to template accumulator (total: 11776 bytes)[0m
+[0;32mI (7906) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7906) FINGERPRINT: Added 256 bytes to template accumulator (total: 12032 bytes)[0m
+[0;32mI (7916) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7916) FINGERPRINT: Added 256 bytes to template accumulator (total: 12288 bytes)[0m
+[0;32mI (7936) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7936) FINGERPRINT: Added 256 bytes to template accumulator (total: 12544 bytes)[0m
+[0;32mI (7946) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7946) FINGERPRINT: Added 256 bytes to template accumulator (total: 12800 bytes)[0m
+[0;32mI (7966) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7966) FINGERPRINT: Added 256 bytes to template accumulator (total: 13056 bytes)[0m
+[0;32mI (7976) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7976) FINGERPRINT: Added 256 bytes to template accumulator (total: 13312 bytes)[0m
+[0;32mI (7996) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (7996) FINGERPRINT: Added 256 bytes to template accumulator (total: 13568 bytes)[0m
+[0;32mI (8006) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8006) FINGERPRINT: Added 256 bytes to template accumulator (total: 13824 bytes)[0m
+[0;32mI (8026) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8026) FINGERPRINT: Added 256 bytes to template accumulator (total: 14080 bytes)[0m
+[0;32mI (8036) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8036) FINGERPRINT: Added 256 bytes to template accumulator (total: 14336 bytes)[0m
+[0;32mI (8056) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8056) FINGERPRINT: Added 256 bytes to template accumulator (total: 14592 bytes)[0m
+[0;32mI (8066) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8066) FINGERPRINT: Added 256 bytes to template accumulator (total: 14848 bytes)[0m
+[0;32mI (8086) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8086) FINGERPRINT: Added 256 bytes to template accumulator (total: 15104 bytes)[0m
+[0;32mI (8096) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8096) FINGERPRINT: Added 256 bytes to template accumulator (total: 15360 bytes)[0m
+[0;32mI (8116) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8116) FINGERPRINT: Added 256 bytes to template accumulator (total: 15616 bytes)[0m
+[0;32mI (8126) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8126) FINGERPRINT: Added 256 bytes to template accumulator (total: 15872 bytes)[0m
+[0;32mI (8146) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8146) FINGERPRINT: Added 256 bytes to template accumulator (total: 16128 bytes)[0m
+[0;32mI (8156) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8156) FINGERPRINT: Added 256 bytes to template accumulator (total: 16384 bytes)[0m
+[0;32mI (8176) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8176) FINGERPRINT: Added 256 bytes to template accumulator (total: 16640 bytes)[0m
+[0;32mI (8186) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8186) FINGERPRINT: Added 256 bytes to template accumulator (total: 16896 bytes)[0m
+[0;32mI (8206) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8206) FINGERPRINT: Added 256 bytes to template accumulator (total: 17152 bytes)[0m
+[0;32mI (8216) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8216) FINGERPRINT: Added 256 bytes to template accumulator (total: 17408 bytes)[0m
+[0;32mI (8236) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8236) FINGERPRINT: Added 256 bytes to template accumulator (total: 17664 bytes)[0m
+[0;32mI (8246) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8246) FINGERPRINT: Added 256 bytes to template accumulator (total: 17920 bytes)[0m
+[0;32mI (8266) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8266) FINGERPRINT: Added 256 bytes to template accumulator (total: 18176 bytes)[0m
+[0;32mI (8276) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8276) FINGERPRINT: Added 256 bytes to template accumulator (total: 18432 bytes)[0m
+[0;32mI (8296) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8296) FINGERPRINT: Added 256 bytes to template accumulator (total: 18688 bytes)[0m
+[0;32mI (8306) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8306) FINGERPRINT: Added 256 bytes to template accumulator (total: 18944 bytes)[0m
+[0;32mI (8326) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8326) FINGERPRINT: Added 256 bytes to template accumulator (total: 19200 bytes)[0m
+[0;32mI (8336) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8336) FINGERPRINT: Added 256 bytes to template accumulator (total: 19456 bytes)[0m
+[0;32mI (8356) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8356) FINGERPRINT: Added 256 bytes to template accumulator (total: 19712 bytes)[0m
+[0;32mI (8366) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8366) FINGERPRINT: Added 256 bytes to template accumulator (total: 19968 bytes)[0m
+[0;32mI (8386) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8386) FINGERPRINT: Added 256 bytes to template accumulator (total: 20224 bytes)[0m
+[0;32mI (8396) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8396) FINGERPRINT: Added 256 bytes to template accumulator (total: 20480 bytes)[0m
+[0;32mI (8416) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8416) FINGERPRINT: Added 256 bytes to template accumulator (total: 20736 bytes)[0m
+[0;32mI (8426) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8426) FINGERPRINT: Added 256 bytes to template accumulator (total: 20992 bytes)[0m
+[0;32mI (8446) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8446) FINGERPRINT: Added 256 bytes to template accumulator (total: 21248 bytes)[0m
+[0;32mI (8456) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8456) FINGERPRINT: Added 256 bytes to template accumulator (total: 21504 bytes)[0m
+[0;32mI (8476) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8476) FINGERPRINT: Added 256 bytes to template accumulator (total: 21760 bytes)[0m
+[0;32mI (8486) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8486) FINGERPRINT: Added 256 bytes to template accumulator (total: 22016 bytes)[0m
+[0;32mI (8506) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8506) FINGERPRINT: Added 256 bytes to template accumulator (total: 22272 bytes)[0m
+[0;32mI (8516) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8516) FINGERPRINT: Added 256 bytes to template accumulator (total: 22528 bytes)[0m
+[0;32mI (8536) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8536) FINGERPRINT: Added 256 bytes to template accumulator (total: 22784 bytes)[0m
+[0;32mI (8546) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8546) FINGERPRINT: Added 256 bytes to template accumulator (total: 23040 bytes)[0m
+[0;32mI (8566) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8566) FINGERPRINT: Added 256 bytes to template accumulator (total: 23296 bytes)[0m
+[0;32mI (8576) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8576) FINGERPRINT: Added 256 bytes to template accumulator (total: 23552 bytes)[0m
+[0;32mI (8596) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8596) FINGERPRINT: Added 256 bytes to template accumulator (total: 23808 bytes)[0m
+[0;32mI (8606) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8606) FINGERPRINT: Added 256 bytes to template accumulator (total: 24064 bytes)[0m
+[0;32mI (8626) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8626) FINGERPRINT: Added 256 bytes to template accumulator (total: 24320 bytes)[0m
+[0;32mI (8636) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8636) FINGERPRINT: Added 256 bytes to template accumulator (total: 24576 bytes)[0m
+[0;32mI (8656) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8656) FINGERPRINT: Added 256 bytes to template accumulator (total: 24832 bytes)[0m
+[0;32mI (8666) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8666) FINGERPRINT: Added 256 bytes to template accumulator (total: 25088 bytes)[0m
+[0;32mI (8686) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8686) FINGERPRINT: Added 256 bytes to template accumulator (total: 25344 bytes)[0m
+[0;32mI (8696) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8696) FINGERPRINT: Added 256 bytes to template accumulator (total: 25600 bytes)[0m
+[0;32mI (8716) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8716) FINGERPRINT: Added 256 bytes to template accumulator (total: 25856 bytes)[0m
+[0;32mI (8726) FINGERPRINT: Copied 256 bytes of partial template data (no FOOF found yet)[0m
+[0;32mI (8726) FINGERPRINT: Added 256 bytes to template accumulator (total: 26112 bytes)[0m
+[0;32mI (8736) FINGERPRINT: Template appears complete based on size and timing[0m
+[0;32mI (8736) FINGERPRINT: Triggering EVENT_TEMPLATE_UPLOADED with 2 packets[0m
+[0;32mI (8746) FINGERPRINT: Template upload complete[0m
+[0;32mI (8746) FINGERPRINT: Template uploaded successfully[0m
+[0;32mI (8756) FINGERPRINT: Multi-packet data available: 2 packets[0m
+[0;32mI (8756) FINGERPRINT: Packet 0: ID=0x07, Address=0xFFFFFFFF, Length=3, Checksum=0x000A[0m
+[0;32mI (8766) Packet Data: 00[0m
+[0;32mI (8766) FINGERPRINT: Packet 1: ID=0x02, Address=0xFFFFFFFF, Length=7, Checksum=0x00D1[0m
+[0;32mI (8776) Packet Data: 00 00 54 1e 56[0m
+[0;32mI (8776) FINGERPRINT: Complete template data received (26112 bytes)[0m
+[0;32mI (8786) Template Data: 0x3fcaaa24   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
+[0;32mI (8796) Template Data: 0x3fcaaa34   ff ff 02 00 07 00 00 54  1e 56 00 d1 ef 01 ff ff  |.......T.V......|[0m
+[0;32mI (8806) Template Data: 0x3fcaaa44   ff ff 02 01 02 01 04 93  07 50 52 45 43 49 53 45  |.........PRECISE|[0m
+[0;32mI (8816) Template Data: 0x3fcaaa54   00 01 02 75 50 f2 cf 00  56 00 00 00 27 66 0d a8  |...uP...V...'f..|[0m
+[1;31mE (8816) FINGERPRINT: Template too large to save (26112 bytes)[0m
+[0;32mI (8826) FINGERPRINT: Preparing to download template (size: 26112 bytes) to location 10[0m
+[0;32mI (8836) FINGERPRINT: Template upload should be complete[0m
+[0;32mI (8836) FINGERPRINT: Template backup successful[0m
+[0;32mI (8846) FINGERPRINT: Template backed up successfully.[0m
+[0;32mI (8846) main_task: Returned from app_main()[0m
+[0;32mI (9836) FINGERPRINT: Downloading template to buffer 1...[0m
+[1;31mE (10866) FINGERPRINT: Command queue full, dropping command 0x00[0m
+[1;31mE (10866) FINGERPRINT: Failed to send template data chunk[0m
+[1;31mE (10866) FINGERPRINT: Failed to download template to buffer: ESP_FAIL[0m
+Guru Meditation Error: Core  0 panic'ed (Interrupt wdt timeout on CPU0). 
+
+Core  0 register dump:
+PC      : 0x4037852c  PS      : 0x00060f34  A0      : 0x8037b954  A1      : 0x3fca0f40  
+A2      : 0x3fca3fec  A3      : 0xb33fa9ff  A4      : 0x00005600  A5      : 0x0000000c  
+A6      : 0x3fca0e30  A7      : 0x0000000c  A8      : 0x82014370  A9      : 0x3fca0be0  
+A10     : 0x00000047  A11     : 0x00000000  A12     : 0xfffffff8  A13     : 0x3c027e9a  
+A14     : 0x00000001  A15     : 0x3fca0df0  SAR     : 0x00000004  EXCCAUSE: 0x00000005  
+EXCVADDR: 0x00000000  LBEG    : 0x400556d5  LEND    : 0x400556e5  LCOUNT  : 0xfffffffd  
+
+
+Backtrace: 0x40378529:0x3fca0f40 0x4037b951:0x3fca0f60 0x4037c289:0x3fca0f90 0x4200ec1e:0x3fca0fb0 0x4200bd86:0x3fca0ff0 0x4200c533:0x3fca1020 0x4200dd83:0x3fca12a0 0x4037b715:0x3fca1540
+
+
+Core  1 register dump:
+PC      : 0x40378616  PS      : 0x00060134  A0      : 0x8200302d  A1      : 0x3fc9c5e0  
+A2      : 0x00000000  A3      : 0x00000000  A4      : 0x3fc9a620  A5      : 0x3fc9a600  
+A6      : 0x40375f68  A7      : 0x00000001  A8      : 0x8201245e  A9      : 0x3fc9c5a0  
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x3fc9a600  A13     : 0x3fc9a5e0  
+A14     : 0x00000001  A15     : 0x3fc9c7b4  SAR     : 0x00000000  EXCCAUSE: 0x00000005  
+EXCVADDR: 0x00000000  LBEG    : 0x00000000  LEND    : 0x00000000  LCOUNT  : 0x00000000  
+
+
+Backtrace: 0x40378613:0x3fc9c5e0 0x4200302a:0x3fc9c600 0x4037c93d:0x3fc9c620 0x4037b715:0x3fc9c640
+
+
+
+
+ELF file SHA256: efb5d2f35
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x3b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375b28
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0eb10h ( 60176) map[0m
+[0;32mI (114) esp_image: segment 1: paddr=0001eb38 vaddr=3fc93a00 size=014e0h (  5344) load[0m
+[0;32mI (116) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f8a0h (129184) map[0m
+[0;32mI (149) esp_image: segment 3: paddr=0003f8c8 vaddr=3fc94ee0 size=02230h (  8752) load[0m
+[0;32mI (151) esp_image: segment 4: paddr=00041b00 vaddr=40374000 size=0f9e4h ( 63972) load[0m
+[0;32mI (170) esp_image: segment 5: paddr=000514ec vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (176) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (176) boot: Disabling RNG early entropy source...[0m
+[0;32mI (188) cpu_start: Multicore app[0m
+[0;32mI (197) cpu_start: Pro cpu start user code[0m
+[0;32mI (197) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (197) app_init: Application information:[0m
+[0;32mI (197) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (202) app_init: App version:      40b12c8-dirty[0m
+[0;32mI (206) app_init: Compile time:     Mar 24 2025 13:22:15[0m
+[0;32mI (211) app_init: ELF file SHA256:  efb5d2f35...[0m
+[0;32mI (215) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (220) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (223) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (227) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (231) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (238) heap_init: At 3FC98E70 len 000508A0 (322 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (248) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (253) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (259) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (268) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (272) spi_flash: flash io: opi_str[0m
+[0;33mW (275) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (288) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (294) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (301) main_task: Started on CPU0[0m
+[0;32mI (311) main_task: Calling app_main()[0m
+[0;32mI (311) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (311) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (321) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (321) FINGERPRINT: Finger detection task started[0m
+[0;32mI (331) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (771) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x15[0m
+[0;32mI (771) FINGERPRINT: Response found![0m
+[0;32mI (771) Status Event Handler: Status: 0[0m
+[0;32mI (1521) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1521) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
+[0;32mI (1821) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1F[0m
+[0;32mI (1821) FINGERPRINT: Response found![0m
+[0;32mI (1821) Status Event Handler: Status: 0[0m
+[0;32mI (1821) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
+[0;33mW (1821) FINGERPRINT: Template exists at position 0[0m
+[0;32mI (1831) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (1831) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1841) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1851) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1861) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1861) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1871) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1881) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1881) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1891) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1901) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1911) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1911) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1921) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1931) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1931) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (1941) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[1;31mE (1951) FINGERPRINT: Location 0 is already occupied[0m
+[0;32mI (1951) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (1961) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (1961) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (4051) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4051) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (4331) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (4331) FINGERPRINT: Response found![0m
+[0;32mI (4331) Status Event Handler: Status: 2[0m
