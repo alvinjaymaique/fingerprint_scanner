@@ -1031,11 +1031,14 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 //        ESP_LOG_BUFFER_HEX(TAG, cmd, cmd->length + 8); // Log entire packet
 //    }
 //    ESP_LOG_BUFFER_HEX("Command Packets", cmd, cmd->length + 8); // Log entire packet
+
     if (!cmd) return ESP_ERR_INVALID_ARG;  
     last_sent_command = cmd->code.command;  // Store last sent command
     cmd->address = address;
-    cmd->checksum = fingerprint_calculate_checksum(cmd);
-
+    if(!(cmd->packet_id == 0x02 || cmd->packet_id == 0x08)) {
+        cmd->checksum = fingerprint_calculate_checksum(cmd);
+    }
+    
     // Store command info **before** sending
     fingerprint_command_info_t cmd_info = {
         .command = cmd->code.command,
@@ -1050,29 +1053,45 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
         return ESP_FAIL;
     }
     
-
+    ESP_LOG_BUFFER_HEX("Checksum", &cmd->checksum, 2);
     // **Construct packet**
     size_t packet_size = cmd->length + 9;
     uint8_t *buffer = malloc(packet_size);
     if (!buffer) return ESP_ERR_NO_MEM;
 
-    buffer[0] = (cmd->header >> 8) & 0xFF;
-    buffer[1] = cmd->header & 0xFF;
-    buffer[2] = (cmd->address >> 24) & 0xFF;
-    buffer[3] = (cmd->address >> 16) & 0xFF;
-    buffer[4] = (cmd->address >> 8) & 0xFF;
-    buffer[5] = cmd->address & 0xFF;
-    buffer[6] = cmd->packet_id;
-    buffer[7] = (cmd->length >> 8) & 0xFF;
-    buffer[8] = cmd->length & 0xFF;
-    buffer[9] = cmd->code.command;
-    memcpy(&buffer[10], cmd->parameters, cmd->length - 3);
-    buffer[packet_size - 2] = (cmd->checksum >> 8) & 0xFF;
-    buffer[packet_size - 1] = cmd->checksum & 0xFF;
+    if(cmd->packet_id == 0x02 || cmd->packet_id == 0x08) {
+        buffer[0] = (cmd->header >> 8) & 0xFF;
+        buffer[1] = cmd->header & 0xFF;
+        buffer[2] = (cmd->address >> 24) & 0xFF;
+        buffer[3] = (cmd->address >> 16) & 0xFF;
+        buffer[4] = (cmd->address >> 8) & 0xFF;
+        buffer[5] = cmd->address & 0xFF;
+        buffer[6] = cmd->packet_id;
+        buffer[7] = (cmd->length >> 8) & 0xFF;
+        buffer[8] = cmd->length & 0xFF;
+        memcpy(&buffer[9], cmd->parameters, cmd->length - 2); // -3 for command + checksum
+        buffer[packet_size - 2] = (cmd->checksum >> 8) & 0xFF;
+        buffer[packet_size - 1] = cmd->checksum & 0xFF;
+    }else{
+        buffer[0] = (cmd->header >> 8) & 0xFF;
+        buffer[1] = cmd->header & 0xFF;
+        buffer[2] = (cmd->address >> 24) & 0xFF;
+        buffer[3] = (cmd->address >> 16) & 0xFF;
+        buffer[4] = (cmd->address >> 8) & 0xFF;
+        buffer[5] = cmd->address & 0xFF;
+        buffer[6] = cmd->packet_id;
+        buffer[7] = (cmd->length >> 8) & 0xFF;
+        buffer[8] = cmd->length & 0xFF;
+        buffer[9] = cmd->code.command;
+        memcpy(&buffer[10], cmd->parameters, cmd->length - 3); // -3 for command + checksum
+        buffer[packet_size - 2] = (cmd->checksum >> 8) & 0xFF;
+        buffer[packet_size - 1] = cmd->checksum & 0xFF;
+    }
+\
 
     // **Flush UART to prevent old data interference**
     uart_flush(UART_NUM);
-
+    ESP_LOG_BUFFER_HEXDUMP("Send Command Packet", buffer, packet_size, ESP_LOG_INFO);	
     // **Send packet**
     int bytes_written = uart_write_bytes(UART_NUM, (const char *)buffer, packet_size);
 
@@ -1334,10 +1353,10 @@ MultiPacketResponse* fingerprint_read_response(void) {
         sizeof(buffer) - buffer_pos, 
         timeout / portTICK_PERIOD_MS);
 
-    if (bytes_read > 0) {
-        ESP_LOGI(TAG, "Last Sent Command: 0x%02X, Bytes Read: %d", last_sent_command, bytes_read);
-        ESP_LOG_BUFFER_HEXDUMP("Template Data", buffer + buffer_pos, bytes_read, ESP_LOG_INFO);
-    }
+    // if (bytes_read > 0) {
+    //     ESP_LOGI(TAG, "Last Sent Command: 0x%02X, Bytes Read: %d", last_sent_command, bytes_read);
+    //     ESP_LOG_BUFFER_HEXDUMP("Template Data", buffer + buffer_pos, bytes_read, ESP_LOG_INFO);
+    // }
     
     if (bytes_read <= 0 && buffer_pos == 0) return NULL;
     buffer_pos += (bytes_read > 0) ? bytes_read : 0;
@@ -1669,29 +1688,6 @@ buffer_shift:
     return response;
 }
 
-
-// void read_response_task(void *pvParameter) {
-//     while (1) {
-//         FingerprintPacket *response = fingerprint_read_response();
-//         if (response) {
-//             fingerprint_response_t event = {0};
-//             memcpy(&event.packet, response, sizeof(FingerprintPacket));
-//             heap_caps_free(response);
-
-//             // Try to send to queue with increased timeout
-//             if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(500)) != pdPASS) {
-//                 ESP_LOGW(TAG, "Response queue full, clearing old messages");
-//                 xQueueReset(fingerprint_response_queue);  // Clear stale messages
-//                 // Try sending again
-//                 if (xQueueSend(fingerprint_response_queue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
-//                     ESP_LOGE(TAG, "Still unable to send to queue after reset");
-//                 }
-//             }
-//         }
-//         vTaskDelay(pdMS_TO_TICKS(10));
-//     }
-// }
-
 // Insert this function right before the read_response_task function
 FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, uint8_t target_packet_id) {
     for (size_t i = 0; i < data_len - 9; i++) {
@@ -1881,27 +1877,7 @@ void read_response_task(void *pvParameter) {
                                     
                                     // Use the calculated checksum
                                     new_packet->checksum = calc_checksum;
-                                    
-                                    // // Check for FOOF marker in this packet's data
-                                    // if (src_packet->packet_id == 0x02) {
-                                    //     for (size_t j = 0; j < param_len - 3; j++) {
-                                    //         if (src_packet->parameters[j] == 'F' && 
-                                    //             src_packet->parameters[j+1] == 'O' &&
-                                    //             src_packet->parameters[j+2] == 'O' &&
-                                    //             src_packet->parameters[j+3] == 'F') {
-                                    //             found_foof_marker = true;
-                                    //             foof_position = j;
-                                    //             ESP_LOGI(TAG, "Found FOOF marker in packet at position %d (PRESERVING IT)", j);
-                                                
-                                    //             // Signal template completion but DO NOT truncate data
-                                    //             if (enroll_event_group != NULL) {
-                                    //                 xEventGroupSetBits(enroll_event_group, TEMPLATE_UPLOAD_COMPLETE_BIT);
-                                    //                 ESP_LOGI(TAG, "Template upload completion signaled (FOOF marker found and preserved)");
-                                    //             }
-                                    //             break;
-                                    //         }
-                                    //     }
-                                    // }
+                                
                                     
                                     g_template_accumulator->packets[g_template_accumulator->count++] = new_packet;
                                     
@@ -2549,7 +2525,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 if (enroll_event_group) {
                     xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
                 }
-                ESP_LOGI(TAG, "Real match found with score %d", event.data.match_info.match_score);
+                // ESP_LOGI(TAG, "Real match found with score %d", event.data.match_info.match_score);
                 
                 // Set cooldown to prevent duplicate processing
                 last_match_time = current_time;
@@ -4154,14 +4130,14 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
                 .code.command = 0x00  // Not used for data packets
             };
             
-            // Copy the parameter data
-            size_t param_len = packet->length > 2 ? packet->length - 2 : 0;
-            if (param_len > 0) {
-                memcpy(send_packet.parameters, packet->parameters, param_len);
-            }
+            // // Copy the parameter data
+            // size_t param_len = packet->length > 2 ? packet->length - 2 : 0;
+            // if (param_len > 0) {
+            //     memcpy(send_packet.parameters, packet->parameters, param_len);
+            // }
             
-            // Calculate new checksum
-            send_packet.checksum = fingerprint_calculate_checksum(&send_packet);
+            // // Calculate new checksum
+            // send_packet.checksum = fingerprint_calculate_checksum(&send_packet);
             
             // // Log parameters for 0x08 packet
             // if (packet->packet_id == 0x08) {
@@ -4169,10 +4145,11 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
             //     ESP_LOG_BUFFER_HEX("Final packet data", packet->parameters, 
             //                       sizeof(packet->parameters));
             // }
-            ESP_LOG_BUFFER_HEX("Send Packet Data", send_packet.parameters, 
-                             sizeof(send_packet.parameters));
+            // ESP_LOGI(TAG, "Length: %d", send_packet.length);
+            // ESP_LOG_BUFFER_HEX("Send Packet Data", send_packet.parameters, 
+            //                  sizeof(send_packet.parameters));
             // Send the packet
-            err = fingerprint_send_command(&send_packet, DEFAULT_FINGERPRINT_ADDRESS);
+            err = fingerprint_send_command(packet, DEFAULT_FINGERPRINT_ADDRESS);
             if (err != ESP_OK) {
                 ESP_LOGE(TAG, "Failed to send template packet %d: %s", i, esp_err_to_name(err));
                 goto cleanup;
@@ -4181,6 +4158,13 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
             // Short delay between packets
             vTaskDelay(pdMS_TO_TICKS(100));
         }
+
+        if (!sent_final_packet) {
+            ESP_LOGE(TAG, "Final template packet (0x08) was never sent!");
+            err = ESP_FAIL;
+            goto cleanup;
+        }
+        
         
         // // If we didn't SEND a final packet, send an empty one
         // if (!sent_final_packet) {

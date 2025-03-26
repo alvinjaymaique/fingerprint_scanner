@@ -88,7 +88,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 0;  // Storage location for fingerprint template
+    uint16_t location = 10;  // Storage location for fingerprint template
     // esp_err_t out = delete_fingerprint(location);
     // if (out == ESP_OK) {
     //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
@@ -411,7 +411,6 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                     
                     uint16_t new_location = 10; // Target storage location
                     ESP_LOGI(TAG, "Restoring template to location %d", new_location);
-                    
                     // Option 1: Directly use the event.multi_packet (simplest)
                     esp_err_t err = restore_template_from_multipacket(new_location, event.multi_packet);
                     

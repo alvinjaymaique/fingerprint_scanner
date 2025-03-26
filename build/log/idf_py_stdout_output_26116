@@ -10,34 +10,49 @@ C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:972:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
   972 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
       |                      ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_send_command':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1061:8: error: redefinition of 'packet_size'
+ 1061 | size_t packet_size = cmd->length + 9;
+      |        ^~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1056:12: note: previous definition of 'packet_size' with type 'size_t' {aka 'unsigned int'}
+ 1056 |     size_t packet_size = cmd->length + 9;
+      |            ^~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1062:10: error: redefinition of 'buffer'
+ 1062 | uint8_t *buffer = malloc(packet_size);
+      |          ^~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1057:14: note: previous definition of 'buffer' with type 'uint8_t *' {aka 'unsigned char *'}
+ 1057 |     uint8_t *buffer = malloc(packet_size);
+      |              ^~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_read_response':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1331:36: error: 'buffer' undeclared (first use in this function); did you mean 'setbuffer'?
- 1331 |                                    buffer + buffer_pos,
-      |                                    ^~~~~~
-      |                                    setbuffer
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1331:36: note: each undeclared identifier is reported only once for each function it appears in
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1312:17: warning: variable 'final_packet_sent' set but not used [-Wunused-but-set-variable]
+ 1312 |     static bool final_packet_sent = false;
+      |                 ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'extract_packet_from_raw_data':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1736:22: warning: variable 'found_foof_marker' set but not used [-Wunused-but-set-variable]
+ 1736 |                 bool found_foof_marker = false;
+      |                      ^~~~~~~~~~~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_response_task':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1869:28: warning: variable 'foof_position' set but not used [-Wunused-but-set-variable]
- 1869 |                     size_t foof_position = 0;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1852:28: warning: variable 'foof_position' set but not used [-Wunused-but-set-variable]
+ 1852 |                     size_t foof_position = 0;
       |                            ^~~~~~~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3334:28: warning: unused variable 'response' [-Wunused-variable]
- 3334 |     fingerprint_response_t response;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3322:28: warning: unused variable 'response' [-Wunused-variable]
+ 3322 |     fingerprint_response_t response;
       |                            ^~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'upload_template':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3448:17: warning: variable 'bits' set but not used [-Wunused-but-set-variable]
- 3448 |     EventBits_t bits;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3436:17: warning: variable 'bits' set but not used [-Wunused-but-set-variable]
+ 3436 |     EventBits_t bits;
       |                 ^~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3770:10: warning: unused variable 'template_valid' [-Wunused-variable]
- 3770 |     bool template_valid = false;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3790:10: warning: unused variable 'template_valid' [-Wunused-variable]
+ 3790 |     bool template_valid = false;
       |          ^~~~~~~~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2200:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
- 2200 | static fingerprint_template_buffer_t g_template_buffer = {
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2167:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
+ 2167 | static fingerprint_template_buffer_t g_template_buffer = {
       |                                      ^~~~~~~~~~~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1834:16: warning: 'saved_template' defined but not used [-Wunused-variable]
- 1834 | static uint8_t saved_template[1024]; // Buffer for template data
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1817:16: warning: 'saved_template' defined but not used [-Wunused-variable]
+ 1817 | static uint8_t saved_template[1024]; // Buffer for template data
       |                ^~~~~~~~~~~~~~
 C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:51:13: warning: 'finger_detected_flag' defined but not used [-Wunused-variable]
    51 | static bool finger_detected_flag = false;
