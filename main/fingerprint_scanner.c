@@ -199,56 +199,19 @@ void app_main(void)
     //     ESP_LOGE(TAG, "Failed to backup template.");
     // }
 
-    // // // Restore Template
-    // uint16_t new_location = 10;
-    // if (packets != NULL){
-    //     err = restore_template_from_multipacket(new_location ,packets);
-    //     if (err == ESP_OK) {
-    //         ESP_LOGI(TAG, "Template restored successfully.");
-    //     } else {
-    //         ESP_LOGE(TAG, "Failed to restore template.");
-    //     }
-    // }
-
-
     // // Wait for the backup to complete and template to be saved
     // vTaskDelay(pdMS_TO_TICKS(2000));
 
-    // // Once template is available, download it to a different location
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Template backed up successfully.");
-        
-    //     // Wait for the event handler to process the template
-    //     vTaskDelay(pdMS_TO_TICKS(2000));
-        
-    //     // Check if template was saved
-    //     if (template_available) {
-    //         // Now download the template to a different location
-    //         uint16_t new_location = 4;
-    //         ESP_LOGI(TAG, "Downloading saved template to location %d", new_location);
-            
-    //         err = restore_template(new_location, saved_template, saved_template_size);
-    //         if (err == ESP_OK) {
-    //             ESP_LOGI(TAG, "Template downloaded and stored successfully");
-    //         } else {
-    //             ESP_LOGE(TAG, "Failed to download template: %s", esp_err_to_name(err));
-    //         }
-    //     } else {
-    //         ESP_LOGE(TAG, "No template data available");
-    //     }
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to backup template");
-    // }
 
 
-
-    // // Example usage in app_main
-    // err = read_info_page();
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Information page read successfully");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to read information page");
-    // }
+    // Example usage in app_main
+    err = read_info_page();
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Information page read successfully");
+    } else {
+        ESP_LOGE(TAG, "Failed to read information page");
+    }
+    
 }
 
 void send_command_task(void *pvParameter)
@@ -325,7 +288,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_INDEX_TABLE_READ:
             ESP_LOGI(TAG, "Index table read successful. Status: 0x%02X", event.status);
-            ESP_LOG_BUFFER_HEX("Index Table Parameters", event.packet.parameters, sizeof(event.packet.parameters));
+            // ESP_LOG_BUFFER_HEX("Index Table Parameters", event.packet.parameters, sizeof(event.packet.parameters));
             break;
         case EVENT_TEMPLATE_COUNT:
             ESP_LOGI("EVENT TEMPLATE COUNT", "Number of valid templates: %d", event.data.template_count.count);
@@ -342,7 +305,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             break;
     // Add this to the handle_fingerprint_event function
     case EVENT_TEMPLATE_UPLOADED:
-        ESP_LOGI(TAG, "Template uploaded successfully");
+        ESP_LOGI(TAG, "Template uploaded");
 
         // Check if multi-packet data is available
         if (event.multi_packet != NULL) {
@@ -403,8 +366,6 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             // Make a deep copy of the template data to ensure we own it
             if (event.multi_packet != NULL) {
                 // Log that we received a template
-                ESP_LOGI(TAG, "Template uploaded successfully with %d packets", 
-                        event.multi_packet->count);
                 
                 if (event.multi_packet->template_data != NULL && 
                     event.multi_packet->template_size > 0) {
@@ -463,7 +424,35 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Information page read successfully. Status: 0x%02X", event.status);
             ESP_LOGI(TAG, "Packet ID read successfully. Status: 0x%02X", event.packet.packet_id);
             ESP_LOGI(TAG, "Packet length read successfully. Status: 0x%02X", event.packet.length);
-            ESP_LOG_BUFFER_HEX("Info Page Data", event.packet.parameters, event.packet.length);
+
+            // if (event.multi_packet != NULL)
+            // {
+            //     // Now log the fixed packets
+            //     for (size_t i = 0; i < event.multi_packet->count; i++) {
+            //         if (event.multi_packet->packets[i] != NULL) {
+            //             ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
+            //                 i, 
+            //                 event.multi_packet->packets[i]->packet_id,
+            //                 (unsigned int)event.multi_packet->packets[i]->address,
+            //                 event.multi_packet->packets[i]->length,
+            //                 (unsigned int)event.multi_packet->packets[i]->checksum);
+                
+                        
+            //             // Print full packet data
+            //             if (event.multi_packet->packets[i]->length > 2) {
+            //                 ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
+            //                                         event.multi_packet->packets[i]->parameters,
+            //                                         event.multi_packet->packets[i]->length - 2,
+            //                                         ESP_LOG_INFO);
+            //             }
+            //         }
+            //         vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
+            //     }
+            // }
+            // else{
+            //     ESP_LOGI(TAG, "No multi-packet data available in information page read event");
+            // }
+
             break;
         case EVENT_TEMPLATE_LOADED:
             ESP_LOGI(TAG, "Template loaded successfully. Status: 0x%02X", event.status);

@@ -1,0 +1,285 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ee00h ( 60928) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001ee28 vaddr=3fc94000 size=011f0h (  4592) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1fa58h (129624) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003fa80 vaddr=3fc951f0 size=02630h (  9776) load[0m
+[0;32mI (147) esp_image: segment 4: paddr=000420b8 vaddr=40374000 size=0ff1ch ( 65308) load[0m
+[0;32mI (166) esp_image: segment 5: paddr=00051fdc vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (173) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (173) boot: Disabling RNG early entropy source...[0m
+[0;32mI (184) cpu_start: Multicore app[0m
+[0;32mI (193) cpu_start: Pro cpu start user code[0m
+[0;32mI (193) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (193) app_init: Application information:[0m
+[0;32mI (193) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (198) app_init: App version:      f11e984-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 26 2025 11:17:13[0m
+[0;32mI (208) app_init: ELF file SHA256:  a4c22673f...[0m
+[0;32mI (212) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (216) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (220) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (224) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (228) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (234) heap_init: At 3FC9D618 len 0004C0F8 (304 KiB): RAM[0m
+[0;32mI (239) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (265) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (272) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (284) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (297) main_task: Started on CPU0[0m
+[0;32mI (307) main_task: Calling app_main()[0m
+[0;32mI (307) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (307) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (317) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (317) FINGERPRINT: Finger detection task started[0m
+[0;32mI (327) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (567) Read Data: 0x3fc9b184   e0                                                |.|[0m
+[0;32mI (567) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  07 15 ff ff ff ff 04 19  |................|[0m
+[0;32mI (837) Read Data: 0x3fc9b185   00 00 00 fa 00 80                                 |......|[0m
+[0;32mI (1567) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1567) FINGERPRINT: Checking if location 10 is available (page 0, position 10)[0m
+[0;32mI (1647) Send Command Packet: 0x3fcab4b0   ef 01 ff ff ff ff 01 00  04 1f 00 00 24           |............$|[0m
+[0;32mI (1647) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (1647) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (1697) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (1917) Read Data: 0x3fc9b185   00 00 00 00 00 fc                                 |......|[0m
+[0;33mW (2497) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (2727) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;33mW (2797) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;32mI (2997) Read Data: 0x3fc9b184   42 00 00 00 00 da                                 |B.....|[0m
+[0;33mW (3527) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[1;31mE (3647) FINGERPRINT: Failed to check if location is available (timeout)[0m
+[0;32mI (3647) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (3647) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (3647) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (3807) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;33mW (3907) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (4077) Read Data: 0x3fc9b185   00 00 00 00 00 d2                                 |......|[0m
+[0;33mW (5227) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;32mI (5247) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (5247) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (5427) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (5687) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (5687) Read Data: 0x3fc9b184   40 00 00 00 00 d2                                 |@.....|[0m
+[0;32mI (5687) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;33mW (6487) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (6767) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (7037) Read Data: 0x3fc9b185   40 00 00 00 00 d2                                 |@.....|[0m
+[0;33mW (7567) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (7667) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (7697) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (7847) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (7847) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (7917) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (7947) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (8117) Read Data: 0x3fc9b184   40 00 00 00 00 d2                                 |@.....|[0m
+[0;32mI (8697) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (8697) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (8697) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (8797) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (8927) Read Data: 0x3fc9b185   40 00 00 00 00 fb                                 |@.....|[0m
+[0;32mI (8997) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (9097) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (9377) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (9477) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (9687) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (9687) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (9737) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (10007) Read Data: 0x3fc9b185   40 00 00 00 00 d2                                 |@.....|[0m
+[0;33mW (10347) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (10537) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (10807) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (11067) Read Data: 0x3fc9b184   c2 00 00 00 00 bc                                 |......|[0m
+[0;33mW (11607) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (11877) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (12147) Read Data: 0x3fc9b185   50 00 00 00 00 bc                                 |P.....|[0m
+[0;33mW (12677) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (12777) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (12887) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (12887) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (12957) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (13227) Read Data: 0x3fc9b185   c0 00 00 00 00 bc                                 |......|[0m
+[0;33mW (13297) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (13757) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (14017) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (14277) Read Data: 0x3fc9b184   40 00 00 00 00 bc                                 |@.....|[0m
+[0;33mW (14817) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (15087) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (15357) Read Data: 0x3fc9b185   00 00 00 00 00 fc                                 |......|[0m
+[0;33mW (15887) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (15987) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (15997) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (15997) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (16167) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (16437) Read Data: 0x3fc9b185   c0 00 00 00 00 fc                                 |......|[0m
+[0;33mW (16507) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (16967) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (17227) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (17487) Read Data: 0x3fc9b184   c0 00 00 00 00 fc                                 |......|[0m
+[0;33mW (18027) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (18297) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (18567) Read Data: 0x3fc9b185   c0 00 00 00 00 fc                                 |......|[0m
+[0;33mW (19097) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (19197) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (19697) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (19697) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (19697) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (19717) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (19797) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (19917) Read Data: 0x3fc9b184   27 00 00 00 40 fb                                 |'...@.|[0m
+[0;32mI (20697) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (20727) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (20727) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (20827) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (20997) Read Data: 0x3fc9b185   c0 00 00 00 00 ff                                 |......|[0m
+[0;33mW (22147) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;32mI (26467) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (26467) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (26517) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (26767) Read Data: 0x3fc9b184   c0 00 00 00 00 f8                                 |......|[0m
+[0;33mW (27317) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (27577) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (27847) Read Data: 0x3fc9b185   c0 00 00 00 00 fc                                 |......|[0m
+[0;33mW (28377) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (28657) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (28927) Read Data: 0x3fc9b185   c0 00 00 00 00 fe                                 |......|[0m
+[0;33mW (28997) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (29457) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (29557) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (31187) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (31187) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (31277) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (31537) Read Data: 0x3fc9b184   c0 00 00 00 00 ff                                 |......|[0m
+[0;33mW (32077) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (32347) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (32617) Read Data: 0x3fc9b185   00 00 00 00 00 fc                                 |......|[0m
+[0;33mW (33147) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (33427) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (33697) Read Data: 0x3fc9b185   00 00 00 00 00 e3                                 |......|[0m
+[0;33mW (33767) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (34227) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (34327) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (34507) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (34507) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (34747) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (35007) Read Data: 0x3fc9b184   08 00 00 00 00 fc                                 |......|[0m
+[0;33mW (35547) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (35727) FINGERPRINT: Timeout waiting for finger placement[0m
+[0;32mI (35817) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (35817) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (36087) Read Data: 0x3fc9b185   60 00 00 00 00                                    |`....|[0m
+[0;33mW (36617) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (36897) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (37167) Read Data: 0x3fc9b185   00 00 00 00 00 ff                                 |......|[0m
+[0;33mW (37237) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (37697) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (37797) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (37817) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (37957) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (37957) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (38057) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (38217) Read Data: 0x3fc9b184   00 00 00 00 00 ff                                 |......|[0m
+[0;32mI (39037) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (39037) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (39087) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (39297) Read Data: 0x3fc9b185   c0 00 00 00 00 bc                                 |......|[0m
+[0;33mW (39887) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (40107) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (40377) Read Data: 0x3fc9b185   c0 00 00 00 00 fc                                 |......|[0m
+[0;33mW (40447) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (40907) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (41167) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (41427) Read Data: 0x3fc9b184   c0 00 00 00 00 fc                                 |......|[0m
+[0;33mW (41967) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (42067) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;33mW (43657) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;32mI (46107) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (46107) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (46197) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (46457) Read Data: 0x3fc9b184   00 00 00 00 00 f8                                 |......|[0m
+[0;33mW (46997) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (47267) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (47537) Read Data: 0x3fc9b185   14 00 00 00 00 f9                                 |......|[0m
+[0;33mW (48067) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (48347) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (48617) Read Data: 0x3fc9b185   c0 00 00 00 00 78                                 |.....x|[0m
+[0;33mW (48687) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (49147) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (49247) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (49537) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (49537) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (49667) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (49927) Read Data: 0x3fc9b184   c0 00 00 00 00 f8                                 |......|[0m
+[0;33mW (50467) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (50737) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (51007) Read Data: 0x3fc9b185   c0 00 00 00 00 f8                                 |......|[0m
+[0;33mW (51537) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (51817) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (52087) Read Data: 0x3fc9b185   00 00 00 00 00 78                                 |.....x|[0m
+[0;33mW (52157) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (52617) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (52717) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (52967) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (52967) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (53137) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (53397) Read Data: 0x3fc9b184   00 0a 00 00 00 ff                                 |......|[0m
+[0;33mW (53937) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (54207) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (54477) Read Data: 0x3fc9b185   00 00 00 00 00 bc                                 |......|[0m
+[0;33mW (55007) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (55287) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (55557) Read Data: 0x3fc9b185   25 00 00 00 00 ff                                 |%.....|[0m
+[0;33mW (55627) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (56087) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (56187) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (61687) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (61687) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (61807) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (62067) Read Data: 0x3fc9b184   00 00 f2                                          |...|[0m
+[0;33mW (62607) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (62877) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (63147) Read Data: 0x3fc9b185   00 80 00 00 00                                    |.....|[0m
+[0;33mW (63677) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (63957) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (64227) Read Data: 0x3fc9b185   ff 00 00 e0                                       |....|[0m
+[0;33mW (64297) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (64757) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (64857) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;33mW (65857) FINGERPRINT: Timeout waiting for finger placement[0m
+[0;32mI (66057) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (66057) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (66057) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (66057) FINGERPRINT: Finger detected via interrupt![0m
+[0;33mW (66167) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (66317) Read Data: 0x3fc9b184   ff 00 00 00 c0                                    |.....|[0m
+[0;33mW (68547) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m

@@ -285,6 +285,15 @@
  */
 #define FINGERPRINT_GPIO_PIN (GPIO_NUM_15) // 15  // GPIO pin for fingerprint sensor interrupt
 
+/**
+ * @brief GPIO pin for the fingerprint sensor reset.
+ */
+// Add VIN control pin definition
+#define FINGERPRINT_VIN_PIN GPIO_NUM_9  // D9 for VIN control
+#define TEMPLATE_QUEUE_SIZE 10
+#define TEMPLATE_MAX_SIZE 2048
+
+
 
 /**
  * @enum fingerprint_command_t
@@ -712,12 +721,6 @@ extern FingerprintPacket PS_UpChar;
  * @warning The checksum must be recalculated before sending the packet.
  */
 extern FingerprintPacket PS_LoadChar;
-
-
-/**
- * @brief Reads the flash information page of the fingerprint module.
- */
-extern FingerprintPacket PS_ReadINFpage;
 
 /**
  * @brief Erases the module firmware and enters upgrade mode.
@@ -1755,6 +1758,8 @@ esp_err_t enroll_fingerprint(uint16_t location);
  */
 #define CHECKING_LOCATION_BIT BIT2
 
+#define INFO_PAGE_COMPLETE_BIT BIT3  // You may need to adjust the bit position
+
 /**
  * @brief Event group handle for fingerprint enrollment status.
  * 
@@ -1914,19 +1919,6 @@ esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id);
 esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size);
 
 /**
- * @brief Downloads a fingerprint template from the host system to the module's buffer.
- *
- * This function allows a fingerprint template stored on the host to be downloaded 
- * into the fingerprint module's buffer for further use (e.g., storage in flash).
- *
- * @param buffer_id The buffer ID where the template should be downloaded.
- * @param template_data Pointer to the fingerprint template data to be downloaded.
- * @param template_size The size of the template data in bytes.
- * @return ESP_OK on success, ESP_FAIL on failure.
- */
-esp_err_t download_template(uint8_t buffer_id, const uint8_t* template_data, size_t template_size);
-
-/**
  * @brief Stores a fingerprint template from the buffer into the module's flash memory.
  *
  * This function saves a fingerprint template currently in the module's buffer 
@@ -1948,19 +1940,6 @@ esp_err_t store_template(uint8_t buffer_id, uint16_t template_id);
  * @return ESP_OK on success, ESP_FAIL on failure.
  */
 esp_err_t backup_template(uint16_t template_id);
-
-/**
- * @brief Restores a fingerprint template from a backup and stores it back in the module.
- *
- * This function takes a fingerprint template from a host system, 
- * downloads it into the module's buffer, and then stores it in the module's flash memory.
- *
- * @param template_id The ID under which the template should be restored in flash.
- * @param template_data Pointer to the fingerprint template data to be restored.
- * @param template_size The size of the fingerprint template data in bytes.
- * @return ESP_OK on success, ESP_FAIL on failure.
- */
-esp_err_t restore_template(uint16_t template_id, const uint8_t* template_data, size_t template_size);
 
 /**
  * @brief Initializes the enrollment event group if it doesn't exist and clears any pending event bits.
@@ -2084,13 +2063,10 @@ esp_err_t fingerprint_wait_for_finger(uint32_t timeout_ms);
  */
 esp_err_t fingerprint_check_template_exists(uint16_t template_id);
 
-// Add VIN control pin definition
-#define FINGERPRINT_VIN_PIN GPIO_NUM_9  // D9 for VIN control
+
 
 esp_err_t fingerprint_power_control(bool power_on);
 
-#define TEMPLATE_QUEUE_SIZE 10
-#define TEMPLATE_MAX_SIZE 2048
 
 typedef struct {
     uint8_t *data;
