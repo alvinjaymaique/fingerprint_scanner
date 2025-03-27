@@ -823,13 +823,6 @@ static inline uint16_t max(uint16_t a, uint16_t b) {
 esp_err_t fingerprint_init(void) {
     ESP_LOGI(TAG, "Initializing fingerprint scanner...");
     esp_err_t err;
-
-    // // FIRST STEP: Power up the fingerprint module
-    // err = fingerprint_power_control(true);
-    // if (err != ESP_OK) {
-    //     ESP_LOGE(TAG, "Failed to power up fingerprint module");
-    //     return err;
-    // }
     
     // 1. INITIALIZE FLAGS FIRST - CRITICAL
     is_fingerprint_validating = false;
@@ -866,99 +859,7 @@ esp_err_t fingerprint_init(void) {
         return ESP_FAIL;
     }
     
-// // 4. HANDSHAKE FIRST - BEFORE ANY INTERRUPTS OR TASKS
-// uint8_t handshake;
-// int length;
-// bool handshake_received = false;
-// const int max_retries = 10;  // Set a maximum retry count
-// int retry = 0;
-// int power_cycles = 0;
-// const int max_power_cycles = 3;  // Maximum number of full power cycles to try
-
-// // First, do a complete power cycle OUTSIDE the retry loop
-// ESP_LOGI(TAG, "Initial power cycle of fingerprint module...");
-
-
-
-// err = fingerprint_power_control(true);   // ON - 800ms delay built in
-// if (err != ESP_OK) {
-//     ESP_LOGE(TAG, "Failed to power up fingerprint module");
-//     return err;
-// }
-
-// // Power off then on to ensure clean start
-// err = fingerprint_power_control(false);  // OFF - 500ms delay built in
-// if (err != ESP_OK) {
-//     ESP_LOGE(TAG, "Failed to power down fingerprint module");
-//     return err;
-// }
-
-// // Extra stabilization time after power-on
-// vTaskDelay(pdMS_TO_TICKS(500));
-
-// // Flush UART buffer to clear any garbage data
-// uart_flush(UART_NUM);
-// vTaskDelay(pdMS_TO_TICKS(300));
-
-// ESP_LOGI(TAG, "Waiting for fingerprint module handshake...");
-
-// // Attempt to receive handshake with multiple retries
-// while (retry < max_retries && !handshake_received) {
-//     // Try to read handshake byte
-//     length = uart_read_bytes(UART_NUM, &handshake, 1, pdMS_TO_TICKS(300));
-    
-//     if (length > 0) {
-//         ESP_LOGI(TAG, "Received byte: 0x%02X", handshake);
-        
-//         if (handshake == 0x55) {
-//             handshake_received = true;
-//             ESP_LOGI(TAG, "Fingerprint module handshake received: 0x%02X", handshake);
-//             break;
-//         }
-//     } else {
-//         ESP_LOGW(TAG, "No handshake received, retry %d/%d...", retry + 1, max_retries);
-//         retry++;
-        
-//         // Power cycle again only after several failed attempts
-//         if (retry % 5 == 0 && power_cycles < max_power_cycles) {
-//             power_cycles++;
-//             ESP_LOGI(TAG, "Performing power cycle %d/%d...", power_cycles, max_power_cycles);
-            
-//             // Power cycle the module
-//             err = fingerprint_power_control(false);
-//             if (err != ESP_OK) {
-//                 ESP_LOGE(TAG, "Failed to power down fingerprint module");
-//                 return err;
-//             }
-            
-//             // Longer off period to ensure complete discharge
-//             vTaskDelay(pdMS_TO_TICKS(800));
-            
-//             err = fingerprint_power_control(true);
-//             if (err != ESP_OK) {
-//                 ESP_LOGE(TAG, "Failed to power up fingerprint module");
-//                 return err;
-//             }
-            
-//             // Extra delay for stabilization after power cycle
-//             vTaskDelay(pdMS_TO_TICKS(500));
-            
-//             // Flush UART buffer again after power cycle
-//             uart_flush(UART_NUM);
-//         }
-        
-//         // Short delay between retry attempts
-//         vTaskDelay(pdMS_TO_TICKS(200));
-//     }
-// }
-
-// if (!handshake_received) {
-//     ESP_LOGE(TAG, "Failed to receive handshake after %d attempts and %d power cycles", 
-//              retry, power_cycles);
-//     return ESP_ERR_TIMEOUT;
-// }
-    
-    // 5. CREATE RESPONSE TASKS ONLY AFTER HANDSHAKE
+    // 4. CREATE RESPONSE TASKS ONLY AFTER HANDSHAKE
     if (xTaskCreate(read_response_task, "FingerprintReadResponse", 8192, NULL, 
                    configMAX_PRIORITIES - 2, &fingerprint_task_handle) != pdPASS) {
         ESP_LOGE(TAG, "Failed to create read response task");
@@ -971,13 +872,13 @@ esp_err_t fingerprint_init(void) {
         return ESP_FAIL;
     }
     
-    // 6. INITIALIZE COMMANDS
+    // 5. INITIALIZE COMMANDS
     uint8_t buffer_id1 = 0x01;
     uint8_t buffer_id2 = 0x02;
     fingerprint_set_command(&PS_GenChar1, FINGERPRINT_CMD_GEN_CHAR, &buffer_id1, 1);
     fingerprint_set_command(&PS_GenChar2, FINGERPRINT_CMD_GEN_CHAR, &buffer_id2, 1);
     
-    // 7. ONLY NOW SETUP GPIO AND INTERRUPTS
+    // 6. ONLY NOW SETUP GPIO AND INTERRUPTS
     esp_err_t gpio_ret = gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1);
     if (gpio_ret != ESP_OK && gpio_ret != ESP_ERR_INVALID_STATE) {
         ESP_LOGE(TAG, "Failed to install GPIO ISR service: %s", esp_err_to_name(gpio_ret));
@@ -3243,34 +3144,6 @@ esp_err_t load_template_to_buffer(uint16_t template_id, uint8_t buffer_id) {
     return (bits & ENROLL_BIT_SUCCESS) ? ESP_OK : ESP_FAIL;
 }
 
-// Upload template from module buffer to host
-// esp_err_t upload_template(uint8_t buffer_id, uint8_t* template_data, size_t* template_size) {
-//     esp_err_t err;
-//     EventBits_t bits;
-//     size_t total_size = 0;
-    
-//     // First send upload command
-//     uint8_t params[] = {buffer_id};
-//     fingerprint_set_command(&PS_UpChar, FINGERPRINT_CMD_UP_CHAR, params, sizeof(params));
-//     err = fingerprint_send_command(&PS_UpChar, DEFAULT_FINGERPRINT_ADDRESS);
-//     if (err != ESP_OK) return err;
-
-//     // Wait for acknowledgment and subsequent data packets
-//     bits = xEventGroupWaitBits(enroll_event_group,
-//                              ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-//                              pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-                             
-//     if (!(bits & ENROLL_BIT_SUCCESS)) {
-//         ESP_LOGE(TAG, "Failed to start template upload");
-//         return ESP_FAIL;
-//     }
-
-//     // The actual template data will be handled by process_response_task
-//     // which will trigger appropriate events with the template data
-
-//     return ESP_OK;
-// }
-
 esp_err_t upload_template(uint8_t buffer_id, uint8_t *template_data, size_t *template_size) {
     esp_err_t err;
     EventBits_t bits;
@@ -3871,40 +3744,6 @@ cleanup:
     return err;
 }
 
-
-
-// Function to control power to fingerprint module
-esp_err_t fingerprint_power_control(bool power_on) {
-    // Configure GPIO for output if not already done
-    gpio_config_t io_conf = {
-        .pin_bit_mask = (1ULL << FINGERPRINT_VIN_PIN),
-        .mode = GPIO_MODE_OUTPUT,
-        .pull_up_en = GPIO_PULLUP_DISABLE,
-        .pull_down_en = GPIO_PULLDOWN_DISABLE,
-        .intr_type = GPIO_INTR_DISABLE,
-    };
-    
-    esp_err_t err = gpio_config(&io_conf);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to configure VIN control pin: %s", esp_err_to_name(err));
-        return err;
-    }
-    
-    // Set pin level according to power_on parameter
-    gpio_set_level(FINGERPRINT_VIN_PIN, power_on ? 1 : 0);
-    ESP_LOGI(TAG, "Fingerprint module power %s", power_on ? "ON" : "OFF");
-    
-    if (power_on) {
-        // If powering on, add longer delay for module to initialize
-        vTaskDelay(pdMS_TO_TICKS(800));  // Increased from 500ms to 800ms
-    } else {
-        // CRITICAL FIX: Add delay after powering OFF to ensure proper discharge
-        vTaskDelay(pdMS_TO_TICKS(500));  // Need at least 500ms for capacitors to discharge
-    }
-    
-    return ESP_OK;
-}
-
 void fingerprint_event_cleanup(fingerprint_event_t* event) {
     if (!event) return;
     
@@ -3919,7 +3758,6 @@ void fingerprint_event_cleanup(fingerprint_event_t* event) {
         }
         ESP_LOGI(TAG, "Freed template data from event");
     }
-
     
     // Handle multi-packet cleanup with extreme caution
     if (event->multi_packet != NULL) {

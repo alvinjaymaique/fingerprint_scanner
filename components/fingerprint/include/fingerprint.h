@@ -1806,8 +1806,20 @@ esp_err_t enroll_fingerprint(uint16_t location);
  */
 #define CHECKING_LOCATION_BIT BIT2
 
+/**
+ * @brief Event bit indicating information page reading is complete
+ * 
+ * This bit is set in the enroll_event_group when the fingerprint module's
+ * information page has been successfully read and processed.
+ */
 #define INFO_PAGE_COMPLETE_BIT BIT3  // You may need to adjust the bit position
 
+/**
+ * @brief Event bit indicating a fingerprint has been found as a duplicate
+ * 
+ * This bit is set in the enroll_event_group when a fingerprint being enrolled
+ * is detected as a duplicate of an existing template in the database.
+ */
 #define DUPLICATE_FOUND_BIT BIT4 
 
 /**
@@ -2034,6 +2046,12 @@ typedef enum {
     READ_CHECKSUM      // Reading 2-byte checksum
 } ParserState;
 
+/**
+ * @brief Event bit indicating template upload has completed
+ * 
+ * This bit is set in the enroll_event_group when a template upload operation
+ * has successfully completed and all template data has been received.
+ */
 #define TEMPLATE_UPLOAD_COMPLETE_BIT (1 << 3) // Bit 3 for template upload complete
 
 FingerprintPacket* extract_packet_from_raw_data(uint8_t* data, size_t data_len, uint8_t target_packet_id);
@@ -2061,7 +2079,12 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
 void finger_detection_task(void *pvParameter);
 
 /**
- * @brief Fingerprint operation modes for the finger detection task
+ * @enum finger_operation_mode_t
+ * @brief Defines the operational modes for fingerprint detection
+ *
+ * This enumeration controls how the fingerprint detection system behaves
+ * when a finger is detected. Each mode corresponds to a specific operation
+ * sequence that will be executed automatically.
  */
 typedef enum {
     FINGER_OP_NONE = 0,       /*!< No specific operation, default search behavior */
@@ -2113,10 +2136,6 @@ esp_err_t fingerprint_wait_for_finger(uint32_t timeout_ms);
  */
 esp_err_t fingerprint_check_template_exists(uint16_t template_id);
 
-
-
-esp_err_t fingerprint_power_control(bool power_on);
-
 /**
  * @brief Free all resources associated with a fingerprint event
  * 
@@ -2126,14 +2145,6 @@ esp_err_t fingerprint_power_control(bool power_on);
  * @param event Pointer to the event to clean up
  */
 void fingerprint_event_cleanup(fingerprint_event_t* event);
-
-
-typedef struct {
-    uint8_t *data;
-    size_t size;
-    bool is_final;
-} template_data_chunk_t;
-
 
 
 
