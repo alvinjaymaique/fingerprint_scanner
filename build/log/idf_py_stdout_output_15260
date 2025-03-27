@@ -1,370 +1,252 @@
-ESP-ROM:esp32s3-20210327
-Build:Mar 27 2021
-rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
-SPIWP:0xee
-Octal Flash Mode Enabled
-For OPI Flash, Use Default Flash Boot Mode
-mode:SLOW_RD, clock div:1
-load:0x3fce2810,len:0x15a0
-load:0x403c8700,len:0x4
-load:0x403c8704,len:0xd20
-load:0x403cb700,len:0x2ee4
-entry 0x403c8928
-[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
-[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
-[0;32mI (33) boot: Multicore bootloader[0m
-[0;32mI (34) boot: chip revision: v0.1[0m
-[0;32mI (37) boot: efuse block revision: v1.2[0m
-[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
-[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
-[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
-[0;32mI (52) boot: Enabling RNG early entropy source...[0m
-[0;32mI (57) boot: Partition Table:[0m
-[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
-[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
-[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
-[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
-[0;32mI (85) boot: End of partition table[0m
-[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ee30h ( 60976) map[0m
-[0;32mI (110) esp_image: segment 1: paddr=0001ee58 vaddr=3fc94000 size=011c0h (  4544) load[0m
-[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1faf8h (129784) map[0m
-[0;32mI (144) esp_image: segment 3: paddr=0003fb20 vaddr=3fc951c0 size=02660h (  9824) load[0m
-[0;32mI (147) esp_image: segment 4: paddr=00042188 vaddr=40374000 size=0ff1ch ( 65308) load[0m
-[0;32mI (166) esp_image: segment 5: paddr=000520ac vaddr=600fe100 size=0001ch (    28) load[0m
-[0;32mI (173) boot: Loaded app from partition at offset 0x10000[0m
-[0;32mI (173) boot: Disabling RNG early entropy source...[0m
-[0;32mI (184) cpu_start: Multicore app[0m
-[0;32mI (193) cpu_start: Pro cpu start user code[0m
-[0;32mI (193) cpu_start: cpu freq: 160000000 Hz[0m
-[0;32mI (193) app_init: Application information:[0m
-[0;32mI (193) app_init: Project name:     fingerprint_scanner[0m
-[0;32mI (198) app_init: App version:      f11e984-dirty[0m
-[0;32mI (203) app_init: Compile time:     Mar 26 2025 11:17:13[0m
-[0;32mI (208) app_init: ELF file SHA256:  1f2a46d81...[0m
-[0;32mI (212) app_init: ESP-IDF:          v5.4-dirty[0m
-[0;32mI (216) efuse_init: Min chip rev:     v0.0[0m
-[0;32mI (220) efuse_init: Max chip rev:     v0.99 [0m
-[0;32mI (224) efuse_init: Chip rev:         v0.1[0m
-[0;32mI (228) heap_init: Initializing. RAM available for dynamic allocation:[0m
-[0;32mI (234) heap_init: At 3FC9D618 len 0004C0F8 (304 KiB): RAM[0m
-[0;32mI (239) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
-[0;32mI (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
-[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
-[0;33mW (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
-[0;32mI (265) spi_flash: detected chip: mxic (opi)[0m
-[0;32mI (268) spi_flash: flash io: opi_str[0m
-[0;33mW (272) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
-[0;32mI (284) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
-[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
-[0;32mI (297) main_task: Started on CPU0[0m
-[0;32mI (307) main_task: Calling app_main()[0m
-[0;32mI (307) FINGERPRINT: Fingerprint event handler registered[0m
-[0;32mI (307) FINGERPRINT: Initializing fingerprint scanner...[0m
-[0;32mI (317) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
-[0;32mI (317) FINGERPRINT: Finger detection task started[0m
-[0;32mI (327) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
-[0;32mI (567) Read Data: 0x3fc9b184   e0                                                |.|[0m
-[0;32mI (567) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  07 15 ff ff ff ff 04 19  |................|[0m
-[0;32mI (837) Read Data: 0x3fc9b185   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
-[0;32mI (847) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (847) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (847) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x15[0m
-[0;32mI (847) FINGERPRINT: Response found![0m
-[0;32mI (857) Status Event Handler: Status: 0[0m
-[0;32mI (1567) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
-[0;32mI (1567) FINGERPRINT: Checking if location 10 is available (page 0, position 10)[0m
-[0;32mI (1637) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  04 1f 00 00 24           |............$|[0m
-[0;32mI (1897) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  23 00 00 04 00 00 00 00  |........#.......|[0m
-[0;32mI (1897) Read Data: 0x3fc9b194   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (1897) Read Data: 0x3fc9b1a4   00 00 00 00 00 00 00 00  00 00 00 2e              |............|[0m
-[0;32mI (1917) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (1917) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (1917) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1F[0m
-[0;32mI (1927) FINGERPRINT: Response found![0m
-[0;32mI (1927) Status Event Handler: Status: 0[0m
-[0;32mI (1937) FINGERPRINT: Checking template at position 10 (byte 1, bit 2)[0m
-[0;33mW (1937) FINGERPRINT: Template exists at position 10[0m
-[1;31mE (1947) FINGERPRINT: Location 10 is already occupied[0m
-[0;32mI (1947) FINGERPRINT: Fingerprint operation mode set to 0[0m
-[1;31mE (1957) FINGERPRINT: Fingeprint not enrolled![0m
-[0;32mI (1957) FINGERPRINT: Starting fingerprint verification...[0m
-[0;32mI (1997) FINGERPRINT: Index table read successful. Status: 0x00[0m
-[0;32mI (4077) FINGERPRINT: Please place your finger on the sensor...[0m
-[0;32mI (4077) FINGERPRINT: Polling for finger presence...[0m
-[0;32mI (4077) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
-[0;32mI (4367) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|[0m
-[0;32mI (4367) FINGERPRINT: Finger detected via interrupt![0m
-[0;32mI (4377) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (4377) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
-[0;32mI (4377) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
-[0;32mI (4387) FINGERPRINT: Response found![0m
-[0;32mI (4387) Status Event Handler: Status: 2[0m
-[0;32mI (4387) FINGERPRINT: Processing fingerprint in mode: 0[0m
-[0;32mI (4447) Send Command Packet: 0x3fcab61c   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
-[0;32mI (4757) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
-[0;32mI (4767) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (4767) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (4767) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x01[0m
-[0;32mI (4767) FINGERPRINT: Response found![0m
-[0;32mI (4777) Status Event Handler: Status: 0[0m
-[0;32mI (4777) FINGERPRINT: Finger presence confirmed on attempt 1[0m
-[0;32mI (4777) FINGERPRINT: Image capture successful, signaling event group[0m
-[0;32mI (4777) FINGERPRINT: Image capture successful, processing features[0m
-[0;32mI (4797) Send Command Packet: 0x3fcab61c   ef 01 ff ff ff ff 01 00  08 04 01 00 00 00 64 00  |..............d.|[0m
-[0;32mI (4797) Send Command Packet: 0x3fcab634   ef 01 ff ff ff ff 01 00  04 02 01 00 08           |.............|[0m
-[0;32mI (4817) Send Command Packet: 0x3fcab62c   72                                                |r|[0m
-[0;32mI (4847) FINGERPRINT: Finger detected! Status: 0x00[0m
-[0;32mI (4917) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
-[0;32mI (4917) FINGERPRINT: Default mode: searching database[0m
-[0;32mI (5187) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  08 04 01 00 00 00 64 00  |..............d.|[0m
-[0;32mI (5187) Send Command Packet: 0x3fcab41c   72                                                |r|[0m
-[0;32mI (5187) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
-[0;32mI (5197) Read Data: 0x3fc9b194   ff ff 07 00 07 00 00 0a  00 0b 00 23              |...........#|[0m
-[0;32mI (5217) FINGERPRINT: Returning response with 2 packets[0m
-[0;32mI (5217) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (5217) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
-[0;32mI (5227) FINGERPRINT: Response found![0m
-[0;32mI (5227) Status Event Handler: Status: 0[0m
-[0;32mI (5227) FINGERPRINT: Search returned success but match score is 0, waiting for more responses[0m
-[0;32mI (5237) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
-[0;32mI (5247) FINGERPRINT: Response found![0m
-[0;32mI (5247) Status Event Handler: Status: 0[0m
-[0;32mI (5307) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
-[0;32mI (5307) FINGERPRINT: Match found at Enrollee ID: 10[0m
-[0;32mI (5307) FINGERPRINT: Match score: 2816[0m
-[0;32mI (5587) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  07 00 00 0a 00 1a 00 32  |...............2|[0m
-[0;32mI (5597) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (5597) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (5597) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
-[0;32mI (5597) FINGERPRINT: Response found![0m
-[0;32mI (5607) Status Event Handler: Status: 0[0m
-[0;32mI (5817) FINGERPRINT: Fingerprint verification successful![0m
-[0;32mI (5817) FINGERPRINT: Access granted - fingerprint verified![0m
-[0;32mI (5867) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 1d 00 21              |...........!|[0m
-[0;32mI (6127) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  05 00 00 01 00 0d        |..............|[0m
-[0;32mI (6137) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (6137) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (6137) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1D[0m
-[0;32mI (6137) FINGERPRINT: Response found![0m
-[0;32mI (6147) Status Event Handler: Status: 0[0m
-[0;32mI (6147) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
-[0;32mI (6157) FINGERPRINT: 1. Backing up template id 0x0000[0m
-[0;32mI (6157) FINGERPRINT: 0. Backing up template id 0x0000[0m
-[0;32mI (6167) Send Command Packet: 0x3fcab61c   ef 01 ff ff ff ff 01 00  06 07 01 00 00 00 0f     |...............|[0m
-[0;32mI (6167) FINGERPRINT: LoadChar command sent[0m
-[0;32mI (6187) FINGERPRINT: Fingerprint processing completed[0m
-[0;32mI (6197) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
-[0;32mI (6457) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
-[0;32mI (6467) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (6467) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (6467) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x07[0m
-[0;32mI (6467) FINGERPRINT: Response found![0m
-[0;32mI (6477) Status Event Handler: Status: 0[0m
-[0;32mI (6477) FINGERPRINT: Loading Template Successful[0m
-[0;32mI (6477) FINGERPRINT: Uploading Template...[0m
-[0;32mI (6487) FINGERPRINT: Created new template accumulator[0m
-[0;32mI (6487) FINGERPRINT: Sending UpChar command for buffer 1[0m
-[0;32mI (6497) Send Command Packet: 0x3fcab63c   ef 01 ff ff ff ff 01 00  04 08 01 00 0e           |.............|[0m
-[0;32mI (6507) FINGERPRINT: Waiting for template data transfer...[0m
-[0;32mI (6527) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
-[0;32mI (8087) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 0d 00 17              |............|[0m
-[0;32mI (8097) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (8097) FINGERPRINT: Command response packet: ID=0x07, Status=0x0D[0m
-[0;32mI (8097) FINGERPRINT: Added packet ID=0x07 with calculated checksum 0x000A[0m
-[0;32mI (8097) FINGERPRINT: Template collection timed out, treating as complete[0m
-[0;32mI (8107) FINGERPRINT: Template upload complete[0m
-[0;32mI (8157) FINGERPRINT: Template uploaded[0m
-[0;32mI (8157) FINGERPRINT: Multi-packet data available: 1 packets[0m
-[0;32mI (8157) FINGERPRINT: Packet 0: ID=0x07, Address=0xFFFFFFFF, Length=3, Checksum=0x000A[0m
-[0;32mI (8157) Packet Data: 00[0m
-[0;33mW (8207) FINGERPRINT: Template data is empty or missing[0m
-[1;31mE (8207) FINGERPRINT: g_template_accumulator is NULL after upload. Possible causes:[0m
-[1;31mE (8207) FINGERPRINT: 1. No response packets received from module. Check UART connection. Location might be empty[0m
-[1;31mE (8217) FINGERPRINT: 2. The accumulator may have been deallocated due to insufficient memory.[0m
-[1;31mE (8217) FINGERPRINT: 3. Ensure template storage is handled correctly before accessing the accumulator.[0m
-[1;31mE (8227) FINGERPRINT: Failed to upload template: ESP_ERR_NOT_FOUND[0m
-[1;31mE (8237) FINGERPRINT: Failed to backup template.[0m
-[0;32mI (8237) Send Command Packet: 0x3fcab644   ef 01 ff ff ff ff 01 00  03 16 00 1a              |............|[0m
-[0;32mI (8247) FINGERPRINT: Information page read successfully[0m
-[0;32mI (8257) main_task: Returned from app_main()[0m
-[0;32mI (8557) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
-[0;32mI (8557) Read Data: 0x3fc9b194   ff ff 02 01 02 00 05 20  00 00 64 00 03 ff ff ff  |....... ..d.....|[0m
-[0;32mI (8557) Read Data: 0x3fc9b1a4   ff 00 03 00 06 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8567) Read Data: 0x3fc9b1b4   00 42 65 74 74 65 72 6c  66 4a 50 53 31 2e 30 2e  |.BetterlfJPS1.0.|[0m
-[0;32mI (8577) Read Data: 0x3fc9b1c4   30 58 54 20 20 20 20 20  20 42 46 38 33 31 31 32  |0XT      BF83112|[0m
-[0;32mI (8587) Read Data: 0x3fc9b1d4   58 00 00 00 00 d6 5e 91  e4 00 00 00 00 00 00 00  |X.....^.........|[0m
-[0;32mI (8597) Read Data: 0x3fc9b1e4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8607) Read Data: 0x3fc9b1f4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8617) Read Data: 0x3fc9b204   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8617) Read Data: 0x3fc9b214   00 00 00 12 35 60 b2 c1  8b 4a 61 6e 20 20 39 20  |....5`...Jan  9 |[0m
-[0;32mI (8627) Read Data: 0x3fc9b224   32 30 32 34 00 00 00 00  00 00 00 00 00 00 00 00  |2024............|[0m
-[0;32mI (8637) Read Data: 0x3fc9b234   00 00 00 00 00 00 00 31  36 3a 31 34 3a 30 34 00  |.......16:14:04.|[0m
-[0;32mI (8647) Read Data: 0x3fc9b244   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8657) Read Data: 0x3fc9b254   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8667) Read Data: 0x3fc9b264   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8677) Read Data: 0x3fc9b274   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8687) Read Data: 0x3fc9b284   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8697) Read Data: 0x3fc9b294   00 00 00 00 00 16 5f ef  01 ff ff ff ff 08 01 02  |......_.........|[0m
-[0;32mI (8707) Read Data: 0x3fc9b2a4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8707) Read Data: 0x3fc9b2b4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8717) Read Data: 0x3fc9b2c4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8727) Read Data: 0x3fc9b2d4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8737) Read Data: 0x3fc9b2e4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8747) Read Data: 0x3fc9b2f4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8757) Read Data: 0x3fc9b304   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8767) Read Data: 0x3fc9b314   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8777) Read Data: 0x3fc9b324   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8787) Read Data: 0x3fc9b334   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8787) Read Data: 0x3fc9b344   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8797) Read Data: 0x3fc9b354   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8807) Read Data: 0x3fc9b364   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8817) Read Data: 0x3fc9b374   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8827) Read Data: 0x3fc9b384   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
-[0;32mI (8837) Read Data: 0x3fc9b394   00 00 00 00 00 00 00 00  27 01 00 00 00 00 00 00  |........'.......|[0m
-[0;32mI (8847) Read Data: 0x3fc9b3a4   00 33                                             |.3|[0m
-[0;32mI (8867) FINGERPRINT: Packet 0: ID=0x02, Address=0xFFFFFFFF, Length=258[0m
-[0;32mI (8867) Checksum Packet: 5f 16[0m
-[0;32mI (8867) Packet Parameters: 00 05 20 00 00 64 00 03 ff ff ff ff 00 03 00 06[0m
-[0;32mI (8867) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 42 65 74 74[0m
-[0;32mI (8877) Packet Parameters: 65 72 6c 66 4a 50 53 31 2e 30 2e 30 58 54 20 20[0m
-[0;32mI (8887) Packet Parameters: 20 20 20 20 42 46 38 33 31 31 32 58 00 00 00 00[0m
-[0;32mI (8887) Packet Parameters: d6 5e 91 e4 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8897) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8907) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8907) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 12 35[0m
-[0;32mI (8917) Packet Parameters: 60 b2 c1 8b 4a 61 6e 20 20 39 20 32 30 32 34 00[0m
-[0;32mI (8927) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8927) Packet Parameters: 00 00 31 36 3a 31 34 3a 30 34 00 00 00 00 00 00[0m
-[0;32mI (8937) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8947) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8947) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8957) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8967) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8967) FINGERPRINT: Found packet ID=0x08 at position 279, Length=258[0m
-[0;32mI (8977) FINGERPRINT: Setting success bit for info page completion[0m
-[0;32mI (8977) Checksum Packet: 33 00[0m
-[0;32mI (8987) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8987) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (8997) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9007) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9007) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9017) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9027) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9027) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9037) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9047) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9047) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9057) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9067) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9067) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9077) Packet Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9087) Packet Parameters: 00 00 00 00 00 00 00 00 27 01 00 00 00 00 00 00[0m
-[0;32mI (9097) FINGERPRINT: Added 0x08 packet to response at index 4[0m
-[0;32mI (9097) Final 0x08 packet data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9107) Final 0x08 packet data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (9107) FINGERPRINT: Returning response with 5 packets[0m
-[0;32mI (9117) FINGERPRINT: Processing packet ID=0x02, Command=0x00, LastCommand=0x16[0m
-[0;32mI (9127) FINGERPRINT: Processing packet ID=0x08, Command=0x00, LastCommand=0x16[0m
-[0;32mI (9127) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x16[0m
-[0;32mI (9137) FINGERPRINT: Response found![0m
-[0;32mI (9137) Status Event Handler: Status: 0[0m
-[0;32mI (9147) FINGERPRINT: Information page read command accepted[0m
-[0;32mI (9197) FINGERPRINT: Information page read successfully. Status: 0x00[0m
-[0;32mI (9197) FINGERPRINT: Packet ID read successfully. Status: 0x07[0m
-[0;32mI (9197) FINGERPRINT: Packet length read successfully. Status: 0x03[0m
-Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
-
-Core  0 register dump:
-PC      : 0x4200bf09  PS      : 0x00060b30  A0      : 0x8200c71e  A1      : 0x3fca8490  
-A2      : 0x3fca84c0  A3      : 0x3fca8720  A4      : 0x00000130  A5      : 0x3fca85f0  
-A6      : 0x0000000c  A7      : 0x3c0257d8  A8      : 0x8200bf06  A9      : 0x3fca8470  
-A10     : 0x000023ed  A11     : 0x3c0257d8  A12     : 0x3c0260a0  A13     : 0x000023ed  
-A14     : 0x3c0257d8  A15     : 0x00000003  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
-EXCVADDR: 0x00000010  LBEG    : 0x400556d5  LEND    : 0x400556e5  LCOUNT  : 0xfffffffc  
-
-
-Backtrace: 0x4200bf06:0x3fca8490 0x4200c71b:0x3fca84c0 0x4200d90f:0x3fca8740 0x4200df4e:0x3fca89d0 0x4037b78d:0x3fca8c50
-
-
-
-
-ELF file SHA256: 1f2a46d81
-
-Rebooting...
-ESP-ROM:esp32s3-20210327
-Build:Mar 27 2021
-rst:0xc (RTC_SW_CPU_RST),boot:0x3b (SPI_FAST_FLASH_BOOT)
-Saved PC:0x40375b78
-SPIWP:0xee
-Octal Flash Mode Enabled
-For OPI Flash, Use Default Flash Boot Mode
-mode:SLOW_RD, clock div:1
-load:0x3fce2810,len:0x15a0
-load:0x403c8700,len:0x4
-load:0x403c8704,len:0xd20
-load:0x403cb700,len:0x2ee4
-entry 0x403c8928
-[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
-[0;32mI (38) boot: compile time Mar 20 2025 11:43:23[0m
-[0;32mI (38) boot: Multicore bootloader[0m
-[0;32mI (38) boot: chip revision: v0.1[0m
-[0;32mI (41) boot: efuse block revision: v1.2[0m
-[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
-[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
-[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
-[0;32mI (57) boot: Enabling RNG early entropy source...[0m
-[0;32mI (61) boot: Partition Table:[0m
-[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
-[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
-[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
-[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
-[0;32mI (90) boot: End of partition table[0m
-[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ee30h ( 60976) map[0m
-[0;32mI (115) esp_image: segment 1: paddr=0001ee58 vaddr=3fc94000 size=011c0h (  4544) load[0m
-[0;32mI (116) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1faf8h (129784) map[0m
-[0;32mI (149) esp_image: segment 3: paddr=0003fb20 vaddr=3fc951c0 size=02660h (  9824) load[0m
-[0;32mI (152) esp_image: segment 4: paddr=00042188 vaddr=40374000 size=0ff1ch ( 65308) load[0m
-[0;32mI (171) esp_image: segment 5: paddr=000520ac vaddr=600fe100 size=0001ch (    28) load[0m
-[0;32mI (177) boot: Loaded app from partition at offset 0x10000[0m
-[0;32mI (177) boot: Disabling RNG early entropy source...[0m
-[0;32mI (189) cpu_start: Multicore app[0m
-[0;32mI (197) cpu_start: Pro cpu start user code[0m
-[0;32mI (197) cpu_start: cpu freq: 160000000 Hz[0m
-[0;32mI (198) app_init: Application information:[0m
-[0;32mI (198) app_init: Project name:     fingerprint_scanner[0m
-[0;32mI (202) app_init: App version:      f11e984-dirty[0m
-[0;32mI (207) app_init: Compile time:     Mar 26 2025 11:17:13[0m
-[0;32mI (212) app_init: ELF file SHA256:  1f2a46d81...[0m
-[0;32mI (216) app_init: ESP-IDF:          v5.4-dirty[0m
-[0;32mI (220) efuse_init: Min chip rev:     v0.0[0m
-[0;32mI (224) efuse_init: Max chip rev:     v0.99 [0m
-[0;32mI (228) efuse_init: Chip rev:         v0.1[0m
-[0;32mI (232) heap_init: Initializing. RAM available for dynamic allocation:[0m
-[0;32mI (238) heap_init: At 3FC9D618 len 0004C0F8 (304 KiB): RAM[0m
-[0;32mI (244) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
-[0;32mI (249) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
-[0;32mI (254) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
-[0;33mW (260) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
-[0;32mI (269) spi_flash: detected chip: mxic (opi)[0m
-[0;32mI (273) spi_flash: flash io: opi_str[0m
-[0;33mW (276) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
-[0;32mI (289) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
-[0;32mI (295) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
-[0;32mI (302) main_task: Started on CPU0[0m
-[0;32mI (312) main_task: Calling app_main()[0m
-[0;32mI (312) FINGERPRINT: Fingerprint event handler registered[0m
-[0;32mI (312) FINGERPRINT: Initializing fingerprint scanner...[0m
-[0;32mI (322) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
-[0;32mI (322) FINGERPRINT: Finger detection task started[0m
-[0;32mI (332) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
-[0;32mI (572) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  07 15 ff ff ff ff 04 19  |................|[0m
-[0;32mI (832) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
-[0;32mI (842) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (842) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (842) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x15[0m
-[0;32mI (842) FINGERPRINT: Response found![0m
-[0;32mI (852) Status Event Handler: Status: 0[0m
-[0;32mI (1002) FINGERPRINT: Finger detected via interrupt![0m
-[0;32mI (1002) FINGERPRINT: Processing fingerprint in mode: 0[0m
-[0;32mI (1212) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
-[0;32mI (1212) Read Data: 0x3fc9b184   00 55                                             |.U|[0m
+[1/11] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
+[2/11] No install step for 'bootloader'
+[3/11] Completed 'bootloader'
+[4/11] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/fingerprint_scanner.c.obj
+FAILED: esp-idf/main/CMakeFiles/__idf_main.dir/fingerprint_scanner.c.obj 
+ccache C:\Espressif\tools\xtensa-esp-elf\esp-14.2.0_20241119\xtensa-esp-elf\bin\xtensa-esp32s3-elf-gcc.exe -DESP_PLATFORM -DIDF_VER=\"v5.4-dirty\" -DMBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\" -DSOC_MMU_PAGE_SIZE=CONFIG_MMU_PAGE_SIZE -DSOC_XTAL_FREQ_MHZ=CONFIG_XTAL_FREQ -DUNITY_INCLUDE_CONFIG_H -D_GLIBCXX_HAVE_POSIX_SEMAPHORE -D_GLIBCXX_USE_POSIX_SEMAPHORE -D_GNU_SOURCE -D_POSIX_READER_WRITER_LOCKS -IC:/Users/MELBEN/esp/fingerprint_scanner/build/config -IC:/Users/MELBEN/esp/fingerprint_scanner/main -IC:/Espressif/frameworks/esp-idf-v5.4/components/newlib/platform_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/esp_additions/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/dma/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/ldo/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/debug_probe/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/. -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/tlsf -IC:/Espressif/frameworks/esp-idf-v5.4/components/log/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/register -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/platform_port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_common/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/include/private -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/deprecated_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps/sntp -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/lwip/src/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/freertos/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/arch -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/sys -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gpio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_pm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/mbedtls/port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/mbedtls/mbedtls/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/mbedtls/mbedtls/library -IC:/Espressif/frameworks/esp-idf-v5.4/components/mbedtls/esp_crt_bundle/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/mbedtls/mbedtls/3rdparty/everest/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/mbedtls/mbedtls/3rdparty/p256-m -IC:/Espressif/frameworks/esp-idf-v5.4/components/mbedtls/mbedtls/3rdparty/p256-m/p256-m -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_app_format/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_bootloader_format/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/app_update/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/bootloader_support/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/bootloader_support/bootloader_flash/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_partition/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/efuse/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/efuse/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_mm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/spi_flash/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_security/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/pthread/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_timer/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gptimer/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_ringbuf/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_uart/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/vfs/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/app_trace/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_event/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/nvs_flash/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_pcnt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_spi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_mcpwm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ana_cmpr/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2s/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdspi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_dac/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_rmt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_tsens/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ledc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_parlio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_usb_serial_jtag/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/deprecated -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/twai/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_phy/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_phy/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_vfs_console/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_netif/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/wpa_supplicant/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/wpa_supplicant/port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/wpa_supplicant/esp_supplicant/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_coex/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_wifi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_wifi/include/local -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_wifi/wifi_apps/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_wifi/wifi_apps/nan_app/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/unity/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/unity/unity/src -IC:/Espressif/frameworks/esp-idf-v5.4/components/cmock/CMock/src -IC:/Espressif/frameworks/esp-idf-v5.4/components/console -IC:/Espressif/frameworks/esp-idf-v5.4/components/http_parser -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp-tls -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp-tls/esp-tls-crypto -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_adc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_adc/interface -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_adc/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_adc/deprecated/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_isp/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_cam/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_cam/interface -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_jpeg/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ppa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_eth/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_gdbstub/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hid/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/tcp_transport/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_http_client/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_http_server/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_https_ota/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_https_server/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_psram/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_lcd/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_lcd/interface -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_lcd/rgb/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/protobuf-c/protobuf-c -IC:/Espressif/frameworks/esp-idf-v5.4/components/protocomm/include/common -IC:/Espressif/frameworks/esp-idf-v5.4/components/protocomm/include/security -IC:/Espressif/frameworks/esp-idf-v5.4/components/protocomm/include/transports -IC:/Espressif/frameworks/esp-idf-v5.4/components/protocomm/include/crypto/srp6a -IC:/Espressif/frameworks/esp-idf-v5.4/components/protocomm/proto-c -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_local_ctrl/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/espcoredump/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/espcoredump/include/port/xtensa -IC:/Espressif/frameworks/esp-idf-v5.4/components/wear_levelling/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/fatfs/diskio -IC:/Espressif/frameworks/esp-idf-v5.4/components/fatfs/src -IC:/Espressif/frameworks/esp-idf-v5.4/components/fatfs/vfs -IC:/Espressif/frameworks/esp-idf-v5.4/components/idf_test/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/idf_test/include/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/ieee802154/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/json/cJSON -IC:/Espressif/frameworks/esp-idf-v5.4/components/mqtt/esp-mqtt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/nvs_sec_provider/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/perfmon/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/rt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/spiffs/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/touch_element/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/usb/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/wifi_provisioning/include -IC:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include -mlongcalls  -fno-builtin-memcpy -fno-builtin-memset -fno-builtin-bzero -fno-builtin-stpcpy -fno-builtin-strncpy -fdiagnostics-color=always -ffunction-sections -fdata-sections -Wall -Werror=all -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=unused-but-set-variable -Wno-error=deprecated-declarations -Wextra -Wno-error=extra -Wno-unused-parameter -Wno-sign-compare -Wno-enum-conversion -gdwarf-4 -ggdb -Og -fno-shrink-wrap -fmacro-prefix-map=C:/Users/MELBEN/esp/fingerprint_scanner=. -fmacro-prefix-map=C:/Espressif/frameworks/esp-idf-v5.4=/IDF -fstrict-volatile-bitfields -fno-jump-tables -fno-tree-switch-conversion -std=gnu17 -Wno-old-style-declaration -MD -MT esp-idf/main/CMakeFiles/__idf_main.dir/fingerprint_scanner.c.obj -MF esp-idf\main\CMakeFiles\__idf_main.dir\fingerprint_scanner.c.obj.d -o esp-idf/main/CMakeFiles/__idf_main.dir/fingerprint_scanner.c.obj -c C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c: In function 'app_main':
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:54:14: warning: unused variable 'enrolled_count' [-Wunused-variable]
+   54 |     uint16_t enrolled_count;
+      |              ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:51:15: warning: unused variable 'result' [-Wunused-variable]
+   51 |     esp_err_t result = verify_fingerprint();
+      |               ^~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:41:14: warning: unused variable 'location' [-Wunused-variable]
+   41 |     uint16_t location = 0;  // Storage location for fingerprint template
+      |              ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c: In function 'internal_handle_fingerprint_event':
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:301:27: error: 'union <anonymous>' has no member named 'template_data'
+  301 |             if (event.data.template_data.data != NULL) {
+      |                           ^
+In file included from C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:4:
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:86: error: 'union <anonymous>' has no member named 'template_data'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                                                                                      ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:182:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  182 |         if (level==ESP_LOG_ERROR )          { esp_log_write(ESP_LOG_ERROR,      tag, LOG_FORMAT(E, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:17: note: in expansion of macro 'ESP_LOGI'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                 ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:86: error: 'union <anonymous>' has no member named 'template_data'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                                                                                      ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:183:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  183 |         else if (level==ESP_LOG_WARN )      { esp_log_write(ESP_LOG_WARN,       tag, LOG_FORMAT(W, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:17: note: in expansion of macro 'ESP_LOGI'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                 ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:86: error: 'union <anonymous>' has no member named 'template_data'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                                                                                      ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:184:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  184 |         else if (level==ESP_LOG_DEBUG )     { esp_log_write(ESP_LOG_DEBUG,      tag, LOG_FORMAT(D, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:17: note: in expansion of macro 'ESP_LOGI'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                 ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:86: error: 'union <anonymous>' has no member named 'template_data'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                                                                                      ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:185:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  185 |         else if (level==ESP_LOG_VERBOSE )   { esp_log_write(ESP_LOG_VERBOSE,    tag, LOG_FORMAT(V, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:17: note: in expansion of macro 'ESP_LOGI'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                 ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:86: error: 'union <anonymous>' has no member named 'template_data'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                                                                                      ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:186:137: note: in definition of macro 'ESP_LOG_LEVEL'
+  186 |         else                                { esp_log_write(ESP_LOG_INFO,       tag, LOG_FORMAT(I, format), esp_log_timestamp(), tag, ##__VA_ARGS__); } \
+      |                                                                                                                                         ^~~~~~~~~~~
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:114:38: note: in expansion of macro 'ESP_LOG_LEVEL_LOCAL'
+  114 | #define ESP_LOGI( tag, format, ... ) ESP_LOG_LEVEL_LOCAL(ESP_LOG_INFO,    tag, format, ##__VA_ARGS__)
+      |                                      ^~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:302:17: note: in expansion of macro 'ESP_LOGI'
+  302 |                 ESP_LOGI(tag, "Information page data received (%d bytes)", event.data.template_data.size);
+      |                 ^~~~~~~~
+In file included from C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log.h:16:
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:303:75: error: 'union <anonymous>' has no member named 'template_data'
+  303 |                 ESP_LOG_BUFFER_HEXDUMP("Information Page Data", event.data.template_data.data,
+      |                                                                           ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_buffer.h:124:80: note: in definition of macro 'ESP_LOG_BUFFER_HEXDUMP'
+  124 |     do { if (LOG_LOCAL_LEVEL >= (level)) {esp_log_buffer_hexdump_internal(tag, buffer, buff_len, level);} } while(0)
+      |                                                                                ^~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:304:48: error: 'union <anonymous>' has no member named 'template_data'
+  304 |                                     (event.data.template_data.size > 64) ? 64 : event.data.template_data.size,
+      |                                                ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_buffer.h:124:88: note: in definition of macro 'ESP_LOG_BUFFER_HEXDUMP'
+  124 |     do { if (LOG_LOCAL_LEVEL >= (level)) {esp_log_buffer_hexdump_internal(tag, buffer, buff_len, level);} } while(0)
+      |                                                                                        ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:304:91: error: 'union <anonymous>' has no member named 'template_data'
+  304 |                                     (event.data.template_data.size > 64) ? 64 : event.data.template_data.size,
+      |                                                                                           ^
+C:/Espressif/frameworks/esp-idf-v5.4/components/log/include/esp_log_buffer.h:124:88: note: in definition of macro 'ESP_LOG_BUFFER_HEXDUMP'
+  124 |     do { if (LOG_LOCAL_LEVEL >= (level)) {esp_log_buffer_hexdump_internal(tag, buffer, buff_len, level);} } while(0)
+      |                                                                                        ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:308:42: error: 'union <anonymous>' has no member named 'template_data'
+  308 |                 heap_caps_free(event.data.template_data.data);
+      |                                          ^
+In file included from C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:5:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h:1798:27: warning: 'enroll_event_group' defined but not used [-Wunused-variable]
+ 1798 | static EventGroupHandle_t enroll_event_group = NULL;
+      |                           ^~~~~~~~~~~~~~~~~~
+[5/11] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
+FAILED: esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj 
+ccache C:\Espressif\tools\xtensa-esp-elf\esp-14.2.0_20241119\xtensa-esp-elf\bin\xtensa-esp32s3-elf-gcc.exe -DESP_PLATFORM -DIDF_VER=\"v5.4-dirty\" -DSOC_MMU_PAGE_SIZE=CONFIG_MMU_PAGE_SIZE -DSOC_XTAL_FREQ_MHZ=CONFIG_XTAL_FREQ -D_GLIBCXX_HAVE_POSIX_SEMAPHORE -D_GLIBCXX_USE_POSIX_SEMAPHORE -D_GNU_SOURCE -D_POSIX_READER_WRITER_LOCKS -IC:/Users/MELBEN/esp/fingerprint_scanner/build/config -IC:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/newlib/platform_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/esp_additions/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/dma/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/ldo/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/debug_probe/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/. -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/tlsf -IC:/Espressif/frameworks/esp-idf-v5.4/components/log/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/register -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/platform_port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_common/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/include/private -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/deprecated_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps/sntp -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/lwip/src/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/freertos/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/arch -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/sys -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/deprecated -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/twai/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_pm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_ringbuf/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gpio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_pcnt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gptimer/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_spi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_mcpwm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ana_cmpr/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2s/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdspi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_dac/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_rmt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_tsens/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_uart/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/vfs/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ledc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_parlio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_usb_serial_jtag/include -mlongcalls  -fno-builtin-memcpy -fno-builtin-memset -fno-builtin-bzero -fno-builtin-stpcpy -fno-builtin-strncpy -fdiagnostics-color=always -ffunction-sections -fdata-sections -Wall -Werror=all -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=unused-but-set-variable -Wno-error=deprecated-declarations -Wextra -Wno-error=extra -Wno-unused-parameter -Wno-sign-compare -Wno-enum-conversion -gdwarf-4 -ggdb -Og -fno-shrink-wrap -fmacro-prefix-map=C:/Users/MELBEN/esp/fingerprint_scanner=. -fmacro-prefix-map=C:/Espressif/frameworks/esp-idf-v5.4=/IDF -fstrict-volatile-bitfields -fno-jump-tables -fno-tree-switch-conversion -std=gnu17 -Wno-old-style-declaration -MD -MT esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj -MF esp-idf\fingerprint\CMakeFiles\__idf_fingerprint.dir\fingerprint.c.obj.d -o esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj -c C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_set_command':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1019:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+ 1019 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
+      |                      ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'trigger_fingerprint_event':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1188:23: error: 'union <anonymous>' has no member named 'template_data'
+ 1188 |             event.data.template_data.data != NULL &&
+      |                       ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1189:23: error: 'union <anonymous>' has no member named 'template_data'
+ 1189 |             event.data.template_data.size > 0) {
+      |                       ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1192:65: error: 'union <anonymous>' has no member named 'template_data'
+ 1192 |             uint8_t* template_copy = heap_caps_malloc(event.data.template_data.size, MALLOC_CAP_8BIT);
+      |                                                                 ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1194:49: error: 'union <anonymous>' has no member named 'template_data'
+ 1194 |                 memcpy(template_copy, event.data.template_data.data, event.data.template_data.size);
+      |                                                 ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1194:80: error: 'union <anonymous>' has no member named 'template_data'
+ 1194 |                 memcpy(template_copy, event.data.template_data.data, event.data.template_data.size);
+      |                                                                                ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1195:32: error: 'union <anonymous>' has no member named 'template_data'
+ 1195 |                 event_copy.data.template_data.data = template_copy;
+      |                                ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1199:32: error: 'union <anonymous>' has no member named 'template_data'
+ 1199 |                 event_copy.data.template_data.data = NULL;
+      |                                ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1200:32: error: 'union <anonymous>' has no member named 'template_data'
+ 1200 |                 event_copy.data.template_data.size = 0;
+      |                                ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1201:32: error: 'union <anonymous>' has no member named 'template_data'
+ 1201 |                 event_copy.data.template_data.is_complete = false;
+      |                                ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1211:28: error: 'union <anonymous>' has no member named 'template_data'
+ 1211 |             event_copy.data.template_data.data != NULL &&
+      |                            ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1212:28: error: 'union <anonymous>' has no member named 'template_data'
+ 1212 |             event_copy.data.template_data.data != event.data.template_data.data) {
+      |                            ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1212:61: error: 'union <anonymous>' has no member named 'template_data'
+ 1212 |             event_copy.data.template_data.data != event.data.template_data.data) {
+      |                                                             ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1213:43: error: 'union <anonymous>' has no member named 'template_data'
+ 1213 |             heap_caps_free(event_copy.data.template_data.data);
+      |                                           ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_read_response':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1241:17: warning: variable 'final_packet_sent' set but not used [-Wunused-but-set-variable]
+ 1241 |     static bool final_packet_sent = false;
+      |                 ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'extract_packet_from_raw_data':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1653:22: warning: variable 'found_foof_marker' set but not used [-Wunused-but-set-variable]
+ 1653 |                 bool found_foof_marker = false;
+      |                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_response_task':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1768:28: warning: variable 'foof_position' set but not used [-Wunused-but-set-variable]
+ 1768 |                     size_t foof_position = 0;
+      |                            ^~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'process_response_task':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2191:36: error: 'union <anonymous>' has no member named 'template_data'
+ 2191 |                         .data = { .template_data = {NULL, 0, false} }  // Initialize to safe values
+      |                                    ^~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2191:53: error: initialization of 'short unsigned int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+ 2191 |                         .data = { .template_data = {NULL, 0, false} }  // Initialize to safe values
+      |                                                     ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2191:53: note: (near initialization for 'template_event.data.match_info.page_id')
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2201:52: error: 'union <anonymous>' has no member named 'template_data'
+ 2201 |                                 template_event.data.template_data.data = template_copy;
+      |                                                    ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2202:52: error: 'union <anonymous>' has no member named 'template_data'
+ 2202 |                                 template_event.data.template_data.size = template_size;
+      |                                                    ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2203:52: error: 'union <anonymous>' has no member named 'template_data'
+ 2203 |                                 template_event.data.template_data.is_complete = true;
+      |                                                    ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2252:36: error: 'union <anonymous>' has no member named 'template_data'
+ 2252 |                         .data = { .template_data = {NULL, 0, false} }  // Initialize to safe values
+      |                                    ^~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2252:53: error: initialization of 'short unsigned int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+ 2252 |                         .data = { .template_data = {NULL, 0, false} }  // Initialize to safe values
+      |                                                     ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2252:53: note: (near initialization for 'template_event.data.match_info.page_id')
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2262:52: error: 'union <anonymous>' has no member named 'template_data'
+ 2262 |                                 template_event.data.template_data.data = template_copy;
+      |                                                    ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2263:52: error: 'union <anonymous>' has no member named 'template_data'
+ 2263 |                                 template_event.data.template_data.size = template_size;
+      |                                                    ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2264:52: error: 'union <anonymous>' has no member named 'template_data'
+ 2264 |                                 template_event.data.template_data.is_complete = true;
+      |                                                    ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'enroll_fingerprint':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2741:13: warning: unused variable 'position' [-Wunused-variable]
+ 2741 |     uint8_t position = location & 0xFF;  // Get position within page
+      |             ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3151:28: warning: unused variable 'response' [-Wunused-variable]
+ 3151 |     fingerprint_response_t response;
+      |                            ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'upload_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3265:17: warning: variable 'bits' set but not used [-Wunused-but-set-variable]
+ 3265 |     EventBits_t bits;
+      |                 ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3506:10: warning: unused variable 'template_valid' [-Wunused-variable]
+ 3506 |     bool template_valid = false;
+      |          ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_info_page':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3611:19: warning: unused variable 'MAX_PACKETS' [-Wunused-variable]
+ 3611 |     const uint8_t MAX_PACKETS = 32;  // 512 bytes at 16 bytes per packet
+      |                   ^~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3610:13: warning: unused variable 'packet_count' [-Wunused-variable]
+ 3610 |     uint8_t packet_count = 0;
+      |             ^~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3609:10: warning: unused variable 'info_complete' [-Wunused-variable]
+ 3609 |     bool info_complete = false;
+      |          ^~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3608:17: warning: unused variable 'bits' [-Wunused-variable]
+ 3608 |     EventBits_t bits;
+      |                 ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_event_cleanup':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3903:20: error: 'union <anonymous>' has no member named 'template_data'
+ 3903 |         event->data.template_data.data != NULL) {
+      |                    ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3905:65: error: 'union <anonymous>' has no member named 'template_data'
+ 3905 |         if (heap_caps_check_integrity_addr((intptr_t)event->data.template_data.data, false)) {
+      |                                                                 ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3906:39: error: 'union <anonymous>' has no member named 'template_data'
+ 3906 |             heap_caps_free(event->data.template_data.data);
+      |                                       ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3907:24: error: 'union <anonymous>' has no member named 'template_data'
+ 3907 |             event->data.template_data.data = NULL; // Prevent use-after-free
+      |                        ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2062:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
+ 2062 | static fingerprint_template_buffer_t g_template_buffer = {
+      |                                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:51:13: warning: 'finger_detected_flag' defined but not used [-Wunused-variable]
+   51 | static bool finger_detected_flag = false;
+      |             ^~~~~~~~~~~~~~~~~~~~
+ninja: build stopped: subcommand failed.

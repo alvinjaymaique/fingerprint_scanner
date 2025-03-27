@@ -224,7 +224,7 @@ esp_err_t fingerprint_set_operation_mode(finger_operation_mode_t mode) {
     if (xSemaphoreTake(finger_op_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
         current_operation = mode;
         xSemaphoreGive(finger_op_mutex);
-        ESP_LOGI(TAG, "Fingerprint operation mode set to %d", mode);
+        // ESP_LOGI(TAG, "Fingerprint operation mode set to %d", mode);
         return ESP_OK;
     } else {
         ESP_LOGE(TAG, "Failed to take mutex for setting operation mode");
@@ -1213,10 +1213,16 @@ void trigger_fingerprint_event(fingerprint_event_t event) {
             heap_caps_free(event_copy.data.template_data.data);
         }
 
-        // fingerprint_event_cleanup(&event_copy);
+        // IMPORTANT: null out shared pointers before double cleanup
+        if (event_copy.multi_packet != NULL && event_copy.multi_packet == event.multi_packet) {
+            event_copy.multi_packet = NULL;  // Prevent double-free of multi_packet
+        }
+
+        fingerprint_event_cleanup(&event_copy);
+        fingerprint_event_cleanup(&event);
     } else {
         ESP_LOGW(TAG, "No fingerprint event handler registered");
-        // fingerprint_event_cleanup(&event);
+        fingerprint_event_cleanup(&event);
     }
 }
 
@@ -1738,7 +1744,7 @@ void read_response_task(void *pvParameter) {
         
         if (response) {
             // Special handling for template upload (UpChar command)
-            if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
+            if (last_sent_command == FINGERPRINT_CMD_UP_CHAR || last_sent_command == FINGERPRINT_CMD_READ_INF_PAGE) {
                 // Initialize template accumulator if needed
                 if (g_template_accumulator == NULL) {
                     g_template_accumulator = heap_caps_malloc(sizeof(MultiPacketResponse), MALLOC_CAP_8BIT);
@@ -1917,10 +1923,21 @@ void read_response_task(void *pvParameter) {
                     
                     if (template_complete) {
                         // Create event with accumulated data
+                        ESP_LOGI(TAG, "Last sent command: 0x%02X", last_sent_command);
+                        uint8_t type = 0;
+                        uint8_t command =  0;
+                        if(last_sent_command == FINGERPRINT_CMD_UP_CHAR){
+                            type = EVENT_TEMPLATE_UPLOADED;
+                            command = FINGERPRINT_CMD_UP_CHAR;
+                        }
+                        else if (last_sent_command == FINGERPRINT_CMD_READ_INF_PAGE){
+                            type = EVENT_INFO_PAGE_READ;
+                            command = FINGERPRINT_CMD_READ_INF_PAGE;
+                        }
                         fingerprint_event_t event = {
-                            .type = EVENT_TEMPLATE_UPLOADED,
+                            .type = type,
                             .status = FINGERPRINT_OK,
-                            .command = FINGERPRINT_CMD_UP_CHAR
+                            .command = command,
                         };
                         
                         // Use the last packet for event details
@@ -2328,7 +2345,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
     }
 
     switch (status) {
-        case FINGERPRINT_OK:
+        case FINGERPRINT_OK: 
         // Signal success for GetImage command
         if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE && enroll_event_group != NULL) {
             xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
@@ -2376,7 +2393,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 if (enrollment_in_progress) {
                     // During enrollment, no match is expected and not an error
                     event_type = EVENT_NONE;  // Don't trigger error event
-                    ESP_LOGI(TAG, "Search returned zero score, not a duplicate");
+                    // ESP_LOGI(TAG, "Search returned zero score, not a duplicate");
                 } else {
                     // During verification, for zero scores, don't generate an error event immediately
                     // Just log it and set the FAIL bit, but don't generate an event
@@ -2408,8 +2425,8 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 uint8_t byte_offset = position / 8;    // Which byte contains our bit
                 uint8_t bit_position = position % 8;   // Which bit in that byte
                 
-                ESP_LOGI(TAG, "Checking template at position %d (byte %d, bit %d)", 
-                         position, byte_offset, bit_position);
+                // ESP_LOGI(TAG, "Checking template at position %d (byte %d, bit %d)", 
+                //          position, byte_offset, bit_position);
                 
                 // Check if the bit is set in the index table
                 if (byte_offset < 32) { // We have 32 bytes of index data
@@ -2456,7 +2473,9 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             event_type = EVENT_TEMPLATE_LOADED;
         } else if (last_sent_command == FINGERPRINT_CMD_DELETE_CHAR) {
             event_type = EVENT_TEMPLATE_DELETED;
-        }
+        } else if (last_sent_command == FINGERPRINT_CMD_EMPTY_DATABASE) {
+            event_type = EVENT_DB_CLEARED;
+        } 
         
         if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
             event_type = EVENT_TEMPLATE_UPLOADED;
@@ -2765,7 +2784,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         goto cleanup;
     }
 
-    ESP_LOGI(TAG, "Location %d is available", location);
+    // ESP_LOGI(TAG, "Location %d is available", location);
 
     // Set enrollment in progress flag to true
     enrollment_in_progress = true;
@@ -3523,12 +3542,12 @@ esp_err_t backup_template(uint16_t template_id) {
     
     // Check explicit upload template error codes
     if (err == ESP_OK) {
-        // Check if we actually received template data
-        if (g_template_accumulator && g_template_accumulator->template_size > 0) {
-            ESP_LOGE(TAG, "No template data received despite success status");
-            cleanup_event_group();
-            return ESP_ERR_INVALID_STATE;
-        }
+        // // Check if we actually received template data
+        // if (g_template_accumulator->template_size > 0) {
+        //     ESP_LOGE(TAG, "No template data received despite success status");
+        //     cleanup_event_group();
+        //     return ESP_ERR_INVALID_STATE;
+        // }
         
         // ESP_LOGI(TAG, "Template backup successful");
     } else {
@@ -3697,7 +3716,7 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
      bool response_found = false;
      uint32_t start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
      
-     ESP_LOGI(TAG, "Starting direct UART reading for DownChar acknowledgment");
+    //  ESP_LOGI(TAG, "Starting direct UART reading for DownChar acknowledgment");
      
      // Try direct reading with multiple attempts over 6 seconds max
      while (!response_found && (xTaskGetTickCount() * portTICK_PERIOD_MS - start_time < 6000)) {
@@ -3708,8 +3727,8 @@ esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketRes
                                         pdMS_TO_TICKS(200));
                                         
          if (bytes_read > 0) {
-             ESP_LOGI(TAG, "Direct UART read: %d bytes", bytes_read);
-             ESP_LOG_BUFFER_HEX("DownChar direct response", direct_buffer, bytes_read);
+            //  ESP_LOGI(TAG, "Direct UART read: %d bytes", bytes_read);
+            //  ESP_LOG_BUFFER_HEX("DownChar direct response", direct_buffer, bytes_read);
              
              // Look for valid response pattern: header + packet ID 0x07 + confirmation code 0x00
              for (int i = 0; i < bytes_read - 9; i++) {
@@ -3889,33 +3908,53 @@ esp_err_t fingerprint_power_control(bool power_on) {
 void fingerprint_event_cleanup(fingerprint_event_t* event) {
     if (!event) return;
     
-    // Only template_data.data in the union contains dynamically allocated memory
-    // Both TEMPLATE_UPLOADED and INFO_PAGE_READ events use the same field
+    // SAFETY CHECK: Only free memory from the heap
+    // Check template data first - avoid double-free
     if ((event->type == EVENT_TEMPLATE_UPLOADED || event->type == EVENT_INFO_PAGE_READ) && 
         event->data.template_data.data != NULL) {
-        heap_caps_free(event->data.template_data.data);
-        event->data.template_data.data = NULL;
+        // Only free if it's a valid heap pointer
+        if (heap_caps_check_integrity_addr((intptr_t)event->data.template_data.data, false)) {
+            heap_caps_free(event->data.template_data.data);
+            event->data.template_data.data = NULL; // Prevent use-after-free
+        }
+        ESP_LOGI(TAG, "Freed template data from event");
     }
+
     
-    // Handle multi-packet cleanup if present
+    // Handle multi-packet cleanup with extreme caution
     if (event->multi_packet != NULL) {
-        // Free packet array contents first
-        if (event->multi_packet->packets != NULL) {
-            for (size_t i = 0; i < event->multi_packet->count; i++) {
-                if (event->multi_packet->packets[i] != NULL) {
-                    heap_caps_free(event->multi_packet->packets[i]);
+        // Safety check on multi_packet pointer
+        if (heap_caps_check_integrity_addr((intptr_t)event->multi_packet, false)) {
+            // Free template data first if present
+            if (event->multi_packet->template_data != NULL) {
+                if (heap_caps_check_integrity_addr((intptr_t)event->multi_packet->template_data, false)) {
+                    heap_caps_free(event->multi_packet->template_data);
                 }
+                event->multi_packet->template_data = NULL;
             }
-            heap_caps_free(event->multi_packet->packets);
+            
+            // Free packets array contents only if it exists
+            if (event->multi_packet->packets != NULL) {
+                if (heap_caps_check_integrity_addr((intptr_t)event->multi_packet->packets, false)) {
+                    // Only free individual packets if count is reasonable
+                    if (event->multi_packet->count <= 64) {
+                        for (size_t i = 0; i < event->multi_packet->count; i++) {
+                            if (event->multi_packet->packets[i] != NULL) {
+                                if (heap_caps_check_integrity_addr((intptr_t)event->multi_packet->packets[i], false)) {
+                                    heap_caps_free(event->multi_packet->packets[i]);
+                                }
+                            }
+                        }
+                    }
+                    heap_caps_free(event->multi_packet->packets);
+                }
+                event->multi_packet->packets = NULL;
+            }
+            
+            // Finally free multi_packet itself
+            heap_caps_free(event->multi_packet);
+            ESP_LOGI(TAG, "Freed multi-packet response from event");
         }
-        
-        // Free template data if present
-        if (event->multi_packet->template_data != NULL) {
-            heap_caps_free(event->multi_packet->template_data);
-        }
-        
-        // Free the multi-packet structure itself
-        heap_caps_free(event->multi_packet);
         event->multi_packet = NULL;
     }
 }

@@ -68,7 +68,7 @@
  *       `g_fingerprint_event_handler` in the `app_main.c`.
  *
  * @code
- * // Sample code for event handler
+ * // Sample usage of the event handler
  * void handle_fingerprint_event(fingerprint_event_t event) {
  *     switch (event.type) {
  *         case EVENT_SCANNER_READY:
@@ -84,47 +84,45 @@
  *             ESP_LOGI("Fingerprint", "Fingerprint features extracted successfully! Status: 0x%02X", event.status);
  *             break;
  *         case EVENT_MATCH_SUCCESS:
- *             ESP_LOGI("Fingerprint", "Fingerprint match successful! Status: 0x%02X", event.status);
- *             ESP_LOGI("Fingerprint", "Match found at Page ID: %d", 
- *                      (event.packet.parameters[1] << 8) | event.packet.parameters[0]);
- *             ESP_LOGI("Fingerprint", "Match score: %d", 
- *                      (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
+ *             ESP_LOGI("MATCH SUCCESS", "Fingerprint match successful! Status: 0x%02X", event.status);
+ *             ESP_LOGI("MATCH SUCCESS", "Match found at Enrollee ID: %d", event.data.match_info.template_id);
+ *             ESP_LOGI("MATCH SUCCESS", "Match score: %d", event.data.match_info.match_score);
  *             break;
  *         case EVENT_MATCH_FAIL:
- *             ESP_LOGI("Fingerprint", "Fingerprint mismatch. Status: 0x%02X", event.status);
+ *             ESP_LOGE("Fingerprint", "Fingerprint mismatch. Status: 0x%02X", event.status);
  *             break;
  *         case EVENT_ERROR:
  *             ESP_LOGE("Fingerprint", "An error occurred during fingerprint processing. Status: 0x%02X", event.status);
- *             ESP_LOGE("Fingerprint", "Command: 0x%02X", event.packet.command);
+ *             ESP_LOGE("Fingerprint", "Command: 0x%02X", event.command);
  *             break;
- *         case EVENT_NO_FINGER_DETECTED:
- *             ESP_LOGI("Fingerprint", "No finger detected. Status: 0x%02X", event.status);
+ *         case EVENT_TEMPLATE_UPLOADED:
+ *             ESP_LOGI("TEMPLATE UPLOADED", "Template uploaded successfully.");
+ *             if (event.multi_packet != NULL) {
+ *                 ESP_LOGI("TEMPLATE UPLOADED", "Multi-packet data available: %d packets", event.multi_packet->count);
+ *                 for (size_t i = 0; i < event.multi_packet->count; i++) {
+ *                     if (event.multi_packet->packets[i] != NULL) {
+ *                         ESP_LOGI("TEMPLATE UPLOADED", "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X",
+ *                                  i, 
+ *                                  event.multi_packet->packets[i]->packet_id,
+ *                                  (unsigned int)event.multi_packet->packets[i]->address,
+ *                                  event.multi_packet->packets[i]->length,
+ *                                  (unsigned int)event.multi_packet->packets[i]->checksum);
+ *                     }
+ *                     vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
+ *                 }
+ *             } else {
+ *                 ESP_LOGW("TEMPLATE UPLOADED", "No multi-packet data available.");
+ *             }
  *             break;
- *         case EVENT_ENROLL_SUCCESS:
- *             ESP_LOGI("Fingerprint", "Fingerprint enrollment successful! Status: 0x%02X", event.status);
- *             ESP_LOGI("Fingerprint", "Event: 0x%02X", event.type);
- *             break;
- *         case EVENT_ENROLL_FAIL:
- *             ESP_LOGI("Fingerprint", "Fingerprint enrollment failed. Status: 0x%02X", event.status);
- *             break;
- *         case EVENT_TEMPLATE_MERGED:
- *             ESP_LOGI("Fingerprint", "Fingerprint templates merged successfully. Status: 0x%02X", event.status);
- *             break;
- *         case EVENT_TEMPLATE_STORE_SUCCESS:
- *             ESP_LOGI("Fingerprint", "Fingerprint template stored successfully. Status: 0x%02X", event.status);
- *             break;
- *         case EVENT_SEARCH_SUCCESS:
- *             ESP_LOGI("Fingerprint", "Fingerprint search successful. Status: 0x%02X", event.status);
- *             ESP_LOGI("Fingerprint", "Match found at Page ID: %d", 
- *                      (event.packet.parameters[1] << 8) | event.packet.parameters[0]);
- *             ESP_LOGI("Fingerprint", "Match score: %d", 
- *                      (event.packet.parameters[3] << 8) | event.packet.parameters[2]);
- *             break;
- *         case EVENT_INDEX_TABLE_READ:
- *             ESP_LOGI("Fingerprint", "Index table read successful. Status: 0x%02X", event.status);
+ *         case EVENT_ENROLLMENT_COMPLETE:
+ *             ESP_LOGI("ENROLLMENT COMPLETE", "Fingerprint enrollment completed. Status: 0x%02X", event.status);
+ *             ESP_LOGI("ENROLLMENT INFO", "Enrollment ID: %d", event.data.enrollment_info.template_id);
+ *             ESP_LOGI("ENROLLMENT INFO", "Have Duplicate: %d", event.data.enrollment_info.is_duplicate);	
+ *             ESP_LOGI("ENROLLMENT INFO", "Attempts: %d", event.data.enrollment_info.attempts);	
  *             break;
  *         default:
- *             ESP_LOGI("Fingerprint", "Unknown event triggered. Status: 0x%02X", event.status);
+ *             ESP_LOGI("UNKNOWN EVENT", "Unknown event triggered. Status: 0x%02X", event.status);
+ *             ESP_LOGI("UNKNOWN EVENT", "Event Type: 0x%02X", event.type);	
  *             break;
  *     }
  * }
