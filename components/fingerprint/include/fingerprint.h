@@ -120,6 +120,29 @@
  *             ESP_LOGI("ENROLLMENT INFO", "Have Duplicate: %d", event.data.enrollment_info.is_duplicate);	
  *             ESP_LOGI("ENROLLMENT INFO", "Attempts: %d", event.data.enrollment_info.attempts);	
  *             break;
+ *         case EVENT_ENROLLMENT_FAIL:
+ *             tag = "ENROLLMENT FAILED";
+ *             ESP_LOGE(tag, "Fingerprint enrollment process failed. Status: 0x%02X", event.status);
+ *             break;
+ *         case EVENT_TEMPLATE_DELETED:
+ *             tag = "TEMPLATE DELETED";
+ *             ESP_LOGI(tag, "Fingerprint template deleted successfully. Status: 0x%02X", event.status);
+ *             break;
+ *         case EVENT_TEMPLATE_DELETE_FAIL:
+ *             tag = "TEMPLATE DELETE FAILED";
+ *             ESP_LOGE(tag, "Failed to delete fingerprint template. Status: 0x%02X", event.status);
+ *             break;
+ *         case EVENT_TEMPLATE_RESTORED_SUCCESSUL:
+ *             tag = "TEMPLATE STORED";
+ *             ESP_LOGI(tag, "Fingerprint template stored successfully. Status: 0x%02X", event.status);
+ *             break;
+ *         case EVENT_TEMPLATE_LOADED:
+ *             ESP_LOGI(TAG, "Template loaded successfully. Status: 0x%02X", event.status);
+ *             break;
+ *         case EVENT_DB_CLEARED:
+ *             tag = "DATABASE CLEARED";
+ *             ESP_LOGI(tag, "Fingerprint database cleared successfully. Status: 0x%02X", event.status);
+ *             break;
  *         default:
  *             ESP_LOGI("UNKNOWN EVENT", "Unknown event triggered. Status: 0x%02X", event.status);
  *             ESP_LOGI("UNKNOWN EVENT", "Event Type: 0x%02X", event.type);	
