@@ -1,6 +1,6 @@
 ESP-ROM:esp32s3-20210327
 Build:Mar 27 2021
-rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
 SPIWP:0xee
 Octal Flash Mode Enabled
 For OPI Flash, Use Default Flash Boot Mode
@@ -25,153 +25,171 @@ entry 0x403c8928
 [0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
 [0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
 [0;32mI (85) boot: End of partition table[0m
-[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ecf0h ( 60656) map[0m
-[0;32mI (110) esp_image: segment 1: paddr=0001ed18 vaddr=3fc93a00 size=01300h (  4864) load[0m
-[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1fcfch (130300) map[0m
-[0;32mI (144) esp_image: segment 3: paddr=0003fd24 vaddr=3fc94d00 size=02410h (  9232) load[0m
-[0;32mI (147) esp_image: segment 4: paddr=0004213c vaddr=40374000 size=0f8f8h ( 63736) load[0m
-[0;32mI (166) esp_image: segment 5: paddr=00051a3c vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e440h ( 58432) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001e468 vaddr=3fc93f00 size=01bb0h (  7088) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f510h (128272) map[0m
+[0;32mI (143) esp_image: segment 3: paddr=0003f538 vaddr=3fc95ab0 size=01b60h (  7008) load[0m
+[0;32mI (146) esp_image: segment 4: paddr=000410a0 vaddr=40374000 size=0fe30h ( 65072) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=00050ed8 vaddr=600fe100 size=0001ch (    28) load[0m
 [0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
 [0;32mI (172) boot: Disabling RNG early entropy source...[0m
-[0;32mI (184) cpu_start: Multicore app[0m
-[0;32mI (193) cpu_start: Pro cpu start user code[0m
-[0;32mI (193) cpu_start: cpu freq: 160000000 Hz[0m
-[0;32mI (193) app_init: Application information:[0m
-[0;32mI (193) app_init: Project name:     fingerprint_scanner[0m
-[0;32mI (198) app_init: App version:      7a85fc0-dirty[0m
-[0;32mI (202) app_init: Compile time:     Mar 20 2025 14:19:46[0m
-[0;32mI (207) app_init: ELF file SHA256:  31f61cb5c...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      06a89e0-dirty[0m
+[0;32mI (201) app_init: Compile time:     Mar 27 2025 13:30:24[0m
+[0;32mI (207) app_init: ELF file SHA256:  17e29064a...[0m
 [0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
-[0;32mI (216) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
 [0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
 [0;32mI (223) efuse_init: Chip rev:         v0.1[0m
 [0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
-[0;32mI (234) heap_init: At 3FC99278 len 00050498 (321 KiB): RAM[0m
-[0;32mI (239) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
-[0;32mI (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
-[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
-[0;33mW (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (233) heap_init: At 3FC9D408 len 0004C308 (304 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (248) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
 [0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
-[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;32mI (267) spi_flash: flash io: opi_str[0m
 [0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
-[0;32mI (284) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
-[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
-[0;32mI (297) main_task: Started on CPU0[0m
-[0;32mI (307) main_task: Calling app_main()[0m
-[0;32mI (307) FINGERPRINT: Fingerprint event handler registered[0m
-[0;32mI (307) FINGERPRINT: Initializing fingerprint scanner...[0m
-[0;32mI (317) FINGERPRINT: Initial power cycle of fingerprint module...[0m
-[0;32mI (317) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
-[0;32mI (327) FINGERPRINT: Fingerprint module power ON[0m
-[0;32mI (1127) gpio: GPIO[9]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
-[0;32mI (1127) FINGERPRINT: Fingerprint module power OFF[0m
-[0;32mI (2427) FINGERPRINT: Waiting for fingerprint module handshake...[0m
-[0;33mW (2727) FINGERPRINT: No handshake received, retry 1/10...[0m
-[0;33mW (3227) FINGERPRINT: No handshake received, retry 2/10...[0m
-[0;33mW (3727) FINGERPRINT: No handshake received, retry 3/10...[0m
-[0;33mW (4227) FINGERPRINT: No handshake received, retry 4/10...[0m
-[0;32mI (4677) FINGERPRINT: Received byte: 0x00[0m
-[0;32mI (4677) FINGERPRINT: Received byte: 0x55[0m
-[0;32mI (4677) FINGERPRINT: Fingerprint module handshake received: 0x55[0m
-[0;32mI (4687) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
-[0;32mI (4687) FINGERPRINT: Finger detection task started[0m
-[0;32mI (4697) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
-[0;32mI (5127) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (5127) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (5877) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
-[0;32mI (5877) FINGERPRINT: Checking if location 0 is available (page 0, position 0)[0m
-[0;32mI (6177) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (6177) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (6177) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)[0m
-[0;33mW (6177) FINGERPRINT: Template exists at position 0[0m
-[0;32mI (6187) FINGERPRINT: Index table read successful. Status: 0x00[0m
-[0;32mI (6187) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6197) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6207) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6207) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6217) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6227) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6227) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6237) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6247) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6257) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6257) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6267) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6277) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6277) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6287) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (6297) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[1;31mE (6307) FINGERPRINT: Location 0 is already occupied[0m
-[0;32mI (6307) FINGERPRINT: Fingerprint operation mode set to 0[0m
-[1;31mE (6317) FINGERPRINT: Fingeprint not enrolled![0m
-[0;32mI (6317) FINGERPRINT: Starting fingerprint verification...[0m
-[0;32mI (8407) FINGERPRINT: Please place your finger on the sensor...[0m
-[0;32mI (8407) FINGERPRINT: Polling for finger presence...[0m
-[0;32mI (8687) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (8687) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
-[0;32mI (8897) FINGERPRINT: Finger detected via interrupt![0m
-[0;32mI (8897) FINGERPRINT: Processing fingerprint in mode: 0[0m
-[0;32mI (9397) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (9397) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (9397) FINGERPRINT: Finger presence confirmed on attempt 1[0m
-[0;32mI (9397) FINGERPRINT: Image capture successful, signaling event group[0m
-[0;32mI (9397) FINGERPRINT: Image capture successful, processing features[0m
-[0;32mI (9407) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
-[0;32mI (9507) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
-[0;32mI (9507) FINGERPRINT: Default mode: searching database[0m
-[0;32mI (9677) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (9677) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (9677) FINGERPRINT: Search returned success but match score is 0, treating as no match[0m
-[1;31mE (9677) FINGERPRINT: Fingerprint mismatch. Status: 0x00[0m
-[0;32mI (9907) FINGERPRINT: Returning response with 2 packets[0m
-[0;32mI (9907) FINGERPRINT: Command response packet: ID=0x07, Status=0x09[0m
-[1;31mE (9907) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
-[1;31mE (9907) FINGERPRINT: Fingerprint mismatch. Status: 0x09[0m
-[0;32mI (10677) FINGERPRINT: Fingerprint processing completed[0m
-[0;33mW (10687) FINGERPRINT: No match found, attempt 1 of 3[0m
-[0;32mI (11807) FINGERPRINT: Please place your finger on the sensor...[0m
-[0;32mI (11807) FINGERPRINT: Polling for finger presence...[0m
-[0;32mI (11807) FINGERPRINT: Finger detected via interrupt![0m
-[0;33mW (11907) FINGERPRINT: Could not take finger detection mutex, skipping[0m
-[0;32mI (12097) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (12097) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (12097) FINGERPRINT: Image capture successful, signaling event group[0m
-[0;32mI (12097) FINGERPRINT: Finger detected! Status: 0x00[0m
-[0;32mI (12107) FINGERPRINT: Finger detected through polling[0m
-[0;32mI (12477) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (12477) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (12477) FINGERPRINT: Real match found with score 17664[0m
-[0;32mI (12477) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
-[0;32mI (12487) FINGERPRINT: Match found at Enrollee ID: 0[0m
-[0;32mI (12487) FINGERPRINT: Match score: 17664[0m
-[0;32mI (13107) FINGERPRINT: Fingerprint verification successful![0m
-[0;32mI (13107) FINGERPRINT: Access granted - fingerprint verified![0m
-[0;32mI (13327) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (13327) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (13327) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
-[0;32mI (13327) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
-[0;32mI (13337) FINGERPRINT: 1. Backing up template id 0x0000[0m
-[0;32mI (13337) FINGERPRINT: Loading Template 0...[0m
-[0;32mI (13347) FINGERPRINT: Checking if template 0 exists (page 0, position 0)[0m
-[0;32mI (13747) FINGERPRINT: Returning response with 1 packets[0m
-[0;32mI (13747) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
-[0;32mI (13747) FINGERPRINT: Index table read successful. Status: 0x00[0m
-[0;32mI (13747) Index Table Parameters: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13757) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13767) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13767) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13777) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13787) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13787) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13797) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13807) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13817) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13817) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13827) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13837) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13837) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13847) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;32mI (13857) Index Table Parameters: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
-[0;33mW (13967) FINGERPRINT: Template 0 does not exist or cannot be accessed[0m
-[1;31mE (13967) FINGERPRINT: Failed to backup template.[0m
-[0;32mI (13967) main_task: Returned from app_main()[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (289) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (1566) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1946) FINGERPRINT: Fingerprint template deleted successfully. Status: 0x00[0m
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x4200db2f  PS      : 0x00060930  A0      : 0x8200c0b3  A1      : 0x3fca8260  
+A2      : 0x3fca82b0  A3      : 0x3c0257d8  A4      : 0x3c026284  A5      : 0x0000079a  
+A6      : 0x3c0257d8  A7      : 0x00000000  A8      : 0xa5a5a5a5  A9      : 0xffffffe9  
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0xffffffef  A13     : 0x3fca8260  
+A14     : 0x3fca8240  A15     : 0x0000000c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0xa5a5a5a5  LBEG    : 0x400556d5  LEND    : 0x400556e5  LCOUNT  : 0xfffffffc  
+
+
+Backtrace: 0x4200db2c:0x3fca8260 0x4200c0b0:0x3fca8280 0x4200dc0a:0x3fca82b0 0x4200e587:0x3fca8530 0x4200eb93:0x3fca87c0 0x4037b6a1:0x3fca8a40
+
+
+
+
+ELF file SHA256: 17e29064a
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x3b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375b74
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (83) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (90) boot: End of partition table[0m
+[0;32mI (93) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e440h ( 58432) map[0m
+[0;32mI (114) esp_image: segment 1: paddr=0001e468 vaddr=3fc93f00 size=01bb0h (  7088) load[0m
+[0;32mI (116) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f510h (128272) map[0m
+[0;32mI (148) esp_image: segment 3: paddr=0003f538 vaddr=3fc95ab0 size=01b60h (  7008) load[0m
+[0;32mI (150) esp_image: segment 4: paddr=000410a0 vaddr=40374000 size=0fe30h ( 65072) load[0m
+[0;32mI (170) esp_image: segment 5: paddr=00050ed8 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (176) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (176) boot: Disabling RNG early entropy source...[0m
+[0;32mI (188) cpu_start: Multicore app[0m
+[0;32mI (196) cpu_start: Pro cpu start user code[0m
+[0;32mI (196) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (197) app_init: Application information:[0m
+[0;32mI (197) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (201) app_init: App version:      06a89e0-dirty[0m
+[0;32mI (206) app_init: Compile time:     Mar 27 2025 13:30:24[0m
+[0;32mI (211) app_init: ELF file SHA256:  17e29064a...[0m
+[0;32mI (215) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (219) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (223) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (227) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (231) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (237) heap_init: At 3FC9D408 len 0004C308 (304 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (248) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (253) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (259) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (268) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (272) spi_flash: flash io: opi_str[0m
+[0;33mW (275) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (288) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (294) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (301) main_task: Started on CPU0[0m
+[0;32mI (311) main_task: Calling app_main()[0m
+[0;32mI (311) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (311) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (321) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (321) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (1571) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1941) FINGERPRINT: Fingerprint template deleted successfully. Status: 0x00[0m
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x4200db2f  PS      : 0x00060530  A0      : 0x8200c0b3  A1      : 0x3fca8260  
+A2      : 0x3fca82b0  A3      : 0x3c0257d8  A4      : 0x3c026284  A5      : 0x00000795  
+A6      : 0x3c0257d8  A7      : 0x00000000  A8      : 0xa5a5a5a5  A9      : 0xffffffe9  
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0xffffffef  A13     : 0x3fca8260  
+A14     : 0x3fca8240  A15     : 0x0000000c  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0xa5a5a5a5  LBEG    : 0x400556d5  LEND    : 0x400556e5  LCOUNT  : 0xfffffffc  
+
+
+Backtrace: 0x4200db2c:0x3fca8260 0x4200c0b0:0x3fca8280 0x4200dc0a:0x3fca82b0 0x4200e587:0x3fca8530 0x4200eb93:0x3fca87c0 0x4037b6a1:0x3fca8a40
+
+
+
+
+ELF file SHA256: 17e29064a
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x3b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375b74
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (37) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (38) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (38) boot: Multicore bootloader[0m
+[0;32mI (38) boot: chip revision: v0.1[0m
+[0;32mI (41) boot: efuse block revision: v1.2[0m
+[0;32mI (45) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (49) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (53) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (61) boot: Partition Table:[0m
+[0;32mI (64) boot: ## Label            Usage          Type ST Offset   Length[0m

@@ -1330,7 +1330,9 @@ typedef struct {
      *
      * This event corresponds to the status FINGERPRINT_TEMPLATE_STORED.
      */
-    EVENT_TEMPLATE_STORED,              /**< Fingerprint template stored (FINGERPRINT_TEMPLATE_STORED) */
+    EVENT_TEMPLATE_RESTORED_SUCCESSUL,              /**< Fingerprint template stored (FINGERPRINT_TEMPLATE_STORED) */
+
+    EVENT_TEMPLATE_RESTORED_FAIL,              /**< Fingerprint template stored (FINGERPRINT_TEMPLATE_STORED) */
 
     /**
      * @brief Event triggered when a fingerprint template is deleted.
@@ -2093,6 +2095,16 @@ esp_err_t fingerprint_check_template_exists(uint16_t template_id);
 
 
 esp_err_t fingerprint_power_control(bool power_on);
+
+/**
+ * @brief Free all resources associated with a fingerprint event
+ * 
+ * This function properly cleans up any memory allocated during event processing.
+ * It should be called after an event has been fully processed.
+ * 
+ * @param event Pointer to the event to clean up
+ */
+void fingerprint_event_cleanup(fingerprint_event_t* event);
 
 
 typedef struct {

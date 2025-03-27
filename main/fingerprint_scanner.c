@@ -11,65 +11,15 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event);
 void send_command_task(void *pvParameter);
 
 // Add this global variable to store the template
-static uint8_t saved_template[8500] = {0};
-static size_t saved_template_size = 0;
-static bool template_available = false;
-
-// // Task to set GPIO 11 HIGH after 2 seconds
-// void set_gpio_high_task(void *pvParameter)
-// {
-//     vTaskDelay(pdMS_TO_TICKS(2000)); // Non-blocking delay of 2 seconds
-//     gpio_set_level(TEST_PIN, 0);
-//     ESP_LOGI(TAG, "GPIO 11 set to LOW after 5 seconds.");
-//     vTaskDelay(pdMS_TO_TICKS(1000)); // Non-blocking delay of 2 seconds
-//     gpio_set_level(TEST_PIN, 1);
-//     ESP_LOGI(TAG, "GPIO 11 set to HIGH after 5 seconds.");
-
-//     vTaskDelete(NULL); // Delete task after execution
-// }
-
-// Add these global variables at the top of your fingerprint_scanner.c file
-static uint8_t* complete_template_buffer = NULL;
-static size_t complete_template_capacity = 4096;  // Start with 4KB capacity
-static size_t complete_template_size = 0;
-static bool template_accumulation_active = false;
+// static uint8_t saved_template[8500] = {0};
+// static size_t saved_template_size = 0;
+// static bool template_available = false;
 
 MultiPacketResponse *packets = NULL;
 
-void configure_scanner_gpio() {
-    gpio_config_t io_conf = {
-        .pin_bit_mask = (1ULL << SCANNER_GPIO), 
-        .mode = GPIO_MODE_OUTPUT,
-        .pull_up_en = GPIO_PULLUP_DISABLE,   // No internal pull-up
-        .pull_down_en = GPIO_PULLDOWN_DISABLE, // No internal pull-down
-        .intr_type = GPIO_INTR_DISABLE       // No interrupt needed
-    };
-    gpio_config(&io_conf);
-    // Set drive strength to maximum (40mA)
-    gpio_set_drive_capability(SCANNER_GPIO, GPIO_DRIVE_CAP_MAX);
-    // Set initial state (HIGH or LOW as required)
-    gpio_set_level(SCANNER_GPIO, 1);  // Set HIGH if needed
-}
-
-
 void app_main(void)
 {
-    // set_all_pins_high();
     register_fingerprint_event_handler(internal_handle_fingerprint_event);
-    // configure_scanner_gpio();
-    // // Set GPIO 11 as output
-    // gpio_set_direction(TEST_PIN, GPIO_MODE_OUTPUT);
-    // // Delay 2 seconds before setting GPIO 11 HIGH
-    // vTaskDelay(pdMS_TO_TICKS(2000));
-    // gpio_set_level(TEST_PIN, 1);
-    // ESP_LOGI(TAG, "GPIO 11 set to HIGH after 2 seconds.");
-
-    // // Set GPIO 11 as output
-    // gpio_set_direction(TEST_PIN, GPIO_MODE_OUTPUT);
-    // gpio_set_level(TEST_PIN, 1); // Initially set to HIGH
-
-    // // Create a non-blocking task to set GPIO 11 LOW after 5 seconds
-    // xTaskCreate(set_gpio_high_task, "SetGPIOHighTask", 2048, NULL, 5, NULL);
 
     esp_err_t err = fingerprint_init();
     if (err != ESP_OK) {
@@ -88,10 +38,10 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 1;  // Storage location for fingerprint template
-    esp_err_t out = delete_fingerprint(location);
+    uint16_t location = 9;  // Storage location for fingerprint template
+    err = delete_fingerprint(location);
     
-    err = enroll_fingerprint(location);
+    // err = enroll_fingerprint(location);
     // esp_err_t out = delete_fingerprint(location);
 
     // err = clear_database();
@@ -105,14 +55,6 @@ void app_main(void)
     ESP_LOGI(TAG, "Starting fingerprint verification...");
     vTaskDelay(pdMS_TO_TICKS(2000));  // Delay before sending the next command
     esp_err_t result = verify_fingerprint();
-
-    if (result == ESP_OK) {
-        ESP_LOGI(TAG, "Access granted - fingerprint verified!");
-        // Add your access control logic here
-    } else {
-        ESP_LOGE(TAG, "Access denied - fingerprint not recognized");
-        // Add your failure handling here
-    }
 
     // Get number of enrolled fingerprints
     uint16_t enrolled_count;
@@ -130,69 +72,18 @@ void app_main(void)
     //     ESP_LOGE(TAG, "Failed to read system parameters.");
     // }
 
-    // // Backup Template
-    // uint16_t template_id = 0;
-    // ESP_LOGI(TAG, "1. Backing up template id 0x%04X", template_id);
-    // err = backup_template(template_id);
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Template backed up successfully.");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to backup template.");
-    // }
-
-    // template_id++;
-    // ESP_LOGI(TAG, "2. Backing up template id 0x%04X", template_id);
-    // err = backup_template(template_id);
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Template backed up successfully.");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to backup template.");
-    // }
-    // template_id++;
-    // ESP_LOGI(TAG, "3. Backing up template id 0x%04X", template_id);
-    // err = backup_template(template_id);
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Template backed up successfully.");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to backup template.");
-    // }
-    // template_id++;
-    // ESP_LOGI(TAG, "4. Backing up template id 0x%04X", template_id);
-    // err = backup_template(template_id);
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Template backed up successfully.");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to backup template.");
-    // }
-    // template_id++;
-    // ESP_LOGI(TAG, "5. Backing up template id 0x%04X", template_id);
-    // err = backup_template(template_id);
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Template backed up successfully.");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to backup template.");
-    // }
-    // template_id++;
-    // ESP_LOGI(TAG, "6. Backing up template id 0x%04X", template_id);
-    // err = backup_template(template_id);
-    // if (err == ESP_OK) {
-    //     ESP_LOGI(TAG, "Template backed up successfully.");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to backup template.");
-    // }
+    // Backup Template
+    uint16_t template_id = 9;
+    ESP_LOGI(TAG, "1. Backing up template id 0x%04X", template_id);
+    err = backup_template(template_id);
 
     // // Wait for the backup to complete and template to be saved
     // vTaskDelay(pdMS_TO_TICKS(2000));
 
 
 
-    // Read information page
-    err = read_info_page();
-    if (err == ESP_OK) {
-        ESP_LOGI(TAG, "Information page read successfully");
-    } else {
-        ESP_LOGE(TAG, "Failed to read information page");
-    }
+    // // Read information page
+    // err = read_info_page();
     
 }
 
@@ -307,13 +198,13 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                         (unsigned int)event.multi_packet->packets[i]->checksum);
             
                     
-                    // Print full packet data
-                    if (event.multi_packet->packets[i]->length > 2) {
-                        ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
-                                                event.multi_packet->packets[i]->parameters,
-                                                event.multi_packet->packets[i]->length - 2,
-                                                ESP_LOG_INFO);
-                    }
+                    // // Print full packet data
+                    // if (event.multi_packet->packets[i]->length > 2) {
+                    //     ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
+                    //                             event.multi_packet->packets[i]->parameters,
+                    //                             event.multi_packet->packets[i]->length - 2,
+                    //                             ESP_LOG_INFO);
+                    // }
                 }
                 vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
             }
@@ -324,29 +215,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                 ESP_LOG_BUFFER_HEXDUMP("Template Data", event.multi_packet->template_data, 
                                     (event.multi_packet->template_size > 64) ? 64 : event.multi_packet->template_size, 
                                     ESP_LOG_INFO);
-                
-                // Store the template data for later use
-                if (event.multi_packet->template_size <= sizeof(saved_template)) {
-                    memcpy(saved_template, event.multi_packet->template_data, event.multi_packet->template_size);
-                    saved_template_size = event.multi_packet->template_size;
-                    template_available = true;
-                    ESP_LOGI(TAG, "Template saved for later use");
-                } else {
-                    ESP_LOGE(TAG, "Template too large to save (%d bytes)", event.multi_packet->template_size);
-                }
             }
-
-            // packets = event.multi_packet;
-            // // // Restore Template
-            // uint16_t new_location = 10;
-            // if (packets != NULL){
-            //     esp_err_t err = restore_template_from_multipacket(new_location ,event.multi_packet);
-            //     if (err == ESP_OK) {
-            //         ESP_LOGI(TAG, "Template restored successfully.");
-            //     } else {
-            //         ESP_LOGE(TAG, "Failed to restore template.");
-            //     }
-            // }
 
             // Make a deep copy of the template data to ensure we own it
             if (event.multi_packet != NULL) {
@@ -355,7 +224,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                 if (event.multi_packet->template_data != NULL && 
                     event.multi_packet->template_size > 0) {
                     
-                    uint16_t new_location = 10; // Target storage location
+                    uint16_t new_location = 0; // Target storage location
                     ESP_LOGI(TAG, "Restoring template to location %d", new_location);
                     // Option 1: Directly use the event.multi_packet (simplest)
                     esp_err_t err = restore_template_from_multipacket(new_location, event.multi_packet);
@@ -400,7 +269,8 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Fingerprint template successfully loaded into buffer. Status: 0x%02X", event.status);
             break;
         case EVENT_TEMPLATE_UPLOAD_FAIL:
-            ESP_LOGE(TAG, "Fingerprint template upload failed. Status: 0x%02X", event.status);
+            tag = "TEMPLATE UPLOAD FAILED";
+            ESP_LOGE(tag, "Fingerprint template upload failed. Status: 0x%02X", event.status);
             break;
         // Add to handle_fingerprint_event function
         case EVENT_INFO_PAGE_READ:
@@ -463,7 +333,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
         case EVENT_TEMPLATE_DELETE_FAIL:
             ESP_LOGE(TAG, "Failed to delete fingerprint template. Status: 0x%02X", event.status);
             break;
-        case EVENT_TEMPLATE_STORED:
+        case EVENT_TEMPLATE_RESTORED_SUCCESSUL:
             tag = "TEMPLATE STORED";
             ESP_LOGI(tag, "Fingerprint template stored successfully. Status: 0x%02X", event.status);
             break;
@@ -485,4 +355,5 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(tag, "Event Type: 0x%02X", event.type);	
             break;
     }
+    // fingerprint_event_cleanup(&event);  // Free memory after processing
 }
