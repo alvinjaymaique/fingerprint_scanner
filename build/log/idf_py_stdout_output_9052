@@ -1,49 +1,146 @@
-[1/5] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/MELBEN/esp/fingerprint_scanner/build/partition_table/partition-table.bin C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin"
-fingerprint_scanner.bin binary size 0x41410 bytes. Smallest app partition is 0x100000 bytes. 0xbebf0 bytes (75%) free.
-[2/5] Performing build step for 'bootloader'
-[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
-Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
-[3/5] No install step for 'bootloader'
-[4/5] Completed 'bootloader'
-[4/5] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.4\components\esptool_py && C:\Espressif\tools\cmake\3.30.2\bin\cmake.exe -D IDF_PATH=C:/Espressif/frameworks/esp-idf-v5.4 -D SERIAL_TOOL=C:/Espressif/python_env/idf5.4_py3.11_env/Scripts/python.exe;;C:/Espressif/frameworks/esp-idf-v5.4/components/esptool_py/esptool/esptool.py;--chip;esp32s3 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=C:/Users/MELBEN/esp/fingerprint_scanner/build -P C:/Espressif/frameworks/esp-idf-v5.4/components/esptool_py/run_serial_tool.cmake"
-esptool.py --chip esp32s3 -p COM9 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 2MB 0x0 bootloader/bootloader.bin 0x10000 fingerprint_scanner.bin 0x8000 partition_table/partition-table.bin
-esptool.py v4.8.1
-Serial port COM9
-Connecting....
-Chip is ESP32-S3 (QFN56) (revision v0.1)
-Features: WiFi, BLE, Embedded PSRAM 8MB (AP_1v8)
-Crystal is 40MHz
-MAC: 68:b6:b3:3c:e5:80
-Uploading stub...
-Running stub...
-Stub running...
-Changing baud rate to 460800
-Changed.
-Configuring flash size...
-Flash will be erased from 0x00000000 to 0x00005fff...
-Flash will be erased from 0x00010000 to 0x00051fff...
-Flash will be erased from 0x00008000 to 0x00008fff...
-SHA digest in image updated
-Compressed 21008 bytes to 13378...
-Writing at 0x00000000... (100 %)
-Wrote 21008 bytes (13378 compressed) at 0x00000000 in 0.6 seconds (effective 293.6 kbit/s)...
-Hash of data verified.
-Compressed 267280 bytes to 139775...
-Writing at 0x00010000... (11 %)
-Writing at 0x0001cd0d... (22 %)
-Writing at 0x00024c96... (33 %)
-Writing at 0x0002b6dd... (44 %)
-Writing at 0x00031dcb... (55 %)
-Writing at 0x000396b3... (66 %)
-Writing at 0x00041471... (77 %)
-Writing at 0x00047862... (88 %)
-Writing at 0x0004debc... (100 %)
-Wrote 267280 bytes (139775 compressed) at 0x00010000 in 4.1 seconds (effective 524.9 kbit/s)...
-Hash of data verified.
-Compressed 3072 bytes to 103...
-Writing at 0x00008000... (100 %)
-Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.1 seconds (effective 475.9 kbit/s)...
-Hash of data verified.
-
-Leaving...
-Hard resetting via RTS pin...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e550h ( 58704) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001e578 vaddr=3fc93f00 size=01aa0h (  6816) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f4b0h (128176) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003f4d8 vaddr=3fc959a0 size=01c70h (  7280) load[0m
+[0;32mI (146) esp_image: segment 4: paddr=00041150 vaddr=40374000 size=0fe30h ( 65072) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=00050f88 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      0e66083-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 27 2025 10:38:37[0m
+[0;32mI (207) app_init: ELF file SHA256:  d56d629bc...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC9D408 len 0004C308 (304 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (264) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (289) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (1566) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1896) FINGERPRINT: Successfully deleted fingerprint at location 1[0m
+[0;32mI (1896) FINGERPRINT: Fingerprint deleted successfully![0m
+[0;32mI (2166) FINGERPRINT: Checking template at position 1 (byte 0, bit 1)[0m
+[0;32mI (2166) FINGERPRINT: Position 1 is free[0m
+[0;32mI (2166) FINGERPRINT: Location 1 is available[0m
+[0;32mI (2166) FINGERPRINT: Fingerprint operation mode set to 2[0m
+[0;32mI (2166) FINGERPRINT: Waiting for a finger to be placed...[0m
+[0;32mI (2216) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (5436) FINGERPRINT: Remove finger and place it again...[0m
+[0;32mI (5486) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (5806) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (7476) FINGERPRINT: Finger removal confirmed[0m
+[0;32mI (7776) FINGERPRINT: Fingerprint operation mode set to 3[0m
+[0;32mI (7776) FINGERPRINT: Please place the same finger again (via interrupt)...[0m
+[0;33mW (9006) FINGERPRINT: Could not take finger detection mutex, skipping[0m
+[0;32mI (9206) FINGERPRINT: Second fingerprint image captured successfully![0m
+[0;32mI (9206) FINGERPRINT: Fingerprint model created successfully![0m
+[0;32mI (9256) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (9656) FINGERPRINT: Search returned zero score, not a duplicate[0m
+[0;32mI (9656) FINGERPRINT: Setting DUPLICATE_FOUND_BIT - fingerprint already exists[0m
+[1;31mE (9656) FINGERPRINT: Fingerprint already exists in database![0m
+[0;32mI (9656) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[0;32mI (9706) FINGERPRINT: EVENT SEARCH SUCCESS[0m
+[0;32mI (9706) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (9706) FINGERPRINT: Match found at Enrollee ID: 0[0m
+[0;32mI (9706) FINGERPRINT: Match score: 24320[0m
+[0;32mI (9716) FINGERPRINT: Fingerprint enrollment process failed. Status: 0x00[0m
+[1;31mE (9716) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (9716) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (11786) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (17946) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (18326) FINGERPRINT: Search returned success but match score is 0, waiting for more responses[0m
+[0;32mI (18376) FINGERPRINT: EVENT SEARCH SUCCESS[0m
+[0;32mI (18376) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (18376) FINGERPRINT: Match found at Enrollee ID: 0[0m
+[0;32mI (18376) FINGERPRINT: Match score: 3328[0m
+[0;32mI (18926) FINGERPRINT: Fingerprint verification successful![0m
+[0;32mI (18926) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (19166) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (19166) FINGERPRINT: Information page read successfully[0m
+[0;32mI (19166) main_task: Returned from app_main()[0m
+[0;32mI (19216) EVENT TEMPLATE COUNT: Number of valid templates: 2[0m
+[0;32mI (19486) FINGERPRINT: Packet 0: ID=0x02, Address=0xFFFFFFFF, Length=258[0m
+[0;32mI (19486) FINGERPRINT: Found packet ID=0x08 at position 279, Length=258[0m
+[0;32mI (19486) FINGERPRINT: Setting success bit for info page completion[0m
+[0;32mI (19496) FINGERPRINT: Added 0x08 packet to response at index 4[0m
+[0;32mI (19496) Final 0x08 packet data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (19506) Final 0x08 packet data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (19506) FINGERPRINT: Added packet ID=0x02 with calculated checksum 0x165F[0m
+[0;32mI (19516) FINGERPRINT: Added packet ID=0x08 with calculated checksum 0x0033[0m
+[0;32mI (19526) FINGERPRINT: Added packet ID=0x07 with calculated checksum 0x000A[0m
+[0;32mI (19526) FINGERPRINT: Last sent command: 0x16[0m
+[0;32mI (19586) FINGERPRINT: Information page read successfully. Status: 0x00[0m
+[0;32mI (19586) FINGERPRINT: Packet ID read successfully. Status: 0x07[0m
+[0;32mI (19586) FINGERPRINT: Packet length read successfully. Status: 0x03[0m
+[0;33mW (23496) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (24576) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;33mW (25476) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (26206) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (26306) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;33mW (28756) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (28946) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (30016) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;33mW (31056) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (31156) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;33mW (35336) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (36416) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;33mW (37316) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (38046) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (38146) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;33mW (40026) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (41216) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (42296) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;33mW (42646) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (43376) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (43476) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;33mW (52816) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (53896) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;33mW (54416) FINGERPRINT: Clearing stuck buffer with 1 bytes[0m
+[0;33mW (55146) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (55246) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m

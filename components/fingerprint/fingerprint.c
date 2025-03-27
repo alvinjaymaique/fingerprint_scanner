@@ -2438,7 +2438,12 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 event_type = EVENT_SEARCH_SUCCESS;
                 // This still sets the SUCCESS bit instead of FAIL
                 if (enroll_event_group) {
-                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                    // xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                    xEventGroupSetBits(enroll_event_group, DUPLICATE_FOUND_BIT);
+                    // if (enrollment_in_progress) {
+                    //     xEventGroupSetBits(enroll_event_group, DUPLICATE_FOUND_BIT);
+                    //     // ESP_LOGI(TAG, "Setting DUPLICATE_FOUND_BIT - fingerprint already exists");
+                    // }
                 }
                 // ESP_LOGI(TAG, "Real match found with score %d", event.data.match_info.match_score);
                 
@@ -2528,7 +2533,11 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             event.data.sys_params.baud_rate = ((packet->parameters[14] << 8) | packet->parameters[15]) * 9600;
         } else if (last_sent_command == FINGERPRINT_CMD_LOAD_CHAR) {
             event_type = EVENT_TEMPLATE_LOADED;
-        } if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
+        } else if (last_sent_command == FINGERPRINT_CMD_DELETE_CHAR) {
+            event_type = EVENT_TEMPLATE_DELETED;
+        }
+        
+        if (last_sent_command == FINGERPRINT_CMD_UP_CHAR) {
             event_type = EVENT_TEMPLATE_UPLOADED;
             if (packet->packet_id == 0x02) {  // Data packet
                 ESP_LOGI(TAG, "Received data packet");
@@ -2716,6 +2725,14 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             }
             break;
         case FINGERPRINT_DELETE_TEMPLATE_FAIL:
+            if (last_sent_command == FINGERPRINT_CMD_DELETE_CHAR) {
+                // ESP_LOGI(TAG, "Template deletion failed - template may not exist");
+                event_type = EVENT_TEMPLATE_DELETE_FAIL;
+                if (enroll_event_group) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                }
+            }
+            break;
         case FINGERPRINT_DB_EMPTY:
         case FINGERPRINT_ENTRY_COUNT_ERROR:
         case FINGERPRINT_ALREADY_EXISTS:
@@ -2769,11 +2786,13 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
 }
 
 esp_err_t enroll_fingerprint(uint16_t location) {
+    fingerprint_event_t event;
     global_location = location; // Store location in global variable
     uint8_t attempts = 0;
     esp_err_t err;
     EventBits_t bits;
     bool finger_removed = false;
+    bool duplicate_found = false;
 
     if (enroll_event_group == NULL) {
         enroll_event_group = xEventGroupCreate();
@@ -2818,6 +2837,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     // Check if the location is occupied
     if (bits & ENROLL_BIT_FAIL) {
         ESP_LOGE(TAG, "Location %d is already occupied", location);
+        
         goto cleanup;
     } else if (!(bits & ENROLL_BIT_SUCCESS)) {
         ESP_LOGE(TAG, "Failed to check if location is available (timeout)");
@@ -2833,7 +2853,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         // Set operation mode for first enrollment image
         fingerprint_set_operation_mode(FINGER_OP_ENROLL_FIRST);
         
-        ESP_LOGI(TAG, "Waiting for a finger to be placed (via interrupt)...");
+        ESP_LOGI(TAG, "Waiting for a finger to be placed...");
         
         // Clear states
         uart_flush(UART_NUM);
@@ -2853,7 +2873,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         // ESP_LOGI(TAG, "First fingerprint image captured successfully!");
 
         ESP_LOGI(TAG, "Remove finger and place it again...");
-        vTaskDelay(pdMS_TO_TICKS(2000));
+        vTaskDelay(pdMS_TO_TICKS(1000));
 
         // Wait for finger removal with improved reliability
         finger_removed = false;
@@ -2904,7 +2924,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
         fingerprint_set_operation_mode(FINGER_OP_ENROLL_SECOND);
         
         // Wait for second finger placement via interrupt
-        ESP_LOGI(TAG, "Please place the same finger again (via interrupt)...");
+        ESP_LOGI(TAG, "Please place the same finger again...");
         xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
         
         // Wait for finger detection and processing via interrupt
@@ -2950,37 +2970,21 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             continue;
         }
 
+        // bits = xEventGroupWaitBits(enroll_event_group,
+        //                          ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+        //                          pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+
+
+        // Wait for the event bits that will be set by the event handler:
         bits = xEventGroupWaitBits(enroll_event_group,
-                                 ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                 pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
+            DUPLICATE_FOUND_BIT,
+            pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
 
-        // Don't rely just on event bits - check the actual match score
-        bool duplicate_found = false;
-        fingerprint_response_t response;
-
-        // Check if we received a valid response with match data
-        if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(100)) == pdTRUE) {
-            // Extract match score
-            uint16_t match_score = (response.packet.parameters[3] << 8) | response.packet.parameters[2];
-            
-            // Only consider it a duplicate if the match score is greater than 0
-            if (match_score > 0) {
-                uint16_t page_id = (response.packet.parameters[1] << 8) | response.packet.parameters[0];
-                ESP_LOGE(TAG, "Fingerprint already exists in database! (ID: %d, Score: %d)",
-                        convert_page_id_to_index(page_id), match_score);
-                duplicate_found = true;
-            } else {
-                ESP_LOGI(TAG, "Search returned zero score, not a duplicate");
-            }
-        } else if (bits & ENROLL_BIT_SUCCESS) {
-            // No response data but success bit set - be cautious and check
-            ESP_LOGW(TAG, "Search returned success but no response data available");
-            // If in doubt, continue with enrollment
-        }
-
-        if (duplicate_found) {
-            attempts++;
-            continue;
+        // Then check the results:
+        if (bits & DUPLICATE_FOUND_BIT) {
+        ESP_LOGE(TAG, "Fingerprint already exists in database!");
+        duplicate_found = true;
+        goto cleanup; // Exit enrollment process
         }
 
         // ESP_LOGI(TAG, "No duplicate found, continuing enrollment...");
@@ -3002,18 +3006,13 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             ESP_LOGI(TAG, "Fingerprint enrolled successfully!");
             
             // Create and trigger enrollment success event
-            fingerprint_event_t event = {
-                .type = EVENT_ENROLLMENT_COMPLETE,
-                .status = FINGERPRINT_OK,
-                .command = FINGERPRINT_CMD_STORE_CHAR,
-                .data = {
-                    .enrollment_info = {
-                        .template_id = location,
-                        .is_duplicate = false,
-                        .attempts = attempts + 1  // +1 because this is a successful attempt
-                    }
-                }
-            };
+            event.type = EVENT_ENROLLMENT_COMPLETE;
+            event.status = FINGERPRINT_OK;
+            event.command = FINGERPRINT_CMD_STORE_CHAR;
+            event.data.enrollment_info.template_id = location;
+            event.data.enrollment_info.is_duplicate = duplicate_found;
+            event.data.enrollment_info.attempts = attempts + 1;  // +1 because this is a successful attempt
+            
             
             // Trigger the event
             trigger_fingerprint_event(event);
@@ -3033,12 +3032,22 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     
 cleanup:
     // Reset operation mode
+    // Create and trigger enrollment success event
+    event.type = EVENT_ENROLLMENT_FAIL;
+    event.status = FINGERPRINT_OK;
+    event.command = FINGERPRINT_CMD_SEARCH;
+    event.data.enrollment_info.template_id = location;
+    event.data.enrollment_info.is_duplicate = duplicate_found;
+    event.data.enrollment_info.attempts = attempts + 1;  // +1 because t
+
     fingerprint_set_operation_mode(FINGER_OP_NONE);
     enrollment_in_progress = false;
     if (enroll_event_group) {
         vEventGroupDelete(enroll_event_group);
         enroll_event_group = NULL;
     }
+    // Trigger the event
+    trigger_fingerprint_event(event);
     return ESP_FAIL;
 }
 
@@ -3149,12 +3158,12 @@ esp_err_t delete_fingerprint(uint16_t location) {
                              pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
     
     if (!(bits & ENROLL_BIT_SUCCESS)) {
-        ESP_LOGE(TAG, "Failed to delete fingerprint at location %d", location);
+        // ESP_LOGE(TAG, "Failed to delete fingerprint at location %d", location);
         err = ESP_FAIL;
         goto cleanup;
     }
 
-    ESP_LOGI(TAG, "Successfully deleted fingerprint at location %d", location);
+    // ESP_LOGI(TAG, "Successfully deleted fingerprint at location %d", location);
     err = ESP_OK;
 
 cleanup:

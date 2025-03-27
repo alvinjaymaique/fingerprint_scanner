@@ -13,135 +13,76 @@ I (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000
 I (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000
 I (79) boot:  2 factory          factory app      00 00 00010000 00100000
 I (85) boot: End of partition table
-I (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e9c0h ( 59840) map
-I (110) esp_image: segment 1: paddr=0001e9e8 vaddr=3fc93f00 size=01630h (  5680) load
-I (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f7e4h (128996) map
-I (144) esp_image: segment 3: paddr=0003f80c vaddr=3fc95530 size=020e0h (  8416) load
-I (147) esp_image: segment 4: paddr=000418f4 vaddr=40374000 size=0fe30h ( 65072) load
-I (166) esp_image: segment 5: paddr=0005172c vaddr=600fe100 size=0001ch (    28) load
+I (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e590h ( 58768) map
+I (110) esp_image: segment 1: paddr=0001e5b8 vaddr=3fc93f00 size=01a60h (  6752) load
+I (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f51ch (128284) map
+I (144) esp_image: segment 3: paddr=0003f544 vaddr=3fc95960 size=01cb0h (  7344) load
+I (146) esp_image: segment 4: paddr=000411fc vaddr=40374000 size=0fe30h ( 65072) load
+I (165) esp_image: segment 5: paddr=00051034 vaddr=600fe100 size=0001ch (    28) load
 I (172) boot: Loaded app from partition at offset 0x10000
 I (172) boot: Disabling RNG early entropy source...
-I (184) cpu_start: Multicore app
+I (183) cpu_start: Multicore app
 I (192) cpu_start: Pro cpu start user code
-I (193) cpu_start: cpu freq: 160000000 Hz
-I (193) app_init: Application information:
-I (193) app_init: Project name:     fingerprint_scanner
-I (198) app_init: App version:      02277cb-dirty
-I (202) app_init: Compile time:     Mar 27 2025 08:11:28
-I (207) app_init: ELF file SHA256:  c89f63d0f...
+I (192) cpu_start: cpu freq: 160000000 Hz
+I (192) app_init: Application information:
+I (192) app_init: Project name:     fingerprint_scanner
+I (197) app_init: App version:      0e66083-dirty
+I (202) app_init: Compile time:     Mar 27 2025 10:38:37
+I (207) app_init: ELF file SHA256:  1e098537a...
 I (211) app_init: ESP-IDF:          v5.4-dirty
-I (216) efuse_init: Min chip rev:     v0.0
+I (215) efuse_init: Min chip rev:     v0.0
 I (219) efuse_init: Max chip rev:     v0.99
 I (223) efuse_init: Chip rev:         v0.1
 I (227) heap_init: Initializing. RAM available for dynamic allocation:
-I (234) heap_init: At 3FC9D408 len 0004C308 (304 KiB): RAM
-I (239) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
-I (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (233) heap_init: At 3FC9D408 len 0004C308 (304 KiB): RAM
+I (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
 I (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM
-W (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode
+W (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode
 I (264) spi_flash: detected chip: mxic (opi)
 I (268) spi_flash: flash io: opi_str
 W (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
-I (284) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state
 I (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration
-I (297) main_task: Started on CPU0
-I (307) main_task: Calling app_main()
-I (307) FINGERPRINT: Fingerprint event handler registered
-I (307) FINGERPRINT: Initializing fingerprint scanner...
-I (317) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1
-I (317) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.
-I (567) Read Data: 0x3fc9af74   e0                                                |.|
-I (567) Send Command Packet: 0x3fcab1d4   ef 01 ff ff ff ff 01 00  07 15 ff ff ff ff 04 19  |................|
-I (837) Read Data: 0x3fc9af75   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|
-I (1567) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.
-I (1627) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  07 0c 00 00 00 01 00 15  |................|
-I (1887) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|
-I (1897) FINGERPRINT: Successfully deleted fingerprint at location 0
-I (1897) FINGERPRINT: Fingerprint deleted successfully!
-I (1897) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  04 1f 00 00 24           |............$|
-I (2157) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  23 00 00 04 00 00 00 00  |........#.......|
-I (2157) Read Data: 0x3fc9af84   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-I (2157) Read Data: 0x3fc9af94   00 00 00 00 00 00 00 00  00 00 00 2e              |............|
-I (2177) FINGERPRINT: Checking template at position 0 (byte 0, bit 0)
-I (2177) FINGERPRINT: Position 0 is free
-I (2177) FINGERPRINT: Location 0 is available
-I (2177) FINGERPRINT: Fingerprint operation mode set to 2
-I (2187) FINGERPRINT: Waiting for a finger to be placed (via interrupt)...
-I (2197) FINGERPRINT: Polling for finger presence...
-I (2197) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (2227) FINGERPRINT: Index table read successful. Status: 0x00
-I (2487) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|
-I (3197) FINGERPRINT: Polling for finger presence...
-I (3327) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (3607) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|
-I (6347) FINGERPRINT: Processing fingerprint in mode: 2
-I (6527) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (6817) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|
-I (6827) FINGERPRINT: Finger presence confirmed on attempt 1
-I (6827) FINGERPRINT: Image capture successful, processing features
-I (6827) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  04 02 01 00 08           |.............|
-I (6827) FINGERPRINT: Image capture successful, signaling event group
-I (6867) FINGERPRINT: First fingerprint image captured successfully!
-I (6867) FINGERPRINT: Remove finger and place it again...
-I (6887) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00
-I (6937) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00
-I (6937) FINGERPRINT: First enrollment image captured successfully
-I (6937) FINGERPRINT: Fingerprint processing completed
-I (7147) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|
-I (7157) FINGERPRINT: Feature extraction successful, signaling event group
-I (7207) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00
-I (9027) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (9307) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|
-I (9627) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (9907) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|
-I (9917) FINGERPRINT: Finger removal confirmed
-I (10217) FINGERPRINT: Fingerprint operation mode set to 3
-I (10217) FINGERPRINT: Please place the same finger again (via interrupt)...
-I (10217) FINGERPRINT: Polling for finger presence...
-I (10227) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (10517) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|
-I (10727) FINGERPRINT: Processing fingerprint in mode: 3
-I (10837) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (11127) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|
-I (11137) FINGERPRINT: Finger presence confirmed on attempt 1
-I (11137) FINGERPRINT: Image capture successful, processing features
-I (11137) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  04 02 02 00 09           |.............|
-I (11137) FINGERPRINT: Image capture successful, signaling event group
-I (11177) FINGERPRINT: Second fingerprint image captured successfully!
-I (11177) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 05 00 09              |............|
-I (11177) FINGERPRINT: Fingerprint model created successfully!
-I (11187) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  08 04 01 00 00 00 64 00  |..............d.|
-I (11197) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00
-I (11197) Send Command Packet: 0x3fcab41c   72                                                |r|
-I (11467) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|
-I (11467) Read Data: 0x3fc9af84   ff ff 07 00 03 00 00 0a  ef 01 ff ff ff ff 07 00  |................|
-I (11467) Read Data: 0x3fc9af94   07 09 00 00 00 00 00 17                           |........|
-I (11487) FINGERPRINT: Search returned zero score, not a duplicate
-W (11487) FINGERPRINT: Feature extraction failed or timed out
-I (11487) FINGERPRINT: Search returned zero score, not a duplicate
-I (11487) FINGERPRINT: Fingerprint processing completed
-I (11497) FINGERPRINT: No duplicate found during enrollment check - good to proceed
-I (11587) FINGERPRINT: No duplicate found, continuing enrollment...
-I (11767) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  06 06 01 00 00 00 0e     |...............|
-I (11767) FINGERPRINT: Fingerprint enrolled successfully!
-I (11817) ENROLLMENT COMPLETE: Fingerprint enrollment process completed. Status: 0x00
-I (11817) ENROLLMENT INFO: Enrollment ID: 0
-I (11817) ENROLLMENT INFO: Have Duplicate: 0
-I (11817) ENROLLMENT INFO: Attempts: 1
-I (11817) FINGERPRINT: Fingerprint operation mode set to 0
-I (11827) FINGERPRINT: Fingerprint Enrolled!
-I (11827) FINGERPRINT: Starting fingerprint verification...
-I (12067) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|
-I (12127) FINGERPRINT: Unknown event triggered. Status: 0x00
-I (13947) FINGERPRINT: Please place your finger on the sensor...
-I (13947) FINGERPRINT: Polling for finger presence...
-I (13947) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (14227) Read Data: 0x3fc9af74   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|
-I (18807) FINGERPRINT: Processing fingerprint in mode: 0
-I (19247) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
-I (19247) Read Data: 0x3fc9af74   00 00 00 55 00 55                                 |...U.U|
-I (19517) Read Data: 0x3fc9af75   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|
-W (19527) FINGERPRINT: Finger presence check failed on attempt 1
-I (19837) Send Command Packet: 0x3fcab1fc   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|
+I (296) main_task: Started on CPU0
+I (306) main_task: Calling app_main()
+I (306) FINGERPRINT: Fingerprint event handler registered
+I (306) FINGERPRINT: Initializing fingerprint scanner...
+I (316) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1
+I (316) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.
+I (1566) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.
+I (1896) FINGERPRINT: Successfully deleted fingerprint at location 1
+I (1896) FINGERPRINT: Fingerprint deleted successfully!
+I (2166) FINGERPRINT: Checking template at position 1 (byte 0, bit 1)
+I (2166) FINGERPRINT: Position 1 is free
+I (2166) FINGERPRINT: Location 1 is available
+I (2166) FINGERPRINT: Fingerprint operation mode set to 2
+I (2166) FINGERPRINT: Waiting for a finger to be placed...
+I (2216) FINGERPRINT: Index table read successful. Status: 0x00
+I (5186) FINGERPRINT: Remove finger and place it again...
+I (5226) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00
+I (5546) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00
+I (7216) FINGERPRINT: Finger removal confirmed
+I (7516) FINGERPRINT: Fingerprint operation mode set to 3
+I (7516) FINGERPRINT: Please place the same finger again (via interrupt)...
+I (8166) FINGERPRINT: Second fingerprint image captured successfully!
+I (8166) FINGERPRINT: Fingerprint model created successfully!
+I (8216) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00
+I (8596) FINGERPRINT: Search returned zero score, not a duplicate
+I (8596) FINGERPRINT: Search returned zero score, not a duplicate
+I (8646) FINGERPRINT: EVENT SEARCH SUCCESS
+I (8646) FINGERPRINT: Fingerprint search successful. Status: 0x00
+I (8646) FINGERPRINT: Match found at Enrollee ID: 0
+I (8646) FINGERPRINT: Match score: 3584
+I (8696) FINGERPRINT: Fingerprint enrolled successfully!
+I (8746) ENROLLMENT COMPLETE: Fingerprint enrollment process completed. Status: 0x00
+I (8746) ENROLLMENT INFO: Enrollment ID: 1
+I (8746) ENROLLMENT INFO: Have Duplicate: 0
+I (8746) ENROLLMENT INFO: Attempts: 1
+I (8746) FINGERPRINT: Fingerprint operation mode set to 0
+I (8756) FINGERPRINT: Fingerprint Enrolled!
+I (8756) FINGERPRINT: Starting fingerprint verification...
+I (9056) TEMPLATE STORED: Fingerprint template stored successfully. Status: 0x00
+I (10876) FINGERPRINT: Please place your finger on the sensor...
 
 Done

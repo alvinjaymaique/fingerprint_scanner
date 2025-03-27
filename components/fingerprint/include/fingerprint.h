@@ -1340,6 +1340,13 @@ typedef struct {
     EVENT_TEMPLATE_DELETED,             /**< Fingerprint template deleted (FINGERPRINT_TEMPLATE_DELETED) */
 
     /**
+     * @brief Event triggered when a fingerprint template is deleted.
+     *
+     * This event corresponds to the status FINGERPRINT_TEMPLATE_DELETE_FAIL.
+     */
+    EVENT_TEMPLATE_DELETE_FAIL,         /**< Fingerprint template deletion failed (FINGERPRINT_DELETE_TEMPLATE_FAIL) */
+
+    /**
      * @brief Event triggered when the system enters low power mode.
      *  
      * This event corresponds to the status FINGERPRINT_LOW_POWER_MODE.
@@ -1777,6 +1784,8 @@ esp_err_t enroll_fingerprint(uint16_t location);
 #define CHECKING_LOCATION_BIT BIT2
 
 #define INFO_PAGE_COMPLETE_BIT BIT3  // You may need to adjust the bit position
+
+#define DUPLICATE_FOUND_BIT BIT4 
 
 /**
  * @brief Event group handle for fingerprint enrollment status.

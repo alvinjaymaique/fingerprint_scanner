@@ -88,29 +88,11 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 0;  // Storage location for fingerprint template
+    uint16_t location = 1;  // Storage location for fingerprint template
     esp_err_t out = delete_fingerprint(location);
-    if (out == ESP_OK) {
-        ESP_LOGI(TAG, "Fingerprint deleted successfully!");
-    } else {
-        ESP_LOGE(TAG, "Failed to delete fingerprint!");
-    }
     
     err = enroll_fingerprint(location);
-    if (err == ESP_OK) {
-        ESP_LOGI(TAG, "Fingerprint Enrolled!");
-        // Add your access control logic here
-    } else {
-        ESP_LOGE(TAG, "Fingeprint not enrolled!");
-        // Add your failure handling heres
-    }
-
     // esp_err_t out = delete_fingerprint(location);
-    // if (out == ESP_OK) {
-    //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
-    // }
 
     // err = clear_database();
     // if (err == ESP_OK) {
@@ -387,6 +369,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                     ESP_LOGW(TAG, "Template data is empty or missing");
                 }
             }              
+
             // // Free the multi-packet memory when done processing
             // if (event.multi_packet->template_data != NULL) {
             //     heap_caps_free(event.multi_packet->template_data);
@@ -425,43 +408,43 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Packet ID read successfully. Status: 0x%02X", event.packet.packet_id);
             ESP_LOGI(TAG, "Packet length read successfully. Status: 0x%02X", event.packet.length);
 
-            if (event.multi_packet != NULL)
-            {
-                // Now log the fixed packets
-                for (size_t i = 0; i < event.multi_packet->count; i++) {
-                    if (event.multi_packet->packets[i] != NULL) {
-                        ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
-                            i, 
-                            event.multi_packet->packets[i]->packet_id,
-                            (unsigned int)event.multi_packet->packets[i]->address,
-                            event.multi_packet->packets[i]->length,
-                            (unsigned int)event.multi_packet->packets[i]->checksum);
+            // if (event.multi_packet != NULL)
+            // {
+            //     // Now log the fixed packets
+            //     for (size_t i = 0; i < event.multi_packet->count; i++) {
+            //         if (event.multi_packet->packets[i] != NULL) {
+            //             ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
+            //                 i, 
+            //                 event.multi_packet->packets[i]->packet_id,
+            //                 (unsigned int)event.multi_packet->packets[i]->address,
+            //                 event.multi_packet->packets[i]->length,
+            //                 (unsigned int)event.multi_packet->packets[i]->checksum);
                 
                         
-                        // Print full packet data
-                        if (event.multi_packet->packets[i]->length > 2) {
-                            ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
-                                                    event.multi_packet->packets[i]->parameters,
-                                                    event.multi_packet->packets[i]->length - 2,
-                                                    ESP_LOG_INFO);
-                        }
-                    }
-                    vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
-                }
-            }
-            else{
-                ESP_LOGI(TAG, "No multi-packet data available in information page read event");
-            }
-
-            // if (event.data.template_data.data != NULL) {
-            //     ESP_LOGI(TAG, "Information page data received (%d bytes)", event.data.template_data.size);
-            //     ESP_LOG_BUFFER_HEXDUMP("Information Page Data", event.data.template_data.data, 
-            //                         (event.data.template_data.size > 64) ? 64 : event.data.template_data.size, 
-            //                         ESP_LOG_INFO);
-                
-            //     // Free the memory when done
-            //     heap_caps_free(event.data.template_data.data);
+            //             // Print full packet data
+            //             if (event.multi_packet->packets[i]->length > 2) {
+            //                 ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
+            //                                         event.multi_packet->packets[i]->parameters,
+            //                                         event.multi_packet->packets[i]->length - 2,
+            //                                         ESP_LOG_INFO);
+            //             }
+            //         }
+            //         vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
+            //     }
             // }
+            // else{
+            //     ESP_LOGI(TAG, "No multi-packet data available in information page read event");
+            // }
+
+            if (event.data.template_data.data != NULL) {
+                ESP_LOGI(TAG, "Information page data received (%d bytes)", event.data.template_data.size);
+                ESP_LOG_BUFFER_HEXDUMP("Information Page Data", event.data.template_data.data, 
+                                    (event.data.template_data.size > 64) ? 64 : event.data.template_data.size, 
+                                    ESP_LOG_INFO);
+                
+                // Free the memory when done
+                heap_caps_free(event.data.template_data.data);
+            }
 
             break;
         case EVENT_ENROLLMENT_COMPLETE:
@@ -472,7 +455,13 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI("ENROLLMENT INFO", "Attempts: %d", event.data.enrollment_info.attempts);	
             break;
         case EVENT_ENROLLMENT_FAIL:
-            ESP_LOGI(TAG, "Fingerprint enrollment process failed. Status: 0x%02X", event.status);
+            ESP_LOGE(TAG, "Fingerprint enrollment process failed. Status: 0x%02X", event.status);
+            break;
+        case EVENT_TEMPLATE_DELETED:
+            ESP_LOGI(TAG, "Fingerprint template deleted successfully. Status: 0x%02X", event.status);
+            break;
+        case EVENT_TEMPLATE_DELETE_FAIL:
+            ESP_LOGE(TAG, "Failed to delete fingerprint template. Status: 0x%02X", event.status);
             break;
         case EVENT_TEMPLATE_STORED:
             tag = "TEMPLATE STORED";

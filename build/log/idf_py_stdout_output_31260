@@ -1,0 +1,87 @@
+[1/11] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/fingerprint_scanner.c.obj
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c: In function 'app_main':
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:136:14: warning: unused variable 'enrolled_count' [-Wunused-variable]
+  136 |     uint16_t enrolled_count;
+      |              ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:35:13: warning: 'template_accumulation_active' defined but not used [-Wunused-variable]
+   35 | static bool template_accumulation_active = false;
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:34:15: warning: 'complete_template_size' defined but not used [-Wunused-variable]
+   34 | static size_t complete_template_size = 0;
+      |               ^~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:33:15: warning: 'complete_template_capacity' defined but not used [-Wunused-variable]
+   33 | static size_t complete_template_capacity = 4096;  // Start with 4KB capacity
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:32:17: warning: 'complete_template_buffer' defined but not used [-Wunused-variable]
+   32 | static uint8_t* complete_template_buffer = NULL;
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from C:/Users/MELBEN/esp/fingerprint_scanner/main/fingerprint_scanner.c:5:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include/fingerprint.h:1787:27: warning: 'enroll_event_group' defined but not used [-Wunused-variable]
+ 1787 | static EventGroupHandle_t enroll_event_group = NULL;
+      |                           ^~~~~~~~~~~~~~~~~~
+[2/11] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
+[3/11] No install step for 'bootloader'
+[4/11] Completed 'bootloader'
+[5/11] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
+FAILED: esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj 
+ccache C:\Espressif\tools\xtensa-esp-elf\esp-14.2.0_20241119\xtensa-esp-elf\bin\xtensa-esp32s3-elf-gcc.exe -DESP_PLATFORM -DIDF_VER=\"v5.4-dirty\" -DSOC_MMU_PAGE_SIZE=CONFIG_MMU_PAGE_SIZE -DSOC_XTAL_FREQ_MHZ=CONFIG_XTAL_FREQ -D_GLIBCXX_HAVE_POSIX_SEMAPHORE -D_GLIBCXX_USE_POSIX_SEMAPHORE -D_GNU_SOURCE -D_POSIX_READER_WRITER_LOCKS -IC:/Users/MELBEN/esp/fingerprint_scanner/build/config -IC:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/newlib/platform_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/config/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos -IC:/Espressif/frameworks/esp-idf-v5.4/components/freertos/esp_additions/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/include/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/dma/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/ldo/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/debug_probe/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/. -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_hw_support/port/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/heap/tlsf -IC:/Espressif/frameworks/esp-idf-v5.4/components/log/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/soc/esp32s3/register -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/platform_port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/hal/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3/include/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_rom/esp32s3 -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_common/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/soc -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_system/port/include/private -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/xtensa/deprecated_include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/include/apps/sntp -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/lwip/src/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/freertos/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/arch -IC:/Espressif/frameworks/esp-idf-v5.4/components/lwip/port/esp32xx/include/sys -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/deprecated -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/twai/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/driver/touch_sensor/esp32s3/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_pm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_ringbuf/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gpio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_pcnt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_gptimer/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_spi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_mcpwm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ana_cmpr/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2s/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/sdmmc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdspi/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_dac/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_rmt/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_tsens/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_sdm/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_i2c/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_uart/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/vfs/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_ledc/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_parlio/include -IC:/Espressif/frameworks/esp-idf-v5.4/components/esp_driver_usb_serial_jtag/include -mlongcalls  -fno-builtin-memcpy -fno-builtin-memset -fno-builtin-bzero -fno-builtin-stpcpy -fno-builtin-strncpy -fdiagnostics-color=always -ffunction-sections -fdata-sections -Wall -Werror=all -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=unused-but-set-variable -Wno-error=deprecated-declarations -Wextra -Wno-error=extra -Wno-unused-parameter -Wno-sign-compare -Wno-enum-conversion -gdwarf-4 -ggdb -Og -fno-shrink-wrap -fmacro-prefix-map=C:/Users/MELBEN/esp/fingerprint_scanner=. -fmacro-prefix-map=C:/Espressif/frameworks/esp-idf-v5.4=/IDF -fstrict-volatile-bitfields -fno-jump-tables -fno-tree-switch-conversion -std=gnu17 -Wno-old-style-declaration -MD -MT esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj -MF esp-idf\fingerprint\CMakeFiles\__idf_fingerprint.dir\fingerprint.c.obj.d -o esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj -c C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_set_command':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1074:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+ 1074 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
+      |                      ^
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_read_response':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1287:17: warning: variable 'final_packet_sent' set but not used [-Wunused-but-set-variable]
+ 1287 |     static bool final_packet_sent = false;
+      |                 ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'extract_packet_from_raw_data':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1699:22: warning: variable 'found_foof_marker' set but not used [-Wunused-but-set-variable]
+ 1699 |                 bool found_foof_marker = false;
+      |                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_response_task':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1814:28: warning: variable 'foof_position' set but not used [-Wunused-but-set-variable]
+ 1814 |                     size_t foof_position = 0;
+      |                            ^~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'enroll_fingerprint':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2974:29: error: expected ';' before ':' token
+ 2974 |                 goto cleanup:  // Exit enrollment process
+      |                             ^
+      |                             ;
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2795:13: warning: unused variable 'position' [-Wunused-variable]
+ 2795 |     uint8_t position = location & 0xFF;  // Get position within page
+      |             ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3221:28: warning: unused variable 'response' [-Wunused-variable]
+ 3221 |     fingerprint_response_t response;
+      |                            ^~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'upload_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3335:17: warning: variable 'bits' set but not used [-Wunused-but-set-variable]
+ 3335 |     EventBits_t bits;
+      |                 ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3576:10: warning: unused variable 'template_valid' [-Wunused-variable]
+ 3576 |     bool template_valid = false;
+      |          ^~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_info_page':
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3671:19: warning: unused variable 'MAX_PACKETS' [-Wunused-variable]
+ 3671 |     const uint8_t MAX_PACKETS = 32;  // 512 bytes at 16 bytes per packet
+      |                   ^~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3670:13: warning: unused variable 'packet_count' [-Wunused-variable]
+ 3670 |     uint8_t packet_count = 0;
+      |             ^~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3669:10: warning: unused variable 'info_complete' [-Wunused-variable]
+ 3669 |     bool info_complete = false;
+      |          ^~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3668:17: warning: unused variable 'bits' [-Wunused-variable]
+ 3668 |     EventBits_t bits;
+      |                 ^~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2135:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
+ 2135 | static fingerprint_template_buffer_t g_template_buffer = {
+      |                                      ^~~~~~~~~~~~~~~~~
+C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:51:13: warning: 'finger_detected_flag' defined but not used [-Wunused-variable]
+   51 | static bool finger_detected_flag = false;
+      |             ^~~~~~~~~~~~~~~~~~~~
+ninja: build stopped: subcommand failed.
