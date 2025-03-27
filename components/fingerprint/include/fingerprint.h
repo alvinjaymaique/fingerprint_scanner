@@ -1526,6 +1526,10 @@ typedef struct {
 
     EVENT_PACKET_RECEPTION_FAIL, /**< Failed to receive subsequent data packets */
 
+    EVENT_ENROLLMENT_COMPLETE,   /**< Fingerprint enrollment process completed */
+
+    EVENT_ENROLLMENT_FAIL,       /**< Fingerprint enrollment process failed */
+
  } fingerprint_event_type_t;
 
  /**
@@ -1627,6 +1631,19 @@ typedef struct {
 } fingerprint_template_buffer_t;
 
 /**
+ * @struct fingerprint_enrollment_info_t
+ * @brief Stores information about a completed fingerprint enrollment.
+ *
+ * This structure contains details about a fingerprint enrollment operation,
+ * including the template ID and storage location of the enrolled fingerprint.
+ */
+typedef struct {
+    uint16_t template_id;    /**< The ID assigned to the newly enrolled fingerprint template */
+    bool is_duplicate;       /**< Flag indicating if this fingerprint matches an existing one */
+    uint8_t attempts;        /**< Number of attempts made during the enrollment process */
+} fingerprint_enrollment_info_t;
+
+/**
  * @struct fingerprint_event_t
  * @brief Defines a generic fingerprint event structure with flexible response types.
  *
@@ -1652,6 +1669,7 @@ typedef struct {
         fingerprint_template_count_t template_count; /**< Data for template count events */
         fingerprint_sys_params_t sys_params;     // Added system parameters
         fingerprint_template_buffer_t template_data; /**< Fingerprint template data */
+        fingerprint_enrollment_info_t enrollment_info; /**< Enrollment information */
         // Extend with additional structured types as needed
     } data;
 } fingerprint_event_t;

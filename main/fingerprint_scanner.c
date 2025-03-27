@@ -88,13 +88,13 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
 
-    uint16_t location = 10;  // Storage location for fingerprint template
-    // esp_err_t out = delete_fingerprint(location);
-    // if (out == ESP_OK) {
-    //     ESP_LOGI(TAG, "Fingerprint deleted successfully!");
-    // } else {
-    //     ESP_LOGE(TAG, "Failed to delete fingerprint!");
-    // }
+    uint16_t location = 0;  // Storage location for fingerprint template
+    esp_err_t out = delete_fingerprint(location);
+    if (out == ESP_OK) {
+        ESP_LOGI(TAG, "Fingerprint deleted successfully!");
+    } else {
+        ESP_LOGE(TAG, "Failed to delete fingerprint!");
+    }
     
     err = enroll_fingerprint(location);
     if (err == ESP_OK) {
@@ -148,15 +148,15 @@ void app_main(void)
     //     ESP_LOGE(TAG, "Failed to read system parameters.");
     // }
 
-    // Backup Template
-    uint16_t template_id = 0;
-    ESP_LOGI(TAG, "1. Backing up template id 0x%04X", template_id);
-    err = backup_template(template_id);
-    if (err == ESP_OK) {
-        ESP_LOGI(TAG, "Template backed up successfully.");
-    } else {
-        ESP_LOGE(TAG, "Failed to backup template.");
-    }
+    // // Backup Template
+    // uint16_t template_id = 0;
+    // ESP_LOGI(TAG, "1. Backing up template id 0x%04X", template_id);
+    // err = backup_template(template_id);
+    // if (err == ESP_OK) {
+    //     ESP_LOGI(TAG, "Template backed up successfully.");
+    // } else {
+    //     ESP_LOGE(TAG, "Failed to backup template.");
+    // }
 
     // template_id++;
     // ESP_LOGI(TAG, "2. Backing up template id 0x%04X", template_id);
@@ -204,7 +204,7 @@ void app_main(void)
 
 
 
-    // Example usage in app_main
+    // Read information page
     err = read_info_page();
     if (err == ESP_OK) {
         ESP_LOGI(TAG, "Information page read successfully");
@@ -234,6 +234,7 @@ void send_command_task(void *pvParameter)
 
 // Event handler function
 static void internal_handle_fingerprint_event(fingerprint_event_t event) {
+    char *tag;
     vTaskDelay(pdMS_TO_TICKS(50));  // Delay before processing the event and prevent watchdog trigger
     switch (event.type) {
         case EVENT_SCANNER_READY:
@@ -254,6 +255,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             // ESP_LOG_BUFFER_HEX("Feautre Extracted Parameters ", event.packet.parameters, sizeof(event.packet.parameters));
             break;
         case EVENT_MATCH_SUCCESS:
+            ESP_LOGI(TAG, "EVENT MATCH SUCCESS");
             ESP_LOGI(TAG, "Fingerprint match successful! Status: 0x%02X", event.status);
             ESP_LOGI(TAG, "Match found at Enrollee ID: %d", event.data.match_info.template_id);
             ESP_LOGI(TAG, "Match score: %d", event.data.match_info.match_score);
@@ -282,6 +284,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Fingerprint template stored successfully. Status: 0x%02X", event.status);
             break;
         case EVENT_SEARCH_SUCCESS:
+            ESP_LOGI(TAG, "EVENT SEARCH SUCCESS");
             ESP_LOGI(TAG, "Fingerprint search successful. Status: 0x%02X", event.status);
             ESP_LOGI(TAG, "Match found at Enrollee ID: %d", event.data.match_info.template_id);
             ESP_LOGI(TAG, "Match score: %d", event.data.match_info.match_score);
@@ -383,9 +386,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                 } else {
                     ESP_LOGW(TAG, "Template data is empty or missing");
                 }
-            }
-            
-            
+            }              
             // // Free the multi-packet memory when done processing
             // if (event.multi_packet->template_data != NULL) {
             //     heap_caps_free(event.multi_packet->template_data);
@@ -404,7 +405,6 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
         } else {
             ESP_LOGW(TAG, "No multi-packet data available in template uploaded event");
         }
-
         // // Also check for older template_data format (for backward compatibility)
         // if (event.data.template_data.data && event.data.template_data.size > 0) {
         //     // Process legacy template data format
@@ -425,34 +425,58 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGI(TAG, "Packet ID read successfully. Status: 0x%02X", event.packet.packet_id);
             ESP_LOGI(TAG, "Packet length read successfully. Status: 0x%02X", event.packet.length);
 
-            // if (event.multi_packet != NULL)
-            // {
-            //     // Now log the fixed packets
-            //     for (size_t i = 0; i < event.multi_packet->count; i++) {
-            //         if (event.multi_packet->packets[i] != NULL) {
-            //             ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
-            //                 i, 
-            //                 event.multi_packet->packets[i]->packet_id,
-            //                 (unsigned int)event.multi_packet->packets[i]->address,
-            //                 event.multi_packet->packets[i]->length,
-            //                 (unsigned int)event.multi_packet->packets[i]->checksum);
+            if (event.multi_packet != NULL)
+            {
+                // Now log the fixed packets
+                for (size_t i = 0; i < event.multi_packet->count; i++) {
+                    if (event.multi_packet->packets[i] != NULL) {
+                        ESP_LOGI(TAG, "Packet %d: ID=0x%02X, Address=0x%08X, Length=%d, Checksum=0x%04X", 
+                            i, 
+                            event.multi_packet->packets[i]->packet_id,
+                            (unsigned int)event.multi_packet->packets[i]->address,
+                            event.multi_packet->packets[i]->length,
+                            (unsigned int)event.multi_packet->packets[i]->checksum);
                 
                         
-            //             // Print full packet data
-            //             if (event.multi_packet->packets[i]->length > 2) {
-            //                 ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
-            //                                         event.multi_packet->packets[i]->parameters,
-            //                                         event.multi_packet->packets[i]->length - 2,
-            //                                         ESP_LOG_INFO);
-            //             }
-            //         }
-            //         vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
-            //     }
-            // }
-            // else{
-            //     ESP_LOGI(TAG, "No multi-packet data available in information page read event");
+                        // Print full packet data
+                        if (event.multi_packet->packets[i]->length > 2) {
+                            ESP_LOG_BUFFER_HEX_LEVEL("Packet Data", 
+                                                    event.multi_packet->packets[i]->parameters,
+                                                    event.multi_packet->packets[i]->length - 2,
+                                                    ESP_LOG_INFO);
+                        }
+                    }
+                    vTaskDelay(pdMS_TO_TICKS(50));  // Prevent watchdog trigger
+                }
+            }
+            else{
+                ESP_LOGI(TAG, "No multi-packet data available in information page read event");
+            }
+
+            // if (event.data.template_data.data != NULL) {
+            //     ESP_LOGI(TAG, "Information page data received (%d bytes)", event.data.template_data.size);
+            //     ESP_LOG_BUFFER_HEXDUMP("Information Page Data", event.data.template_data.data, 
+            //                         (event.data.template_data.size > 64) ? 64 : event.data.template_data.size, 
+            //                         ESP_LOG_INFO);
+                
+            //     // Free the memory when done
+            //     heap_caps_free(event.data.template_data.data);
             // }
 
+            break;
+        case EVENT_ENROLLMENT_COMPLETE:
+            tag = "ENROLLMENT COMPLETE";
+            ESP_LOGI(tag, "Fingerprint enrollment process completed. Status: 0x%02X", event.status);
+            ESP_LOGI("ENROLLMENT INFO", "Enrollment ID: %d", event.data.enrollment_info.template_id);
+            ESP_LOGI("ENROLLMENT INFO", "Have Duplicate: %d", event.data.enrollment_info.is_duplicate);	
+            ESP_LOGI("ENROLLMENT INFO", "Attempts: %d", event.data.enrollment_info.attempts);	
+            break;
+        case EVENT_ENROLLMENT_FAIL:
+            ESP_LOGI(TAG, "Fingerprint enrollment process failed. Status: 0x%02X", event.status);
+            break;
+        case EVENT_TEMPLATE_STORED:
+            tag = "TEMPLATE STORED";
+            ESP_LOGI(tag, "Fingerprint template stored successfully. Status: 0x%02X", event.status);
             break;
         case EVENT_TEMPLATE_LOADED:
             ESP_LOGI(TAG, "Template loaded successfully. Status: 0x%02X", event.status);
@@ -467,7 +491,9 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             ESP_LOGE(TAG, "Encryption mismatch. Status: 0x%02X", event.status);
             break;
         default:
-            ESP_LOGI(TAG, "Unknown event triggered. Status: 0x%02X", event.status);
+            tag = "UNKNOWN EVENT";
+            ESP_LOGI(tag, "Unknown event triggered. Status: 0x%02X", event.status);
+            ESP_LOGI(tag, "Event Type: 0x%02X", event.type);	
             break;
     }
 }

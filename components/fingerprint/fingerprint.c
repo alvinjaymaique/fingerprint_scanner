@@ -93,12 +93,12 @@ void finger_detection_task(void *pvParameter) {
         return;
     }
     
-    ESP_LOGI(TAG, "Finger detection task started");
+    // ESP_LOGI(TAG, "Finger detection task started");
     
     while (1) {
         // Wait for finger detection signal from ISR
         if (xQueueReceive(finger_detected_queue, &finger_detected, portMAX_DELAY) == pdTRUE) {
-            ESP_LOGI(TAG, "Finger detected via interrupt!");
+            // ESP_LOGI(TAG, "Finger detected via interrupt!");
             
             // Take mutex to prevent concurrent processing
             if (xSemaphoreTake(finger_detect_mutex, pdMS_TO_TICKS(100)) != pdTRUE) {
@@ -113,7 +113,7 @@ void finger_detection_task(void *pvParameter) {
                 
                 // Get current operation mode with mutex protection
                 finger_operation_mode_t current_op = fingerprint_get_operation_mode();
-                ESP_LOGI(TAG, "Processing fingerprint in mode: %d", current_op);
+                // ESP_LOGI(TAG, "Processing fingerprint in mode: %d", current_op);
                 
                 // Clear states - but be careful not to flush important data
                 xQueueReset(fingerprint_command_queue);
@@ -144,7 +144,7 @@ void finger_detection_task(void *pvParameter) {
                         if (bits & ENROLL_BIT_SUCCESS) {
                             // Image captured successfully, finger is confirmed
                             finger_confirmed = true;
-                            ESP_LOGI(TAG, "Finger presence confirmed on attempt %d", attempt + 1);
+                            // ESP_LOGI(TAG, "Finger presence confirmed on attempt %d", attempt + 1);
                             break;
                         } else {
                             ESP_LOGW(TAG, "Finger presence check failed on attempt %d", attempt + 1);
@@ -163,7 +163,7 @@ void finger_detection_task(void *pvParameter) {
                 }
                 
                 // Now that we've confirmed a finger is present, proceed with feature extraction
-                ESP_LOGI(TAG, "Image capture successful, processing features");
+                // ESP_LOGI(TAG, "Image capture successful, processing features");
                 
                 // Determine which buffer to use based on operation
                 uint8_t buffer_id = (current_op == FINGER_OP_ENROLL_SECOND) ? 2 : 1;
@@ -187,64 +187,64 @@ void finger_detection_task(void *pvParameter) {
                                          ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
                                          pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
                 
-                if (bits & ENROLL_BIT_SUCCESS) {
-                    // Feature extraction successful
-                    ESP_LOGI(TAG, "Fingerprint features extracted successfully! Status: 0x00");
+                // if (bits & ENROLL_BIT_SUCCESS) {
+                //     // Feature extraction successful
+                //     // ESP_LOGI(TAG, "Fingerprint features extracted successfully! Status: 0x00");
                     
-                    switch (current_op) {
-                        case FINGER_OP_VERIFY:
-                            ESP_LOGI(TAG, "Verification mode: searching database");
-                            uint8_t search_params[] = {0x01, 0x00, 0x00, 0x00, 0x64};
-                            fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
-                            fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
+                //     switch (current_op) {
+                //         case FINGER_OP_VERIFY:
+                //             ESP_LOGI(TAG, "Verification mode: searching database");
+                //             uint8_t search_params[] = {0x01, 0x00, 0x00, 0x00, 0x64};
+                //             fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, search_params, sizeof(search_params));
+                //             fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
                             
-                            // Wait for search response with timeout
-                            vTaskDelay(pdMS_TO_TICKS(1000));
-                            break;
+                //             // Wait for search response with timeout
+                //             vTaskDelay(pdMS_TO_TICKS(1000));
+                //             break;
                             
-                        case FINGER_OP_ENROLL_FIRST:
-                            ESP_LOGI(TAG, "First enrollment image captured successfully");
-                            if (enroll_event_group != NULL) {
-                                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
-                            }
-                            break;
+                //         case FINGER_OP_ENROLL_FIRST:
+                //             ESP_LOGI(TAG, "First enrollment image captured successfully");
+                //             if (enroll_event_group != NULL) {
+                //                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                //             }
+                //             break;
                             
-                        case FINGER_OP_ENROLL_SECOND:
-                            ESP_LOGI(TAG, "Second enrollment image captured, creating model");
-                            fingerprint_send_command(&PS_RegModel, DEFAULT_FINGERPRINT_ADDRESS);
-                            // Wait for model creation response
-                            vTaskDelay(pdMS_TO_TICKS(500));
-                            break;
+                //         case FINGER_OP_ENROLL_SECOND:
+                //             ESP_LOGI(TAG, "Second enrollment image captured, creating model");
+                //             fingerprint_send_command(&PS_RegModel, DEFAULT_FINGERPRINT_ADDRESS);
+                //             // Wait for model creation response
+                //             vTaskDelay(pdMS_TO_TICKS(500));
+                //             break;
                             
-                        case FINGER_OP_CUSTOM:
-                            ESP_LOGI(TAG, "Custom operation: feature extraction complete");
-                            if (enroll_event_group != NULL) {
-                                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
-                            }
-                            break;
+                //         case FINGER_OP_CUSTOM:
+                //             ESP_LOGI(TAG, "Custom operation: feature extraction complete");
+                //             if (enroll_event_group != NULL) {
+                //                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                //             }
+                //             break;
                             
-                        case FINGER_OP_NONE:
-                        default:
-                            ESP_LOGI(TAG, "Default mode: searching database");
-                            uint8_t default_params[] = {0x01, 0x00, 0x00, 0x00, 0x64};
-                            fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, default_params, sizeof(default_params));
-                            fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
+                //         case FINGER_OP_NONE:
+                //         default:
+                //             ESP_LOGI(TAG, "Default mode: searching database");
+                //             uint8_t default_params[] = {0x01, 0x00, 0x00, 0x00, 0x64};
+                //             fingerprint_set_command(&PS_Search, FINGERPRINT_CMD_SEARCH, default_params, sizeof(default_params));
+                //             fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
                             
-                            // Wait for search response with timeout
-                            vTaskDelay(pdMS_TO_TICKS(1000));
-                            break;
-                    }
-                } else {
-                    ESP_LOGW(TAG, "Feature extraction failed or timed out");
-                    // Signal failure
-                    if (enroll_event_group != NULL) {
-                        xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
-                    }
-                }
+                //             // Wait for search response with timeout
+                //             vTaskDelay(pdMS_TO_TICKS(1000));
+                //             break;
+                //     }
+                // } else {
+                //     ESP_LOGW(TAG, "Feature extraction failed or timed out");
+                //     // Signal failure
+                //     if (enroll_event_group != NULL) {
+                //         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+                //     }
+                // }
                 
                 // Always reset the validation flag when processing is complete
                 is_fingerprint_validating = false;
-                ESP_LOGI(TAG, "Fingerprint processing completed");
+                // ESP_LOGI(TAG, "Fingerprint processing completed");
             } else {
                 // Check if processing has been going on too long (stuck case)
                 uint32_t current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
@@ -263,6 +263,109 @@ void finger_detection_task(void *pvParameter) {
             vTaskDelay(pdMS_TO_TICKS(500));
         }
     }
+}
+
+esp_err_t fingerprint_set_operation_mode(finger_operation_mode_t mode) {
+    // Create mutex if it doesn't exist
+    if (finger_op_mutex == NULL) {
+        finger_op_mutex = xSemaphoreCreateMutex();
+        if (finger_op_mutex == NULL) {
+            ESP_LOGE(TAG, "Failed to create operation mode mutex");
+            return ESP_ERR_NO_MEM;
+        }
+    }
+    
+    // Set the operation mode with mutex protection
+    if (xSemaphoreTake(finger_op_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+        current_operation = mode;
+        xSemaphoreGive(finger_op_mutex);
+        ESP_LOGI(TAG, "Fingerprint operation mode set to %d", mode);
+        return ESP_OK;
+    } else {
+        ESP_LOGE(TAG, "Failed to take mutex for setting operation mode");
+        return ESP_ERR_TIMEOUT;
+    }
+}
+
+finger_operation_mode_t fingerprint_get_operation_mode(void) {
+    finger_operation_mode_t mode = FINGER_OP_NONE;
+    
+    // Get the operation mode with mutex protection
+    if (finger_op_mutex != NULL && xSemaphoreTake(finger_op_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+        mode = current_operation;
+        xSemaphoreGive(finger_op_mutex);
+    }
+    
+    return mode;
+}
+
+esp_err_t fingerprint_wait_for_finger(uint32_t timeout_ms) {
+    if (enroll_event_group == NULL) {
+        enroll_event_group = xEventGroupCreate();
+        if (enroll_event_group == NULL) {
+            ESP_LOGE(TAG, "Failed to create event group for wait_for_finger");
+            return ESP_ERR_NO_MEM;
+        }
+    }
+    
+    // Clear any previous bits
+    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
+    
+    // Start time for timeout tracking
+    uint32_t start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+    uint32_t current_time;
+    bool success = false;
+    
+    // Wait for finger with active polling as a backup to the interrupt
+    while (1) {
+        // Check if we've exceeded timeout
+        current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
+        if (timeout_ms > 0 && (current_time - start_time) > timeout_ms) {
+            ESP_LOGW(TAG, "Timeout waiting for finger placement");
+            return ESP_ERR_TIMEOUT;
+        }
+        
+        // Check if event bits were set by interrupt handler
+        EventBits_t bits = xEventGroupGetBits(enroll_event_group);
+        if (bits & ENROLL_BIT_SUCCESS) {
+            success = true;
+            break;
+        } else if (bits & ENROLL_BIT_FAIL) {
+            ESP_LOGW(TAG, "Finger detection failed");
+            return ESP_FAIL;
+        }
+        
+        // If no interrupt has triggered, periodically check for finger directly
+        // This provides a backup method if the interrupt isn't working reliably
+        if ((current_time - start_time) % 1000 == 0) {  // Check every second
+            // Only do this if we're not already processing
+            if (!is_fingerprint_validating && xSemaphoreTake(finger_detect_mutex, pdMS_TO_TICKS(10)) == pdTRUE) {
+                // ESP_LOGI(TAG, "Polling for finger presence...");
+                
+                // Try to capture image
+                esp_err_t err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
+                if (err == ESP_OK) {
+                    // Wait for response
+                    bits = xEventGroupWaitBits(enroll_event_group,
+                                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+                                             pdTRUE, pdFALSE, pdMS_TO_TICKS(800));
+                    
+                    if (bits & ENROLL_BIT_SUCCESS) {
+                        // ESP_LOGI(TAG, "Finger detected through polling");
+                        success = true;
+                        xSemaphoreGive(finger_detect_mutex);
+                        break;
+                    }
+                }
+                xSemaphoreGive(finger_detect_mutex);
+            }
+        }
+        
+        // Short delay to prevent CPU hogging
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+    
+    return success ? ESP_OK : ESP_FAIL;
 }
 
 void fingerprint_set_pins(int tx, int rx) {
@@ -1089,7 +1192,7 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
 
     // **Flush UART to prevent old data interference**
     uart_flush(UART_NUM);
-    ESP_LOG_BUFFER_HEXDUMP("Send Command Packet", buffer, packet_size, ESP_LOG_INFO);	
+    // ESP_LOG_BUFFER_HEXDUMP("Send Command Packet", buffer, packet_size, ESP_LOG_INFO);	
     // **Send packet**
     int bytes_written = uart_write_bytes(UART_NUM, (const char *)buffer, packet_size);
 
@@ -1222,7 +1325,7 @@ MultiPacketResponse* fingerprint_read_response(void) {
         sizeof(buffer) - buffer_pos, 
         timeout / portTICK_PERIOD_MS);
 
-    ESP_LOG_BUFFER_HEXDUMP("Read Data", buffer + buffer_pos, bytes_read, ESP_LOG_INFO);
+    // ESP_LOG_BUFFER_HEXDUMP("Read Data", buffer + buffer_pos, bytes_read, ESP_LOG_INFO);
 
     // if (bytes_read > 0) {
     //     ESP_LOGI(TAG, "Last Sent Command: 0x%02X, Bytes Read: %d", last_sent_command, bytes_read);
@@ -1554,16 +1657,15 @@ buffer_shift:
         return NULL;
     }
     
-    // For non-template responses, provide a summary instead of packet details
-    if (response->count > 0) {
-        ESP_LOGI(TAG, "Returning response with %d packets", response->count);
-        
-        // Log the first packet ID and type at INFO level
-        if (response->packets[0]->packet_id == 0x07) {
-            ESP_LOGI(TAG, "Command response packet: ID=0x%02X, Status=0x%02X", 
-                    response->packets[0]->packet_id, response->packets[0]->code.confirmation);
-        }
-    }
+    // // For non-template responses, provide a summary instead of packet details
+    // if (response->count > 0) {
+    //     ESP_LOGI(TAG, "Returning response with %d packets", response->count);
+    //     Log the first packet ID and type at INFO level
+    //     if (response->packets[0]->packet_id == 0x07) {
+    //         ESP_LOGI(TAG, "Command response packet: ID=0x%02X, Status=0x%02X", 
+    //                 response->packets[0]->packet_id, response->packets[0]->code.confirmation);
+    //     }
+    // }
     
     return response;
 }
@@ -1700,7 +1802,7 @@ void read_response_task(void *pvParameter) {
                         g_template_accumulator->template_size = 0;
                         g_template_accumulator->template_capacity = 0;
                         template_start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
-                        ESP_LOGI(TAG, "Template accumulator initialized");
+                        // ESP_LOGI(TAG, "Template accumulator initialized");
                     }
                 }
                 
@@ -1779,9 +1881,9 @@ void read_response_task(void *pvParameter) {
                                         // Check if this is a final packet (0x08)
                                         if (new_packet->packet_id == 0x08) {
                                             found_final_packet = true;
-                                            ESP_LOGI(TAG, "Found final packet (ID=0x08) at position %d", g_template_accumulator->count-1);
+                                            // ESP_LOGI(TAG, "Found final packet (ID=0x08) at position %d", g_template_accumulator->count-1);
                                             
-                                            ESP_LOG_BUFFER_HEX("Template Data", new_packet->parameters, param_len);
+                                            // ESP_LOG_BUFFER_HEX("Template Data", new_packet->parameters, param_len);
                                         }
                                     }
                                 }
@@ -2000,12 +2102,12 @@ void read_response_task(void *pvParameter) {
                 // Process non-template responses normally
                 for (size_t i = 0; i < response->count; i++) {
                     // Add this debug log to see ALL packets
-                    ESP_LOGI(TAG, "Processing packet ID=0x%02X, Command=0x%02X, LastCommand=0x%02X",
-                        response->packets[i]->packet_id,
-                        response->packets[i]->code.command,
-                        last_sent_command);
+                    // ESP_LOGI(TAG, "Processing packet ID=0x%02X, Command=0x%02X, LastCommand=0x%02X",
+                    //     response->packets[i]->packet_id,
+                    //     response->packets[i]->code.command,
+                    //     last_sent_command);
                     if (response->packets[i]->packet_id == 0x07) {
-                        ESP_LOGI(TAG, "Response found!");
+                        // ESP_LOGI(TAG, "Response found!");
                         fingerprint_status_event_handler(
                             (fingerprint_status_t)response->packets[i]->code.confirmation, 
                             response->packets[i]);
@@ -2297,7 +2399,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
     event.status = status;
     event.command = last_sent_command;
     uint32_t current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
-    ESP_LOGI("Status Event Handler", "Status: %d", status);
+    // ESP_LOGI("Status Event Handler", "Status: %d", status);
     if (packet != NULL) {
         event.packet = *packet;  // Store full response packet
     } else {
@@ -2309,19 +2411,19 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         // Signal success for GetImage command
         if (last_sent_command == FINGERPRINT_CMD_GET_IMAGE && enroll_event_group != NULL) {
             xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
-            ESP_LOGI(TAG, "Image capture successful, signaling event group");
+            // ESP_LOGI(TAG, "Image capture successful, signaling event group");
         }
         // Signal success for GenChar command
         else if ((last_sent_command == FINGERPRINT_CMD_GEN_CHAR) && enroll_event_group != NULL) {
             xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
-            ESP_LOGI(TAG, "Feature extraction successful, signaling event group");
+            // ESP_LOGI(TAG, "Feature extraction successful, signaling event group");
         }
 
         // In the fingerprint_status_event_handler function, modify the FINGERPRINT_CMD_SEARCH handling:
         if (last_sent_command == FINGERPRINT_CMD_SEARCH) {
             // Check if we're in cooldown period to prevent duplicate matches
             if (match_cooldown_active && (current_time - last_match_time < 1000)) {
-                ESP_LOGD(TAG, "Ignoring duplicate match response (cooldown active)");
+                // ESP_LOGD(TAG, "Ignoring duplicate match response (cooldown active)");
                 return; // Skip processing this response
             }
             
@@ -2536,7 +2638,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                 if (enroll_event_group) {
                     xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
                 }
-                ESP_LOGI(TAG, "No duplicate found during enrollment check - good to proceed");
+                // ESP_LOGI(TAG, "No duplicate found during enrollment check - good to proceed");
             } else {
                 // For verification, no match is a FAIL
                 event_type = EVENT_MATCH_FAIL;
@@ -2690,8 +2792,6 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     uint8_t page = location >> 8;  // Get the page number
     uint8_t position = location & 0xFF;  // Get position within page
     
-    ESP_LOGI(TAG, "Checking if location %d is available (page %d, position %d)", location, page, position);
-    
     // Clear any stale data in UART and queues
     uart_flush(UART_NUM);
     xQueueReset(fingerprint_command_queue);
@@ -2750,7 +2850,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             continue;
         }
         
-        ESP_LOGI(TAG, "First fingerprint image captured successfully!");
+        // ESP_LOGI(TAG, "First fingerprint image captured successfully!");
 
         ESP_LOGI(TAG, "Remove finger and place it again...");
         vTaskDelay(pdMS_TO_TICKS(2000));
@@ -2883,7 +2983,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             continue;
         }
 
-        ESP_LOGI(TAG, "No duplicate found, continuing enrollment...");
+        // ESP_LOGI(TAG, "No duplicate found, continuing enrollment...");
 
         // Store template at specified location
         uint8_t store_params[] = {1, (uint8_t)(location >> 8), (uint8_t)(location & 0xFF)};
@@ -2900,6 +3000,24 @@ esp_err_t enroll_fingerprint(uint16_t location) {
                                  
         if (bits & ENROLL_BIT_SUCCESS) {
             ESP_LOGI(TAG, "Fingerprint enrolled successfully!");
+            
+            // Create and trigger enrollment success event
+            fingerprint_event_t event = {
+                .type = EVENT_ENROLLMENT_COMPLETE,
+                .status = FINGERPRINT_OK,
+                .command = FINGERPRINT_CMD_STORE_CHAR,
+                .data = {
+                    .enrollment_info = {
+                        .template_id = location,
+                        .is_duplicate = false,
+                        .attempts = attempts + 1  // +1 because this is a successful attempt
+                    }
+                }
+            };
+            
+            // Trigger the event
+            trigger_fingerprint_event(event);
+            
             // Reset operation mode
             fingerprint_set_operation_mode(FINGER_OP_NONE);
             enrollment_in_progress = false;
@@ -3794,108 +3912,7 @@ cleanup:
     return err;
 }
 
-esp_err_t fingerprint_set_operation_mode(finger_operation_mode_t mode) {
-    // Create mutex if it doesn't exist
-    if (finger_op_mutex == NULL) {
-        finger_op_mutex = xSemaphoreCreateMutex();
-        if (finger_op_mutex == NULL) {
-            ESP_LOGE(TAG, "Failed to create operation mode mutex");
-            return ESP_ERR_NO_MEM;
-        }
-    }
-    
-    // Set the operation mode with mutex protection
-    if (xSemaphoreTake(finger_op_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
-        current_operation = mode;
-        xSemaphoreGive(finger_op_mutex);
-        ESP_LOGI(TAG, "Fingerprint operation mode set to %d", mode);
-        return ESP_OK;
-    } else {
-        ESP_LOGE(TAG, "Failed to take mutex for setting operation mode");
-        return ESP_ERR_TIMEOUT;
-    }
-}
 
-finger_operation_mode_t fingerprint_get_operation_mode(void) {
-    finger_operation_mode_t mode = FINGER_OP_NONE;
-    
-    // Get the operation mode with mutex protection
-    if (finger_op_mutex != NULL && xSemaphoreTake(finger_op_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
-        mode = current_operation;
-        xSemaphoreGive(finger_op_mutex);
-    }
-    
-    return mode;
-}
-
-esp_err_t fingerprint_wait_for_finger(uint32_t timeout_ms) {
-    if (enroll_event_group == NULL) {
-        enroll_event_group = xEventGroupCreate();
-        if (enroll_event_group == NULL) {
-            ESP_LOGE(TAG, "Failed to create event group for wait_for_finger");
-            return ESP_ERR_NO_MEM;
-        }
-    }
-    
-    // Clear any previous bits
-    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
-    
-    // Start time for timeout tracking
-    uint32_t start_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
-    uint32_t current_time;
-    bool success = false;
-    
-    // Wait for finger with active polling as a backup to the interrupt
-    while (1) {
-        // Check if we've exceeded timeout
-        current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
-        if (timeout_ms > 0 && (current_time - start_time) > timeout_ms) {
-            ESP_LOGW(TAG, "Timeout waiting for finger placement");
-            return ESP_ERR_TIMEOUT;
-        }
-        
-        // Check if event bits were set by interrupt handler
-        EventBits_t bits = xEventGroupGetBits(enroll_event_group);
-        if (bits & ENROLL_BIT_SUCCESS) {
-            success = true;
-            break;
-        } else if (bits & ENROLL_BIT_FAIL) {
-            ESP_LOGW(TAG, "Finger detection failed");
-            return ESP_FAIL;
-        }
-        
-        // If no interrupt has triggered, periodically check for finger directly
-        // This provides a backup method if the interrupt isn't working reliably
-        if ((current_time - start_time) % 1000 == 0) {  // Check every second
-            // Only do this if we're not already processing
-            if (!is_fingerprint_validating && xSemaphoreTake(finger_detect_mutex, pdMS_TO_TICKS(10)) == pdTRUE) {
-                ESP_LOGI(TAG, "Polling for finger presence...");
-                
-                // Try to capture image
-                esp_err_t err = fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
-                if (err == ESP_OK) {
-                    // Wait for response
-                    bits = xEventGroupWaitBits(enroll_event_group,
-                                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                             pdTRUE, pdFALSE, pdMS_TO_TICKS(800));
-                    
-                    if (bits & ENROLL_BIT_SUCCESS) {
-                        ESP_LOGI(TAG, "Finger detected through polling");
-                        success = true;
-                        xSemaphoreGive(finger_detect_mutex);
-                        break;
-                    }
-                }
-                xSemaphoreGive(finger_detect_mutex);
-            }
-        }
-        
-        // Short delay to prevent CPU hogging
-        vTaskDelay(pdMS_TO_TICKS(50));
-    }
-    
-    return success ? ESP_OK : ESP_FAIL;
-}
 
 // Function to control power to fingerprint module
 esp_err_t fingerprint_power_control(bool power_on) {

@@ -1,0 +1,286 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x3b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ee00h ( 60928) map[0m
+[0;32mI (110) esp_image: segment 1: paddr=0001ee28 vaddr=3fc94000 size=011f0h (  4592) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1faa0h (129696) map[0m
+[0;32mI (144) esp_image: segment 3: paddr=0003fac8 vaddr=3fc951f0 size=02630h (  9776) load[0m
+[0;32mI (147) esp_image: segment 4: paddr=00042100 vaddr=40374000 size=0ff1ch ( 65308) load[0m
+[0;32mI (166) esp_image: segment 5: paddr=00052024 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (173) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (173) boot: Disabling RNG early entropy source...[0m
+[0;32mI (184) cpu_start: Multicore app[0m
+[0;32mI (193) cpu_start: Pro cpu start user code[0m
+[0;32mI (193) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (193) app_init: Application information:[0m
+[0;32mI (193) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (198) app_init: App version:      02277cb-dirty[0m
+[0;32mI (202) app_init: Compile time:     Mar 27 2025 08:11:28[0m
+[0;32mI (207) app_init: ELF file SHA256:  f103c89b2...[0m
+[0;32mI (212) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (216) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (220) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (224) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (228) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (234) heap_init: At 3FC9D618 len 0004C0F8 (304 KiB): RAM[0m
+[0;32mI (239) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (244) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (249) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (255) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (265) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (268) spi_flash: flash io: opi_str[0m
+[0;33mW (272) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (284) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (290) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (297) main_task: Started on CPU0[0m
+[0;32mI (307) main_task: Calling app_main()[0m
+[0;32mI (307) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (307) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (317) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (317) FINGERPRINT: Finger detection task started[0m
+[0;32mI (327) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+[0;32mI (737) Read Data: 0x3fc9b184   e0 00 55                                          |..U|[0m
+[0;32mI (737) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  07 15 ff ff ff ff 04 19  |................|[0m
+[0;32mI (1007) Read Data: 0x3fc9b185   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
+[0;32mI (1017) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (1017) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (1017) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x15[0m
+[0;32mI (1017) FINGERPRINT: Response found![0m
+[0;32mI (1027) Status Event Handler: Status: 0[0m
+[0;32mI (1737) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (1737) FINGERPRINT: Checking if location 10 is available (page 0, position 10)[0m
+[0;32mI (1807) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  04 1f 00 00 24           |............$|[0m
+[0;32mI (2067) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  23 00 00 04 00 00 00 00  |........#.......|[0m
+[0;32mI (2067) Read Data: 0x3fc9b194   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (2067) Read Data: 0x3fc9b1a4   00 00 00 00 00 00 00 00  00 00 00 2e              |............|[0m
+[0;32mI (2087) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (2087) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (2087) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1F[0m
+[0;32mI (2097) FINGERPRINT: Response found![0m
+[0;32mI (2097) Status Event Handler: Status: 0[0m
+[0;32mI (2107) FINGERPRINT: Checking template at position 10 (byte 1, bit 2)[0m
+[0;33mW (2107) FINGERPRINT: Template exists at position 10[0m
+[1;31mE (2117) FINGERPRINT: Location 10 is already occupied[0m
+[0;32mI (2117) FINGERPRINT: Fingerprint operation mode set to 0[0m
+[1;31mE (2127) FINGERPRINT: Fingeprint not enrolled![0m
+[0;32mI (2127) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (2167) FINGERPRINT: Index table read successful. Status: 0x00[0m
+[0;32mI (2397) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (2397) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (2607) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (2607) Read Data: 0x3fc9b184   00 55                                             |.U|[0m
+[0;32mI (2877) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (2877) Read Data: 0x3fc9b185   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|[0m
+[0;32mI (2887) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (2887) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (2887) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (2897) FINGERPRINT: Response found![0m
+[0;32mI (2897) Status Event Handler: Status: 2[0m
+[0;32mI (3297) Send Command Packet: 0x3fcab3e4   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (3297) Read Data: 0x3fc9b184   00 55 00 00 55                                    |.U..U|[0m
+[0;33mW (3397) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;32mI (3567) Read Data: 0x3fc9b185   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|[0m
+[0;32mI (3577) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (3577) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (3577) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (3577) FINGERPRINT: Response found![0m
+[0;32mI (3587) Status Event Handler: Status: 2[0m
+[0;32mI (4157) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (4157) FINGERPRINT: Polling for finger presence...[0m
+[0;32mI (4157) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (4427) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 02 00 0c              |............|[0m
+[0;32mI (4437) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (4437) FINGERPRINT: Command response packet: ID=0x07, Status=0x02[0m
+[0;32mI (4437) FINGERPRINT: Processing packet ID=0x07, Command=0x02, LastCommand=0x01[0m
+[0;32mI (4437) FINGERPRINT: Response found![0m
+[0;32mI (4447) Status Event Handler: Status: 2[0m
+[0;32mI (13987) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (13987) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (14117) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (14407) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
+[0;32mI (14417) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (14417) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (14417) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x01[0m
+[0;32mI (14417) FINGERPRINT: Response found![0m
+[0;32mI (14427) Status Event Handler: Status: 0[0m
+[0;32mI (14427) FINGERPRINT: Finger presence confirmed on attempt 1[0m
+[0;32mI (14427) FINGERPRINT: Image capture successful, signaling event group[0m
+[0;32mI (14427) FINGERPRINT: Image capture successful, processing features[0m
+[0;32mI (14447) Send Command Packet: 0x3fcab61c   ef 01 ff ff ff ff 01 00  08 04 01 00 00 00 64 00  |..............d.|[0m
+[0;32mI (14447) Send Command Packet: 0x3fcab634   ef 01 ff ff ff ff 01 00  04 02 01 00 08           |.............|[0m
+[0;32mI (14467) Send Command Packet: 0x3fcab62c   72                                                |r|[0m
+[0;32mI (14497) FINGERPRINT: Finger detected! Status: 0x00[0m
+[0;32mI (14567) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+[0;32mI (14567) FINGERPRINT: Default mode: searching database[0m
+[0;32mI (14887) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  08 04 01 00 00 00 64 00  |..............d.|[0m
+[0;32mI (14887) Send Command Packet: 0x3fcab41c   72                                                |r|[0m
+[0;32mI (14887) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
+[0;32mI (14897) Read Data: 0x3fc9b194   ff ff 07 00 07 00 00 0a  00 0b 00 23              |...........#|[0m
+[0;32mI (14917) FINGERPRINT: Returning response with 2 packets[0m
+[0;32mI (14917) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (14917) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
+[0;32mI (14927) FINGERPRINT: Response found![0m
+[0;32mI (14927) Status Event Handler: Status: 0[0m
+[0;32mI (14937) FINGERPRINT: Search returned success but match score is 0, waiting for more responses[0m
+[0;32mI (14937) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
+[0;32mI (14947) FINGERPRINT: Response found![0m
+[0;32mI (14947) Status Event Handler: Status: 0[0m
+[0;32mI (15007) FINGERPRINT: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (15007) FINGERPRINT: Match found at Enrollee ID: 10[0m
+[0;32mI (15007) FINGERPRINT: Match score: 2816[0m
+[0;32mI (15287) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  07 00 00 0a 00 1a 00 32  |...............2|[0m
+[0;32mI (15297) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (15297) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (15297) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x04[0m
+[0;32mI (15297) FINGERPRINT: Response found![0m
+[0;32mI (15307) Status Event Handler: Status: 0[0m
+[0;32mI (15477) FINGERPRINT: Fingerprint verification successful![0m
+[0;32mI (15477) FINGERPRINT: Access granted - fingerprint verified![0m
+[0;32mI (15567) Send Command Packet: 0x3fcab40c   ef 01 ff ff ff ff 01 00  03 1d 00 21              |...........!|[0m
+[0;32mI (15827) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  05 00 00 01 00 0d        |..............|[0m
+[0;32mI (15837) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (15837) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (15837) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x1D[0m
+[0;32mI (15837) FINGERPRINT: Response found![0m
+[0;32mI (15847) Status Event Handler: Status: 0[0m
+[0;32mI (15847) FINGERPRINT: Count of enrolled fingerprints sent successfully.[0m
+[0;32mI (15857) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (15857) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (15867) Send Command Packet: 0x3fcab61c   ef 01 ff ff ff ff 01 00  06 07 01 00 00 00 0f     |...............|[0m
+[0;32mI (15877) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (15887) FINGERPRINT: Fingerprint processing completed[0m
+[0;32mI (15897) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
+[0;32mI (16157) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a              |............|[0m
+[0;32mI (16167) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (16167) FINGERPRINT: Command response packet: ID=0x07, Status=0x00[0m
+[0;32mI (16167) FINGERPRINT: Processing packet ID=0x07, Command=0x00, LastCommand=0x07[0m
+[0;32mI (16167) FINGERPRINT: Response found![0m
+[0;32mI (16177) Status Event Handler: Status: 0[0m
+[0;32mI (16177) FINGERPRINT: Loading Template Successful[0m
+[0;32mI (16177) FINGERPRINT: Uploading Template...[0m
+[0;32mI (16187) FINGERPRINT: Created new template accumulator[0m
+[0;32mI (16187) FINGERPRINT: Sending UpChar command for buffer 1[0m
+[0;32mI (16197) Send Command Packet: 0x3fcab63c   ef 01 ff ff ff ff 01 00  04 08 01 00 0e           |.............|[0m
+[0;32mI (16207) FINGERPRINT: Waiting for template data transfer...[0m
+[0;32mI (16227) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+[0;32mI (17787) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 0d 00 17              |............|[0m
+[0;32mI (17797) FINGERPRINT: Returning response with 1 packets[0m
+[0;32mI (17797) FINGERPRINT: Command response packet: ID=0x07, Status=0x0D[0m
+[0;32mI (17797) FINGERPRINT: Added packet ID=0x07 with calculated checksum 0x000A[0m
+[0;32mI (17797) FINGERPRINT: Template collection timed out, treating as complete[0m
+[0;32mI (17807) FINGERPRINT: Last sent command: 0x08[0m
+[0;32mI (17857) FINGERPRINT: Template uploaded[0m
+[0;32mI (17857) FINGERPRINT: Multi-packet data available: 1 packets[0m
+[0;32mI (17857) FINGERPRINT: Packet 0: ID=0x07, Address=0xFFFFFFFF, Length=3, Checksum=0x000A[0m
+[0;32mI (17857) Packet Data: 00[0m
+[0;33mW (17907) FINGERPRINT: Template data is empty or missing[0m
+[1;31mE (17907) FINGERPRINT: g_template_accumulator is NULL after upload. Possible causes:[0m
+[1;31mE (17907) FINGERPRINT: 1. No response packets received from module. Check UART connection. Location might be empty[0m
+[1;31mE (17917) FINGERPRINT: 2. The accumulator may have been deallocated due to insufficient memory.[0m
+[1;31mE (17927) FINGERPRINT: 3. Ensure template storage is handled correctly before accessing the accumulator.[0m
+[1;31mE (17927) FINGERPRINT: Failed to upload template: ESP_ERR_NOT_FOUND[0m
+[1;31mE (17937) FINGERPRINT: Failed to backup template.[0m
+[0;32mI (17937) Send Command Packet: 0x3fcab644   ef 01 ff ff ff ff 01 00  03 16 00 1a              |............|[0m
+[0;32mI (17947) FINGERPRINT: Information page read successfully[0m
+[0;32mI (17957) main_task: Returned from app_main()[0m
+[0;32mI (18257) Read Data: 0x3fc9b184   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
+[0;32mI (18257) Read Data: 0x3fc9b194   ff ff 02 01 02 00 05 20  00 00 64 00 03 ff ff ff  |....... ..d.....|[0m
+[0;32mI (18257) Read Data: 0x3fc9b1a4   ff 00 03 00 06 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18267) Read Data: 0x3fc9b1b4   00 42 65 74 74 65 72 6c  66 4a 50 53 31 2e 30 2e  |.BetterlfJPS1.0.|[0m
+[0;32mI (18277) Read Data: 0x3fc9b1c4   30 58 54 20 20 20 20 20  20 42 46 38 33 31 31 32  |0XT      BF83112|[0m
+[0;32mI (18287) Read Data: 0x3fc9b1d4   58 00 00 00 00 d6 5e 91  e4 00 00 00 00 00 00 00  |X.....^.........|[0m
+[0;32mI (18297) Read Data: 0x3fc9b1e4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18307) Read Data: 0x3fc9b1f4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18317) Read Data: 0x3fc9b204   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18327) Read Data: 0x3fc9b214   00 00 00 12 35 60 b2 c1  8b 4a 61 6e 20 20 39 20  |....5`...Jan  9 |[0m
+[0;32mI (18327) Read Data: 0x3fc9b224   32 30 32 34 00 00 00 00  00 00 00 00 00 00 00 00  |2024............|[0m
+[0;32mI (18337) Read Data: 0x3fc9b234   00 00 00 00 00 00 00 31  36 3a 31 34 3a 30 34 00  |.......16:14:04.|[0m
+[0;32mI (18347) Read Data: 0x3fc9b244   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18357) Read Data: 0x3fc9b254   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18367) Read Data: 0x3fc9b264   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18377) Read Data: 0x3fc9b274   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18387) Read Data: 0x3fc9b284   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18397) Read Data: 0x3fc9b294   00 00 00 00 00 16 5f ef  01 ff ff ff ff 08 01 02  |......_.........|[0m
+[0;32mI (18407) Read Data: 0x3fc9b2a4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18417) Read Data: 0x3fc9b2b4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18417) Read Data: 0x3fc9b2c4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18427) Read Data: 0x3fc9b2d4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18437) Read Data: 0x3fc9b2e4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18447) Read Data: 0x3fc9b2f4   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18457) Read Data: 0x3fc9b304   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18467) Read Data: 0x3fc9b314   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18477) Read Data: 0x3fc9b324   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18487) Read Data: 0x3fc9b334   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18497) Read Data: 0x3fc9b344   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18507) Read Data: 0x3fc9b354   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18507) Read Data: 0x3fc9b364   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18517) Read Data: 0x3fc9b374   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18527) Read Data: 0x3fc9b384   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|[0m
+[0;32mI (18537) Read Data: 0x3fc9b394   00 00 00 00 00 00 00 00  27 01 00 00 00 00 00 00  |........'.......|[0m
+[0;32mI (18547) Read Data: 0x3fc9b3a4   00 33                                             |.3|[0m
+[0;32mI (18567) FINGERPRINT: Packet 0: ID=0x02, Address=0xFFFFFFFF, Length=258[0m
+[0;32mI (18567) FINGERPRINT: Found packet ID=0x08 at position 279, Length=258[0m
+[0;32mI (18567) FINGERPRINT: Setting success bit for info page completion[0m
+[0;32mI (18587) FINGERPRINT: Added 0x08 packet to response at index 4[0m
+[0;32mI (18587) Final 0x08 packet data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18587) Final 0x08 packet data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18597) FINGERPRINT: Returning response with 5 packets[0m
+[0;32mI (18597) FINGERPRINT: Template accumulator initialized[0m
+[0;32mI (18607) FINGERPRINT: Added packet ID=0x02 with calculated checksum 0x165F[0m
+[0;32mI (18607) FINGERPRINT: Added packet ID=0x08 with calculated checksum 0x0033[0m
+[0;32mI (18617) FINGERPRINT: Found final packet (ID=0x08) at position 1[0m
+[0;32mI (18627) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18627) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18637) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18647) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18647) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18657) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18667) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18667) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18677) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18677) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18687) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18697) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18697) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18707) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18717) Template Data: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00[0m
+[0;32mI (18717) Template Data: 00 00 00 00 00 00 00 00 27 01 00 00 00 00 00 00[0m
+[0;32mI (18727) FINGERPRINT: Added packet ID=0x07 with calculated checksum 0x000A[0m
+[0;32mI (18737) FINGERPRINT: Last sent command: 0x16[0m
+[0;32mI (18787) FINGERPRINT: Information page read successfully. Status: 0x00[0m
+[0;32mI (18787) FINGERPRINT: Packet ID read successfully. Status: 0x07[0m
+[0;32mI (18787) FINGERPRINT: Packet length read successfully. Status: 0x03[0m
+[0;32mI (29387) FINGERPRINT: Finger detected via interrupt![0m
+[0;32mI (29387) FINGERPRINT: Processing fingerprint in mode: 0[0m
+[0;32mI (30077) Send Command Packet: 0x3fcab750   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;32mI (30077) Read Data: 0x3fc9b184   00 55 00 00 55 00 00 00  55 00 00 55              |.U..U...U..U|[0m
+[0;32mI (30347) Read Data: 0x3fc9b185   55                                                |U|[0m
+[0;33mW (30877) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;32mI (30967) Read Data: 0x3fc9b185   00 00 00 00 00 00 00 00  55 00 55 00 00 55        |........U.U..U|[0m
+[0;32mI (31027) Send Command Packet: 0x3fcab750   ef 01 ff ff ff ff 01 00  03 01 00 05              |............|[0m
+[0;33mW (31827) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;32mI (31837) Read Data: 0x3fc9b185   00 55                                             |.U|[0m
