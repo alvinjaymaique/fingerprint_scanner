@@ -9,6 +9,8 @@ var fingerprint_8h =
     [ "fingerprint_template_count_t", "structfingerprint__template__count__t.html", "structfingerprint__template__count__t" ],
     [ "fingerprint_template_buffer_t", "structfingerprint__template__buffer__t.html", "structfingerprint__template__buffer__t" ],
     [ "fingerprint_enrollment_info_t", "structfingerprint__enrollment__info__t.html", "structfingerprint__enrollment__info__t" ],
+    [ "fingerprint_deleted_template_t", "structfingerprint__deleted__template__t.html", "structfingerprint__deleted__template__t" ],
+    [ "fingerprint_restored_template_t", "structfingerprint__restored__template__t.html", "structfingerprint__restored__template__t" ],
     [ "fingerprint_event_t", "structfingerprint__event__t.html", "structfingerprint__event__t" ],
     [ "CHECKING_LOCATION_BIT", "fingerprint_8h.html#aadeaf43969208e0b520d8c6a2c974f9d", null ],
     [ "DEFAULT_BAUD_RATE", "fingerprint_8h.html#a68654b05f39a5e88db0453de6f7fd726", null ],

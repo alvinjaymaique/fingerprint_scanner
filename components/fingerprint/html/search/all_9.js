@@ -9,11 +9,12 @@ var searchData=
   ['default_5frx_5fpin_6',['DEFAULT_RX_PIN',['../fingerprint_8h.html#aef44023d85418b6b89d8e8492f4feb81',1,'fingerprint.h']]],
   ['default_5ftx_5fpin_7',['DEFAULT_TX_PIN',['../fingerprint_8h.html#a906d33234fc0a208973dee29efb12336',1,'fingerprint.h']]],
   ['delete_5ffingerprint_8',['delete_fingerprint',['../fingerprint_8h.html#a1f48d3dd2566720cfd011998cb0283f7',1,'delete_fingerprint(uint16_t location):&#160;fingerprint.c'],['../fingerprint_8c.html#a1f48d3dd2566720cfd011998cb0283f7',1,'delete_fingerprint(uint16_t location):&#160;fingerprint.c']]],
-  ['dependencies_9',['1.3 Dependencies',['../fingerprint_8h.html#autotoc_md3',1,'']]],
-  ['description_10',['2. Hardware Interface Description',['../fingerprint_8h.html#autotoc_md4',1,'']]],
-  ['detection_11',['6.3 Interrupt-Based Finger Detection',['../fingerprint_8h.html#autotoc_md21',1,'']]],
-  ['device_20address_12',['6.5 Setting Device Address',['../fingerprint_8h.html#autotoc_md23',1,'']]],
-  ['device_5faddress_13',['device_address',['../structfingerprint__sys__params__t.html#a9123aceda2b40426d4b3e5752f3ca250',1,'fingerprint_sys_params_t']]],
-  ['driven_20system_14',['3. Event-driven System',['../fingerprint_8h.html#autotoc_md7',1,'']]],
-  ['duplicate_5ffound_5fbit_15',['DUPLICATE_FOUND_BIT',['../fingerprint_8h.html#af382f3a88fdc56eaf177c7a90b466aa5',1,'fingerprint.h']]]
+  ['deleted_5ftemplate_9',['deleted_template',['../structfingerprint__event__t.html#acb319a2663924e37c99f7b0715e6f8ad',1,'fingerprint_event_t']]],
+  ['dependencies_10',['1.3 Dependencies',['../fingerprint_8h.html#autotoc_md3',1,'']]],
+  ['description_11',['2. Hardware Interface Description',['../fingerprint_8h.html#autotoc_md4',1,'']]],
+  ['detection_12',['6.3 Interrupt-Based Finger Detection',['../fingerprint_8h.html#autotoc_md21',1,'']]],
+  ['device_20address_13',['6.5 Setting Device Address',['../fingerprint_8h.html#autotoc_md23',1,'']]],
+  ['device_5faddress_14',['device_address',['../structfingerprint__sys__params__t.html#a9123aceda2b40426d4b3e5752f3ca250',1,'fingerprint_sys_params_t']]],
+  ['driven_20system_15',['3. Event-driven System',['../fingerprint_8h.html#autotoc_md7',1,'']]],
+  ['duplicate_5ffound_5fbit_16',['DUPLICATE_FOUND_BIT',['../fingerprint_8h.html#af382f3a88fdc56eaf177c7a90b466aa5',1,'fingerprint.h']]]
 ];

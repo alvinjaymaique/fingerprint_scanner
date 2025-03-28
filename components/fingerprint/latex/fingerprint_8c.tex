@@ -119,6 +119,10 @@ static uint16\+\_\+t \mbox{\hyperlink{fingerprint_8c_afd9292e9a2e18abd8e31ef689a
 \item 
 static bool \mbox{\hyperlink{fingerprint_8c_a5a8f20eead6bc47a20fed4b7ae0ddf04}{is\+\_\+fingerprint\+\_\+validating}} = false
 \item 
+static bool \mbox{\hyperlink{fingerprint_8c_a210b00c677f1aa7455bf0f2bc673cf8b}{is\+\_\+uploading\+\_\+template}} = false
+\item 
+static bool \mbox{\hyperlink{fingerprint_8c_acff1b1d11c0a36087fa42e8505cc4dca}{is\+\_\+enrollment\+\_\+in\+\_\+progress}} = false
+\item 
 static \mbox{\hyperlink{struct_multi_packet_response}{Multi\+Packet\+Response}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{fingerprint_8c_a07794fc611cd63d0b5670feed49f44d5}{g\+\_\+template\+\_\+accumulator}} = NULL
 \item 
 static uint8\+\_\+t \mbox{\hyperlink{fingerprint_8c_a5c0f8def90025d6e94cd117f278e975e}{last\+\_\+sent\+\_\+command}} = 0x00
@@ -1225,11 +1229,23 @@ This pointer is used to assign a function that will handle fingerprint-\/related
 {\footnotesize\ttfamily \label{fingerprint_8c_afd9292e9a2e18abd8e31ef689ac89b68} 
 uint16\+\_\+t global\+\_\+location = 0\hspace{0.3cm}{\ttfamily [static]}}
 
+\Hypertarget{fingerprint_8c_acff1b1d11c0a36087fa42e8505cc4dca}\index{fingerprint.c@{fingerprint.c}!is\_enrollment\_in\_progress@{is\_enrollment\_in\_progress}}
+\index{is\_enrollment\_in\_progress@{is\_enrollment\_in\_progress}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{is\_enrollment\_in\_progress}{is\_enrollment\_in\_progress}}
+{\footnotesize\ttfamily \label{fingerprint_8c_acff1b1d11c0a36087fa42e8505cc4dca} 
+bool is\+\_\+enrollment\+\_\+in\+\_\+progress = false\hspace{0.3cm}{\ttfamily [static]}}
+
 \Hypertarget{fingerprint_8c_a5a8f20eead6bc47a20fed4b7ae0ddf04}\index{fingerprint.c@{fingerprint.c}!is\_fingerprint\_validating@{is\_fingerprint\_validating}}
 \index{is\_fingerprint\_validating@{is\_fingerprint\_validating}!fingerprint.c@{fingerprint.c}}
 \doxysubsubsection{\texorpdfstring{is\_fingerprint\_validating}{is\_fingerprint\_validating}}
 {\footnotesize\ttfamily \label{fingerprint_8c_a5a8f20eead6bc47a20fed4b7ae0ddf04} 
 bool is\+\_\+fingerprint\+\_\+validating = false\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{fingerprint_8c_a210b00c677f1aa7455bf0f2bc673cf8b}\index{fingerprint.c@{fingerprint.c}!is\_uploading\_template@{is\_uploading\_template}}
+\index{is\_uploading\_template@{is\_uploading\_template}!fingerprint.c@{fingerprint.c}}
+\doxysubsubsection{\texorpdfstring{is\_uploading\_template}{is\_uploading\_template}}
+{\footnotesize\ttfamily \label{fingerprint_8c_a210b00c677f1aa7455bf0f2bc673cf8b} 
+bool is\+\_\+uploading\+\_\+template = false\hspace{0.3cm}{\ttfamily [static]}}
 
 \Hypertarget{fingerprint_8c_a0594649543a5a487b129ea9d35a40e44}\index{fingerprint.c@{fingerprint.c}!last\_interrupt\_time@{last\_interrupt\_time}}
 \index{last\_interrupt\_time@{last\_interrupt\_time}!fingerprint.c@{fingerprint.c}}
