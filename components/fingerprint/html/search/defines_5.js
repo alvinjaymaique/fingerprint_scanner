@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rx_5fbuf_5fsize_0',['RX_BUF_SIZE',['../fingerprint_8c.html#a690f985c933da2ce6fe62b6c61dfa662',1,'fingerprint.c']]]
+  ['max_5fparameters_0',['MAX_PARAMETERS',['../fingerprint_8h.html#a68c7f0498bb1932350eb092be1b5e912',1,'fingerprint.h']]]
 ];

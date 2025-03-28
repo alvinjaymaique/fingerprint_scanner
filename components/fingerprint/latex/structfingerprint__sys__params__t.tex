@@ -1,0 +1,111 @@
+\doxysection{fingerprint\+\_\+sys\+\_\+params\+\_\+t Struct Reference}
+\hypertarget{structfingerprint__sys__params__t}{}\label{structfingerprint__sys__params__t}\index{fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}}
+
+
+Structure containing system parameters from the fingerprint module.  
+
+
+
+
+{\ttfamily \#include $<$fingerprint.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structfingerprint__sys__params__t_a83efb30b676a44aba5c9b56d404c8b99}{status\+\_\+register}}
+\begin{DoxyCompactList}\small\item\em Status register of the fingerprint module. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structfingerprint__sys__params__t_a0771f0d0e08000c29f6e820fd1bfc1d7}{template\+\_\+size}}
+\begin{DoxyCompactList}\small\item\em Template size for fingerprint data. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structfingerprint__sys__params__t_a93c1b7989ad7096c4aedf7d5446b7dff}{database\+\_\+size}}
+\begin{DoxyCompactList}\small\item\em Number of fingerprints that can be stored in the library. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structfingerprint__sys__params__t_ab21c37b1d3c1a3697e73ee35e7ac0238}{security\+\_\+level}}
+\begin{DoxyCompactList}\small\item\em Security level setting of the fingerprint module. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structfingerprint__sys__params__t_a9123aceda2b40426d4b3e5752f3ca250}{device\+\_\+address}}
+\begin{DoxyCompactList}\small\item\em Device address used for module communication. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structfingerprint__sys__params__t_adef55e343cfbb44c192020a13e9e4d63}{data\+\_\+packet\+\_\+size}}
+\begin{DoxyCompactList}\small\item\em Data packet size for communication. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structfingerprint__sys__params__t_a535c80fe48cb787340601b52d7fc6a73}{baud\+\_\+rate}}
+\begin{DoxyCompactList}\small\item\em Baud rate setting for UART communication. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Structure containing system parameters from the fingerprint module. 
+
+This structure stores various system-\/level parameters retrieved from the fingerprint module, including device configuration, security settings, and communication parameters. 
+
+\doxysubsection{Field Documentation}
+\Hypertarget{structfingerprint__sys__params__t_a535c80fe48cb787340601b52d7fc6a73}\index{fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}!baud\_rate@{baud\_rate}}
+\index{baud\_rate@{baud\_rate}!fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}}
+\doxysubsubsection{\texorpdfstring{baud\_rate}{baud\_rate}}
+{\footnotesize\ttfamily \label{structfingerprint__sys__params__t_a535c80fe48cb787340601b52d7fc6a73} 
+uint16\+\_\+t fingerprint\+\_\+sys\+\_\+params\+\_\+t\+::baud\+\_\+rate}
+
+
+
+Baud rate setting for UART communication. 
+
+Determines the communication speed between the fingerprint module and the microcontroller. Typically set in multiples of 9600 baud. \Hypertarget{structfingerprint__sys__params__t_adef55e343cfbb44c192020a13e9e4d63}\index{fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}!data\_packet\_size@{data\_packet\_size}}
+\index{data\_packet\_size@{data\_packet\_size}!fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}}
+\doxysubsubsection{\texorpdfstring{data\_packet\_size}{data\_packet\_size}}
+{\footnotesize\ttfamily \label{structfingerprint__sys__params__t_adef55e343cfbb44c192020a13e9e4d63} 
+uint16\+\_\+t fingerprint\+\_\+sys\+\_\+params\+\_\+t\+::data\+\_\+packet\+\_\+size}
+
+
+
+Data packet size for communication. 
+
+Specifies the length of data packets exchanged between the fingerprint module and the microcontroller. Common values\+: 32, 64, 128, or 256 bytes. \Hypertarget{structfingerprint__sys__params__t_a93c1b7989ad7096c4aedf7d5446b7dff}\index{fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}!database\_size@{database\_size}}
+\index{database\_size@{database\_size}!fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}}
+\doxysubsubsection{\texorpdfstring{database\_size}{database\_size}}
+{\footnotesize\ttfamily \label{structfingerprint__sys__params__t_a93c1b7989ad7096c4aedf7d5446b7dff} 
+uint16\+\_\+t fingerprint\+\_\+sys\+\_\+params\+\_\+t\+::database\+\_\+size}
+
+
+
+Number of fingerprints that can be stored in the library. 
+
+Represents the maximum capacity of stored fingerprint templates in the module\textquotesingle{}s internal storage. \Hypertarget{structfingerprint__sys__params__t_a9123aceda2b40426d4b3e5752f3ca250}\index{fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}!device\_address@{device\_address}}
+\index{device\_address@{device\_address}!fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}}
+\doxysubsubsection{\texorpdfstring{device\_address}{device\_address}}
+{\footnotesize\ttfamily \label{structfingerprint__sys__params__t_a9123aceda2b40426d4b3e5752f3ca250} 
+uint32\+\_\+t fingerprint\+\_\+sys\+\_\+params\+\_\+t\+::device\+\_\+address}
+
+
+
+Device address used for module communication. 
+
+The fingerprint module communicates using a unique 32-\/bit address. The default value is {\ttfamily 0x\+FFFFFFFF} (broadcast mode). \Hypertarget{structfingerprint__sys__params__t_ab21c37b1d3c1a3697e73ee35e7ac0238}\index{fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}!security\_level@{security\_level}}
+\index{security\_level@{security\_level}!fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}}
+\doxysubsubsection{\texorpdfstring{security\_level}{security\_level}}
+{\footnotesize\ttfamily \label{structfingerprint__sys__params__t_ab21c37b1d3c1a3697e73ee35e7ac0238} 
+uint16\+\_\+t fingerprint\+\_\+sys\+\_\+params\+\_\+t\+::security\+\_\+level}
+
+
+
+Security level setting of the fingerprint module. 
+
+Determines the strictness of fingerprint matching. Higher values indicate stricter matching conditions. \Hypertarget{structfingerprint__sys__params__t_a83efb30b676a44aba5c9b56d404c8b99}\index{fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}!status\_register@{status\_register}}
+\index{status\_register@{status\_register}!fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}}
+\doxysubsubsection{\texorpdfstring{status\_register}{status\_register}}
+{\footnotesize\ttfamily \label{structfingerprint__sys__params__t_a83efb30b676a44aba5c9b56d404c8b99} 
+uint16\+\_\+t fingerprint\+\_\+sys\+\_\+params\+\_\+t\+::status\+\_\+register}
+
+
+
+Status register of the fingerprint module. 
+
+This register contains the current operational status and any error codes related to the fingerprint module. \Hypertarget{structfingerprint__sys__params__t_a0771f0d0e08000c29f6e820fd1bfc1d7}\index{fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}!template\_size@{template\_size}}
+\index{template\_size@{template\_size}!fingerprint\_sys\_params\_t@{fingerprint\_sys\_params\_t}}
+\doxysubsubsection{\texorpdfstring{template\_size}{template\_size}}
+{\footnotesize\ttfamily \label{structfingerprint__sys__params__t_a0771f0d0e08000c29f6e820fd1bfc1d7} 
+uint16\+\_\+t fingerprint\+\_\+sys\+\_\+params\+\_\+t\+::template\+\_\+size}
+
+
+
+Template size for fingerprint data. 
+
+Specifies the size of a single fingerprint template in bytes. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{fingerprint_8h}{fingerprint.\+h}}\end{DoxyCompactItemize}

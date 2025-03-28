@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['queue_5fsize_0',['QUEUE_SIZE',['../fingerprint_8h.html#a142810068f1b99cd93d3fc9f0e160e02',1,'fingerprint.h']]]
+  ['info_5fpage_5fcomplete_5fbit_0',['INFO_PAGE_COMPLETE_BIT',['../fingerprint_8h.html#a3560338e8be5057558c08624fa89e0a3',1,'fingerprint.h']]]
 ];

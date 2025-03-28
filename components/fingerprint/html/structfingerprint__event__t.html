@@ -108,7 +108,7 @@ $(function(){initNavTree('structfingerprint__event__t.html',''); initResizable(t
 </div><!--header-->
 <div class="contents">
 
-<p>Structure representing a fingerprint event.  
+<p>Defines a generic fingerprint event structure with flexible response types.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="fingerprint_8h_source.html">fingerprint.h</a>&gt;</code></p>
@@ -121,11 +121,103 @@ Data Fields</h2></td></tr>
 <tr class="separator:a4ee37a20269bfe63d726a010ab9447a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38d851a6a617be596ee82fee9e739ad8" id="r_a38d851a6a617be596ee82fee9e739ad8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_fingerprint_packet.html">FingerprintPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38d851a6a617be596ee82fee9e739ad8">packet</a></td></tr>
 <tr class="separator:a38d851a6a617be596ee82fee9e739ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac36db0b537fbcedde598cc31a86cdcfb" id="r_ac36db0b537fbcedde598cc31a86cdcfb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_multi_packet_response.html">MultiPacketResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac36db0b537fbcedde598cc31a86cdcfb">multi_packet</a></td></tr>
+<tr class="separator:ac36db0b537fbcedde598cc31a86cdcfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71675dd90c091c80e501b625081de07b" id="r_a71675dd90c091c80e501b625081de07b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71675dd90c091c80e501b625081de07b">command</a></td></tr>
+<tr class="separator:a71675dd90c091c80e501b625081de07b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec97a57dfba9b1e7d17fe06ce795c55e" id="r_aec97a57dfba9b1e7d17fe06ce795c55e"><td class="memItemLeft" >union {&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67f78a9c71cd0e13b49c1a2e9274877e" id="r_a67f78a9c71cd0e13b49c1a2e9274877e"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structfingerprint__match__info__t.html">fingerprint_match_info_t</a>&#160;&#160;&#160;<a class="el" href="#a6089d7e82946854a5dcb36b3ca8d7fd0">match_info</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a67f78a9c71cd0e13b49c1a2e9274877e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1470a8d534682c378f6ea9849c0f25f1" id="r_a1470a8d534682c378f6ea9849c0f25f1"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structfingerprint__template__count__t.html">fingerprint_template_count_t</a>&#160;&#160;&#160;<a class="el" href="#af969791700886a2391374dcba3810b0c">template_count</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a1470a8d534682c378f6ea9849c0f25f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdff3ee44ab05e4224fb1b1b3b6c14a9" id="r_afdff3ee44ab05e4224fb1b1b3b6c14a9"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structfingerprint__sys__params__t.html">fingerprint_sys_params_t</a>&#160;&#160;&#160;<a class="el" href="#ab219b0dbe938172b91475636d4de373b">sys_params</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:afdff3ee44ab05e4224fb1b1b3b6c14a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a197da651511b3e2bebfbaaa4e00ec819" id="r_a197da651511b3e2bebfbaaa4e00ec819"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structfingerprint__template__buffer__t.html">fingerprint_template_buffer_t</a>&#160;&#160;&#160;<a class="el" href="#a84da9d6d1a4ca2a36990a2220079e0c8">template_data</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a197da651511b3e2bebfbaaa4e00ec819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb1e8148f12371031111422597c27550" id="r_acb1e8148f12371031111422597c27550"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structfingerprint__enrollment__info__t.html">fingerprint_enrollment_info_t</a>&#160;&#160;&#160;<a class="el" href="#aa82bcfae7b162a4e625eb2e5d6ce9968">enrollment_info</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:acb1e8148f12371031111422597c27550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec97a57dfba9b1e7d17fe06ce795c55e" id="r_aec97a57dfba9b1e7d17fe06ce795c55e"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec97a57dfba9b1e7d17fe06ce795c55e">data</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:aec97a57dfba9b1e7d17fe06ce795c55e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Structure representing a fingerprint event. </p>
-<p>This structure encapsulates a high-level fingerprint event, along with the original status code and the associated response packet data. It is used to convey meaningful events triggered by the fingerprint module. </p>
+<div class="textblock"><p>Defines a generic fingerprint event structure with flexible response types. </p>
+<p>This structure represents an event triggered by the fingerprint module. It includes the event type, response status, and a flexible data union that can store different types of structured response data. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a id="a71675dd90c091c80e501b625081de07b" name="a71675dd90c091c80e501b625081de07b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71675dd90c091c80e501b625081de07b">&#9670;&#160;</a></span>command</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t fingerprint_event_t::command</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Command byte associated with the event </p>
+
+</div>
+</div>
+<a id="aec97a57dfba9b1e7d17fe06ce795c55e" name="aec97a57dfba9b1e7d17fe06ce795c55e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec97a57dfba9b1e7d17fe06ce795c55e">&#9670;&#160;</a></span>[union]</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">union  { ... }  fingerprint_event_t::data</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa82bcfae7b162a4e625eb2e5d6ce9968" name="aa82bcfae7b162a4e625eb2e5d6ce9968"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa82bcfae7b162a4e625eb2e5d6ce9968">&#9670;&#160;</a></span>enrollment_info</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structfingerprint__enrollment__info__t.html">fingerprint_enrollment_info_t</a> fingerprint_event_t::enrollment_info</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Enrollment information </p>
+
+</div>
+</div>
+<a id="a6089d7e82946854a5dcb36b3ca8d7fd0" name="a6089d7e82946854a5dcb36b3ca8d7fd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6089d7e82946854a5dcb36b3ca8d7fd0">&#9670;&#160;</a></span>match_info</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structfingerprint__match__info__t.html">fingerprint_match_info_t</a> fingerprint_event_t::match_info</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Data for fingerprint match events </p>
+
+</div>
+</div>
+<a id="ac36db0b537fbcedde598cc31a86cdcfb" name="ac36db0b537fbcedde598cc31a86cdcfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac36db0b537fbcedde598cc31a86cdcfb">&#9670;&#160;</a></span>multi_packet</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_multi_packet_response.html">MultiPacketResponse</a>* fingerprint_event_t::multi_packet</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Multi-packet response data </p>
+
+</div>
+</div>
 <a id="a38d851a6a617be596ee82fee9e739ad8" name="a38d851a6a617be596ee82fee9e739ad8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a38d851a6a617be596ee82fee9e739ad8">&#9670;&#160;</a></span>packet</h2>
 
@@ -137,7 +229,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The full response packet received from the fingerprint module. </p>
+<p>Raw response packet (for backward compatibility) </p>
 
 </div>
 </div>
@@ -152,7 +244,51 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The original fingerprint status code received from the sensor. </p>
+<p>Status code returned from the fingerprint module </p>
+
+</div>
+</div>
+<a id="ab219b0dbe938172b91475636d4de373b" name="ab219b0dbe938172b91475636d4de373b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab219b0dbe938172b91475636d4de373b">&#9670;&#160;</a></span>sys_params</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structfingerprint__sys__params__t.html">fingerprint_sys_params_t</a> fingerprint_event_t::sys_params</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af969791700886a2391374dcba3810b0c" name="af969791700886a2391374dcba3810b0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af969791700886a2391374dcba3810b0c">&#9670;&#160;</a></span>template_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structfingerprint__template__count__t.html">fingerprint_template_count_t</a> fingerprint_event_t::template_count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Data for template count events </p>
+
+</div>
+</div>
+<a id="a84da9d6d1a4ca2a36990a2220079e0c8" name="a84da9d6d1a4ca2a36990a2220079e0c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84da9d6d1a4ca2a36990a2220079e0c8">&#9670;&#160;</a></span>template_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structfingerprint__template__buffer__t.html">fingerprint_template_buffer_t</a> fingerprint_event_t::template_data</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fingerprint template data </p>
 
 </div>
 </div>
@@ -167,7 +303,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The high-level fingerprint event type (e.g., EVENT_FINGER_DETECTED, EVENT_MATCH_FAIL). </p>
+<p>The type of fingerprint event </p>
 
 </div>
 </div>

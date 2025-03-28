@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['max_5fparameters_0',['MAX_PARAMETERS',['../fingerprint_8h.html#a68c7f0498bb1932350eb092be1b5e912',1,'fingerprint.h']]]
+  ['fingerprint_5fgpio_5fpin_0',['FINGERPRINT_GPIO_PIN',['../fingerprint_8h.html#a163a9960a6008f5ad012e841ccd3262d',1,'fingerprint.h']]],
+  ['fingerprint_5fheader_1',['FINGERPRINT_HEADER',['../fingerprint_8h.html#a3213a1f8aac63fb5a1e7fba62b6c14c9',1,'fingerprint.h']]],
+  ['fingerprint_5fpacket_5fheader_2',['FINGERPRINT_PACKET_HEADER',['../fingerprint_8h.html#af02cae8acf76dab97688c8fa80ebff3e',1,'fingerprint.h']]],
+  ['fingerprint_5fpacket_5fid_5fcmd_3',['FINGERPRINT_PACKET_ID_CMD',['../fingerprint_8h.html#a85421db489877ff7378a1e706d0d8d71',1,'fingerprint.h']]],
+  ['fingerprint_5fvin_5fpin_4',['FINGERPRINT_VIN_PIN',['../fingerprint_8h.html#a7c33f9eeb56b67490e36768bc702129c',1,'fingerprint.h']]]
 ];

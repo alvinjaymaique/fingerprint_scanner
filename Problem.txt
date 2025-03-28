@@ -1,9 +1,0 @@
-Problem: 
-- In read_response, everytime this function triggers it will overwrite the packet
-- The fingerprint_event_t does not store the multifingerprint structure
-- Uploaded event runs multiple times everytime a packet is received
-
-Possible solution:
-- Need something that store packets in the multifingerprint packet struct until the last packet is read
-- Then store it to the fingerprint_event_t
-- Need to change it to only trigger that event when the last packet arrives

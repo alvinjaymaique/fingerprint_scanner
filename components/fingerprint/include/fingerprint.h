@@ -1,9 +1,9 @@
 /**
  * @file fingerprint.h
- * @brief Fingerprint sensor driver (ZW111) for ESP32
+ * @brief Fingerprint sensor driver for ESP32
  *
  * ## 1. Introduction
- * This driver provides an interface for the ZW111 fingerprint sensor, enabling fingerprint 
+ * This driver provides an interface for the fingerprint sensor, enabling fingerprint 
  * enrollment, matching, and template storage. It is designed for embedded systems using the 
  * ESP32 microcontroller, providing an event-driven architecture for efficient processing.
  *
@@ -30,16 +30,13 @@
  * - Baud rate adjustable: 9600 to 115200 bps
  * - Direct connection to MCU (3.3V) or use RS232 level converter for PC
  * 
- * ### 2.2 Power-on Sequence:
- * 1. Host receives fingerprint module (FPM) interrupt wake-up signal.
- * 2. Host powers on Vmcu (MCU power supply) **before** initializing UART.
- * 3. After communication completes, pull down serial signal lines **before** powering off Vmcu.
  * 
- * ### 2.3 Connection
- * - **TX** → ESP32 GPIO17
- * - **RX** → ESP32 GPIO16
+ * ### 2.2 Connection
+ * - **TX** → ESP32 GPIO18
+ * - **RX** → ESP32 GPIO17
  * - **VCC** → 3.3V
  * - **GND** → GND
+ * - **INT** → ESP32 GPIO15
  *
  * ## 3. Event-driven System
  * This system operates on an event-driven architecture where each key operation, such as image capture, feature extraction, or match status, triggers specific events. The events help the application know when an operation is complete or has failed. 
@@ -151,65 +148,346 @@
  * }
  * @endcode
  * 
- *  * ## 4. Usage Guide
- * This section provides an overview of how to use the fingerprint library in an ESP-IDF project.
+ * ## 4. Usage Guide
+ * This section provides an overview of how to use the high-level functions in the fingerprint library for common operations.
  *
  * ### 4.1 Initialization
- * Before sending commands, initialize the fingerprint module:
+ * Initialize the fingerprint module before using any other functions:
  *
  * @code
  * #include "fingerprint.h"
  *
  * void app_main() {
- *     if (fingerprint_init() == ESP_OK) {
- *         ESP_LOGI("Fingerprint", "Module initialized.");
+ *     // Initialize with default settings
+ *     esp_err_t err = fingerprint_init();
+ *     if (err == ESP_OK) {
+ *         ESP_LOGI(TAG, "Fingerprint module initialized successfully");
+ *         
+ *         // Register an event handler for processing events
+ *         register_fingerprint_event_handler(my_event_handler);
  *     }
  * }
  * @endcode
  *
- * ### 4.2 Sending Commands
- * Use `fingerprint_send_command()` with predefined `PS_*` packets to communicate with the sensor.
- *
- * **Example: Capturing a fingerprint image**
- * @code
- * fingerprint_send_command(&PS_GetImage, DEFAULT_FINGERPRINT_ADDRESS);
- * @endcode
- *
- * **Example: Searching for a fingerprint**
- * @code
- * PS_Search.parameters[0] = 0x01;  // Buffer ID
- * PS_Search.parameters[1] = 0x00;  // Start Page
- * PS_Search.parameters[2] = 0x02;  // Number of Pages
- * PS_Search.checksum = fingerprint_calculate_checksum(&PS_Search);
- * fingerprint_send_command(&PS_Search, DEFAULT_FINGERPRINT_ADDRESS);
- * @endcode
- *
- * ### 4.3 Reading Responses
- * Use `fingerprint_read_response()` to retrieve the sensor’s response.
+ * ### 4.2 Fingerprint Enrollment
+ * Enroll a new fingerprint using the high-level API:
  *
  * @code
- * FingerprintPacket *response = fingerprint_read_response();
- * if (response) {
- *     ESP_LOGI("Fingerprint", "Received status: 0x%02X", response->command);
- *     free(response);  // Free allocated memory
+ * // Enroll a new fingerprint at location 1
+ * esp_err_t err = enroll_fingerprint(1);
+ * if (err == ESP_OK) {
+ *     ESP_LOGI(TAG, "Fingerprint enrolled successfully");
+ * } else {
+ *     ESP_LOGE(TAG, "Fingerprint enrollment failed: %s", esp_err_to_name(err));
  * }
  * @endcode
  *
- * ### 4.4 Handling Events
- * The system maps fingerprint sensor status codes to higher-level events.  
- * To handle events dynamically, register a callback function:
+ * ### 4.3 Fingerprint Verification
+ * Verify a fingerprint against the database:
+ *
+ * @code
+ * esp_err_t err = verify_fingerprint();
+ * if (err == ESP_OK) {
+ *     // Match will be reported in the event handler
+ *     ESP_LOGI(TAG, "Fingerprint verification process initiated");
+ * }
+ * 
+ * // In the event handler:
+ * case EVENT_MATCH_SUCCESS:
+ *     ESP_LOGI(TAG, "Match found at template ID: %d with score: %d", 
+ *              event.data.match_info.template_id,
+ *              event.data.match_info.match_score);
+ *     break;
+ * @endcode
+ *
+ * ### 4.4 Template Management
+ * Manage fingerprint templates with these high-level functions:
+ *
+ * @code
+ * // Get the number of enrolled templates
+ * err = get_enrolled_count();
+ * // Count will be available in EVENT_TEMPLATE_COUNT
+ *
+ * // Delete a fingerprint template
+ * err = delete_fingerprint(5);  // Delete template at location 5
+ *
+ * // Check if a template exists
+ * err = fingerprint_check_template_exists(3);
+ *
+ * // Back up a template from the module to the ESP32
+ * err = backup_template(2);  // Will trigger EVENT_TEMPLATE_UPLOADED
+ * // The template data will be available in the event handler:
+ * case EVENT_TEMPLATE_UPLOADED:
+ *     if (event.multi_packet != NULL && event.multi_packet->template_data != NULL) {
+ *         ESP_LOGI(TAG, "Template data received: %d bytes", event.multi_packet->template_size);
+ *         // Process or save the template data
+ *     }
+ *     break;
+ *
+ * // Restore a template from ESP32 to the module
+ * err = restore_template_from_multipacket(9, template_response);
+ * // Where template_response is a MultiPacketResponse obtained from a previous backup
+ * // This will download the template to the module and store it at location 9
+ *
+ * // Clear the entire database
+ * err = clear_database();
+ * @endcode
+ *
+ * @note Template backup and restore operations are useful for transferring fingerprints
+ *       between devices or creating secure backups of enrolled fingerprints.
+ *
+ * 
+ * 
+ * ## 5. Creating Custom High-Level Functions
+ * This section explains how to extend the library by creating your own high-level functions
+ * using the mid-level command interface.
+ *
+ * ### 5.1 Mid-Level Command Functions
+ * The library provides these key mid-level functions for direct module communication:
+ * 
+ * - `fingerprint_set_command()` - Configures a command packet with parameters
+ * - `fingerprint_send_command()` - Transmits a command to the fingerprint module
+ * - `fingerprint_calculate_checksum()` - Computes the checksum for a packet
+ * - `initialize_event_group()` - Creates an event group for synchronization
+ * - `cleanup_event_group()` - Cleans up the event group when finished
+ *
+ * ### 5.2 Creating a High-Level Function
+ * A typical high-level function follows this pattern:
+ *
+ * @code
+ * esp_err_t my_custom_operation(uint16_t parameter) {
+ *     esp_err_t err;
+ *     EventBits_t bits;
+ *     
+ *     // 1. Initialize event group for synchronization
+ *     err = initialize_event_group();
+ *     if (err != ESP_OK) {
+ *         return err;
+ *     }
+ *     
+ *     // 2. Configure the command with appropriate parameters
+ *     uint8_t params[3] = {
+ *         0x01,                      // Buffer ID
+ *         (parameter >> 8) & 0xFF,   // High byte of parameter
+ *         parameter & 0xFF           // Low byte of parameter
+ *     };
+ *     
+ *     fingerprint_set_command(&PS_MyCommand, FINGERPRINT_CMD_CUSTOM, params, sizeof(params));
+ *     
+ *     // 3. Send the command
+ *     err = fingerprint_send_command(&PS_MyCommand, DEFAULT_FINGERPRINT_ADDRESS);
+ *     if (err != ESP_OK) {
+ *         ESP_LOGE(TAG, "Failed to send command");
+ *         cleanup_event_group();
+ *         return err;
+ *     }
+ *     
+ *     // 4. Wait for operation to complete (with timeout)
+ *     bits = xEventGroupWaitBits(
+ *         enroll_event_group,
+ *         ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,  // Bits to wait for
+ *         pdTRUE,                               // Clear bits after
+ *         pdFALSE,                              // Wait for ANY bit
+ *         pdMS_TO_TICKS(5000)                   // Timeout (5 seconds)
+ *     );
+ *     
+ *     // 5. Check results and return appropriate status
+ *     cleanup_event_group();
+ *     
+ *     if (bits & ENROLL_BIT_SUCCESS) {
+ *         return ESP_OK;
+ *     } else if (bits & ENROLL_BIT_FAIL) {
+ *         return ESP_FAIL;
+ *     } else {
+ *         return ESP_ERR_TIMEOUT;
+ *     }
+ * }
+ * @endcode
+ *
+ * ### 5.3 Processing Events
+ * Your operation will trigger events that arrive in your registered event handler:
  *
  * @code
  * void my_event_handler(fingerprint_event_t event) {
- *     ESP_LOGI("Fingerprint", "Event: %d, Status: 0x%02X", event.type, event.status);
- * }
- *
- * void app_main() {
- *     register_fingerprint_event_handler(my_event_handler);
+ *     switch (event.type) {
+ *         case EVENT_CUSTOM_SUCCESS:
+ *             // Set success bit to unblock the waiting function
+ *             if (enroll_event_group) {
+ *                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+ *             }
+ *             break;
+ *             
+ *         case EVENT_CUSTOM_FAIL:
+ *             // Set fail bit to unblock the waiting function
+ *             if (enroll_event_group) {
+ *                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
+ *             }
+ *             break;
+ *     }
  * }
  * @endcode
+ *
+ * ### 5.4 Handling Multi-Step Operations
+ * For more complex operations requiring multiple commands:
+ *
+ * @code
+ * esp_err_t complex_operation(void) {
+ *     esp_err_t err;
+ *     
+ *     // Initialize event group only once for the entire sequence
+ *     err = initialize_event_group();
+ *     if (err != ESP_OK) return err;
+ *     
+ *     // Step 1: Send first command
+ *     fingerprint_set_command(&PS_FirstCommand, FINGERPRINT_CMD_FIRST, NULL, 0);
+ *     err = fingerprint_send_command(&PS_FirstCommand, DEFAULT_FINGERPRINT_ADDRESS);
+ *     if (err != ESP_OK) {
+ *         cleanup_event_group();
+ *         return err;
+ *     }
+ *     
+ *     // Wait for first command to complete
+ *     EventBits_t bits = xEventGroupWaitBits(
+ *         enroll_event_group,
+ *         ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
+ *         pdTRUE, pdFALSE, pdMS_TO_TICKS(3000)
+ *     );
+ *     
+ *     // Check first command result
+ *     if (!(bits & ENROLL_BIT_SUCCESS)) {
+ *         cleanup_event_group();
+ *         return ESP_FAIL;
+ *     }
+ *     
+ *     // Step 2: Send second command
+ *     // ... similar pattern ...
+ *     
+ *     // Clean up when done
+ *     cleanup_event_group();
+ *     return ESP_OK;
+ * }
+ * @endcode
+ * 
+ * 
+ *  * ## 6. Setting Up the Fingerprint Scanner
+ * This section provides a step-by-step guide for setting up and testing the ZW111 fingerprint scanner with the ESP32.
+ *
+ * ### 6.1 Hardware Connections
+ * Connect the fingerprint scanner to your ESP32 development board:
+ *
+ * | Fingerprint Scanner | ESP32         |
+ * |---------------------|---------------|
+ * | VCC                 | 3.3V          |
+ * | GND                 | GND           |
+ * | TX                  | GPIO17 (RX)    |
+ * | RX                  | GPIO18 (TX)    |
+ * | INT                 | GPIO15        | 
+ *
+ * @note The default pins are GPIO5 for RX and GPIO6 for TX, but these can be changed using the `fingerprint_set_pins()` function.
+ * The INT pin is connected to GPIO15 and is used for interrupt-based finger detection.
+ *
+ * ### 6.2 Software Initialization
+ * Include the following code in your application to initialize the fingerprint scanner:
+ *
+ * @code
+ * #include "fingerprint.h"
+ *
+ * void app_main() {
+ *     // Optional: Change default communication pins if needed
+ *     // fingerprint_set_pins(GPIO_NUM_16, GPIO_NUM_17);
+ *
+ *     // Optional: Change the baud rate if needed
+ *     // fingerprint_set_baudrate(115200);
+ *
+ *     // Initialize the fingerprint module
+ *     esp_err_t err = fingerprint_init();
+ *     if (err != ESP_OK) {
+ *         ESP_LOGE(TAG, "Fingerprint initialization failed: %s", esp_err_to_name(err));
+ *         return;
+ *     }
+ *
+ *     // Register event handler
+ *     register_fingerprint_event_handler(my_event_handler);
+ *
+ *     // Read system parameters to verify communication
+ *     err = read_system_parameters();
+ *     if (err != ESP_OK) {
+ *         ESP_LOGE(TAG, "Failed to read system parameters: %s", esp_err_to_name(err));
+ *         return;
+ *     }
+ *
+ *     ESP_LOGI(TAG, "Fingerprint scanner ready!");
+ * }
+ * @endcode
+ *
+ * ### 6.3 Interrupt-Based Finger Detection
+ * The library automatically sets up interrupt-based finger detection using GPIO15.
+ * When a finger is placed on the sensor, the INT pin triggers an interrupt that:
+ * 
+ * 1. Detects finger placement with software debouncing
+ * 2. Signals the detection to a processing task
+ * 3. Automatically processes the finger based on the current operation mode
+ *
+ * You can set the operation mode to control how finger detection is handled:
+ *
+ * @code
+ * // Set operation mode for verification
+ * fingerprint_set_operation_mode(FINGER_OP_VERIFY);
+ * 
+ * // Wait for a finger with timeout
+ * err = fingerprint_wait_for_finger(10000);  // 10 second timeout
+ * if (err == ESP_OK) {
+ *     ESP_LOGI(TAG, "Finger detected and processed for verification");
+ * }
+ * @endcode
+ *
+ * ### 6.4 Testing the Connection
+ * Verify the scanner is working by reading the template count:
+ *
+ * @code
+ * // Get current enrollment count
+ * err = get_enrolled_count();
+ * if (err != ESP_OK) {
+ *     ESP_LOGE(TAG, "Failed to get enrollment count: %s", esp_err_to_name(err));
+ * }
+ * // The count will be reported in the EVENT_TEMPLATE_COUNT event
+ * @endcode
+ *
+ * ### 6.5 Setting Device Address
+ * If you need to change the device address (e.g., for multi-device setups):
+ *
+ * @code
+ * // Change from default broadcast address to a custom address
+ * uint32_t new_address = 0x12345678;
+ * err = fingerprint_set_address(new_address, DEFAULT_FINGERPRINT_ADDRESS);
+ * if (err != ESP_OK) {
+ *     ESP_LOGE(TAG, "Failed to set address: %s", esp_err_to_name(err));
+ * }
+ * @endcode
+ *
+ * ### 6.6 Troubleshooting
+ * If you encounter issues:
+ *
+ * 1. **No response from scanner:**
+ *    - Check power connections (3.3V/GND)
+ *    - Verify TX/RX connections are correct and not swapped
+ *    - Try a different baud rate
+ *
+ * 2. **Communication errors:**
+ *    - Ensure the TX/RX lines have pull-up resistors (typically 10kΩ)
+ *    - Add delay between commands (vTaskDelay(pdMS_TO_TICKS(100)))
+ *
+ * 3. **No finger detection interrupts:**
+ *    - Check the INT pin connection to GPIO15
+ *    - Verify INT pin is properly pulled down at rest
+ *    - Test interrupt functioning using a GPIO test program
+ *
+ * 4. **Enrollment failures:**
+ *    - Clean both the sensor and the finger
+ *    - Ensure consistent finger placement
+ *    - Increase timeout values for enrollment operations
+ *
  */
-
 
  #ifndef FINGERPRINT_H
  #define FINGERPRINT_H
@@ -239,8 +517,8 @@
  /**
   * @brief Default UART pins (modifiable at runtime).
   */
- #define DEFAULT_TX_PIN (GPIO_NUM_5) //17
- #define DEFAULT_RX_PIN (GPIO_NUM_6) //18
+ #define DEFAULT_TX_PIN (GPIO_NUM_17) //17 
+ #define DEFAULT_RX_PIN (GPIO_NUM_18) //18 
  
  /**
   * @brief Default fingerprint module header identifier.
@@ -1262,25 +1540,51 @@ typedef struct {
      */
     EVENT_NONE = -1,                  /**< No event (Default value) */
 
-     /**
-      * @brief Event triggered when a finger is detected.
-      *
-      * Indicates that a finger has been placed on the fingerprint scanner.
-      */
+    /**
+     * @brief Event triggered when a fingerprint is detected on the sensor.
+     *
+     * This event occurs when the fingerprint module detects a finger placed on the
+     * sensor surface. It typically follows a successful FINGERPRINT_CMD_GET_IMAGE operation.
+     *
+     * @note This event indicates only that a finger is present on the sensor, not that
+     *       a valid or good quality fingerprint image has been captured.
+     *
+     * @see FINGERPRINT_CMD_GET_IMAGE
+     * @see FINGERPRINT_OK
+     * @see EVENT_NO_FINGER_DETECTED
+     */
      EVENT_FINGER_DETECTED,          /**< Finger detected */
  
-     /**
-      * @brief Event triggered when a fingerprint image is captured successfully.
-      *
-      * Indicates that the fingerprint sensor has successfully captured an image.
-      */
+    /**
+     * @brief Event triggered when the fingerprint module successfully captures an image.
+     *
+     * This event occurs after a FINGERPRINT_CMD_GET_IMAGE command when the module
+     * successfully captures a valid fingerprint image that can be used for further processing.
+     *
+     * @note A successful image capture does not guarantee successful feature extraction.
+     *       The quality of the captured image still needs to be sufficient for further operations.
+     *
+     * @see FINGERPRINT_CMD_GET_IMAGE
+     * @see FINGERPRINT_OK
+     * @see EVENT_IMAGE_FAIL
+     */
      EVENT_IMAGE_CAPTURED,           /**< Image captured */
  
-     /**
-      * @brief Event triggered when fingerprint features are successfully extracted.
-      *
-      * This event is generated after the sensor extracts features from the fingerprint image.
-      */
+    /**
+     * @brief Event triggered when fingerprint features are successfully extracted.
+     *
+     * This event occurs after executing the FINGERPRINT_CMD_GEN_CHAR command when
+     * the module successfully extracts characteristic features from the captured
+     * fingerprint image.
+     *
+     * @note Feature extraction is a critical step in both enrollment and verification
+     *       processes. A successful extraction indicates the image had sufficient
+     *       quality for biometric processing.
+     *
+     * @see FINGERPRINT_CMD_GEN_CHAR
+     * @see FINGERPRINT_OK
+     * @see EVENT_FEATURE_EXTRACT_FAIL
+     */
      EVENT_FEATURE_EXTRACTED,        /**< Feature extraction completed */
  
      /**
@@ -1297,25 +1601,51 @@ typedef struct {
       */
      EVENT_MATCH_FAIL,               /**< Fingerprint mismatch */
  
-     /**
-      * @brief A general error event, used for unexpected failures.
-      *
-      * This event signifies a general failure in the fingerprint system.
-      */
+    /**
+     * @brief Event triggered when a general error occurs during fingerprint processing.
+     *
+     * This event is a catch-all for various errors that may occur during fingerprint
+     * operations and don't have more specific error events. It typically indicates an
+     * unexpected failure in command processing or hardware operation.
+     *
+     * @note The event.status field contains the specific error code, and event.command
+     *       indicates which command was being processed when the error occurred.
+     *
+     * @see FINGERPRINT_ERROR
+     */
      EVENT_ERROR,                    /**< General error */
  
-     /**
-      * @brief Event triggered when the fingerprint image capture fails.
-      *
-      * This event corresponds to the status `FINGERPRINT_IMAGE_FAIL`.
-      */
+    /**
+     * @brief Event triggered when image capture fails.
+     *
+     * This event occurs when the fingerprint module is unable to capture a valid image
+     * from the sensor. This may happen if no finger is present, if the finger placement
+     * is poor, or if there are hardware issues with the image sensor.
+     *
+     * @note This event corresponds to various status codes including FINGERPRINT_NO_FINGER (0x02)
+     *       or FINGERPRINT_IMAGE_FAIL (0x03) depending on the specific cause.
+     *
+     * @see FINGERPRINT_CMD_GET_IMAGE
+     * @see FINGERPRINT_IMAGE_FAIL
+     * @see EVENT_IMAGE_CAPTURED
+     */
      EVENT_IMAGE_FAIL,               /**< Image capture failure (FINGERPRINT_IMAGE_FAIL) */
  
-     /**
-      * @brief Event triggered when feature extraction fails.
-      *
-      * This event corresponds to the status `FINGERPRINT_TOO_FEW_POINTS`.
-      */
+    /**
+     * @brief Event triggered when fingerprint feature extraction fails.
+     *
+     * This event occurs when the fingerprint module is unable to extract valid biometric
+     * features from the captured fingerprint image. This typically happens when the image
+     * quality is too poor, the finger placement is incorrect, or there is dirt or damage
+     * on the sensor surface.
+     *
+     * @note This failure often requires capturing a new image with better finger placement
+     *       or cleaning the finger/sensor before retrying.
+     *
+     * @see FINGERPRINT_CMD_GEN_CHAR
+     * @see FINGERPRINT_FEATURE_FAIL
+     * @see EVENT_FEATURE_EXTRACTED
+     */
      EVENT_FEATURE_EXTRACT_FAIL,     /**< Feature extraction failure (FINGERPRINT_TOO_FEW_POINTS) */
  
      /**
@@ -1347,18 +1677,47 @@ typedef struct {
     EVENT_ENROLL_FAIL,                  /**< Fingerprint enrollment failed (FINGERPRINT_ENROLL_FAIL) */
 
     /**
-     * @brief Event triggered when a fingerprint template is stored.
+     * @brief Event triggered when a fingerprint template is successfully stored in the module.
      *
-     * This event corresponds to the status FINGERPRINT_TEMPLATE_STORED.
+     * This event occurs after executing the FINGERPRINT_CMD_STORE_CHAR command when the
+     * template has been successfully written to the permanent storage of the fingerprint module.
+     *
+     * @note After receiving this event, the template is fully stored and can be used for
+     *       future fingerprint matching operations.
+     *
+     * @see FINGERPRINT_CMD_STORE_CHAR
+     * @see EVENT_TEMPLATE_RESTORED_FAIL
      */
     EVENT_TEMPLATE_RESTORED_SUCCESSUL,              /**< Fingerprint template stored (FINGERPRINT_TEMPLATE_STORED) */
 
-    EVENT_TEMPLATE_RESTORED_FAIL,              /**< Fingerprint template stored (FINGERPRINT_TEMPLATE_STORED) */
+    /**
+     * @brief Event triggered when fingerprint template restoration fails.
+     *
+     * This event is generated when an attempt to restore (download) a template 
+     * to the fingerprint module fails. This could be due to communication errors, 
+     * invalid template data, memory issues in the module, or incompatible 
+     * template format.
+     *
+     * @note Common status codes associated with this event include FINGERPRINT_FLASH_RW_ERROR,
+     *       FINGERPRINT_DB_RANGE_ERROR or FINGERPRINT_PACKET_ERROR.
+     *
+     * @see FINGERPRINT_CMD_DOWN_CHAR
+     * @see FINGERPRINT_CMD_STORE_CHAR
+     * @see EVENT_TEMPLATE_RESTORED_SUCCESSUL
+     */
+    EVENT_TEMPLATE_RESTORED_FAIL,              /**< Fingerprint template restoration failed */
 
     /**
-     * @brief Event triggered when a fingerprint template is deleted.
+     * @brief Event triggered when a fingerprint template is successfully deleted.
      *
-     * This event corresponds to the status FINGERPRINT_TEMPLATE_DELETED.
+     * This event occurs when a fingerprint template has been successfully removed from
+     * the fingerprint module's database using the FINGERPRINT_CMD_DELETE_CHAR command.
+     *
+     * @note After this event, the specified template ID is free and can be reused for
+     *       new fingerprint enrollments.
+     *
+     * @see FINGERPRINT_CMD_DELETE_CHAR
+     * @see EVENT_TEMPLATE_DELETE_FAIL
      */
     EVENT_TEMPLATE_DELETED,             /**< Fingerprint template deleted (FINGERPRINT_TEMPLATE_DELETED) */
 
@@ -1371,170 +1730,336 @@ typedef struct {
 
     /**
      * @brief Event triggered when the system enters low power mode.
-     *  
-     * This event corresponds to the status FINGERPRINT_LOW_POWER_MODE.
+     *
+     * This event occurs after executing the FINGERPRINT_CMD_SLEEP command when
+     * the fingerprint module successfully transitions to a low-power state to
+     * conserve energy. In this state, the module has reduced functionality
+     * until it is woken up.
+     *
+     * @note After this event, the module will not respond to most commands until
+     *       it is woken up, typically by resetting the module or using a specific
+     *       wake-up command if supported.
+     *
+     * @see FINGERPRINT_CMD_SLEEP
+     * @see FINGERPRINT_OK
      */
     EVENT_LOW_POWER_MODE,               /**< Entered low power mode (FINGERPRINT_LOW_POWER_MODE) */
 
     /**
      * @brief Event triggered when an operation times out.
      *
-     * This event corresponds to the status FINGERPRINT_TIMEOUT.
+     * This event occurs when a fingerprint operation fails to complete within
+     * the expected time frame. This could be due to hardware issues, communication
+     * problems, or other unexpected delays in processing.
+     *
+     * @note This event corresponds to the status code FINGERPRINT_TIMEOUT (0x26).
+     *       Applications should typically retry the operation or check the module's
+     *       status when this event occurs.
+     *
+     * @see FINGERPRINT_TIMEOUT
      */
     EVENT_TIMEOUT,                   /**< Operation timed out (FINGERPRINT_TIMEOUT) */
 
     /**
      * @brief Event triggered when no finger is detected on the sensor.
      *
-     * This event corresponds to the status FINGERPRINT_NO_FINGER_DETECTED.
+     * This event occurs when the fingerprint module actively checks for a finger
+     * on the sensor surface and confirms that no finger is present. This is useful
+     * for detecting when a user has removed their finger during multi-step operations.
+     *
+     * @note This event corresponds to the status code FINGERPRINT_NO_FINGER (0x02).
+     *
+     * @see FINGERPRINT_CMD_GET_IMAGE
+     * @see EVENT_FINGER_DETECTED
      */
     EVENT_NO_FINGER_DETECTED,           /**< No finger detected (FINGERPRINT_NO_FINGER_DETECTED) */
 
     /**
      * @brief Event triggered when the fingerprint scanner is ready for operation.
      *
-     * This event indicates that the fingerprint module has completed initialization
-     * and is ready to process fingerprint-related commands.
+     * This event occurs after the fingerprint module has successfully initialized
+     * and is ready to accept commands. It typically follows power-on or reset operations
+     * and indicates that the module's internal self-tests have completed successfully.
+     *
+     * @note Applications should wait for this event before attempting to send
+     *       commands to the fingerprint module to ensure proper operation.
+     *
+     * @see fingerprint_init
      */
     EVENT_SCANNER_READY,                 /**< Scanner is ready for operation */
 
     /**
-     * @brief Event triggered when two fingerprint templates are successfully merged.
+     * @brief Event triggered when fingerprint templates are successfully merged.
      *
-     * This event corresponds to the status FINGERPRINT_TEMPLATE_MERGED.
+     * This event occurs after executing the FINGERPRINT_CMD_REG_MODEL command when
+     * the module successfully combines multiple fingerprint templates (typically from
+     * different captures of the same finger) into a single composite template for
+     * improved accuracy.
+     *
+     * @note Template merging is a key step in the enrollment process that improves
+     *       the quality and reliability of fingerprint matching by accounting for
+     *       slight variations in finger placement.
+     *
+     * @see FINGERPRINT_CMD_REG_MODEL
+     * @see FINGERPRINT_OK
      */
     EVENT_TEMPLATE_MERGED,              /**< Fingerprint templates merged successfully */
 
     /**
      * @brief Event triggered when a fingerprint template is successfully stored in flash memory.
      *
-     * This event corresponds to the confirmation code 0x00 (successful storage).
+     * This event occurs after executing the FINGERPRINT_CMD_STORE_CHAR command when
+     * a template has been successfully written to the permanent storage of the fingerprint
+     * module. The template is now available for future matching operations.
+     *
+     * @note This event signals the final step in template enrollment. After this event,
+     *       the template ID is associated with the fingerprint and can be used for identification.
+     *
+     * @see FINGERPRINT_CMD_STORE_CHAR
+     * @see FINGERPRINT_OK
+     * @see EVENT_TEMPLATE_STORE_PACKET_ERROR
      */
     EVENT_TEMPLATE_STORE_SUCCESS, /**< Fingerprint template successfully stored */
 
     /**
-     * @brief Event triggered when an error occurs in receiving the data packet.
+     * @brief Event triggered when there is an error receiving the storage packet.
      *
-     * This event corresponds to the confirmation code 0x01 (packet reception error).
+     * This event occurs when the fingerprint module encounters an error while receiving
+     * the data packet for template storage. This typically indicates communication issues
+     * or data corruption during the template storage process.
+     *
+     * @note This event corresponds to the status code FINGERPRINT_PACKET_ERROR (0x01).
+     *
+     * @see FINGERPRINT_CMD_STORE_CHAR
+     * @see FINGERPRINT_PACKET_ERROR
+     * @see EVENT_TEMPLATE_STORE_SUCCESS
      */
     EVENT_TEMPLATE_STORE_PACKET_ERROR, /**< Error in receiving the fingerprint storage packet */
 
     /**
-     * @brief Event triggered when the PageID for storing the fingerprint template is out of range.
+     * @brief Event triggered when the template storage page ID is out of valid range.
      *
-     * This event corresponds to the confirmation code 0x0B (PageID out of range).
+     * This event occurs when attempting to store a template at a location that exceeds
+     * the valid range of the fingerprint module's database. The valid range depends on
+     * the specific module's capacity.
+     *
+     * @note This event corresponds to the status code FINGERPRINT_DB_RANGE_ERROR (0x0B).
+     *
+     * @see FINGERPRINT_CMD_STORE_CHAR
+     * @see FINGERPRINT_DB_RANGE_ERROR
      */
     EVENT_TEMPLATE_STORE_OUT_OF_RANGE, /**< PageID is out of range */
 
     /**
-     * @brief Event triggered when an error occurs while writing the fingerprint template to FLASH memory.
+     * @brief Event triggered when a FLASH write error occurs during template storage.
      *
-     * This event corresponds to the confirmation code 0x18 (FLASH write error).
+     * This event occurs when the fingerprint module encounters an internal error while
+     * writing the template data to its FLASH memory. This typically indicates a hardware
+     * issue or corruption of the module's internal storage.
+     *
+     * @note This event corresponds to the status code FINGERPRINT_FLASH_RW_ERROR (0x18).
+     *
+     * @see FINGERPRINT_CMD_STORE_CHAR
+     * @see FINGERPRINT_FLASH_RW_ERROR
      */
     EVENT_TEMPLATE_STORE_FLASH_ERROR, /**< Error writing to FLASH memory */
 
     /**
      * @brief Event triggered when the function does not match the encryption level.
      *
-     * This event corresponds to the confirmation code 0x31 (encryption level mismatch).
+     * This event occurs when attempting to use a function that is incompatible with
+     * the current encryption settings of the fingerprint module. Different operations
+     * may require specific encryption levels to be enabled or disabled.
+     *
+     * @note This event corresponds to the status code FINGERPRINT_FUNCTION_ENCRYPTION_MISMATCH (0x31).
+     *
+     * @see FINGERPRINT_FUNCTION_ENCRYPTION_MISMATCH
      */
     EVENT_TEMPLATE_STORE_ENCRYPTION_MISMATCH, /**< Function does not match encryption level */
 
     /**
-     * @brief Event triggered when illegal data is detected during fingerprint template storage.
+     * @brief Event triggered when illegal data is detected during template storage.
      *
-     * This event corresponds to the confirmation code 0x35 (illegal data).
+     * This event occurs when the fingerprint module detects invalid or corrupted data
+     * during the template storage process. This may indicate data corruption during
+     * transmission or an invalid template format.
+     *
+     * @note This event corresponds to the status code FINGERPRINT_ILLEGAL_DATA (0x35).
+     *
+     * @see FINGERPRINT_CMD_STORE_CHAR
+     * @see FINGERPRINT_ILLEGAL_DATA
      */
     EVENT_TEMPLATE_STORE_ILLEGAL_DATA, /**< Illegal data detected during storage */
 
     /**
-     * @brief Event triggered when a fingerprint search operation is successful.
+     * @brief Event triggered when fingerprint search is successful.
      *
-     * This event is dispatched when the PS_Search command successfully finds
-     * a matching fingerprint template in the database. It indicates that 
-     * the scanned fingerprint corresponds to an existing stored template.
+     * This event occurs after executing a search command when the fingerprint module
+     * successfully finds a matching template in its database. The event data includes
+     * the template ID of the match and the match confidence score.
      *
-     * @note This event will not be triggered if the search fails or no match is found.
+     * @note The match details are available in event.data.match_info, including
+     *       the template_id of the matching fingerprint and the match_score indicating
+     *       the confidence level of the match.
+     *
+     * @see FINGERPRINT_CMD_SEARCH
+     * @see FINGERPRINT_OK
+     * @see EVENT_SEARCH_FAIL
      */
     EVENT_SEARCH_SUCCESS,  /**< Event code for successful fingerprint search */
 
     /**
-     * @brief Event triggered when the template count is updated.
+     * @brief Event triggered when the number of valid templates is retrieved.
      *
-     * This event corresponds to the status `FINGERPRINT_TEMPLATE_COUNT`.
+     * This event occurs after executing the FINGERPRINT_CMD_TEMPLATE_CNT command when
+     * the module successfully reports the number of templates currently stored in its database.
+     *
+     * @note The template count is available in event.data.template_count.count and represents
+     *       the total number of valid fingerprint templates currently stored in the module.
+     *
+     * @see FINGERPRINT_CMD_TEMPLATE_CNT
+     * @see FINGERPRINT_OK
      */
     EVENT_TEMPLATE_COUNT, /**< Template count updated (FINGERPRINT_TEMPLATE_COUNT) */
 
     /**
-     * @brief Event triggered when an index table read operation is completed.
+     * @brief Event triggered when the index table is successfully read.
      *
-     * This event corresponds to the status `FINGERPRINT_INDEX_TABLE_READ`.
+     * This event occurs after executing the FINGERPRINT_CMD_GET_INDEX_TBL command when
+     * the module successfully retrieves its template index table. The index table contains
+     * information about which template slots are occupied and which are free.
+     *
+     * @note The index table data is available in the event.data or event.multi_packet structure,
+     *       depending on the implementation, and provides a bitmap of occupied template slots.
+     *
+     * @see FINGERPRINT_CMD_GET_INDEX_TBL
+     * @see FINGERPRINT_OK
      */
     EVENT_INDEX_TABLE_READ, /**< Index table read completed (FINGERPRINT_INDEX_TABLE_READ) */
 
     /**
      * @brief Event triggered when a fingerprint model is successfully created.
      *
-     * This event corresponds to the status `FINGERPRINT_MODEL_CREATED`.
+     * This event occurs after executing the FINGERPRINT_CMD_REG_MODEL command when
+     * the module successfully combines multiple fingerprint templates into a single
+     * model. This is a critical step in the enrollment process where multiple scans
+     * are combined for improved accuracy.
+     *
+     * @note This event indicates only that the model creation was successful.
+     *       To permanently store the model, a subsequent FINGERPRINT_CMD_STORE_CHAR
+     *       command must be issued.
+     *
+     * @see FINGERPRINT_CMD_REG_MODEL
+     * @see FINGERPRINT_OK
+     * @see EVENT_TEMPLATE_STORE_SUCCESS
      */
     EVENT_MODEL_CREATED, /**< Fingerprint model successfully created (FINGERPRINT_MODEL_CREATED) */
 
     /**
      * @brief Event triggered when a fingerprint template is successfully uploaded from the module.
      *
-     * This occurs when a stored fingerprint template is transferred to the host.
+     * This event occurs when a template has been completely retrieved from the fingerprint module
+     * and is available for processing. The template data is accessible through the event's
+     * multi_packet structure or template_data fields.
+     *
+     * @note The template data is temporarily stored in memory and should be processed or
+     *       saved promptly. The template_data property in the event structure should be
+     *       checked for NULL before use.
+     *
+     * @see FINGERPRINT_CMD_UP_CHAR
+     * @see EVENT_TEMPLATE_UPLOAD_FAIL
      */
     EVENT_TEMPLATE_UPLOADED,  /**< Template uploaded from module */
 
     /**
      * @brief Event triggered when a fingerprint template is successfully downloaded to the module.
      *
-     * This occurs when a fingerprint template is written into the fingerprint module’s memory.
+     * This event occurs after a complete template has been sent to the fingerprint module
+     * and accepted. It indicates that the template data transfer was successful and
+     * the module is ready to store the template.
+     *
+     * @note This event only indicates successful data transfer. To permanently store the template,
+     *       a subsequent command to store the template (FINGERPRINT_CMD_STORE_CHAR) must be issued.
+     *
+     * @see FINGERPRINT_CMD_DOWN_CHAR
+     * @see EVENT_TEMPLATE_RESTORED_SUCCESSUL
+     * @see EVENT_TEMPLATE_RESTORED_FAIL
      */
     EVENT_TEMPLATE_DOWNLOADED,  /**< Template downloaded to module */
 
     /**
-     * @brief Event triggered when the fingerprint database is cleared.
+     * @brief Event triggered when the fingerprint database is successfully cleared.
      *
-     * This confirms that all fingerprint templates have been deleted.
+     * This event occurs after executing the FINGERPRINT_CMD_EMPTY command when
+     * the module successfully erases all stored templates from its database,
+     * returning it to an empty state.
+     *
+     * @note After this event, all template slots are free and available for
+     *       new enrollments. This operation cannot be undone.
+     *
+     * @see FINGERPRINT_CMD_EMPTY
+     * @see FINGERPRINT_OK
      */
     EVENT_DB_CLEARED,  /**< Database emptied successfully */
 
     /**
      * @brief Event triggered when system parameters are successfully read.
      *
-     * This event indicates that the fingerprint module's system parameters, 
-     * such as device address, security level, and baud rate, have been retrieved successfully.
+     * This event occurs after executing the FINGERPRINT_CMD_READ_SYS_PARA command when
+     * the module's system parameters have been successfully retrieved. The parameters
+     * include information like status register values, security level, and database size.
+     *
+     * @note The parameters are available in the event.data.sys_params structure
+     *       and include fields like status_register, template_size, database_size,
+     *       security_level, device_address, data_packet_size, and baud_rate.
+     *
+     * @see FINGERPRINT_CMD_READ_SYS_PARA
+     * @see FINGERPRINT_OK
      */
     EVENT_SYS_PARAMS_READ,  /**< System parameters read successfully */
 
     /**
-     * @brief Event triggered when a fingerprint template exists in the buffer.
+     * @brief Event triggered when a template is found to already exist in the database.
      *
-     * This event indicates that the fingerprint module has successfully loaded 
-     * a fingerprint template into the specified template buffer. It confirms 
-     * that the buffer contains valid fingerprint data, which can be used for 
-     * further operations such as matching or storage.
+     * This event occurs during fingerprint operations (typically enrollment) when
+     * the module detects that the current fingerprint is already enrolled in the database.
+     * This helps prevent duplicate entries of the same finger.
+     *
+     * @note The event.data often includes information about the duplicate template's
+     *       location in the database, which can be useful for informing the user.
+     *
+     * @see FINGERPRINT_ALREADY_EXISTS
      */
     EVENT_TEMPLATE_EXISTS,  /**< Fingerprint template successfully loaded into buffer */
 
     /**
-     * @brief Event triggered when uploading a fingerprint feature/template fails.
+     * @brief Event triggered when template upload from the fingerprint module fails.
      *
-     * This event indicates that the fingerprint module encountered an issue 
-     * while attempting to upload a fingerprint template to the host system. 
-     * Possible causes may include communication errors, buffer issues, 
-     * or an invalid template format.
+     * This event occurs when the fingerprint module cannot upload a requested template,
+     * which often indicates the template doesn't exist or there are communication issues.
+     * 
+     * @note This event may occur with status codes FINGERPRINT_READ_TEMPLATE_ERROR,
+     *       FINGERPRINT_UPLOAD_FEATURE_FAIL, or FINGERPRINT_DB_EMPTY depending on
+     *       the specific cause of failure.
+     *
+     * @see FINGERPRINT_CMD_UP_CHAR
+     * @see EVENT_TEMPLATE_UPLOADED
      */
     EVENT_TEMPLATE_UPLOAD_FAIL,  /**< Fingerprint template upload failed */
 
     /**
      * @brief Event triggered when the information page is successfully read.
      *
-     * This event is generated after executing the Read Information Page command 
-     * and receiving a valid response from the fingerprint module. It indicates 
-     * that the module's details, such as firmware version and serial number, 
-     * have been retrieved.
+     * This event occurs after executing the FINGERPRINT_CMD_READ_INF_PAGE command and
+     * receiving a complete response from the fingerprint module. The information page
+     * typically contains device-specific details such as firmware version and other metadata.
+     *
+     * @note The information page data is available in the event's multi_packet structure or
+     *       template_data field. This data may need to be parsed according to the module's
+     *       specific format specification.
+     *
+     * @see FINGERPRINT_CMD_READ_INF_PAGE
+     * @see FINGERPRINT_OK
      */
     EVENT_INFO_PAGE_READ,
 
@@ -1554,10 +2079,82 @@ typedef struct {
      */
     EVENT_TEMPLATE_LOADED,
 
+    /**
+     * @brief Event triggered when the chip address is successfully set.
+     *
+     * This event indicates that the FINGERPRINT_CMD_SET_CHIP_ADDR command was
+     * executed successfully and the module's address has been updated. After this
+     * event, the module will only respond to commands sent to the new address.
+     *
+     * @note After changing the address, all subsequent commands must be sent to
+     *       the new address or the module will not respond.
+     *
+     * @see FINGERPRINT_CMD_SET_CHIP_ADDR
+     * @see EVENT_SET_CHIP_ADDRESS_FAIL
+     */
+    EVENT_SET_CHIP_ADDRESS_SUCCESS,
+    
+    /**
+     * @brief Event triggered when setting the chip address fails.
+     *
+     * This event indicates that the FINGERPRINT_CMD_SET_CHIP_ADDR command
+     * failed to execute, possibly due to communication issues or
+     * invalid address values.
+     *
+     * @note When this event occurs, the module's address remains unchanged
+     *       and commands should continue to be sent to the original address.
+     *
+     * @see FINGERPRINT_CMD_SET_CHIP_ADDR
+     * @see EVENT_SET_CHIP_ADDRESS_SUCCESS
+     */
+    EVENT_SET_CHIP_ADDRESS_FAIL,
+
+    /**
+     * @brief Event triggered when an attempt to receive a packet fails.
+     *
+     * This event occurs when there is a failure in receiving an expected data packet
+     * during multi-packet operations like template uploading or downloading. This
+     * typically indicates communication errors or protocol issues.
+     *
+     * @note This event may be associated with various error codes including
+     *       FINGERPRINT_PACKET_ERROR (0x01) or FINGERPRINT_TIMEOUT (0x26).
+     *
+     * @see FINGERPRINT_PACKET_ERROR
+     * @see EVENT_TEMPLATE_UPLOADED
+     */
     EVENT_PACKET_RECEPTION_FAIL, /**< Failed to receive subsequent data packets */
 
+    /**
+     * @brief Event triggered when a fingerprint is successfully enrolled.
+     *
+     * This event occurs when the complete enrollment process (multiple image captures, 
+     * feature extraction, template generation and storage) completes successfully.
+     * The event data contains enrollment details including the template ID, number of 
+     * attempts required, and whether a duplicate was found.
+     *
+     * @note The enrollment_info structure in the event data contains the template_id, 
+     *       is_duplicate flag, and attempts count fields with detailed enrollment information.
+     *
+     * @see fingerprint_data.enrollment_info
+     * @see FINGERPRINT_OK
+     * @see EVENT_ENROLLMENT_FAIL
+     */
     EVENT_ENROLLMENT_COMPLETE,   /**< Fingerprint enrollment process completed */
 
+    /**
+     * @brief Event triggered when a fingerprint enrollment process fails.
+     *
+     * This event occurs when the enrollment process cannot be completed due to issues 
+     * such as poor fingerprint quality, inconsistent placement, or internal errors
+     * in the fingerprint module.
+     *
+     * @note The enrollment_info structure in the event data still contains information
+     *       about the failed enrollment attempt, including the number of attempts made.
+     *
+     * @see fingerprint_data.enrollment_info
+     * @see FINGERPRINT_ENROLL_FAIL
+     * @see EVENT_ENROLLMENT_COMPLETE
+     */
     EVENT_ENROLLMENT_FAIL,       /**< Fingerprint enrollment process failed */
 
  } fingerprint_event_type_t;
@@ -2125,18 +2722,6 @@ finger_operation_mode_t fingerprint_get_operation_mode(void);
 esp_err_t fingerprint_wait_for_finger(uint32_t timeout_ms);
 
 /**
- * @brief Checks if a template exists at the specified location
- * 
- * This function attempts to upload a template from the specified location.
- * If the template exists, the function returns ESP_OK.
- * If the template doesn't exist, the function returns ESP_FAIL.
- * 
- * @param template_id The ID of the template to check
- * @return ESP_OK if template exists, ESP_FAIL if not, or other error code
- */
-esp_err_t fingerprint_check_template_exists(uint16_t template_id);
-
-/**
  * @brief Free all resources associated with a fingerprint event
  * 
  * This function properly cleans up any memory allocated during event processing.
@@ -2146,6 +2731,18 @@ esp_err_t fingerprint_check_template_exists(uint16_t template_id);
  */
 void fingerprint_event_cleanup(fingerprint_event_t* event);
 
+/**
+ * @brief Set the fingerprint module's device address
+ *
+ * This function changes the address used to communicate with the fingerprint
+ * module. The function sends the command to the current address and configures
+ * the module to respond to the new address afterwards.
+ *
+ * @param[in] new_address The 32-bit device address to set
+ * @param[in] current_address The current 32-bit device address
+ * @return esp_err_t ESP_OK on success, or an error code on failure
+ */
+esp_err_t fingerprint_set_address(uint32_t new_address, uint32_t current_address);
 
 
  #ifdef __cplusplus

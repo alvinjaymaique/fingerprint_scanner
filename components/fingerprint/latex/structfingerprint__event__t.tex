@@ -2,7 +2,7 @@
 \hypertarget{structfingerprint__event__t}{}\label{structfingerprint__event__t}\index{fingerprint\_event\_t@{fingerprint\_event\_t}}
 
 
-Structure representing a fingerprint event.  
+Defines a generic fingerprint event structure with flexible response types.  
 
 
 
@@ -17,34 +17,97 @@ Structure representing a fingerprint event.
 \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} \mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}}
 \item 
 \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} \mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}}
-\end{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_multi_packet_response}{Multi\+Packet\+Response}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structfingerprint__event__t_ac36db0b537fbcedde598cc31a86cdcfb}{multi\+\_\+packet}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{structfingerprint__event__t_a71675dd90c091c80e501b625081de07b}{command}}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{structfingerprint__match__info__t}{fingerprint\_match\_info\_t}} \mbox{\hyperlink{structfingerprint__event__t_a6089d7e82946854a5dcb36b3ca8d7fd0}{match\_info}}\\
+\>\mbox{\hyperlink{structfingerprint__template__count__t}{fingerprint\_template\_count\_t}} \mbox{\hyperlink{structfingerprint__event__t_af969791700886a2391374dcba3810b0c}{template\_count}}\\
+\>\mbox{\hyperlink{structfingerprint__sys__params__t}{fingerprint\_sys\_params\_t}} \mbox{\hyperlink{structfingerprint__event__t_ab219b0dbe938172b91475636d4de373b}{sys\_params}}\\
+\>\mbox{\hyperlink{structfingerprint__template__buffer__t}{fingerprint\_template\_buffer\_t}} \mbox{\hyperlink{structfingerprint__event__t_a84da9d6d1a4ca2a36990a2220079e0c8}{template\_data}}\\
+\>\mbox{\hyperlink{structfingerprint__enrollment__info__t}{fingerprint\_enrollment\_info\_t}} \mbox{\hyperlink{structfingerprint__event__t_aa82bcfae7b162a4e625eb2e5d6ce9968}{enrollment\_info}}\\
+\} \mbox{\hyperlink{structfingerprint__event__t_aec97a57dfba9b1e7d17fe06ce795c55e}{data}}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Structure representing a fingerprint event. 
+Defines a generic fingerprint event structure with flexible response types. 
 
-This structure encapsulates a high-\/level fingerprint event, along with the original status code and the associated response packet data. It is used to convey meaningful events triggered by the fingerprint module. 
+This structure represents an event triggered by the fingerprint module. It includes the event type, response status, and a flexible data union that can store different types of structured response data. 
 
 \doxysubsection{Field Documentation}
-\Hypertarget{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!packet@{packet}}
+\Hypertarget{structfingerprint__event__t_a71675dd90c091c80e501b625081de07b}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!command@{command}}
+\index{command@{command}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{command}{command}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_a71675dd90c091c80e501b625081de07b} 
+uint8\+\_\+t fingerprint\+\_\+event\+\_\+t\+::command}
+
+Command byte associated with the event \Hypertarget{structfingerprint__event__t_aec97a57dfba9b1e7d17fe06ce795c55e}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!data@{data}}
+\index{data@{data}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{[union]}{[union]}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_aec97a57dfba9b1e7d17fe06ce795c55e} 
+union  \{ ... \}  fingerprint\+\_\+event\+\_\+t\+::data}
+
+\Hypertarget{structfingerprint__event__t_aa82bcfae7b162a4e625eb2e5d6ce9968}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!enrollment\_info@{enrollment\_info}}
+\index{enrollment\_info@{enrollment\_info}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{enrollment\_info}{enrollment\_info}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_aa82bcfae7b162a4e625eb2e5d6ce9968} 
+\mbox{\hyperlink{structfingerprint__enrollment__info__t}{fingerprint\+\_\+enrollment\+\_\+info\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::enrollment\+\_\+info}
+
+Enrollment information \Hypertarget{structfingerprint__event__t_a6089d7e82946854a5dcb36b3ca8d7fd0}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!match\_info@{match\_info}}
+\index{match\_info@{match\_info}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{match\_info}{match\_info}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_a6089d7e82946854a5dcb36b3ca8d7fd0} 
+\mbox{\hyperlink{structfingerprint__match__info__t}{fingerprint\+\_\+match\+\_\+info\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::match\+\_\+info}
+
+Data for fingerprint match events \Hypertarget{structfingerprint__event__t_ac36db0b537fbcedde598cc31a86cdcfb}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!multi\_packet@{multi\_packet}}
+\index{multi\_packet@{multi\_packet}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{multi\_packet}{multi\_packet}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_ac36db0b537fbcedde598cc31a86cdcfb} 
+\mbox{\hyperlink{struct_multi_packet_response}{Multi\+Packet\+Response}}\texorpdfstring{$\ast$}{*} fingerprint\+\_\+event\+\_\+t\+::multi\+\_\+packet}
+
+Multi-\/packet response data \Hypertarget{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!packet@{packet}}
 \index{packet@{packet}!fingerprint\_event\_t@{fingerprint\_event\_t}}
 \doxysubsubsection{\texorpdfstring{packet}{packet}}
 {\footnotesize\ttfamily \label{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8} 
 \mbox{\hyperlink{struct_fingerprint_packet}{Fingerprint\+Packet}} fingerprint\+\_\+event\+\_\+t\+::packet}
 
-The full response packet received from the fingerprint module. \Hypertarget{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!status@{status}}
+Raw response packet (for backward compatibility) \Hypertarget{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!status@{status}}
 \index{status@{status}!fingerprint\_event\_t@{fingerprint\_event\_t}}
 \doxysubsubsection{\texorpdfstring{status}{status}}
 {\footnotesize\ttfamily \label{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7} 
 \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\+\_\+status\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::status}
 
-The original fingerprint status code received from the sensor. \Hypertarget{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!type@{type}}
+Status code returned from the fingerprint module \Hypertarget{structfingerprint__event__t_ab219b0dbe938172b91475636d4de373b}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!sys\_params@{sys\_params}}
+\index{sys\_params@{sys\_params}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{sys\_params}{sys\_params}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_ab219b0dbe938172b91475636d4de373b} 
+\mbox{\hyperlink{structfingerprint__sys__params__t}{fingerprint\+\_\+sys\+\_\+params\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::sys\+\_\+params}
+
+\Hypertarget{structfingerprint__event__t_af969791700886a2391374dcba3810b0c}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!template\_count@{template\_count}}
+\index{template\_count@{template\_count}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{template\_count}{template\_count}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_af969791700886a2391374dcba3810b0c} 
+\mbox{\hyperlink{structfingerprint__template__count__t}{fingerprint\+\_\+template\+\_\+count\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::template\+\_\+count}
+
+Data for template count events \Hypertarget{structfingerprint__event__t_a84da9d6d1a4ca2a36990a2220079e0c8}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!template\_data@{template\_data}}
+\index{template\_data@{template\_data}!fingerprint\_event\_t@{fingerprint\_event\_t}}
+\doxysubsubsection{\texorpdfstring{template\_data}{template\_data}}
+{\footnotesize\ttfamily \label{structfingerprint__event__t_a84da9d6d1a4ca2a36990a2220079e0c8} 
+\mbox{\hyperlink{structfingerprint__template__buffer__t}{fingerprint\+\_\+template\+\_\+buffer\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::template\+\_\+data}
+
+Fingerprint template data \Hypertarget{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}\index{fingerprint\_event\_t@{fingerprint\_event\_t}!type@{type}}
 \index{type@{type}!fingerprint\_event\_t@{fingerprint\_event\_t}}
 \doxysubsubsection{\texorpdfstring{type}{type}}
 {\footnotesize\ttfamily \label{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2} 
 \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\+\_\+event\+\_\+type\+\_\+t}} fingerprint\+\_\+event\+\_\+t\+::type}
 
-The high-\/level fingerprint event type (e.\+g., EVENT\+\_\+\+FINGER\+\_\+\+DETECTED, EVENT\+\_\+\+MATCH\+\_\+\+FAIL). 
+The type of fingerprint event 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

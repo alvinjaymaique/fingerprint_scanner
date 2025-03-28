@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['enroll_5fbit_5ffail_0',['ENROLL_BIT_FAIL',['../fingerprint_8h.html#a9965c91509f230a00959ac4950c1e326',1,'fingerprint.h']]],
-  ['enroll_5fbit_5fsuccess_1',['ENROLL_BIT_SUCCESS',['../fingerprint_8h.html#a3723c25498be341d5fcefa4cba964922',1,'fingerprint.h']]]
+  ['default_5fbaud_5frate_0',['DEFAULT_BAUD_RATE',['../fingerprint_8h.html#a68654b05f39a5e88db0453de6f7fd726',1,'fingerprint.h']]],
+  ['default_5ffingerprint_5faddress_1',['DEFAULT_FINGERPRINT_ADDRESS',['../fingerprint_8h.html#a5d7dc57da1b15b90f236d89912b2d95a',1,'fingerprint.h']]],
+  ['default_5frx_5fpin_2',['DEFAULT_RX_PIN',['../fingerprint_8h.html#aef44023d85418b6b89d8e8492f4feb81',1,'fingerprint.h']]],
+  ['default_5ftx_5fpin_3',['DEFAULT_TX_PIN',['../fingerprint_8h.html#a906d33234fc0a208973dee29efb12336',1,'fingerprint.h']]],
+  ['duplicate_5ffound_5fbit_4',['DUPLICATE_FOUND_BIT',['../fingerprint_8h.html#af382f3a88fdc56eaf177c7a90b466aa5',1,'fingerprint.h']]]
 ];

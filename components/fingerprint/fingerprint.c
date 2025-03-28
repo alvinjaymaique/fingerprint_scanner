@@ -92,7 +92,6 @@ void finger_detection_task(void *pvParameter) {
         ESP_LOGE(TAG, "Failed to create finger detection mutex");
         return;
     }
-    
     // ESP_LOGI(TAG, "Finger detection task started");
     
     while (1) {
@@ -866,11 +865,11 @@ esp_err_t fingerprint_init(void) {
         return ESP_FAIL;
     }
     
-    if (xTaskCreate(process_response_task, "FingerprintProcessResponse", 4096, NULL, 
-                   configMAX_PRIORITIES - 1, NULL) != pdPASS) {
-        ESP_LOGE(TAG, "Failed to create process response task");
-        return ESP_FAIL;
-    }
+    // if (xTaskCreate(process_response_task, "FingerprintProcessResponse", 4096, NULL, 
+    //                configMAX_PRIORITIES - 1, NULL) != pdPASS) {
+    //     ESP_LOGE(TAG, "Failed to create process response task");
+    //     return ESP_FAIL;
+    // }
     
     // 5. INITIALIZE COMMANDS
     uint8_t buffer_id1 = 0x01;
@@ -905,8 +904,8 @@ esp_err_t fingerprint_init(void) {
         ESP_LOGE(TAG, "Failed to create finger detection task");
         return ESP_FAIL;
     }
-    
-    ESP_LOGI(TAG, "Fingerprint scanner initialized successfully with interrupt-based detection.");
+
+    ESP_LOGI(TAG, "Fingerprint scanner initialized successfully with interrupt-based detection.\n");
     return ESP_OK;
 }
 
@@ -935,7 +934,6 @@ esp_err_t fingerprint_set_command(FingerprintPacket *cmd, uint8_t command, uint8
 
     // Compute checksum
     cmd->checksum = fingerprint_calculate_checksum(cmd);
-
     return ESP_OK;
 }
 
@@ -1034,7 +1032,7 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
         buffer[packet_size - 2] = (cmd->checksum >> 8) & 0xFF;
         buffer[packet_size - 1] = cmd->checksum & 0xFF;
     }
-\
+
 
     // **Flush UART to prevent old data interference**
     uart_flush(UART_NUM);
@@ -1637,6 +1635,7 @@ uint8_t saved_template_size = 0;
 
 // Replace the existing read_response_task function with this improved version
 void read_response_task(void *pvParameter) {
+    
     // Static timer for template timeouts
     static uint32_t template_start_time = 0;
     
@@ -2391,14 +2390,14 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             if (enroll_event_group) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
             }
-        } else if (last_sent_command == FINGERPRINT_CMD_READ_INF_PAGE) {
+        } else if (last_sent_command == FINGERPRINT_CMD_READ_INF_PAGE) { 
             event_type = EVENT_INFO_PAGE_READ;
             
             // For data packets (0x02) and end packet (0x08)
             if (packet->packet_id == 0x02 || packet->packet_id == 0x08) {
-                ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d", 
-                         packet->packet_id, packet->length);
-                ESP_LOG_BUFFER_HEX(TAG, packet->parameters, packet->length);
+                // ESP_LOGI(TAG, "Received info page packet: ID=0x%02X, Length=%d", 
+                //          packet->packet_id, packet->length);
+                // ESP_LOG_BUFFER_HEX(TAG, packet->parameters, packet->length);
                 
                 // Signal success for each received packet
                 if (enroll_event_group) {
@@ -2408,19 +2407,27 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             // For confirmation packet
             else if (packet->packet_id == 0x07) {
                 if (packet->code.confirmation == FINGERPRINT_OK) {
-                    ESP_LOGI(TAG, "Information page read command accepted");
+                    // ESP_LOGI(TAG, "Information page read command accepted");
                     if (enroll_event_group) {
                         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
                     }
                 } else {
-                    ESP_LOGE(TAG, "Information page read command failed: 0x%02X", 
-                             packet->code.confirmation);
+                    // ESP_LOGE(TAG, "Information page read command failed: 0x%02X", 
+                    //          packet->code.confirmation);
                     if (enroll_event_group) {
                         xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
                     }
                 }
             }
-        }
+        } else if (last_sent_command == FINGERPRINT_CMD_SET_CHIP_ADDR){
+            event_type = EVENT_SET_CHIP_ADDRESS_SUCCESS;
+            // ESP_LOGI(TAG, "Set chip address command accepted");
+            if (enroll_event_group) {
+                xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+            }
+        } // Add here the condition to trigger the event
+
+
         if (last_sent_command == FINGERPRINT_CMD_DOWN_CHAR) {
             ESP_LOGI(TAG, "Module ready to receive template data");
             // event_type = EVENT_TEMPLATE_DOWNLOAD_READY;
@@ -2516,7 +2523,17 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
                     xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
                     ESP_LOGI(TAG, "Forced success bit for DownChar despite packet error");
                 }
-            } else {
+            } else if (last_sent_command == FINGERPRINT_CMD_SET_CHIP_ADDR) {
+                // ESP_LOGI(TAG, "Set chip address packet error (status: 0x%02X)", status);
+                event_type = EVENT_SET_CHIP_ADDRESS_FAIL;
+                
+                // CRITICAL FIX: Set the success bit to unblock the download process
+                if (enroll_event_group) {
+                    xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
+                    ESP_LOGI(TAG, "Forced success bit for SetChipAddr despite packet error");
+                }
+            }
+            else {
                 event_type = EVENT_ERROR;
             }
             break;
@@ -2627,6 +2644,7 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
 }
 
 esp_err_t enroll_fingerprint(uint16_t location) {
+    vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     fingerprint_event_t event;
     global_location = location; // Store location in global variable
     uint8_t attempts = 0;
@@ -2893,6 +2911,7 @@ cleanup:
 }
 
 esp_err_t verify_fingerprint(void) {
+    vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     esp_err_t err;
     uint8_t attempts = 0;
     const uint8_t max_attempts = 3;
@@ -2965,6 +2984,7 @@ esp_err_t verify_fingerprint(void) {
 }
 
 esp_err_t delete_fingerprint(uint16_t location) {
+    vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     esp_err_t err;
     EventBits_t bits;
 
@@ -3014,6 +3034,7 @@ cleanup:
 }
 
 esp_err_t clear_database(void) {
+    vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     esp_err_t err;
     EventBits_t bits;
 
@@ -3058,6 +3079,7 @@ cleanup:
 }
 
 esp_err_t get_enrolled_count(void) {
+    vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     esp_err_t err;
     EventBits_t bits;
     fingerprint_response_t response;
@@ -3114,6 +3136,7 @@ uint16_t convert_index_to_page_id(uint16_t index) {
  * @brief Reads system parameters from the fingerprint module.
  */
 esp_err_t read_system_parameters(void) {
+    vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     ESP_LOGI(TAG, "Reading system parameters...");
     esp_err_t err = fingerprint_send_command(&PS_ReadSysPara, DEFAULT_FINGERPRINT_ADDRESS);
     return err;
@@ -3225,139 +3248,6 @@ esp_err_t upload_template(uint8_t buffer_id, uint8_t *template_data, size_t *tem
     return ESP_OK;
 }
 
-/**
- * @brief Checks if a template exists at the specified location
- * 
- * This function attempts to upload a template from the specified location.
- * If the template exists, the function returns ESP_OK.
- * If the template doesn't exist, the function returns ESP_FAIL.
- * 
- * @param template_id The ID of the template to check
- * @return ESP_OK if template exists, ESP_FAIL if not, or other error code
- */
-// Fix the fingerprint_check_template_exists function to properly handle the event group
-esp_err_t fingerprint_check_template_exists(uint16_t template_id) {
-    esp_err_t err;
-    bool created_event_group = false;
-    
-    // Create event group for this operation if needed
-    if (enroll_event_group == NULL) {
-        enroll_event_group = xEventGroupCreate();
-        if (enroll_event_group == NULL) {
-            ESP_LOGE(TAG, "Failed to create event group for template check");
-            return ESP_ERR_NO_MEM;
-        }
-        created_event_group = true;
-    }
-    
-    // First try to read the index table to check if the template exists
-    uint8_t page = template_id >> 8;  // Get the page number
-    uint8_t position = template_id & 0xFF;  // Get position within page
-    
-    ESP_LOGI(TAG, "Checking if template %d exists (page %d, position %d)", template_id, page, position);
-    
-    // Clear any stale data
-    uart_flush(UART_NUM);
-    xQueueReset(fingerprint_command_queue);
-    xQueueReset(fingerprint_response_queue);
-    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
-    
-    // Read the index table for the page
-    uint8_t index_params[] = {page};
-    fingerprint_set_command(&PS_ReadIndexTable, FINGERPRINT_CMD_READ_INDEX_TABLE, 
-                          index_params, sizeof(index_params));
-    
-    err = fingerprint_send_command(&PS_ReadIndexTable, DEFAULT_FINGERPRINT_ADDRESS);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to send ReadIndexTable command");
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
-        return err;
-    }
-    
-    // Wait for response with timeout
-    EventBits_t bits = xEventGroupWaitBits(enroll_event_group,
-                                         ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                                         pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-    
-    if (bits & ENROLL_BIT_SUCCESS) {
-        // Check if the bit corresponding to this template is set in the index table
-        // This requires accessing the response packet directly
-        fingerprint_response_t response;
-        bool template_exists = false;
-        
-        if (xQueueReceive(fingerprint_response_queue, &response, pdMS_TO_TICKS(100)) == pdTRUE) {
-            uint8_t bit_position = position % 8;
-            uint8_t byte_offset = position / 8;
-            
-            if (byte_offset < 32 && response.packet.parameters[byte_offset] & (1 << bit_position)) {
-                template_exists = true;
-                ESP_LOGI(TAG, "Template %d exists according to index table", template_id);
-            } else {
-                ESP_LOGI(TAG, "Template %d does not exist according to index table", template_id);
-            }
-        }
-        
-        // Don't delete the event group here if we didn't create it
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
-        
-        return template_exists ? ESP_OK : ESP_ERR_NOT_FOUND;
-    }
-    
-    // If reading index table failed, try loading the template as a fallback
-    ESP_LOGW(TAG, "Reading index table failed, trying to load template directly");
-    
-    // Clear any stale data again
-    uart_flush(UART_NUM);
-    xQueueReset(fingerprint_command_queue);
-    xQueueReset(fingerprint_response_queue);
-    xEventGroupClearBits(enroll_event_group, ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL);
-    
-    // Try to load the template to buffer 1
-    uint8_t load_params[] = {
-        1,  // Buffer ID = 1
-        (uint8_t)(template_id >> 8),
-        (uint8_t)(template_id & 0xFF)
-    };
-    
-    fingerprint_set_command(&PS_LoadChar, FINGERPRINT_CMD_LOAD_CHAR, load_params, sizeof(load_params));
-    err = fingerprint_send_command(&PS_LoadChar, DEFAULT_FINGERPRINT_ADDRESS);
-    
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to send LoadChar command");
-        if (created_event_group) {
-            vEventGroupDelete(enroll_event_group);
-            enroll_event_group = NULL;
-        }
-        return err;
-    }
-    
-    // Wait for response with timeout
-    bits = xEventGroupWaitBits(enroll_event_group,
-                             ENROLL_BIT_SUCCESS | ENROLL_BIT_FAIL,
-                             pdTRUE, pdFALSE, pdMS_TO_TICKS(2000));
-    
-    // Clean up only if we created the event group
-    if (created_event_group) {
-        vEventGroupDelete(enroll_event_group);
-        enroll_event_group = NULL;
-    }
-    
-    // Interpret results
-    if (bits & ENROLL_BIT_SUCCESS) {
-        ESP_LOGI(TAG, "Template %d exists (load successful)", template_id);
-        return ESP_OK;
-    } else {
-        ESP_LOGI(TAG, "Template %d does not exist (load failed)", template_id);
-        return ESP_ERR_NOT_FOUND;
-    }
-}
-
 // Store template from buffer to flash memory
 esp_err_t store_template(uint8_t buffer_id, uint16_t template_id) {
     esp_err_t err;
@@ -3384,6 +3274,7 @@ esp_err_t store_template(uint8_t buffer_id, uint16_t template_id) {
 
 // Example usage for backing up a template:
 esp_err_t backup_template(uint16_t template_id) {
+    vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     esp_err_t err;
     uint8_t template_data[512];  // Buffer for template data
     size_t template_size = 0;
@@ -3530,6 +3421,7 @@ esp_err_t read_info_page(void) {
  * @return ESP_OK on success, or appropriate error code on failure
  */
 esp_err_t restore_template_from_multipacket(uint16_t template_id, MultiPacketResponse *response) {
+    vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     // Save previous event group and track our own
     EventGroupHandle_t previous_event_group = enroll_event_group;
     EventGroupHandle_t restore_event_group = NULL;
@@ -3795,4 +3687,29 @@ void fingerprint_event_cleanup(fingerprint_event_t* event) {
         }
         event->multi_packet = NULL;
     }
+}
+
+esp_err_t fingerprint_set_address(uint32_t new_address, uint32_t current_address) {
+    // Create parameter buffer with address bytes (big-endian)
+    uint8_t params[4] = {
+        (new_address >> 24) & 0xFF,
+        (new_address >> 16) & 0xFF,
+        (new_address >> 8) & 0xFF,
+        new_address & 0xFF
+    };
+    
+    // Configure the command
+    fingerprint_set_command(&PS_SetChipAddr, PS_SetChipAddr.code.command, params, sizeof(params));
+    
+    // Send the command to the current address
+    esp_err_t err = fingerprint_send_command(&PS_SetChipAddr, current_address);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to set fingerprint address from 0x%08"PRIX32" to 0x%08"PRIX32": %s", 
+                 current_address, new_address, esp_err_to_name(err));
+        return err;
+    }
+    
+    ESP_LOGI(TAG, "Fingerprint module address changed from 0x%08"PRIX32" to 0x%08"PRIX32"\n", 
+             current_address, new_address);
+    return ESP_OK;
 }

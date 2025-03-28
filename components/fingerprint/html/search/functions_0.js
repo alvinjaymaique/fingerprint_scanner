@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['clear_5fdatabase_0',['clear_database',['../fingerprint_8h.html#a794755b7350e8cb9864948b9b35c0fd9',1,'clear_database(void):&#160;fingerprint.c'],['../fingerprint_8c.html#a794755b7350e8cb9864948b9b35c0fd9',1,'clear_database(void):&#160;fingerprint.c']]]
+  ['backup_5ftemplate_0',['backup_template',['../fingerprint_8h.html#af02ed01b2157a3b70f9a67d3182e6770',1,'backup_template(uint16_t template_id):&#160;fingerprint.c'],['../fingerprint_8c.html#af02ed01b2157a3b70f9a67d3182e6770',1,'backup_template(uint16_t template_id):&#160;fingerprint.c']]]
 ];

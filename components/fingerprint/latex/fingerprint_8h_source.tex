@@ -3,497 +3,668 @@
 \mbox{\hyperlink{fingerprint_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ }
-\DoxyCodeLine{00191\ }
-\DoxyCodeLine{00192\ }
-\DoxyCodeLine{00193\ \textcolor{preprocessor}{\ \#ifndef\ FINGERPRINT\_H}}
-\DoxyCodeLine{00194\ \textcolor{preprocessor}{\ \#define\ FINGERPRINT\_H}}
-\DoxyCodeLine{00195\ \ }
-\DoxyCodeLine{00196\ \textcolor{preprocessor}{\ \#ifdef\ \_\_cplusplus}}
-\DoxyCodeLine{00197\ \ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
-\DoxyCodeLine{00198\ \textcolor{preprocessor}{\ \#endif}}
-\DoxyCodeLine{00199\ \ }
-\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#include\ "{}esp\_err.h"{}}}
-\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#include\ "{}esp\_log.h"{}}}
-\DoxyCodeLine{00202\ \textcolor{preprocessor}{\#include\ "{}driver/uart.h"{}}}
-\DoxyCodeLine{00203\ \textcolor{preprocessor}{\#include\ "{}esp\_err.h"{}}}
-\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#include\ "{}freertos/FreeRTOS.h"{}}}
-\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#include\ "{}freertos/task.h"{}}}
-\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#include\ "{}freertos/queue.h"{}}\ \ \ \ \ \textcolor{comment}{//\ Required\ for\ QueueHandle\_t}}
-\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#include\ "{}freertos/timers.h"{}}\ \ \ \ \textcolor{comment}{//\ Required\ for\ TickType\_t}}
-\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#include\ "{}driver/gpio.h"{}}}
-\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#include\ <string.h>}}
-\DoxyCodeLine{00210\ \textcolor{preprocessor}{\#include\ <stdbool.h>}\ \ \ \textcolor{comment}{//\ Fixes\ unknown\ type\ name\ 'bool'}}
-\DoxyCodeLine{00211\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
-\DoxyCodeLine{00212\ \ }
-\DoxyCodeLine{00216\ \textcolor{preprocessor}{\ \#define\ DEFAULT\_BAUD\_RATE\ 57600}}
-\DoxyCodeLine{00217\ \ }
-\DoxyCodeLine{00221\ \textcolor{preprocessor}{\ \#define\ DEFAULT\_TX\_PIN\ (GPIO\_NUM\_17)}}
-\DoxyCodeLine{00222\ \textcolor{preprocessor}{\ \#define\ DEFAULT\_RX\_PIN\ (GPIO\_NUM\_18)}}
-\DoxyCodeLine{00223\ \ }
-\DoxyCodeLine{00227\ \textcolor{preprocessor}{\ \#define\ FINGERPRINT\_HEADER\ 0xEF01}}
-\DoxyCodeLine{00228\ \ }
-\DoxyCodeLine{00232\ \textcolor{preprocessor}{\ \#define\ DEFAULT\_FINGERPRINT\_ADDRESS\ 0xFFFFFFFF}}
-\DoxyCodeLine{00233\ \ }
-\DoxyCodeLine{00240\ \textcolor{preprocessor}{\ \#define\ UART\_READ\_TIMEOUT\ 100\ \ }\textcolor{comment}{//\ Adjust\ based\ on\ hardware\ response\ time}}
-\DoxyCodeLine{00241\ }
-\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#define\ MAX\_PARAMETERS\ 32\ \ }\textcolor{preprocessor}{}}
-\DoxyCodeLine{00250\ }
-\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#define\ FINGERPRINT\_PACKET\_HEADER\ 0xEF01}}
-\DoxyCodeLine{00257\ }
-\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ FINGERPRINT\_PACKET\_ID\_CMD\ 0x01}}
-\DoxyCodeLine{00268\ }
-\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#define\ QUEUE\_SIZE\ 10}}
-\DoxyCodeLine{00279\ }
-\DoxyCodeLine{00286\ \textcolor{preprocessor}{\#define\ FINGERPRINT\_GPIO\_PIN\ (GPIO\_NUM\_15)\ }\textcolor{comment}{//\ 15\ \ //\ GPIO\ pin\ for\ fingerprint\ sensor\ interrupt}}
-\DoxyCodeLine{00287\ }
-\DoxyCodeLine{00288\ }
-\DoxyCodeLine{00297\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{00299\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83}{FINGERPRINT\_CMD\_GET\_IMAGE}}\ =\ 0x01,}
-\DoxyCodeLine{00300\ \ \ \ \ }
-\DoxyCodeLine{00302\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18}{FINGERPRINT\_CMD\_GEN\_CHAR}}\ =\ 0x02,}
-\DoxyCodeLine{00303\ \ \ \ \ }
-\DoxyCodeLine{00305\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a}{FINGERPRINT\_CMD\_MATCH}}\ =\ 0x03,}
-\DoxyCodeLine{00306\ \ \ \ \ }
-\DoxyCodeLine{00308\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4}{FINGERPRINT\_CMD\_SEARCH}}\ =\ 0x04,}
-\DoxyCodeLine{00309\ \ \ \ \ }
-\DoxyCodeLine{00311\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717}{FINGERPRINT\_CMD\_REG\_MODEL}}\ =\ 0x05,}
-\DoxyCodeLine{00312\ \ \ \ \ }
-\DoxyCodeLine{00314\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b}{FINGERPRINT\_CMD\_STORE\_CHAR}}\ =\ 0x06,}
-\DoxyCodeLine{00315\ \ \ \ \ }
-\DoxyCodeLine{00317\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645}{FINGERPRINT\_CMD\_DELETE\_CHAR}}\ =\ 0x0C,}
-\DoxyCodeLine{00318\ \ \ \ \ }
-\DoxyCodeLine{00320\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907}{FINGERPRINT\_CMD\_EMPTY\_DATABASE}}\ =\ 0x0D,}
-\DoxyCodeLine{00321\ \ \ \ \ }
-\DoxyCodeLine{00323\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed}{FINGERPRINT\_CMD\_UPLOAD\_IMAGE}}\ =\ 0x0A,}
-\DoxyCodeLine{00324\ \ \ \ \ }
-\DoxyCodeLine{00326\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770}{FINGERPRINT\_CMD\_DOWNLOAD\_IMAGE}}\ =\ 0x0B,}
-\DoxyCodeLine{00327\ \ \ \ \ }
-\DoxyCodeLine{00329\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516}{FINGERPRINT\_CMD\_READ\_SYS\_PARA}}\ =\ 0x0F,}
-\DoxyCodeLine{00330\ \ \ \ \ }
-\DoxyCodeLine{00332\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c}{FINGERPRINT\_CMD\_SET\_CHIP\_ADDR}}\ =\ 0x15,}
-\DoxyCodeLine{00333\ \ \ \ \ }
-\DoxyCodeLine{00335\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296}{FINGERPRINT\_CMD\_HANDSHAKE}}\ =\ 0x35,}
-\DoxyCodeLine{00336\ \ \ \ \ }
-\DoxyCodeLine{00338\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910}{FINGERPRINT\_CMD\_CANCEL}}\ =\ 0x30,}
-\DoxyCodeLine{00339\ \ \ \ \ }
-\DoxyCodeLine{00341\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6}{FINGERPRINT\_CMD\_AUTO\_ENROLL}}\ =\ 0x31,}
-\DoxyCodeLine{00342\ \ \ \ \ }
-\DoxyCodeLine{00344\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391}{FINGERPRINT\_CMD\_AUTO\_IDENTIFY}}\ =\ 0x32,}
-\DoxyCodeLine{00345\ \ \ \ \ }
-\DoxyCodeLine{00347\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d}{FINGERPRINT\_CMD\_CHECK\_SENSOR}}\ =\ 0x36,}
-\DoxyCodeLine{00348\ \ \ \ \ }
-\DoxyCodeLine{00350\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b}{FINGERPRINT\_CMD\_FACTORY\_RESET}}\ =\ 0x3B,}
-\DoxyCodeLine{00351\ \ \ \ \ }
-\DoxyCodeLine{00353\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9}{FINGERPRINT\_CMD\_READ\_INF\_PAGE}}\ =\ 0x16,}
-\DoxyCodeLine{00354\ \ \ \ \ }
-\DoxyCodeLine{00356\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5}{FINGERPRINT\_CMD\_BURN\_CODE}}\ =\ 0x1A,}
-\DoxyCodeLine{00357\ \ \ \ \ }
-\DoxyCodeLine{00359\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97}{FINGERPRINT\_CMD\_SET\_PASSWORD}}\ =\ 0x12,}
-\DoxyCodeLine{00360\ \ \ \ \ }
-\DoxyCodeLine{00362\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c}{FINGERPRINT\_CMD\_VERIFY\_PASSWORD}}\ =\ 0x13,}
-\DoxyCodeLine{00363\ \ \ \ \ }
-\DoxyCodeLine{00365\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b}{FINGERPRINT\_CMD\_GET\_RANDOM\_CODE}}\ =\ 0x14,}
-\DoxyCodeLine{00366\ \ \ \ \ }
-\DoxyCodeLine{00368\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8}{FINGERPRINT\_CMD\_WRITE\_NOTEPAD}}\ =\ 0x18,}
-\DoxyCodeLine{00369\ \ \ \ \ }
-\DoxyCodeLine{00371\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330}{FINGERPRINT\_CMD\_READ\_NOTEPAD}}\ =\ 0x19,}
-\DoxyCodeLine{00372\ \ \ \ \ }
-\DoxyCodeLine{00374\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900}{FINGERPRINT\_CMD\_CONTROL\_LED}}\ =\ 0x3C,}
-\DoxyCodeLine{00375\ \ \ \ \ }
-\DoxyCodeLine{00377\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c}{FINGERPRINT\_CMD\_GET\_IMAGE\_INFO}}\ =\ 0x3D,}
-\DoxyCodeLine{00378\ \ \ \ \ }
-\DoxyCodeLine{00380\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee}{FINGERPRINT\_CMD\_SEARCH\_NOW}}\ =\ 0x3E,}
-\DoxyCodeLine{00381\ \ \ \ \ }
-\DoxyCodeLine{00383\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4}{FINGERPRINT\_CMD\_VALID\_TEMPLATE\_NUM}}\ =\ 0x1D,}
-\DoxyCodeLine{00384\ \ \ \ \ }
-\DoxyCodeLine{00386\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2}{FINGERPRINT\_CMD\_SLEEP}}\ =\ 0x33,}
-\DoxyCodeLine{00387\ }
-\DoxyCodeLine{00389\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036}{FINGERPRINT\_CMD\_GETKEYT}}\ =\ 0xE0,}
-\DoxyCodeLine{00390\ }
-\DoxyCodeLine{00392\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55}{FINGERPRINT\_CMD\_SECURITY\_SEARCH}}\ =\ 0xF4,}
-\DoxyCodeLine{00393\ }
-\DoxyCodeLine{00395\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8}{FINGERPRINT\_CMD\_LOCKEYT}}\ =\ 0xE1,}
-\DoxyCodeLine{00396\ }
-\DoxyCodeLine{00398\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49}{FINGERPRINT\_CMD\_GET\_CIPHER\_TEXT}}\ =\ 0xE2,}
-\DoxyCodeLine{00399\ }
-\DoxyCodeLine{00401\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d}{FINGERPRINT\_CMD\_GETCHIP\_SN}}\ =\ 0x34,}
-\DoxyCodeLine{00402\ }
-\DoxyCodeLine{00404\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4}{FINGERPRINT\_CMD\_GET\_ENROLL\_IMAGE}}\ =\ 0x29,}
-\DoxyCodeLine{00405\ }
-\DoxyCodeLine{00407\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c}{FINGERPRINT\_CMD\_WRITE\_REG}}\ =\ 0x0E,}
-\DoxyCodeLine{00408\ }
-\DoxyCodeLine{00410\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8}{FINGERPRINT\_CMD\_READ\_INDEX\_TABLE}}\ =\ 0x1F,}
-\DoxyCodeLine{00411\ }
-\DoxyCodeLine{00413\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884}{FINGERPRINT\_CMD\_UP\_CHAR}}\ =\ 0x08,}
-\DoxyCodeLine{00414\ }
-\DoxyCodeLine{00416\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6}{FINGERPRINT\_CMD\_DOWN\_CHAR}}\ =\ 0x09}
-\DoxyCodeLine{00417\ \}\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7}{fingerprint\_command\_t}};}
-\DoxyCodeLine{00418\ }
-\DoxyCodeLine{00427\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00428\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7}{fingerprint\_command\_t}}\ \mbox{\hyperlink{structfingerprint__command__info__t_aaa2614d0ce6e9b73b3d4687abee5bddb}{command}};\ \ }
-\DoxyCodeLine{00429\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structfingerprint__command__info__t_a5c6d71a293d533a237c96c50331c21f6}{timestamp}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00430\ \}\ \mbox{\hyperlink{structfingerprint__command__info__t}{fingerprint\_command\_info\_t}};}
-\DoxyCodeLine{00431\ }
-\DoxyCodeLine{00443\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{00444\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_fingerprint_packet_ad52b37d9004ee77c9dc446a2581b6b11}{header}};\ \ \ \ \ \ }
-\DoxyCodeLine{00445\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_fingerprint_packet_aa85456b6f3f16befd10d4ce7fc13d80f}{address}};\ \ \ \ \ }
-\DoxyCodeLine{00446\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a74f0c99563e332f6c518b5da07d057d8}{packet\_id}};\ \ \ \ }
-\DoxyCodeLine{00447\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a3caa1aa8c03abae55918669b1bf935eb}{length}};\ \ \ \ \ \ }
-\DoxyCodeLine{00448\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a5afd9daf69457c9b2588a5489905dc43}{command}};\ \ \ \ \ \ }
-\DoxyCodeLine{00449\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_fingerprint_packet_aa901987094b3b84ba5ae18f98201b6ca}{parameters}}[\mbox{\hyperlink{fingerprint_8h_a68c7f0498bb1932350eb092be1b5e912}{MAX\_PARAMETERS}}];\ }
-\DoxyCodeLine{00450\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a5e9ea03f104b3aa12bb5542ccbb2eb88}{checksum}};\ \ \ \ }
-\DoxyCodeLine{00451\ \}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}};}
-\DoxyCodeLine{00452\ }
-\DoxyCodeLine{00453\ \ }
-\DoxyCodeLine{00457\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_adaa0f83cf286650e928b5a4ed88ef1ae}{PS\_GetImage}};}
-\DoxyCodeLine{00458\ \ }
-\DoxyCodeLine{00462\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ac85a52db93400d03d4759f9a73cf6d16}{PS\_GenChar1}};}
-\DoxyCodeLine{00463\ \ }
-\DoxyCodeLine{00467\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a41d10de9b594218b451f25eea203dd62}{PS\_GenChar2}};}
-\DoxyCodeLine{00468\ \ }
-\DoxyCodeLine{00472\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aab4b4130360fb33dd9060889dc8adc41}{PS\_RegModel}};}
-\DoxyCodeLine{00473\ \ }
-\DoxyCodeLine{00487\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\_Search}};}
-\DoxyCodeLine{00488\ \ }
-\DoxyCodeLine{00489\ \ }
-\DoxyCodeLine{00493\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_abea54c21ef0faa579e3ff4b86d07afa5}{PS\_Match}};}
+\DoxyCodeLine{00491\ }
+\DoxyCodeLine{00492\ \textcolor{preprocessor}{\ \#ifndef\ FINGERPRINT\_H}}
+\DoxyCodeLine{00493\ \textcolor{preprocessor}{\ \#define\ FINGERPRINT\_H}}
 \DoxyCodeLine{00494\ \ }
-\DoxyCodeLine{00508\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_af76822c0cde65af8b681a35d463285f4}{PS\_Store}};}
-\DoxyCodeLine{00509\ \ }
-\DoxyCodeLine{00510\ \ }
-\DoxyCodeLine{00514\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a6678fa109dafcae6dd0ac4def5435c59}{PS\_DeletChar}};}
-\DoxyCodeLine{00515\ \ }
-\DoxyCodeLine{00519\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ab02b3ece2bf54d92b9c8bfbacd73aa6d}{PS\_Empty}};}
-\DoxyCodeLine{00520\ \ }
-\DoxyCodeLine{00524\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_adc5e9ebe13e75cf54551fb45a19dc8b3}{PS\_ReadSysPara}};}
-\DoxyCodeLine{00525\ \ }
-\DoxyCodeLine{00529\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a46a013e40835607060be04c22f89e005}{PS\_SetChipAddr}};}
-\DoxyCodeLine{00530\ \ }
-\DoxyCodeLine{00536\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a48655b96bd6c7ab7a86d21574726313c}{PS\_Cancel}};}
-\DoxyCodeLine{00537\ \ }
-\DoxyCodeLine{00550\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a14662050a710495e6c9125a02ee17fd5}{PS\_AutoEnroll}};}
-\DoxyCodeLine{00551\ \ }
-\DoxyCodeLine{00562\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a8de1bbbf35f352bb899e3c9cc689ea04}{PS\_Autoldentify}};}
-\DoxyCodeLine{00563\ \ }
-\DoxyCodeLine{00569\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a0debfe933b7bc0bd43e6390a45f9e664}{PS\_GetKeyt}};}
-\DoxyCodeLine{00570\ \ }
-\DoxyCodeLine{00581\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_acd10b003e0afced78911d5b641163e22}{PS\_SecurityStoreChar}};}
-\DoxyCodeLine{00582\ \ }
-\DoxyCodeLine{00594\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_acaf7ef75a6a5378d834a47a003901295}{PS\_SecuritySearch}};}
-\DoxyCodeLine{00595\ \ }
-\DoxyCodeLine{00601\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a8d25f5cf1e5e1c6b6415485947add3d6}{PS\_Uplmage}};}
-\DoxyCodeLine{00602\ \ }
-\DoxyCodeLine{00608\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a57f7aea72d53a3f124d00628e2841af6}{PS\_Downlmage}};}
-\DoxyCodeLine{00609\ \ }
-\DoxyCodeLine{00615\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aafa99f15d8fcb5aa3aa70caf8f32f12d}{PS\_CheckSensor}};}
-\DoxyCodeLine{00616\ \ }
-\DoxyCodeLine{00622\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_af37efde15fd0ef6dd67c0ec7ae8e6998}{PS\_RestSetting}};}
-\DoxyCodeLine{00623\ \ }
-\DoxyCodeLine{00629\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_adf9f490df58b6a6d71ca6ea80262fa1d}{PS\_ReadINFpage}};}
-\DoxyCodeLine{00630\ \ }
-\DoxyCodeLine{00640\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a829abdcd1ef158c715058a1b2ed405a7}{PS\_BurnCode}};}
-\DoxyCodeLine{00641\ \ }
-\DoxyCodeLine{00651\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_afc3e62619085f018f8643dd594920a62}{PS\_SetPwd}};}
-\DoxyCodeLine{00652\ \ }
-\DoxyCodeLine{00662\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a928959be5d6dfed951392801b7010e8b}{PS\_VfyPwd}};}
-\DoxyCodeLine{00663\ \ }
-\DoxyCodeLine{00669\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a3a555d20d18c66cabfde4982fc757d65}{PS\_GetRandomCode}};}
-\DoxyCodeLine{00670\ \ }
-\DoxyCodeLine{00680\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ace4f99c616f2c9a5a61d2cc804a72635}{PS\_ReadNotepad}};}
-\DoxyCodeLine{00681\ \ }
-\DoxyCodeLine{00685\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a105683cebbfd541df8ba50d6df3b37a8}{PS\_DownChar}};}
-\DoxyCodeLine{00686\ }
-\DoxyCodeLine{00690\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a7704dbb198c160338884a15a3ef01203}{PS\_UpChar}};}
-\DoxyCodeLine{00691\ }
-\DoxyCodeLine{00695\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_adf9f490df58b6a6d71ca6ea80262fa1d}{PS\_ReadINFpage}};}
-\DoxyCodeLine{00696\ }
-\DoxyCodeLine{00700\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a829abdcd1ef158c715058a1b2ed405a7}{PS\_BurnCode}};}
+\DoxyCodeLine{00495\ \textcolor{preprocessor}{\ \#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00496\ \ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00497\ \textcolor{preprocessor}{\ \#endif}}
+\DoxyCodeLine{00498\ \ }
+\DoxyCodeLine{00499\ \textcolor{preprocessor}{\#include\ "{}esp\_err.h"{}}}
+\DoxyCodeLine{00500\ \textcolor{preprocessor}{\#include\ "{}esp\_log.h"{}}}
+\DoxyCodeLine{00501\ \textcolor{preprocessor}{\#include\ "{}driver/uart.h"{}}}
+\DoxyCodeLine{00502\ \textcolor{preprocessor}{\#include\ "{}esp\_err.h"{}}}
+\DoxyCodeLine{00503\ \textcolor{preprocessor}{\#include\ "{}freertos/FreeRTOS.h"{}}}
+\DoxyCodeLine{00504\ \textcolor{preprocessor}{\#include\ "{}freertos/task.h"{}}}
+\DoxyCodeLine{00505\ \textcolor{preprocessor}{\#include\ "{}freertos/queue.h"{}}\ \ \ \ \ \textcolor{comment}{//\ Required\ for\ QueueHandle\_t}}
+\DoxyCodeLine{00506\ \textcolor{preprocessor}{\#include\ "{}freertos/timers.h"{}}\ \ \ \ \textcolor{comment}{//\ Required\ for\ TickType\_t}}
+\DoxyCodeLine{00507\ \textcolor{preprocessor}{\#include\ "{}driver/gpio.h"{}}}
+\DoxyCodeLine{00508\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00509\ \textcolor{preprocessor}{\#include\ <stdbool.h>}\ \ \ \textcolor{comment}{//\ Fixes\ unknown\ type\ name\ 'bool'}}
+\DoxyCodeLine{00510\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00511\ \ }
+\DoxyCodeLine{00515\ \textcolor{preprocessor}{\ \#define\ DEFAULT\_BAUD\_RATE\ 57600}}
+\DoxyCodeLine{00516\ \ }
+\DoxyCodeLine{00520\ \textcolor{preprocessor}{\ \#define\ DEFAULT\_TX\_PIN\ (GPIO\_NUM\_17)\ }\textcolor{comment}{//17\ }}
+\DoxyCodeLine{00521\ \textcolor{preprocessor}{\ \#define\ DEFAULT\_RX\_PIN\ (GPIO\_NUM\_18)\ }\textcolor{comment}{//18\ }}
+\DoxyCodeLine{00522\ \ }
+\DoxyCodeLine{00526\ \textcolor{preprocessor}{\ \#define\ FINGERPRINT\_HEADER\ 0xEF01}}
+\DoxyCodeLine{00527\ \ }
+\DoxyCodeLine{00531\ \textcolor{preprocessor}{\ \#define\ DEFAULT\_FINGERPRINT\_ADDRESS\ 0xFFFFFFFF}}
+\DoxyCodeLine{00532\ \ }
+\DoxyCodeLine{00539\ \textcolor{preprocessor}{\ \#define\ UART\_READ\_TIMEOUT\ 100\ \ }\textcolor{comment}{//\ Adjust\ based\ on\ hardware\ response\ time}}
+\DoxyCodeLine{00540\ }
+\DoxyCodeLine{00548\ \textcolor{preprocessor}{\#define\ MAX\_PARAMETERS\ 256\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00549\ }
+\DoxyCodeLine{00555\ \textcolor{preprocessor}{\#define\ FINGERPRINT\_PACKET\_HEADER\ 0xEF01}}
+\DoxyCodeLine{00556\ }
+\DoxyCodeLine{00566\ \textcolor{preprocessor}{\#define\ FINGERPRINT\_PACKET\_ID\_CMD\ 0x01}}
+\DoxyCodeLine{00567\ }
+\DoxyCodeLine{00577\ \textcolor{preprocessor}{\#define\ QUEUE\_SIZE\ 64}}
+\DoxyCodeLine{00578\ }
+\DoxyCodeLine{00585\ \textcolor{preprocessor}{\#define\ FINGERPRINT\_GPIO\_PIN\ (GPIO\_NUM\_15)\ }\textcolor{comment}{//\ 15\ \ //\ GPIO\ pin\ for\ fingerprint\ sensor\ interrupt}}
+\DoxyCodeLine{00586\ }
+\DoxyCodeLine{00590\ \textcolor{comment}{//\ Add\ VIN\ control\ pin\ definition}}
+\DoxyCodeLine{00591\ \textcolor{preprocessor}{\#define\ FINGERPRINT\_VIN\_PIN\ GPIO\_NUM\_9\ \ }\textcolor{comment}{//\ D9\ for\ VIN\ control}}
+\DoxyCodeLine{00592\ \textcolor{preprocessor}{\#define\ TEMPLATE\_QUEUE\_SIZE\ 10}}
+\DoxyCodeLine{00593\ \textcolor{preprocessor}{\#define\ TEMPLATE\_MAX\_SIZE\ 2048}}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00595\ }
+\DoxyCodeLine{00596\ }
+\DoxyCodeLine{00605\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00607\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af4ae3950eaa1ab6c24e8e5bd68142a83}{FINGERPRINT\_CMD\_GET\_IMAGE}}\ =\ 0x01,}
+\DoxyCodeLine{00608\ \ \ \ \ }
+\DoxyCodeLine{00610\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abdb8a3af0a2c53616968202e3af56e18}{FINGERPRINT\_CMD\_GEN\_CHAR}}\ =\ 0x02,}
+\DoxyCodeLine{00611\ \ \ \ \ }
+\DoxyCodeLine{00613\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa712e356b46a720155469352f95b396a}{FINGERPRINT\_CMD\_MATCH}}\ =\ 0x03,}
+\DoxyCodeLine{00614\ \ \ \ \ }
+\DoxyCodeLine{00616\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a0b065efacfa74ed66a8e76e28ab718c4}{FINGERPRINT\_CMD\_SEARCH}}\ =\ 0x04,}
+\DoxyCodeLine{00617\ \ \ \ \ }
+\DoxyCodeLine{00619\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a54e4a826d80bdfa0da906b75cc9a2717}{FINGERPRINT\_CMD\_REG\_MODEL}}\ =\ 0x05,}
+\DoxyCodeLine{00620\ \ \ \ \ }
+\DoxyCodeLine{00622\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a73a301734e191d128d65fcff4660a12b}{FINGERPRINT\_CMD\_STORE\_CHAR}}\ =\ 0x06,}
+\DoxyCodeLine{00623\ \ \ \ \ }
+\DoxyCodeLine{00625\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af1927408fe885b432660c4be5a653645}{FINGERPRINT\_CMD\_DELETE\_CHAR}}\ =\ 0x0C,}
+\DoxyCodeLine{00626\ \ \ \ \ }
+\DoxyCodeLine{00628\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a18f48f636a9f210eab0a6b8b15540907}{FINGERPRINT\_CMD\_EMPTY\_DATABASE}}\ =\ 0x0D,}
+\DoxyCodeLine{00629\ \ \ \ \ }
+\DoxyCodeLine{00631\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a744b9bd3464f8bee55c8aeeea9410fed}{FINGERPRINT\_CMD\_UPLOAD\_IMAGE}}\ =\ 0x0A,}
+\DoxyCodeLine{00632\ \ \ \ \ }
+\DoxyCodeLine{00634\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abb8214749fc76e3c86a0d9e75bc21770}{FINGERPRINT\_CMD\_DOWNLOAD\_IMAGE}}\ =\ 0x0B,}
+\DoxyCodeLine{00635\ \ \ \ \ }
+\DoxyCodeLine{00637\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa646b1599a6fa2fcd1364fa50ab3a516}{FINGERPRINT\_CMD\_READ\_SYS\_PARA}}\ =\ 0x0F,}
+\DoxyCodeLine{00638\ \ \ \ \ }
+\DoxyCodeLine{00640\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a65402541d63cf6dc14b0f717bdb1e50c}{FINGERPRINT\_CMD\_SET\_CHIP\_ADDR}}\ =\ 0x15,}
+\DoxyCodeLine{00641\ \ \ \ \ }
+\DoxyCodeLine{00643\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a3b924ab1bbc90131e7d48db81f942296}{FINGERPRINT\_CMD\_HANDSHAKE}}\ =\ 0x35,}
+\DoxyCodeLine{00644\ \ \ \ \ }
+\DoxyCodeLine{00646\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa9fbd43e0ba3fa01dda1e96ec966e910}{FINGERPRINT\_CMD\_CANCEL}}\ =\ 0x30,}
+\DoxyCodeLine{00647\ \ \ \ \ }
+\DoxyCodeLine{00649\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa79da26e040c485218a20e73fefd86d6}{FINGERPRINT\_CMD\_AUTO\_ENROLL}}\ =\ 0x31,}
+\DoxyCodeLine{00650\ \ \ \ \ }
+\DoxyCodeLine{00652\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aafbe754f70b29c80278231739df8b391}{FINGERPRINT\_CMD\_AUTO\_IDENTIFY}}\ =\ 0x32,}
+\DoxyCodeLine{00653\ \ \ \ \ }
+\DoxyCodeLine{00655\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4cb905000eb924ab4915b0adc1984a2d}{FINGERPRINT\_CMD\_CHECK\_SENSOR}}\ =\ 0x36,}
+\DoxyCodeLine{00656\ \ \ \ \ }
+\DoxyCodeLine{00658\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a5d1083af685f94a0bd1c303560ab5c1b}{FINGERPRINT\_CMD\_FACTORY\_RESET}}\ =\ 0x3B,}
+\DoxyCodeLine{00659\ \ \ \ \ }
+\DoxyCodeLine{00661\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a7ca3748946d081e0864c0c86cad4f1e9}{FINGERPRINT\_CMD\_READ\_INF\_PAGE}}\ =\ 0x16,}
+\DoxyCodeLine{00662\ \ \ \ \ }
+\DoxyCodeLine{00664\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a89c90de0dc1e45dcb9391de33a70a6a5}{FINGERPRINT\_CMD\_BURN\_CODE}}\ =\ 0x1A,}
+\DoxyCodeLine{00665\ \ \ \ \ }
+\DoxyCodeLine{00667\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4580e1c98e9b6bfa694800c0b97a2c97}{FINGERPRINT\_CMD\_SET\_PASSWORD}}\ =\ 0x12,}
+\DoxyCodeLine{00668\ \ \ \ \ }
+\DoxyCodeLine{00670\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a86ae618872837c8855783f098428519c}{FINGERPRINT\_CMD\_VERIFY\_PASSWORD}}\ =\ 0x13,}
+\DoxyCodeLine{00671\ \ \ \ \ }
+\DoxyCodeLine{00673\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a582d233002604cdbd6fc56b1b2026a5b}{FINGERPRINT\_CMD\_GET\_RANDOM\_CODE}}\ =\ 0x14,}
+\DoxyCodeLine{00674\ \ \ \ \ }
+\DoxyCodeLine{00676\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a0844f56179bee7c5c431a224e20e0ff8}{FINGERPRINT\_CMD\_WRITE\_NOTEPAD}}\ =\ 0x18,}
+\DoxyCodeLine{00677\ \ \ \ \ }
+\DoxyCodeLine{00679\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aecbb69e73a5fc71192b2162da6357330}{FINGERPRINT\_CMD\_READ\_NOTEPAD}}\ =\ 0x19,}
+\DoxyCodeLine{00680\ \ \ \ \ }
+\DoxyCodeLine{00682\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ab1a3f23ab7dfb869cd0ef033f9a99900}{FINGERPRINT\_CMD\_CONTROL\_LED}}\ =\ 0x3C,}
+\DoxyCodeLine{00683\ \ \ \ \ }
+\DoxyCodeLine{00685\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a44ca482c85a49d4693ccbc4545204d7c}{FINGERPRINT\_CMD\_GET\_IMAGE\_INFO}}\ =\ 0x3D,}
+\DoxyCodeLine{00686\ \ \ \ \ }
+\DoxyCodeLine{00688\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a4a842c97863dfaf5f17d5e70dac847ee}{FINGERPRINT\_CMD\_SEARCH\_NOW}}\ =\ 0x3E,}
+\DoxyCodeLine{00689\ \ \ \ \ }
+\DoxyCodeLine{00691\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ac33463b802ff46122133e62d478c9fa4}{FINGERPRINT\_CMD\_VALID\_TEMPLATE\_NUM}}\ =\ 0x1D,}
+\DoxyCodeLine{00692\ \ \ \ \ }
+\DoxyCodeLine{00694\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a8ec98808cb2c8851493cc7b69f1f36a2}{FINGERPRINT\_CMD\_SLEEP}}\ =\ 0x33,}
+\DoxyCodeLine{00695\ }
+\DoxyCodeLine{00697\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ad56fbc294f26e3580108d3d1eddc8036}{FINGERPRINT\_CMD\_GETKEYT}}\ =\ 0xE0,}
+\DoxyCodeLine{00698\ }
+\DoxyCodeLine{00700\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7abae186b3ee4ff4ef28f741f9b7dcea55}{FINGERPRINT\_CMD\_SECURITY\_SEARCH}}\ =\ 0xF4,}
 \DoxyCodeLine{00701\ }
-\DoxyCodeLine{00707\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ae243d24ce9fa25ead1f1fccf0c22d806}{PS\_HandShake}};}
-\DoxyCodeLine{00708\ }
-\DoxyCodeLine{00721\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a8fe0e76ceb799b2fc34ab9a90cb80864}{PS\_ControlBLN}};}
+\DoxyCodeLine{00703\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7ad4302c082dc49359ed91f5bcacb097e8}{FINGERPRINT\_CMD\_LOCKEYT}}\ =\ 0xE1,}
+\DoxyCodeLine{00704\ }
+\DoxyCodeLine{00706\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7acfb43288535a7b36e376eea9ce7e2a49}{FINGERPRINT\_CMD\_GET\_CIPHER\_TEXT}}\ =\ 0xE2,}
+\DoxyCodeLine{00707\ }
+\DoxyCodeLine{00709\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a04c885dd7e5b0c3bc8093e101ae4f39d}{FINGERPRINT\_CMD\_GETCHIP\_SN}}\ =\ 0x34,}
+\DoxyCodeLine{00710\ }
+\DoxyCodeLine{00712\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa2c7295fa12909dbfd103d676cd4c2e4}{FINGERPRINT\_CMD\_GET\_ENROLL\_IMAGE}}\ =\ 0x29,}
+\DoxyCodeLine{00713\ }
+\DoxyCodeLine{00715\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7addd8eb030b3607899634b386d28fd51c}{FINGERPRINT\_CMD\_WRITE\_REG}}\ =\ 0x0E,}
+\DoxyCodeLine{00716\ }
+\DoxyCodeLine{00718\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af4e488e3039c688785db3c9077e9a9c8}{FINGERPRINT\_CMD\_READ\_INDEX\_TABLE}}\ =\ 0x1F,}
+\DoxyCodeLine{00719\ }
+\DoxyCodeLine{00721\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7aa7b3a4a5481b122940a88d783685c884}{FINGERPRINT\_CMD\_UP\_CHAR}}\ =\ 0x08,}
 \DoxyCodeLine{00722\ }
-\DoxyCodeLine{00728\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a39b572fc25a81120d0868524bb44a87c}{PS\_GetImageInfo}};}
-\DoxyCodeLine{00729\ }
-\DoxyCodeLine{00740\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a0287773fa3edfdd6ced6ee27e891e412}{PS\_SearchNow}};}
-\DoxyCodeLine{00741\ }
-\DoxyCodeLine{00745\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ab42f2079ba5448cddcd5f3c0ca2aef9c}{PS\_ValidTempleteNum}};}
-\DoxyCodeLine{00746\ }
-\DoxyCodeLine{00750\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aa46ebc75eb2fb94cde2ac30fcf8b8f29}{PS\_Sleep}};}
-\DoxyCodeLine{00751\ }
-\DoxyCodeLine{00755\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aa61a0c0c5c6bfe32a6650f61e9241b84}{PS\_LockKeyt}};}
-\DoxyCodeLine{00756\ }
-\DoxyCodeLine{00760\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a6ca21b7e91140d05e0ca8bcc20a381ec}{PS\_GetCiphertext}};}
-\DoxyCodeLine{00761\ }
-\DoxyCodeLine{00765\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aeb1b58bc4812142db1f180b5f81efff2}{PS\_GetChipSN}};}
-\DoxyCodeLine{00766\ }
-\DoxyCodeLine{00770\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_af0e670df93dd042b2499d252e62b6330}{PS\_GetEnrollImage}};}
-\DoxyCodeLine{00771\ }
-\DoxyCodeLine{00782\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_afc475b21fe147ae6a5a87075ed1ce6c5}{PS\_WriteReg}};}
-\DoxyCodeLine{00783\ }
-\DoxyCodeLine{00793\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a013246c7b412ad6777655f5e9aab3d06}{PS\_ReadIndexTable}};}
-\DoxyCodeLine{00794\ }
-\DoxyCodeLine{00802\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a7704dbb198c160338884a15a3ef01203}{PS\_UpChar}};}
-\DoxyCodeLine{00803\ }
-\DoxyCodeLine{00811\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a105683cebbfd541df8ba50d6df3b37a8}{PS\_DownChar}};}
-\DoxyCodeLine{00812\ }
-\DoxyCodeLine{00813\ \ }
-\DoxyCodeLine{00820\ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{00822\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc}{FINGERPRINT\_OK}}\ =\ 0x00,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00823\ \ }
-\DoxyCodeLine{00825\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d}{FINGERPRINT\_PACKET\_ERROR}}\ =\ 0x01,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00724\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7af468685dd0902bc6672874f2e2f36db6}{FINGERPRINT\_CMD\_DOWN\_CHAR}}\ =\ 0x09,}
+\DoxyCodeLine{00725\ }
+\DoxyCodeLine{00729\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7a6b7e3c153cc72d9ab458abad30dd3fe6}{FINGERPRINT\_CMD\_LOAD\_CHAR}}\ =\ 0x07,}
+\DoxyCodeLine{00730\ }
+\DoxyCodeLine{00731\ \}\ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7}{fingerprint\_command\_t}};}
+\DoxyCodeLine{00732\ }
+\DoxyCodeLine{00741\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00742\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4c9c4a4e70842b49ce794917a355a0d7}{fingerprint\_command\_t}}\ \mbox{\hyperlink{structfingerprint__command__info__t_aaa2614d0ce6e9b73b3d4687abee5bddb}{command}};\ \ }
+\DoxyCodeLine{00743\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structfingerprint__command__info__t_a5c6d71a293d533a237c96c50331c21f6}{timestamp}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00744\ \}\ \mbox{\hyperlink{structfingerprint__command__info__t}{fingerprint\_command\_info\_t}};}
+\DoxyCodeLine{00745\ }
+\DoxyCodeLine{00757\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00758\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_fingerprint_packet_ad52b37d9004ee77c9dc446a2581b6b11}{header}};\ \ \ \ \ \ }
+\DoxyCodeLine{00759\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_fingerprint_packet_aa85456b6f3f16befd10d4ce7fc13d80f}{address}};\ \ \ \ \ }
+\DoxyCodeLine{00760\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a74f0c99563e332f6c518b5da07d057d8}{packet\_id}};\ \ \ \ }
+\DoxyCodeLine{00761\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a3caa1aa8c03abae55918669b1bf935eb}{length}};\ \ \ \ \ \ }
+\DoxyCodeLine{00762\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00763\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a5afd9daf69457c9b2588a5489905dc43}{command}};\ \ }
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a25099c770edda59484dde67254f568fb}{confirmation}};\ \ \ }
+\DoxyCodeLine{00765\ \ \ \ \ \}\ code;}
+\DoxyCodeLine{00766\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_fingerprint_packet_aa7e964c9a57a8a1d5a716dfe28fde828}{parameters}}[\mbox{\hyperlink{fingerprint_8h_a68c7f0498bb1932350eb092be1b5e912}{MAX\_PARAMETERS}}];\ }
+\DoxyCodeLine{00767\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_fingerprint_packet_a5e9ea03f104b3aa12bb5542ccbb2eb88}{checksum}};\ \ \ \ }
+\DoxyCodeLine{00768\ \}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}};}
+\DoxyCodeLine{00769\ }
+\DoxyCodeLine{00770\ \ }
+\DoxyCodeLine{00774\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_adaa0f83cf286650e928b5a4ed88ef1ae}{PS\_GetImage}};}
+\DoxyCodeLine{00775\ \ }
+\DoxyCodeLine{00779\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ac85a52db93400d03d4759f9a73cf6d16}{PS\_GenChar1}};}
+\DoxyCodeLine{00780\ \ }
+\DoxyCodeLine{00784\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a41d10de9b594218b451f25eea203dd62}{PS\_GenChar2}};}
+\DoxyCodeLine{00785\ \ }
+\DoxyCodeLine{00789\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aab4b4130360fb33dd9060889dc8adc41}{PS\_RegModel}};}
+\DoxyCodeLine{00790\ \ }
+\DoxyCodeLine{00804\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aad1f05a6bbac30c9f3ee6ebf1b03739f}{PS\_Search}};}
+\DoxyCodeLine{00805\ \ }
+\DoxyCodeLine{00806\ \ }
+\DoxyCodeLine{00810\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_abea54c21ef0faa579e3ff4b86d07afa5}{PS\_Match}};}
+\DoxyCodeLine{00811\ \ }
+\DoxyCodeLine{00825\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_af76822c0cde65af8b681a35d463285f4}{PS\_Store}};}
 \DoxyCodeLine{00826\ \ }
-\DoxyCodeLine{00828\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea}{FINGERPRINT\_NO\_FINGER}}\ =\ 0x02,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00829\ \ }
-\DoxyCodeLine{00831\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609}{FINGERPRINT\_IMAGE\_FAIL}}\ =\ 0x03,\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00827\ \ }
+\DoxyCodeLine{00831\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a117bf1fbb2a8e12c9332933804a9fc77}{PS\_DeleteChar}};}
 \DoxyCodeLine{00832\ \ }
-\DoxyCodeLine{00834\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82}{FINGERPRINT\_TOO\_DRY}}\ =\ 0x04,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00835\ \ }
-\DoxyCodeLine{00837\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac}{FINGERPRINT\_TOO\_WET}}\ =\ 0x05,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00838\ \ }
-\DoxyCodeLine{00840\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846}{FINGERPRINT\_TOO\_CHAOTIC}}\ =\ 0x06,\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00841\ \ }
-\DoxyCodeLine{00843\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a}{FINGERPRINT\_TOO\_FEW\_POINTS}}\ =\ 0x07,\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00844\ \ }
-\DoxyCodeLine{00846\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e}{FINGERPRINT\_MISMATCH}}\ =\ 0x08,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00836\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ab02b3ece2bf54d92b9c8bfbacd73aa6d}{PS\_Empty}};}
+\DoxyCodeLine{00837\ \ }
+\DoxyCodeLine{00841\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_adc5e9ebe13e75cf54551fb45a19dc8b3}{PS\_ReadSysPara}};}
+\DoxyCodeLine{00842\ \ }
+\DoxyCodeLine{00846\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a46a013e40835607060be04c22f89e005}{PS\_SetChipAddr}};}
 \DoxyCodeLine{00847\ \ }
-\DoxyCodeLine{00849\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9}{FINGERPRINT\_NOT\_FOUND}}\ =\ 0x09,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00850\ \ }
-\DoxyCodeLine{00852\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74}{FINGERPRINT\_MERGE\_FAIL}}\ =\ 0x0A,\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00853\ \ }
-\DoxyCodeLine{00855\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0}{FINGERPRINT\_DB\_RANGE\_ERROR}}\ =\ 0x0B,\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00856\ \ }
-\DoxyCodeLine{00858\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f}{FINGERPRINT\_READ\_TEMPLATE\_ERROR}}\ =\ 0x0C,\ \ \ \ \ }
-\DoxyCodeLine{00859\ \ }
-\DoxyCodeLine{00861\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300}{FINGERPRINT\_UPLOAD\_FEATURE\_FAIL}}\ =\ 0x0D,\ \ \ \ \ }
-\DoxyCodeLine{00862\ \ }
-\DoxyCodeLine{00864\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1}{FINGERPRINT\_DATA\_PACKET\_ERROR}}\ =\ 0x0E,\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00865\ \ }
-\DoxyCodeLine{00867\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8}{FINGERPRINT\_UPLOAD\_IMAGE\_FAIL}}\ =\ 0x0F,\ \ \ \ \ \ \ }
+\DoxyCodeLine{00853\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a48655b96bd6c7ab7a86d21574726313c}{PS\_Cancel}};}
+\DoxyCodeLine{00854\ \ }
+\DoxyCodeLine{00867\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a14662050a710495e6c9125a02ee17fd5}{PS\_AutoEnroll}};}
 \DoxyCodeLine{00868\ \ }
-\DoxyCodeLine{00870\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02}{FINGERPRINT\_DELETE\_TEMPLATE\_FAIL}}\ =\ 0x10,\ \ \ \ }
-\DoxyCodeLine{00871\ \ }
-\DoxyCodeLine{00873\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7}{FINGERPRINT\_DB\_CLEAR\_FAIL}}\ =\ 0x11,\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00874\ \ }
-\DoxyCodeLine{00876\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1}{FINGERPRINT\_LOW\_POWER\_FAIL}}\ =\ 0x12,\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00877\ \ }
-\DoxyCodeLine{00879\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633}{FINGERPRINT\_WRONG\_PASSWORD}}\ =\ 0x13,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00879\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a8de1bbbf35f352bb899e3c9cc689ea04}{PS\_Autoldentify}};}
 \DoxyCodeLine{00880\ \ }
-\DoxyCodeLine{00882\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1}{FINGERPRINT\_NO\_VALID\_IMAGE}}\ =\ 0x15,\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00883\ \ }
-\DoxyCodeLine{00885\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a}{FINGERPRINT\_UPGRADE\_FAIL}}\ =\ 0x16,\ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00886\ \ }
-\DoxyCodeLine{00888\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340}{FINGERPRINT\_RESIDUAL\_FINGER}}\ =\ 0x17,\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00889\ \ }
-\DoxyCodeLine{00891\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e}{FINGERPRINT\_FLASH\_RW\_ERROR}}\ =\ 0x18,\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00892\ \ }
-\DoxyCodeLine{00894\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96}{FINGERPRINT\_RANDOM\_GEN\_FAIL}}\ =\ 0x19,\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00895\ \ }
-\DoxyCodeLine{00897\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9}{FINGERPRINT\_INVALID\_REGISTER}}\ =\ 0x1A,\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00898\ \ }
-\DoxyCodeLine{00900\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8}{FINGERPRINT\_REGISTER\_SETTING\_ERROR}}\ =\ 0x1B,\ \ }
-\DoxyCodeLine{00901\ \ }
-\DoxyCodeLine{00903\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3}{FINGERPRINT\_NOTEPAD\_PAGE\_ERROR}}\ =\ 0x1C,\ \ \ \ \ \ }
-\DoxyCodeLine{00904\ \ }
-\DoxyCodeLine{00906\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac}{FINGERPRINT\_PORT\_OP\_FAIL}}\ =\ 0x1D,\ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00907\ \ }
-\DoxyCodeLine{00909\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4}{FINGERPRINT\_ENROLL\_FAIL}}\ =\ 0x1E,\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00910\ \ }
-\DoxyCodeLine{00912\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb}{FINGERPRINT\_DB\_FULL}}\ =\ 0x1F,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00913\ \ }
-\DoxyCodeLine{00915\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51}{FINGERPRINT\_DEVICE\_ADDRESS\_ERROR}}\ =\ 0x20,\ \ \ \ }
-\DoxyCodeLine{00916\ \ }
-\DoxyCodeLine{00918\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df}{FINGERPRINT\_TEMPLATE\_NOT\_EMPTY}}\ =\ 0x22,\ \ \ \ \ \ }
+\DoxyCodeLine{00886\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a0debfe933b7bc0bd43e6390a45f9e664}{PS\_GetKeyt}};}
+\DoxyCodeLine{00887\ \ }
+\DoxyCodeLine{00898\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_acd10b003e0afced78911d5b641163e22}{PS\_SecurityStoreChar}};}
+\DoxyCodeLine{00899\ \ }
+\DoxyCodeLine{00911\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_acaf7ef75a6a5378d834a47a003901295}{PS\_SecuritySearch}};}
+\DoxyCodeLine{00912\ \ }
+\DoxyCodeLine{00918\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a8d25f5cf1e5e1c6b6415485947add3d6}{PS\_Uplmage}};}
 \DoxyCodeLine{00919\ \ }
-\DoxyCodeLine{00921\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e}{FINGERPRINT\_TEMPLATE\_EMPTY}}\ =\ 0x23,\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00922\ \ }
-\DoxyCodeLine{00924\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581}{FINGERPRINT\_DB\_EMPTY}}\ =\ 0x24,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00925\ \ }
-\DoxyCodeLine{00927\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03}{FINGERPRINT\_ENTRY\_COUNT\_ERROR}}\ =\ 0x25,\ \ \ \ \ \ \ }
-\DoxyCodeLine{00928\ \ }
-\DoxyCodeLine{00930\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36}{FINGERPRINT\_TIMEOUT}}\ =\ 0x26,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00931\ \ }
-\DoxyCodeLine{00933\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb}{FINGERPRINT\_ALREADY\_EXISTS}}\ =\ 0x27,\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00934\ \ }
-\DoxyCodeLine{00936\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef}{FINGERPRINT\_FEATURES\_RELATED}}\ =\ 0x28,\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00937\ \ }
-\DoxyCodeLine{00939\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362}{FINGERPRINT\_SENSOR\_OP\_FAIL}}\ =\ 0x29,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00925\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a57f7aea72d53a3f124d00628e2841af6}{PS\_Downlmage}};}
+\DoxyCodeLine{00926\ \ }
+\DoxyCodeLine{00932\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aafa99f15d8fcb5aa3aa70caf8f32f12d}{PS\_CheckSensor}};}
+\DoxyCodeLine{00933\ \ }
+\DoxyCodeLine{00939\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_af37efde15fd0ef6dd67c0ec7ae8e6998}{PS\_RestSetting}};}
 \DoxyCodeLine{00940\ \ }
-\DoxyCodeLine{00942\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7}{FINGERPRINT\_MODULE\_INFO\_NOT\_EMPTY}}\ =\ 0x2A,\ \ \ }
-\DoxyCodeLine{00943\ \ }
-\DoxyCodeLine{00945\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932}{FINGERPRINT\_MODULE\_INFO\_EMPTY}}\ =\ 0x2B,\ \ \ \ \ \ \ }
-\DoxyCodeLine{00946\ \ }
-\DoxyCodeLine{00948\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9}{FINGERPRINT\_OTP\_FAIL}}\ =\ 0x2C,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00949\ \ }
-\DoxyCodeLine{00951\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596}{FINGERPRINT\_KEY\_GEN\_FAIL}}\ =\ 0x2D,\ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00952\ \ }
-\DoxyCodeLine{00954\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906}{FINGERPRINT\_KEY\_NOT\_EXIST}}\ =\ 0x2E,\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00955\ \ }
-\DoxyCodeLine{00957\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0}{FINGERPRINT\_SECURITY\_ALGO\_FAIL}}\ =\ 0x2F,\ \ \ \ \ \ }
+\DoxyCodeLine{00946\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_adf9f490df58b6a6d71ca6ea80262fa1d}{PS\_ReadINFpage}};}
+\DoxyCodeLine{00947\ \ }
+\DoxyCodeLine{00957\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a829abdcd1ef158c715058a1b2ed405a7}{PS\_BurnCode}};}
 \DoxyCodeLine{00958\ \ }
-\DoxyCodeLine{00960\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf}{FINGERPRINT\_ENCRYPTION\_MISMATCH}}\ =\ 0x30,\ \ \ \ \ }
-\DoxyCodeLine{00961\ \ }
-\DoxyCodeLine{00963\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222}{FINGERPRINT\_KEY\_LOCKED}}\ =\ 0x32,\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00964\ \ }
-\DoxyCodeLine{00966\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1}{FINGERPRINT\_IMAGE\_AREA\_SMALL}}\ =\ 0x33,\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00967\ \ }
-\DoxyCodeLine{00969\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385}{FINGERPRINT\_IMAGE\_NOT\_AVAILABLE}}\ =\ 0x34,\ \ \ \ \ }
-\DoxyCodeLine{00970\ \ }
-\DoxyCodeLine{00972\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994}{FINGERPRINT\_ILLEGAL\_DATA}}\ =\ 0x35\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00973\ \ }
-\DoxyCodeLine{00974\ \ \}\ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}};}
-\DoxyCodeLine{00975\ }
-\DoxyCodeLine{00999\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_ac22bc43cb5b4e21246c6dbf734e6d919}{fingerprint\_status\_event\_handler}}(\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}}\ status,\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *packet);}
-\DoxyCodeLine{01000\ \ }
-\DoxyCodeLine{01015\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\_init}}(\textcolor{keywordtype}{void});}
-\DoxyCodeLine{01016\ }
-\DoxyCodeLine{01017\ \ }
-\DoxyCodeLine{01042\ }
-\DoxyCodeLine{01043\ \ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\_set\_command}}(\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *cmd,\ uint8\_t\ command,\ uint8\_t\ *params,\ uint8\_t\ param\_length);}
-\DoxyCodeLine{01044\ \ }
-\DoxyCodeLine{01053\ \ uint16\_t\ \mbox{\hyperlink{fingerprint_8h_a0d5b756311c0909b7f123085fb54e5b5}{fingerprint\_calculate\_checksum}}(\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *cmd);}
-\DoxyCodeLine{01054\ \ }
-\DoxyCodeLine{01069\ \ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}{fingerprint\_send\_command}}(\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *cmd,\ uint32\_t\ address);}
-\DoxyCodeLine{01070\ }
-\DoxyCodeLine{01088\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_adb364663a6f8cf989e0a0c055dc49de2}{read\_response\_task}}(\textcolor{keywordtype}{void}\ *pvParameter);}
-\DoxyCodeLine{01089\ \ }
-\DoxyCodeLine{01098\ \ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}*\ \mbox{\hyperlink{fingerprint_8h_a18e8b2af7dd860c312d730b5d1d30b7f}{fingerprint\_read\_response}}(\textcolor{keywordtype}{void});}
-\DoxyCodeLine{01099\ }
-\DoxyCodeLine{01108\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a000b0ea980a113df1b08387346a7a7fb}{process\_response\_task}}(\textcolor{keywordtype}{void}\ *pvParameter);}
-\DoxyCodeLine{01109\ }
-\DoxyCodeLine{01116\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{01117\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}}\ \mbox{\hyperlink{structfingerprint__response__t_ab7eb5421fac2d1aa880af62e107eecdc}{status}};\ }
-\DoxyCodeLine{01118\ \ \ \ \ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{structfingerprint__response__t_abf594f5d6b0073a60b382880bb56791b}{packet}};\ \ \ \ }
-\DoxyCodeLine{01119\ \}\ \mbox{\hyperlink{structfingerprint__response__t}{fingerprint\_response\_t}};}
-\DoxyCodeLine{01120\ }
-\DoxyCodeLine{01132\ }
-\DoxyCodeLine{01133\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{fingerprint_8h_acad8c23f5b4376d47d096cf989286d68}{fingerprint\_get\_next\_response}}(\mbox{\hyperlink{structfingerprint__response__t}{fingerprint\_response\_t}}\ *response,\ TickType\_t\ timeout);}
-\DoxyCodeLine{01134\ }
-\DoxyCodeLine{01149\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_aac65070f473460404b979dff8ca75bf2}{process\_fingerprint\_responses\_task}}(\textcolor{keywordtype}{void}\ *pvParameter);}
-\DoxyCodeLine{01150\ }
+\DoxyCodeLine{00968\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_afc3e62619085f018f8643dd594920a62}{PS\_SetPwd}};}
+\DoxyCodeLine{00969\ \ }
+\DoxyCodeLine{00979\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a928959be5d6dfed951392801b7010e8b}{PS\_VfyPwd}};}
+\DoxyCodeLine{00980\ \ }
+\DoxyCodeLine{00986\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a3a555d20d18c66cabfde4982fc757d65}{PS\_GetRandomCode}};}
+\DoxyCodeLine{00987\ \ }
+\DoxyCodeLine{00997\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ace4f99c616f2c9a5a61d2cc804a72635}{PS\_ReadNotepad}};}
+\DoxyCodeLine{00998\ \ }
+\DoxyCodeLine{01002\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a105683cebbfd541df8ba50d6df3b37a8}{PS\_DownChar}};}
+\DoxyCodeLine{01003\ }
+\DoxyCodeLine{01007\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a7704dbb198c160338884a15a3ef01203}{PS\_UpChar}};}
+\DoxyCodeLine{01008\ }
+\DoxyCodeLine{01022\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aeb574ccc855812d08218c92966c6ea59}{PS\_LoadChar}};}
+\DoxyCodeLine{01023\ }
+\DoxyCodeLine{01027\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a829abdcd1ef158c715058a1b2ed405a7}{PS\_BurnCode}};}
+\DoxyCodeLine{01028\ }
+\DoxyCodeLine{01034\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ae243d24ce9fa25ead1f1fccf0c22d806}{PS\_HandShake}};}
+\DoxyCodeLine{01035\ }
+\DoxyCodeLine{01048\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a8fe0e76ceb799b2fc34ab9a90cb80864}{PS\_ControlBLN}};}
+\DoxyCodeLine{01049\ }
+\DoxyCodeLine{01055\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a39b572fc25a81120d0868524bb44a87c}{PS\_GetImageInfo}};}
+\DoxyCodeLine{01056\ }
+\DoxyCodeLine{01067\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a0287773fa3edfdd6ced6ee27e891e412}{PS\_SearchNow}};}
+\DoxyCodeLine{01068\ }
+\DoxyCodeLine{01072\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_ab42f2079ba5448cddcd5f3c0ca2aef9c}{PS\_ValidTempleteNum}};}
+\DoxyCodeLine{01073\ }
+\DoxyCodeLine{01077\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aa46ebc75eb2fb94cde2ac30fcf8b8f29}{PS\_Sleep}};}
+\DoxyCodeLine{01078\ }
+\DoxyCodeLine{01082\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aa61a0c0c5c6bfe32a6650f61e9241b84}{PS\_LockKeyt}};}
+\DoxyCodeLine{01083\ }
+\DoxyCodeLine{01087\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a6ca21b7e91140d05e0ca8bcc20a381ec}{PS\_GetCiphertext}};}
+\DoxyCodeLine{01088\ }
+\DoxyCodeLine{01092\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_aeb1b58bc4812142db1f180b5f81efff2}{PS\_GetChipSN}};}
+\DoxyCodeLine{01093\ }
+\DoxyCodeLine{01097\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_af0e670df93dd042b2499d252e62b6330}{PS\_GetEnrollImage}};}
+\DoxyCodeLine{01098\ }
+\DoxyCodeLine{01109\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_afc475b21fe147ae6a5a87075ed1ce6c5}{PS\_WriteReg}};}
+\DoxyCodeLine{01110\ }
+\DoxyCodeLine{01120\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a013246c7b412ad6777655f5e9aab3d06}{PS\_ReadIndexTable}};}
+\DoxyCodeLine{01121\ }
+\DoxyCodeLine{01129\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a7704dbb198c160338884a15a3ef01203}{PS\_UpChar}};}
+\DoxyCodeLine{01130\ }
+\DoxyCodeLine{01138\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a105683cebbfd541df8ba50d6df3b37a8}{PS\_DownChar}};}
+\DoxyCodeLine{01139\ }
+\DoxyCodeLine{01150\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{fingerprint_8h_a96614d042eb8ad04504cc0f139924fef}{PS\_ReadINFPage}};}
 \DoxyCodeLine{01151\ }
-\DoxyCodeLine{01152\ \textcolor{comment}{//\ /**\ }}
-\DoxyCodeLine{01153\ \textcolor{comment}{//\ \ *\ @brief\ Queue\ handle\ for\ storing\ fingerprint\ module\ responses.}}
-\DoxyCodeLine{01154\ \textcolor{comment}{//\ \ *}}
-\DoxyCodeLine{01155\ \textcolor{comment}{//\ \ *\ This\ queue\ is\ used\ to\ store\ responses\ received\ from\ the\ fingerprint\ module.}}
-\DoxyCodeLine{01156\ \textcolor{comment}{//\ \ *\ Other\ components\ can\ retrieve\ responses\ from\ this\ queue\ for\ processing.}}
-\DoxyCodeLine{01157\ \textcolor{comment}{//\ \ */}}
-\DoxyCodeLine{01158\ \textcolor{comment}{//\ extern\ QueueHandle\_t\ fingerprint\_response\_queue;}}
-\DoxyCodeLine{01159\ }
-\DoxyCodeLine{01170\ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}}\ \mbox{\hyperlink{fingerprint_8h_a20092401e8301669fc2d595f02dc433d}{fingerprint\_get\_status}}(\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *packet);}
+\DoxyCodeLine{01152\ \ }
+\DoxyCodeLine{01159\ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{01161\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9f79c8e7182bcc032acb0fab7f9215cc}{FINGERPRINT\_OK}}\ =\ 0x00,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01162\ \ }
+\DoxyCodeLine{01164\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aafaf285f0d69ebf5d13978c7fddcc42d}{FINGERPRINT\_PACKET\_ERROR}}\ =\ 0x01,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01165\ \ }
+\DoxyCodeLine{01167\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac56fe3bb8e08a1718ca938e40904c0ea}{FINGERPRINT\_NO\_FINGER}}\ =\ 0x02,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01168\ \ }
+\DoxyCodeLine{01170\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ab374faac8b33660ae02706b9e51e1609}{FINGERPRINT\_IMAGE\_FAIL}}\ =\ 0x03,\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{01171\ \ }
-\DoxyCodeLine{01181\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a}{fingerprint\_set\_pins}}(\textcolor{keywordtype}{int}\ tx,\ \textcolor{keywordtype}{int}\ rx);}
-\DoxyCodeLine{01182\ \ }
-\DoxyCodeLine{01192\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a0b31fe5ffffcc895863a47bd7000c337}{fingerprint\_set\_baudrate}}(\textcolor{keywordtype}{int}\ baud);}
-\DoxyCodeLine{01193\ \ }
-\DoxyCodeLine{01194\ \ }
+\DoxyCodeLine{01173\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6989d0211719559b70de09031fd4be82}{FINGERPRINT\_TOO\_DRY}}\ =\ 0x04,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01174\ \ }
+\DoxyCodeLine{01176\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a661817d1d86d1c44914599e094090aac}{FINGERPRINT\_TOO\_WET}}\ =\ 0x05,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01177\ \ }
+\DoxyCodeLine{01179\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c9dbda89d28f27ce3870d8f81a74846}{FINGERPRINT\_TOO\_CHAOTIC}}\ =\ 0x06,\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01180\ \ }
+\DoxyCodeLine{01182\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a236482208145656de7059ba2f1a6016a}{FINGERPRINT\_TOO\_FEW\_POINTS}}\ =\ 0x07,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01183\ \ }
+\DoxyCodeLine{01185\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3a0048a0e07b676be0b5b51461044a6e}{FINGERPRINT\_MISMATCH}}\ =\ 0x08,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01186\ \ }
+\DoxyCodeLine{01188\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364afd93da8b0d09eb1740e0b3a7ee4aa0c9}{FINGERPRINT\_NOT\_FOUND}}\ =\ 0x09,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01189\ \ }
+\DoxyCodeLine{01191\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a16da1624aa1f363ff5b66db068758b74}{FINGERPRINT\_MERGE\_FAIL}}\ =\ 0x0A,\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01192\ \ }
+\DoxyCodeLine{01194\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7089b85ad0a69919eee558cca6105e0}{FINGERPRINT\_DB\_RANGE\_ERROR}}\ =\ 0x0B,\ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{01195\ \ }
-\DoxyCodeLine{01196\ \ }
-\DoxyCodeLine{01197\ \ }
-\DoxyCodeLine{01208\ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
-\DoxyCodeLine{01214\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea939a6cc6d749a232a23ff324dca6d48c}{EVENT\_NONE}}\ =\ -\/1,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01215\ }
-\DoxyCodeLine{01221\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b}{EVENT\_FINGER\_DETECTED}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01197\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abc1191932894e9ec2fa6653dbbd3ab8f}{FINGERPRINT\_READ\_TEMPLATE\_ERROR}}\ =\ 0x0C,\ \ \ \ \ }
+\DoxyCodeLine{01198\ \ }
+\DoxyCodeLine{01200\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7a971969b911ccd0cb8dd73697f0f300}{FINGERPRINT\_UPLOAD\_FEATURE\_FAIL}}\ =\ 0x0D,\ \ \ \ \ }
+\DoxyCodeLine{01201\ \ }
+\DoxyCodeLine{01203\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a47c705bb0a6d8b51798371eb37dd64e1}{FINGERPRINT\_DATA\_PACKET\_ERROR}}\ =\ 0x0E,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01204\ \ }
+\DoxyCodeLine{01206\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5d79e75bfb01bf614dbb1a25621a31a8}{FINGERPRINT\_UPLOAD\_IMAGE\_FAIL}}\ =\ 0x0F,\ \ \ \ \ \ \ }
+\DoxyCodeLine{01207\ \ }
+\DoxyCodeLine{01209\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a2ec545af10a1636278e90807ee532b02}{FINGERPRINT\_DELETE\_TEMPLATE\_FAIL}}\ =\ 0x10,\ \ \ \ }
+\DoxyCodeLine{01210\ \ }
+\DoxyCodeLine{01212\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a14651fcc5b4e1c1336ac3563bdf98ed7}{FINGERPRINT\_DB\_CLEAR\_FAIL}}\ =\ 0x11,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01213\ \ }
+\DoxyCodeLine{01215\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364abf4d96b24f221d0f81726d7ef6d8aac1}{FINGERPRINT\_LOW\_POWER\_FAIL}}\ =\ 0x12,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01216\ \ }
+\DoxyCodeLine{01218\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a02ec3c8ba78fe38bab79a3b8db2b3633}{FINGERPRINT\_WRONG\_PASSWORD}}\ =\ 0x13,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01219\ \ }
+\DoxyCodeLine{01221\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a9a52b12be173f900a9acfafc04db35b1}{FINGERPRINT\_NO\_VALID\_IMAGE}}\ =\ 0x15,\ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{01222\ \ }
-\DoxyCodeLine{01228\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9}{EVENT\_IMAGE\_CAPTURED}},\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01229\ \ }
-\DoxyCodeLine{01235\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b}{EVENT\_FEATURE\_EXTRACTED}},\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01236\ \ }
-\DoxyCodeLine{01242\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6}{EVENT\_MATCH\_SUCCESS}},\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01224\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ace8a4bd2d70a5cfd820cc2160f2b0b6a}{FINGERPRINT\_UPGRADE\_FAIL}}\ =\ 0x16,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01225\ \ }
+\DoxyCodeLine{01227\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5808794de859fb0a6ea835c4f243c340}{FINGERPRINT\_RESIDUAL\_FINGER}}\ =\ 0x17,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01228\ \ }
+\DoxyCodeLine{01230\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a13f8ae98a3cca4ed6de77dcf672b0b2e}{FINGERPRINT\_FLASH\_RW\_ERROR}}\ =\ 0x18,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01231\ \ }
+\DoxyCodeLine{01233\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a5994b4fccdce45a4f046d2f58c19da96}{FINGERPRINT\_RANDOM\_GEN\_FAIL}}\ =\ 0x19,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01234\ \ }
+\DoxyCodeLine{01236\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a86d23180facae1f6fe856002b2914fc9}{FINGERPRINT\_INVALID\_REGISTER}}\ =\ 0x1A,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01237\ \ }
+\DoxyCodeLine{01239\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a516fa0c7c7de223bf9b9d9e83b53e1f8}{FINGERPRINT\_REGISTER\_SETTING\_ERROR}}\ =\ 0x1B,\ \ }
+\DoxyCodeLine{01240\ \ }
+\DoxyCodeLine{01242\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a7f578adf38a871a5e48c329a053b1bc3}{FINGERPRINT\_NOTEPAD\_PAGE\_ERROR}}\ =\ 0x1C,\ \ \ \ \ \ }
 \DoxyCodeLine{01243\ \ }
-\DoxyCodeLine{01249\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63}{EVENT\_MATCH\_FAIL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01250\ \ }
-\DoxyCodeLine{01256\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a}{EVENT\_ERROR}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01257\ \ }
-\DoxyCodeLine{01263\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea7ba4dbb06dfd6e55e77531a98e45382a}{EVENT\_IMAGE\_FAIL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01245\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ac7fe089a7e843f415dc14a92a73d48ac}{FINGERPRINT\_PORT\_OP\_FAIL}}\ =\ 0x1D,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01246\ \ }
+\DoxyCodeLine{01248\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6e1da80c751af78a521a81b582e884d4}{FINGERPRINT\_ENROLL\_FAIL}}\ =\ 0x1E,\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01249\ \ }
+\DoxyCodeLine{01251\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a154c69a68edb7dad9cbd335a12666bfb}{FINGERPRINT\_DB\_FULL}}\ =\ 0x1F,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01252\ \ }
+\DoxyCodeLine{01254\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aee3ab1960135e8c8b99eb7c3ce15cc51}{FINGERPRINT\_DEVICE\_ADDRESS\_ERROR}}\ =\ 0x20,\ \ \ \ }
+\DoxyCodeLine{01255\ \ }
+\DoxyCodeLine{01257\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3b502a98c73a6e44d473c5a2e1c906df}{FINGERPRINT\_TEMPLATE\_NOT\_EMPTY}}\ =\ 0x22,\ \ \ \ \ \ }
+\DoxyCodeLine{01258\ \ }
+\DoxyCodeLine{01260\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae67673d0fa0f4e4e5410b280d758529e}{FINGERPRINT\_TEMPLATE\_EMPTY}}\ =\ 0x23,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01261\ \ }
+\DoxyCodeLine{01263\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364af4ecd176b0bac7ca3ee32edd0b3f0581}{FINGERPRINT\_DB\_EMPTY}}\ =\ 0x24,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{01264\ \ }
-\DoxyCodeLine{01270\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aead081bd29ae5c73e876ada30fba4aa662}{EVENT\_FEATURE\_EXTRACT\_FAIL}},\ \ \ \ \ }
-\DoxyCodeLine{01271\ \ }
-\DoxyCodeLine{01277\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8ac0d84de03764aaacb0d296b7aaeb19}{EVENT\_DB\_FULL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01278\ \ }
-\DoxyCodeLine{01284\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab213512d60aa61fb662ae5ceaa26a791}{EVENT\_SENSOR\_ERROR}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01285\ }
-\DoxyCodeLine{01291\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea2fd7b13651ba5f27bd6ac1f25d758353}{EVENT\_ENROLL\_SUCCESS}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01292\ }
-\DoxyCodeLine{01298\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea61355a3b589ff4140c09d60f1436e8da}{EVENT\_ENROLL\_FAIL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01299\ }
-\DoxyCodeLine{01305\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa7005226b49c387cd2bf06605f52df84}{EVENT\_TEMPLATE\_STORED}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01306\ }
-\DoxyCodeLine{01312\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9b2b1924cf1dc383c7cf7e6721bcf279}{EVENT\_TEMPLATE\_DELETED}},\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01313\ }
-\DoxyCodeLine{01319\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaf3ac6421c515d49b8278c14d9ceb8868}{EVENT\_LOW\_POWER\_MODE}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01320\ }
-\DoxyCodeLine{01326\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea596dc8c1b60ba4769e5f606b5d75f23c}{EVENT\_TIMEOUT}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01327\ }
-\DoxyCodeLine{01333\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafdbee660971b3da1a54885db913c82eb}{EVENT\_NO\_FINGER\_DETECTED}},\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01334\ }
-\DoxyCodeLine{01341\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a}{EVENT\_SCANNER\_READY}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01342\ }
-\DoxyCodeLine{01348\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6cd995e8194e1f0a070095ff8bf38fd5}{EVENT\_TEMPLATE\_MERGED}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{01349\ }
-\DoxyCodeLine{01355\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab74564eef4caa759f08965525ac1a488}{EVENT\_TEMPLATE\_STORE\_SUCCESS}},\ }
-\DoxyCodeLine{01356\ }
-\DoxyCodeLine{01362\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac5955e01f2a2f8dea94f688dbd80771e}{EVENT\_TEMPLATE\_STORE\_PACKET\_ERROR}},\ }
-\DoxyCodeLine{01363\ }
-\DoxyCodeLine{01369\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6749811c1fdb261c8232ed48e94765ad}{EVENT\_TEMPLATE\_STORE\_OUT\_OF\_RANGE}},\ }
-\DoxyCodeLine{01370\ }
-\DoxyCodeLine{01376\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea4752b0433f37367de8cce6cfc4a90c1e}{EVENT\_TEMPLATE\_STORE\_FLASH\_ERROR}},\ }
-\DoxyCodeLine{01377\ }
-\DoxyCodeLine{01383\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeae4d3f9b6c168cbe517d4e66663944141}{EVENT\_TEMPLATE\_STORE\_ENCRYPTION\_MISMATCH}},\ }
+\DoxyCodeLine{01266\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a3c0fcd25aeee8d3f952beef364cb2b03}{FINGERPRINT\_ENTRY\_COUNT\_ERROR}}\ =\ 0x25,\ \ \ \ \ \ \ }
+\DoxyCodeLine{01267\ \ }
+\DoxyCodeLine{01269\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a087f39f36bc30f17ab2afaba0ba02b36}{FINGERPRINT\_TIMEOUT}}\ =\ 0x26,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01270\ \ }
+\DoxyCodeLine{01272\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a39c9ea302b675a24c7a8c54c0e278bfb}{FINGERPRINT\_ALREADY\_EXISTS}}\ =\ 0x27,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01273\ \ }
+\DoxyCodeLine{01275\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a61ce2023520878e534936b88440f84ef}{FINGERPRINT\_FEATURES\_RELATED}}\ =\ 0x28,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01276\ \ }
+\DoxyCodeLine{01278\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a63da31d0f0254b0c15974bbcbca46362}{FINGERPRINT\_SENSOR\_OP\_FAIL}}\ =\ 0x29,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01279\ \ }
+\DoxyCodeLine{01281\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364adf3f0c362fda9961e1f9cc14f9e368b7}{FINGERPRINT\_MODULE\_INFO\_NOT\_EMPTY}}\ =\ 0x2A,\ \ \ }
+\DoxyCodeLine{01282\ \ }
+\DoxyCodeLine{01284\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a0de3fa556c1f120bbe76eb653b378932}{FINGERPRINT\_MODULE\_INFO\_EMPTY}}\ =\ 0x2B,\ \ \ \ \ \ \ }
+\DoxyCodeLine{01285\ \ }
+\DoxyCodeLine{01287\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a4c7c3b1389938372180197e50dff74f9}{FINGERPRINT\_OTP\_FAIL}}\ =\ 0x2C,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01288\ \ }
+\DoxyCodeLine{01290\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa6725fd16ac4c2c41b89557153ce8596}{FINGERPRINT\_KEY\_GEN\_FAIL}}\ =\ 0x2D,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01291\ \ }
+\DoxyCodeLine{01293\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a31dd8973e514372c79d8c59c250ea906}{FINGERPRINT\_KEY\_NOT\_EXIST}}\ =\ 0x2E,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01294\ \ }
+\DoxyCodeLine{01296\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a145ad511962e5efee64ada7c59670bb0}{FINGERPRINT\_SECURITY\_ALGO\_FAIL}}\ =\ 0x2F,\ \ \ \ \ \ }
+\DoxyCodeLine{01297\ \ }
+\DoxyCodeLine{01299\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae680dc9dfb1f9ac34acfa3f763f141bf}{FINGERPRINT\_ENCRYPTION\_MISMATCH}}\ =\ 0x30,\ \ \ \ \ }
+\DoxyCodeLine{01300\ }
+\DoxyCodeLine{01302\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ad57ada34a4af1ac0b14132665489c461}{FINGERPRINT\_FUNCTION\_ENCRYPTION\_MISMATCH}}\ =\ 0x31,}
+\DoxyCodeLine{01303\ }
+\DoxyCodeLine{01305\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364ae4c56523c3572ac40a09c6a675628222}{FINGERPRINT\_KEY\_LOCKED}}\ =\ 0x32,\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01306\ \ }
+\DoxyCodeLine{01308\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a40bc45547c74bffe4f06358b505700a1}{FINGERPRINT\_IMAGE\_AREA\_SMALL}}\ =\ 0x33,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01309\ \ }
+\DoxyCodeLine{01311\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364a6fde268a1f60c3c9c13509cdbb634385}{FINGERPRINT\_IMAGE\_NOT\_AVAILABLE}}\ =\ 0x34,\ \ \ \ \ }
+\DoxyCodeLine{01312\ \ }
+\DoxyCodeLine{01314\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364aa2edeeabf6bf77ffcc3c7c9b2fcbe994}{FINGERPRINT\_ILLEGAL\_DATA}}\ =\ 0x35\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01315\ \ }
+\DoxyCodeLine{01316\ \ \}\ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}};}
+\DoxyCodeLine{01317\ }
+\DoxyCodeLine{01341\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_ac22bc43cb5b4e21246c6dbf734e6d919}{fingerprint\_status\_event\_handler}}(\mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}}\ status,\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *packet);}
+\DoxyCodeLine{01342\ \ }
+\DoxyCodeLine{01357\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a759d58795c9a87a5d2fa233e52e5d580}{fingerprint\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01358\ }
+\DoxyCodeLine{01359\ \ }
 \DoxyCodeLine{01384\ }
-\DoxyCodeLine{01390\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8abaa386f1b511451aa9dedb45d85c8d}{EVENT\_TEMPLATE\_STORE\_ILLEGAL\_DATA}},\ }
-\DoxyCodeLine{01391\ }
-\DoxyCodeLine{01401\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8d1b5cc31ca283c90a8753c567c9d120}{EVENT\_SEARCH\_SUCCESS}},\ \ }
-\DoxyCodeLine{01402\ }
-\DoxyCodeLine{01408\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab0334462eeaa056529013dc573e2f8ef}{EVENT\_TEMPLATE\_COUNT}},\ }
-\DoxyCodeLine{01409\ }
-\DoxyCodeLine{01415\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9362cb3423d5fb5f2226467d763cd111}{EVENT\_INDEX\_TABLE\_READ}},\ }
-\DoxyCodeLine{01416\ }
-\DoxyCodeLine{01422\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeacbc24e6ab59f179f0d266e6b59cac30e}{EVENT\_MODEL\_CREATED}},\ }
-\DoxyCodeLine{01423\ }
-\DoxyCodeLine{01429\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9f39a06e55c32b00c1d1dca7c88c1ced}{EVENT\_TEMPLATE\_UPLOADED}},\ \ }
-\DoxyCodeLine{01430\ }
-\DoxyCodeLine{01436\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6bbed6f6e30a4614fd6b72c59ab80f93}{EVENT\_TEMPLATE\_DOWNLOADED}},\ \ }
-\DoxyCodeLine{01437\ }
-\DoxyCodeLine{01443\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea07eb0413541718460774793e18b0cf11}{EVENT\_DB\_CLEARED}},\ \ }
-\DoxyCodeLine{01444\ }
-\DoxyCodeLine{01445\ }
-\DoxyCodeLine{01446\ \ \}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\_event\_type\_t}};}
-\DoxyCodeLine{01447\ }
-\DoxyCodeLine{01457\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
-\DoxyCodeLine{01458\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\_event\_type\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}{type}};\ \ }
-\DoxyCodeLine{01459\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}};\ \ \ \ }
-\DoxyCodeLine{01460\ \ \ \ \ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}};\ \ \ \ \ \ \ }
-\DoxyCodeLine{01461\ \}\ \mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}};}
-\DoxyCodeLine{01462\ }
-\DoxyCodeLine{01463\ \ }
-\DoxyCodeLine{01473\ \ \textcolor{keyword}{typedef}\ void\ (*\mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\_event\_handler\_t}})(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}\ event);}
-\DoxyCodeLine{01474\ \ }
-\DoxyCodeLine{01482\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\_event\_handler\_t}}\ \mbox{\hyperlink{fingerprint_8h_ac1bc88ca9eeff4bcae8ac419f8653c07}{g\_fingerprint\_event\_handler}};}
-\DoxyCodeLine{01483\ \ }
-\DoxyCodeLine{01493\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16}{register\_fingerprint\_event\_handler}}(\textcolor{keywordtype}{void}\ (*handler)(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}));}
-\DoxyCodeLine{01494\ \ }
-\DoxyCodeLine{01504\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f}{trigger\_fingerprint\_event}}(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}\ event);}
-\DoxyCodeLine{01505\ }
-\DoxyCodeLine{01536\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a7b34c403a57b0b6db25994554ae7fe98}{enroll\_fingerprint}}(uint16\_t\ location);}
-\DoxyCodeLine{01537\ }
-\DoxyCodeLine{01538\ }
-\DoxyCodeLine{01545\ \textcolor{preprocessor}{\#define\ ENROLL\_BIT\_SUCCESS\ BIT0}}
-\DoxyCodeLine{01546\ }
-\DoxyCodeLine{01553\ \textcolor{preprocessor}{\#define\ ENROLL\_BIT\_FAIL\ BIT1}}
-\DoxyCodeLine{01554\ }
-\DoxyCodeLine{01561\ \textcolor{keyword}{static}\ EventGroupHandle\_t\ \mbox{\hyperlink{fingerprint_8h_aeb4fc4aba1a22ae72ee5746099c3a18e}{enroll\_event\_group}}\ =\ NULL;}
-\DoxyCodeLine{01562\ }
-\DoxyCodeLine{01575\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_af73611117782f343652a3693d257e951}{verify\_fingerprint}}(\textcolor{keywordtype}{void});}
-\DoxyCodeLine{01576\ }
-\DoxyCodeLine{01589\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a1f48d3dd2566720cfd011998cb0283f7}{delete\_fingerprint}}(uint16\_t\ location);}
-\DoxyCodeLine{01590\ }
-\DoxyCodeLine{01602\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a794755b7350e8cb9864948b9b35c0fd9}{clear\_database}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01385\ \ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_aa621bd8222b32b5d2245f92e22934655}{fingerprint\_set\_command}}(\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *cmd,\ uint8\_t\ command,\ uint8\_t\ *params,\ uint8\_t\ param\_length);}
+\DoxyCodeLine{01386\ \ }
+\DoxyCodeLine{01395\ \ uint16\_t\ \mbox{\hyperlink{fingerprint_8h_a0d5b756311c0909b7f123085fb54e5b5}{fingerprint\_calculate\_checksum}}(\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *cmd);}
+\DoxyCodeLine{01396\ \ }
+\DoxyCodeLine{01411\ \ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a25d10be1c372a32ba6e9ff2eb7cc60cb}{fingerprint\_send\_command}}(\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *cmd,\ uint32\_t\ address);}
+\DoxyCodeLine{01412\ }
+\DoxyCodeLine{01430\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_adb364663a6f8cf989e0a0c055dc49de2}{read\_response\_task}}(\textcolor{keywordtype}{void}\ *pvParameter);}
+\DoxyCodeLine{01431\ }
+\DoxyCodeLine{01432\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{01433\ \ \ \ \ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ **\mbox{\hyperlink{struct_multi_packet_response_ad7e9e273fb485ec9b0edf35d5545d2f9}{packets}};\ \ \textcolor{comment}{//\ Array\ of\ packet\ pointers}}
+\DoxyCodeLine{01434\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_multi_packet_response_a9f3e197ff602ec6f2af70f57f8730cdd}{count}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Number\ of\ packets\ found}}
+\DoxyCodeLine{01435\ \ \ \ \ }
+\DoxyCodeLine{01436\ \ \ \ \ \textcolor{comment}{//\ Template\ collection\ fields}}
+\DoxyCodeLine{01437\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_multi_packet_response_a2b2fcb2e2c920355be1207a141fa6000}{collecting\_template}};\ \ \ \ \ \textcolor{comment}{//\ Flag\ indicating\ active\ collection}}
+\DoxyCodeLine{01438\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_multi_packet_response_a192c5e2a950df50e54ebde3802fb2a89}{template\_complete}};\ \ \ \ \ \ \ \textcolor{comment}{//\ Flag\ indicating\ template\ is\ complete}}
+\DoxyCodeLine{01439\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_multi_packet_response_a11d1c0277cf52ca9edd3ad32565eeabf}{start\_time}};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ When\ collection\ started\ (for\ timeout)}}
+\DoxyCodeLine{01440\ \ \ \ \ }
+\DoxyCodeLine{01441\ \ \ \ \ \textcolor{comment}{//\ Raw\ template\ data\ accumulation}}
+\DoxyCodeLine{01442\ \ \ \ \ uint8\_t\ *\mbox{\hyperlink{struct_multi_packet_response_afe034c354b3046ff070781c33b049d98}{template\_data}};\ \ \ \ \ \ \ \textcolor{comment}{//\ Combined\ template\ data\ buffer}}
+\DoxyCodeLine{01443\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_multi_packet_response_ada2bd74bdb52196268aa32f6735b050d}{template\_size}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Current\ size\ of\ accumulated\ template}}
+\DoxyCodeLine{01444\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{struct_multi_packet_response_ac6cec45a0b896138a3038e9b743d7578}{template\_capacity}};\ \ \ \ \ \textcolor{comment}{//\ Allocated\ capacity\ of\ template\_data}}
+\DoxyCodeLine{01445\ \}\ \mbox{\hyperlink{struct_multi_packet_response}{MultiPacketResponse}};}
+\DoxyCodeLine{01446\ \ }
+\DoxyCodeLine{01455\ \textcolor{comment}{//\ \ FingerprintPacket*\ fingerprint\_read\_response(void);}}
+\DoxyCodeLine{01456\ \mbox{\hyperlink{struct_multi_packet_response}{MultiPacketResponse}}*\ \mbox{\hyperlink{fingerprint_8h_a86bbdf25b64da0def2418a308fbc81cf}{fingerprint\_read\_response}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{01457\ }
+\DoxyCodeLine{01466\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a000b0ea980a113df1b08387346a7a7fb}{process\_response\_task}}(\textcolor{keywordtype}{void}\ *pvParameter);}
+\DoxyCodeLine{01467\ }
+\DoxyCodeLine{01474\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{01475\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}}\ \mbox{\hyperlink{structfingerprint__response__t_ab7eb5421fac2d1aa880af62e107eecdc}{status}};\ }
+\DoxyCodeLine{01476\ \ \ \ \ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{structfingerprint__response__t_abf594f5d6b0073a60b382880bb56791b}{packet}};\ \ \ \ }
+\DoxyCodeLine{01477\ \}\ \mbox{\hyperlink{structfingerprint__response__t}{fingerprint\_response\_t}};}
+\DoxyCodeLine{01478\ }
+\DoxyCodeLine{01479\ \textcolor{comment}{//\ /**\ }}
+\DoxyCodeLine{01480\ \textcolor{comment}{//\ \ *\ @brief\ Queue\ handle\ for\ storing\ fingerprint\ module\ responses.}}
+\DoxyCodeLine{01481\ \textcolor{comment}{//\ \ *}}
+\DoxyCodeLine{01482\ \textcolor{comment}{//\ \ *\ This\ queue\ is\ used\ to\ store\ responses\ received\ from\ the\ fingerprint\ module.}}
+\DoxyCodeLine{01483\ \textcolor{comment}{//\ \ *\ Other\ components\ can\ retrieve\ responses\ from\ this\ queue\ for\ processing.}}
+\DoxyCodeLine{01484\ \textcolor{comment}{//\ \ */}}
+\DoxyCodeLine{01485\ \textcolor{comment}{//\ extern\ QueueHandle\_t\ fingerprint\_response\_queue;}}
+\DoxyCodeLine{01486\ }
+\DoxyCodeLine{01497\ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}}\ \mbox{\hyperlink{fingerprint_8h_a20092401e8301669fc2d595f02dc433d}{fingerprint\_get\_status}}(\mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ *packet);}
+\DoxyCodeLine{01498\ \ }
+\DoxyCodeLine{01508\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a9d930710d85ff4f3085dd32e2ce89a8a}{fingerprint\_set\_pins}}(\textcolor{keywordtype}{int}\ tx,\ \textcolor{keywordtype}{int}\ rx);}
+\DoxyCodeLine{01509\ \ }
+\DoxyCodeLine{01519\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a0b31fe5ffffcc895863a47bd7000c337}{fingerprint\_set\_baudrate}}(\textcolor{keywordtype}{int}\ baud);}
+\DoxyCodeLine{01520\ \ }
+\DoxyCodeLine{01521\ \ }
+\DoxyCodeLine{01522\ \ }
+\DoxyCodeLine{01523\ \ }
+\DoxyCodeLine{01524\ \ }
+\DoxyCodeLine{01535\ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{01541\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea939a6cc6d749a232a23ff324dca6d48c}{EVENT\_NONE}}\ =\ -\/1,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01542\ }
+\DoxyCodeLine{01556\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea603fb16ec367104f40d98dea5d710e2b}{EVENT\_FINGER\_DETECTED}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01557\ \ }
+\DoxyCodeLine{01571\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaeaeb81c0ee77f9345d3b965abc2387f9}{EVENT\_IMAGE\_CAPTURED}},\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01572\ \ }
+\DoxyCodeLine{01588\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f5eb993d59aba8c41d37b86320efc1b}{EVENT\_FEATURE\_EXTRACTED}},\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01589\ \ }
+\DoxyCodeLine{01595\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafaa6b739c7ab8f0f0120f4697cc3a9e6}{EVENT\_MATCH\_SUCCESS}},\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01596\ \ }
+\DoxyCodeLine{01602\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac16d33bd72e724f022d365db1ea16e63}{EVENT\_MATCH\_FAIL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{01603\ \ }
-\DoxyCodeLine{01604\ \textcolor{preprocessor}{\ \#ifdef\ \_\_cplusplus}}
-\DoxyCodeLine{01605\ \ \}}
-\DoxyCodeLine{01606\ \textcolor{preprocessor}{\ \#endif}}
-\DoxyCodeLine{01607\ \ }
-\DoxyCodeLine{01608\ \textcolor{preprocessor}{\ \#endif\ }\textcolor{comment}{//\ FINGERPRINT\_H}}
+\DoxyCodeLine{01616\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaa45fa5ecff86270d410d4c89c527898a}{EVENT\_ERROR}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01617\ \ }
+\DoxyCodeLine{01632\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea7ba4dbb06dfd6e55e77531a98e45382a}{EVENT\_IMAGE\_FAIL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01633\ \ }
+\DoxyCodeLine{01649\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aead081bd29ae5c73e876ada30fba4aa662}{EVENT\_FEATURE\_EXTRACT\_FAIL}},\ \ \ \ \ }
+\DoxyCodeLine{01650\ \ }
+\DoxyCodeLine{01656\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8ac0d84de03764aaacb0d296b7aaeb19}{EVENT\_DB\_FULL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01657\ \ }
+\DoxyCodeLine{01663\ \ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab213512d60aa61fb662ae5ceaa26a791}{EVENT\_SENSOR\_ERROR}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01664\ }
+\DoxyCodeLine{01670\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea2fd7b13651ba5f27bd6ac1f25d758353}{EVENT\_ENROLL\_SUCCESS}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01671\ }
+\DoxyCodeLine{01677\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea61355a3b589ff4140c09d60f1436e8da}{EVENT\_ENROLL\_FAIL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01678\ }
+\DoxyCodeLine{01691\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea775d08cd9b805ec0857933141c5d2d27}{EVENT\_TEMPLATE\_RESTORED\_SUCCESSUL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01692\ }
+\DoxyCodeLine{01708\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeadde58dcfb3144d5c0b6d4ea9ed03ea18}{EVENT\_TEMPLATE\_RESTORED\_FAIL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01709\ }
+\DoxyCodeLine{01722\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9b2b1924cf1dc383c7cf7e6721bcf279}{EVENT\_TEMPLATE\_DELETED}},\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01723\ }
+\DoxyCodeLine{01729\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab9a20bb0276b085cdafc503175d5ebc0}{EVENT\_TEMPLATE\_DELETE\_FAIL}},\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01730\ }
+\DoxyCodeLine{01746\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeaf3ac6421c515d49b8278c14d9ceb8868}{EVENT\_LOW\_POWER\_MODE}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01747\ }
+\DoxyCodeLine{01761\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea596dc8c1b60ba4769e5f606b5d75f23c}{EVENT\_TIMEOUT}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01762\ }
+\DoxyCodeLine{01775\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeafdbee660971b3da1a54885db913c82eb}{EVENT\_NO\_FINGER\_DETECTED}},\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01776\ }
+\DoxyCodeLine{01789\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1f4611acbc4a712f5359bd75e5193d9a}{EVENT\_SCANNER\_READY}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01790\ }
+\DoxyCodeLine{01806\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6cd995e8194e1f0a070095ff8bf38fd5}{EVENT\_TEMPLATE\_MERGED}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{01807\ }
+\DoxyCodeLine{01822\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab74564eef4caa759f08965525ac1a488}{EVENT\_TEMPLATE\_STORE\_SUCCESS}},\ }
+\DoxyCodeLine{01823\ }
+\DoxyCodeLine{01837\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac5955e01f2a2f8dea94f688dbd80771e}{EVENT\_TEMPLATE\_STORE\_PACKET\_ERROR}},\ }
+\DoxyCodeLine{01838\ }
+\DoxyCodeLine{01851\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6749811c1fdb261c8232ed48e94765ad}{EVENT\_TEMPLATE\_STORE\_OUT\_OF\_RANGE}},\ }
+\DoxyCodeLine{01852\ }
+\DoxyCodeLine{01865\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea4752b0433f37367de8cce6cfc4a90c1e}{EVENT\_TEMPLATE\_STORE\_FLASH\_ERROR}},\ }
+\DoxyCodeLine{01866\ }
+\DoxyCodeLine{01878\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeae4d3f9b6c168cbe517d4e66663944141}{EVENT\_TEMPLATE\_STORE\_ENCRYPTION\_MISMATCH}},\ }
+\DoxyCodeLine{01879\ }
+\DoxyCodeLine{01892\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8abaa386f1b511451aa9dedb45d85c8d}{EVENT\_TEMPLATE\_STORE\_ILLEGAL\_DATA}},\ }
+\DoxyCodeLine{01893\ }
+\DoxyCodeLine{01909\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea8d1b5cc31ca283c90a8753c567c9d120}{EVENT\_SEARCH\_SUCCESS}},\ \ }
+\DoxyCodeLine{01910\ }
+\DoxyCodeLine{01923\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab0334462eeaa056529013dc573e2f8ef}{EVENT\_TEMPLATE\_COUNT}},\ }
+\DoxyCodeLine{01924\ }
+\DoxyCodeLine{01938\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9362cb3423d5fb5f2226467d763cd111}{EVENT\_INDEX\_TABLE\_READ}},\ }
+\DoxyCodeLine{01939\ }
+\DoxyCodeLine{01956\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeacbc24e6ab59f179f0d266e6b59cac30e}{EVENT\_MODEL\_CREATED}},\ }
+\DoxyCodeLine{01957\ }
+\DoxyCodeLine{01972\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea9f39a06e55c32b00c1d1dca7c88c1ced}{EVENT\_TEMPLATE\_UPLOADED}},\ \ }
+\DoxyCodeLine{01973\ }
+\DoxyCodeLine{01988\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea6bbed6f6e30a4614fd6b72c59ab80f93}{EVENT\_TEMPLATE\_DOWNLOADED}},\ \ }
+\DoxyCodeLine{01989\ }
+\DoxyCodeLine{02003\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea07eb0413541718460774793e18b0cf11}{EVENT\_DB\_CLEARED}},\ \ }
+\DoxyCodeLine{02004\ }
+\DoxyCodeLine{02019\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea200fdd4e451dedbf80b7a327245589a2}{EVENT\_SYS\_PARAMS\_READ}},\ \ }
+\DoxyCodeLine{02020\ }
+\DoxyCodeLine{02033\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeac1ecad6e6e4f818ce275522e16ec434d}{EVENT\_TEMPLATE\_EXISTS}},\ \ }
+\DoxyCodeLine{02034\ }
+\DoxyCodeLine{02048\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea5cf4e40a2cea2ab53d3ec155e6952b97}{EVENT\_TEMPLATE\_UPLOAD\_FAIL}},\ \ }
+\DoxyCodeLine{02049\ }
+\DoxyCodeLine{02064\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea98891e88cd0aa365af198b4e2c054e1a}{EVENT\_INFO\_PAGE\_READ}},}
+\DoxyCodeLine{02065\ }
+\DoxyCodeLine{02080\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea1bfcd0bdeec43f078a1031f6cccb8e78}{EVENT\_TEMPLATE\_LOADED}},}
+\DoxyCodeLine{02081\ }
+\DoxyCodeLine{02095\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea28b68d343e7a6e364e6891cae4dc39fa}{EVENT\_SET\_CHIP\_ADDRESS\_SUCCESS}},}
+\DoxyCodeLine{02096\ \ \ \ \ }
+\DoxyCodeLine{02110\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aead281769970336ea3e27654aaf763480e}{EVENT\_SET\_CHIP\_ADDRESS\_FAIL}},}
+\DoxyCodeLine{02111\ }
+\DoxyCodeLine{02125\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab8b82e7fb66cd086f6658b1ca0994343}{EVENT\_PACKET\_RECEPTION\_FAIL}},\ }
+\DoxyCodeLine{02126\ }
+\DoxyCodeLine{02142\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aeab449df3c72691894f10dfe66ac5e3e9a}{EVENT\_ENROLLMENT\_COMPLETE}},\ \ \ }
+\DoxyCodeLine{02143\ }
+\DoxyCodeLine{02158\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5aea7c87467c0dd84a2f0f43adc6dc921f24}{EVENT\_ENROLLMENT\_FAIL}},\ \ \ \ \ \ \ }
+\DoxyCodeLine{02159\ }
+\DoxyCodeLine{02160\ \ \}\ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\_event\_type\_t}};}
+\DoxyCodeLine{02161\ }
+\DoxyCodeLine{02170\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{02177\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__sys__params__t_a83efb30b676a44aba5c9b56d404c8b99}{status\_register}};}
+\DoxyCodeLine{02178\ }
+\DoxyCodeLine{02184\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__sys__params__t_a0771f0d0e08000c29f6e820fd1bfc1d7}{template\_size}};}
+\DoxyCodeLine{02185\ }
+\DoxyCodeLine{02192\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__sys__params__t_a93c1b7989ad7096c4aedf7d5446b7dff}{database\_size}};}
+\DoxyCodeLine{02193\ }
+\DoxyCodeLine{02200\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__sys__params__t_ab21c37b1d3c1a3697e73ee35e7ac0238}{security\_level}};}
+\DoxyCodeLine{02201\ }
+\DoxyCodeLine{02208\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structfingerprint__sys__params__t_a9123aceda2b40426d4b3e5752f3ca250}{device\_address}};}
+\DoxyCodeLine{02209\ }
+\DoxyCodeLine{02216\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__sys__params__t_adef55e343cfbb44c192020a13e9e4d63}{data\_packet\_size}};}
+\DoxyCodeLine{02217\ }
+\DoxyCodeLine{02224\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__sys__params__t_a535c80fe48cb787340601b52d7fc6a73}{baud\_rate}};}
+\DoxyCodeLine{02225\ }
+\DoxyCodeLine{02226\ }
+\DoxyCodeLine{02227\ \}\ \mbox{\hyperlink{structfingerprint__sys__params__t}{fingerprint\_sys\_params\_t}};}
+\DoxyCodeLine{02228\ }
+\DoxyCodeLine{02229\ }
+\DoxyCodeLine{02237\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{02238\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__match__info__t_ab57a95203049b962010afbfc99802236}{page\_id}};\ \ \ \ \ }
+\DoxyCodeLine{02239\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__match__info__t_a6831ed783096abae59d0dc4281825372}{template\_id}};\ }
+\DoxyCodeLine{02240\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__match__info__t_a807f1effb748b02f82ee9dc8926fd92b}{match\_score}};\ }
+\DoxyCodeLine{02241\ \}\ \mbox{\hyperlink{structfingerprint__match__info__t}{fingerprint\_match\_info\_t}};}
+\DoxyCodeLine{02242\ }
+\DoxyCodeLine{02249\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{02250\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__template__count__t_a2a286357d8e94a5013b0eb62c4a532be}{count}};\ }
+\DoxyCodeLine{02251\ \}\ \mbox{\hyperlink{structfingerprint__template__count__t}{fingerprint\_template\_count\_t}};}
+\DoxyCodeLine{02252\ }
+\DoxyCodeLine{02253\ \textcolor{comment}{//\ In\ fingerprint.h\ -\/\ Add\ this\ structure}}
+\DoxyCodeLine{02254\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{02255\ \ \ \ \ uint8\_t*\ \mbox{\hyperlink{structfingerprint__template__buffer__t_afba08a3e7fd83afe9e0b9deaafdb97b0}{data}};\ \ \ \ \textcolor{comment}{//\ Pointer\ to\ complete\ template\ data}}
+\DoxyCodeLine{02256\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structfingerprint__template__buffer__t_a49c99ed580e646cccd85b2bda90730ca}{size}};\ \ \ \ \ \ \textcolor{comment}{//\ Size\ of\ template\ data\ in\ bytes}}
+\DoxyCodeLine{02257\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structfingerprint__template__buffer__t_a5ba59b6a1554900cf230c4d627e82e68}{is\_complete}};\ \textcolor{comment}{//\ Flag\ indicating\ if\ template\ is\ complete}}
+\DoxyCodeLine{02258\ \}\ \mbox{\hyperlink{structfingerprint__template__buffer__t}{fingerprint\_template\_buffer\_t}};}
+\DoxyCodeLine{02259\ }
+\DoxyCodeLine{02267\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{02268\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structfingerprint__enrollment__info__t_a562f4248a98559413a099088baeff587}{template\_id}};\ \ \ \ }
+\DoxyCodeLine{02269\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structfingerprint__enrollment__info__t_a150a07d672f030abb5098402e90a361d}{is\_duplicate}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{02270\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structfingerprint__enrollment__info__t_abffecd29bc08650d6a0aaafa8477abcf}{attempts}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{02271\ \}\ \mbox{\hyperlink{structfingerprint__enrollment__info__t}{fingerprint\_enrollment\_info\_t}};}
+\DoxyCodeLine{02272\ }
+\DoxyCodeLine{02281\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{02282\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a6a07f45ee6da95e2ccbcbb0e0699f5ae}{fingerprint\_event\_type\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_a15fc199bc56b30eae6653d50a4b270b2}{type}};\ \ }
+\DoxyCodeLine{02283\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a4fa0db2c9622e0d4cbaa1e1c64c16364}{fingerprint\_status\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_a4ee37a20269bfe63d726a010ab9447a7}{status}};\ \ \ \ }
+\DoxyCodeLine{02284\ \ \ \ \ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}\ \mbox{\hyperlink{structfingerprint__event__t_a38d851a6a617be596ee82fee9e739ad8}{packet}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{02285\ \ \ \ \ \mbox{\hyperlink{struct_multi_packet_response}{MultiPacketResponse}}\ *\mbox{\hyperlink{structfingerprint__event__t_ac36db0b537fbcedde598cc31a86cdcfb}{multi\_packet}};\ }
+\DoxyCodeLine{02286\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structfingerprint__event__t_a71675dd90c091c80e501b625081de07b}{command}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{02294\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{02295\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structfingerprint__match__info__t}{fingerprint\_match\_info\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_a6089d7e82946854a5dcb36b3ca8d7fd0}{match\_info}};\ \ \ }
+\DoxyCodeLine{02296\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structfingerprint__template__count__t}{fingerprint\_template\_count\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_af969791700886a2391374dcba3810b0c}{template\_count}};\ }
+\DoxyCodeLine{02297\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structfingerprint__sys__params__t}{fingerprint\_sys\_params\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_ab219b0dbe938172b91475636d4de373b}{sys\_params}};\ \ \ \ \ \textcolor{comment}{//\ Added\ system\ parameters}}
+\DoxyCodeLine{02298\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structfingerprint__template__buffer__t}{fingerprint\_template\_buffer\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_a84da9d6d1a4ca2a36990a2220079e0c8}{template\_data}};\ }
+\DoxyCodeLine{02299\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structfingerprint__enrollment__info__t}{fingerprint\_enrollment\_info\_t}}\ \mbox{\hyperlink{structfingerprint__event__t_aa82bcfae7b162a4e625eb2e5d6ce9968}{enrollment\_info}};\ }
+\DoxyCodeLine{02300\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Extend\ with\ additional\ structured\ types\ as\ needed}}
+\DoxyCodeLine{02301\ \ \ \ \ \}\ \mbox{\hyperlink{uniondata}{data}};}
+\DoxyCodeLine{02302\ \}\ \mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}};}
+\DoxyCodeLine{02303\ }
+\DoxyCodeLine{02304\ \ }
+\DoxyCodeLine{02314\ \ \textcolor{keyword}{typedef}\ void\ (*\mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\_event\_handler\_t}})(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}\ event);}
+\DoxyCodeLine{02315\ \ }
+\DoxyCodeLine{02323\ \ \textcolor{keyword}{extern}\ \mbox{\hyperlink{fingerprint_8h_a658eb2a1aea7e912aabef713b69d6789}{fingerprint\_event\_handler\_t}}\ \mbox{\hyperlink{fingerprint_8h_ac1bc88ca9eeff4bcae8ac419f8653c07}{g\_fingerprint\_event\_handler}};}
+\DoxyCodeLine{02324\ \ }
+\DoxyCodeLine{02334\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a86d6b1d39068b909eee4faad5e006f16}{register\_fingerprint\_event\_handler}}(\textcolor{keywordtype}{void}\ (*handler)(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}));}
+\DoxyCodeLine{02335\ \ }
+\DoxyCodeLine{02345\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_af94c8bea84a1e0b7efff92d7c3a2624f}{trigger\_fingerprint\_event}}(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}\ event);}
+\DoxyCodeLine{02346\ }
+\DoxyCodeLine{02377\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a7b34c403a57b0b6db25994554ae7fe98}{enroll\_fingerprint}}(uint16\_t\ location);}
+\DoxyCodeLine{02378\ }
+\DoxyCodeLine{02379\ }
+\DoxyCodeLine{02386\ \textcolor{preprocessor}{\#define\ ENROLL\_BIT\_SUCCESS\ BIT0}}
+\DoxyCodeLine{02387\ }
+\DoxyCodeLine{02394\ \textcolor{preprocessor}{\#define\ ENROLL\_BIT\_FAIL\ BIT1}}
+\DoxyCodeLine{02395\ }
+\DoxyCodeLine{02404\ \textcolor{preprocessor}{\#define\ CHECKING\_LOCATION\_BIT\ BIT2}}
+\DoxyCodeLine{02405\ }
+\DoxyCodeLine{02412\ \textcolor{preprocessor}{\#define\ INFO\_PAGE\_COMPLETE\_BIT\ BIT3\ \ }\textcolor{comment}{//\ You\ may\ need\ to\ adjust\ the\ bit\ position}}
+\DoxyCodeLine{02413\ }
+\DoxyCodeLine{02420\ \textcolor{preprocessor}{\#define\ DUPLICATE\_FOUND\_BIT\ BIT4\ }}
+\DoxyCodeLine{02421\ }
+\DoxyCodeLine{02428\ \textcolor{keyword}{static}\ EventGroupHandle\_t\ \mbox{\hyperlink{fingerprint_8h_aeb4fc4aba1a22ae72ee5746099c3a18e}{enroll\_event\_group}}\ =\ NULL;}
+\DoxyCodeLine{02429\ }
+\DoxyCodeLine{02442\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_af73611117782f343652a3693d257e951}{verify\_fingerprint}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02443\ }
+\DoxyCodeLine{02456\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a1f48d3dd2566720cfd011998cb0283f7}{delete\_fingerprint}}(uint16\_t\ location);}
+\DoxyCodeLine{02457\ }
+\DoxyCodeLine{02469\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a794755b7350e8cb9864948b9b35c0fd9}{clear\_database}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02470\ }
+\DoxyCodeLine{02481\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a811ebb007223db6f8ccac0b0e1f59862}{check\_duplicate\_fingerprint}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02482\ }
+\DoxyCodeLine{02495\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a39d4151777d325bbfd7fdf6dea9991b9}{validate\_template\_location}}(uint16\_t\ location);}
+\DoxyCodeLine{02496\ }
+\DoxyCodeLine{02497\ }
+\DoxyCodeLine{02510\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a20a4f052e12828f5c0e158d4a45f793f}{get\_enrolled\_count}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02511\ }
+\DoxyCodeLine{02520\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{fingerprint_8h_a16f6ad612675010ed65702c824b3d167}{enrollment\_in\_progress}};}
+\DoxyCodeLine{02521\ }
+\DoxyCodeLine{02534\ uint16\_t\ \mbox{\hyperlink{fingerprint_8h_a4cd38aeff62cdf815235b4f6033d8a03}{convert\_page\_id\_to\_index}}(uint16\_t\ page\_id);}
+\DoxyCodeLine{02535\ }
+\DoxyCodeLine{02548\ uint16\_t\ \mbox{\hyperlink{fingerprint_8h_aaabc0f9944ec66252a810f978bc596e6}{convert\_index\_to\_page\_id}}(uint16\_t\ index);}
+\DoxyCodeLine{02549\ }
+\DoxyCodeLine{02553\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a7e94c5dfae2c5e38e089c265c200888f}{read\_system\_parameters}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02554\ }
+\DoxyCodeLine{02565\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a749bb509e1fafadb24451e2a9da9e63c}{load\_template\_to\_buffer}}(uint16\_t\ template\_id,\ uint8\_t\ buffer\_id);}
+\DoxyCodeLine{02566\ }
+\DoxyCodeLine{02578\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a3929fc1a6dfee6da9605ab340b38b4f0}{upload\_template}}(uint8\_t\ buffer\_id,\ uint8\_t*\ template\_data,\ \textcolor{keywordtype}{size\_t}*\ template\_size);}
+\DoxyCodeLine{02579\ }
+\DoxyCodeLine{02590\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a94931f69322e01bbcad309665cc24fa5}{store\_template}}(uint8\_t\ buffer\_id,\ uint16\_t\ template\_id);}
+\DoxyCodeLine{02591\ }
+\DoxyCodeLine{02601\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_af02ed01b2157a3b70f9a67d3182e6770}{backup\_template}}(uint16\_t\ template\_id);}
+\DoxyCodeLine{02602\ }
+\DoxyCodeLine{02612\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a990dbb9f30ede2ef53091abceaca2667}{initialize\_event\_group}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02613\ }
+\DoxyCodeLine{02622\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_ad1328d8028e7288cb7edcd926e31d1b3}{cleanup\_event\_group}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02623\ }
+\DoxyCodeLine{02635\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a191e0737abbabb1dcda5edca44e1da45}{read\_info\_page}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02636\ }
+\DoxyCodeLine{02637\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{02638\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_acf067a9f09c2b2135f1a80d61e5eb253a4f2a1bdc70c85f92de7f2197ef6a81d0}{WAIT\_HEADER}},\ \ \ \ \ \ \ \textcolor{comment}{//\ Waiting\ for\ 0xEF01\ header}}
+\DoxyCodeLine{02639\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_acf067a9f09c2b2135f1a80d61e5eb253a511413b063799c574142a64001d1d739}{READ\_ADDRESS}},\ \ \ \ \ \ \textcolor{comment}{//\ Reading\ 4-\/byte\ address}}
+\DoxyCodeLine{02640\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_acf067a9f09c2b2135f1a80d61e5eb253a8d228a4163d9c672bea6008c2ea28f9a}{READ\_PACKET\_ID}},\ \ \ \ \textcolor{comment}{//\ Reading\ packet\ type}}
+\DoxyCodeLine{02641\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_acf067a9f09c2b2135f1a80d61e5eb253a68abeecf6e9f24f39787a24d050f3e86}{READ\_LENGTH}},\ \ \ \ \ \ \ \textcolor{comment}{//\ Reading\ 2-\/byte\ length}}
+\DoxyCodeLine{02642\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_acf067a9f09c2b2135f1a80d61e5eb253a43ffdbded9f2b8b7b77c16625bfa291b}{READ\_CONTENT}},\ \ \ \ \ \ \textcolor{comment}{//\ Reading\ packet\ content}}
+\DoxyCodeLine{02643\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_acf067a9f09c2b2135f1a80d61e5eb253a93a993275f8870e7456c9f4c83f3a9aa}{READ\_CHECKSUM}}\ \ \ \ \ \ \textcolor{comment}{//\ Reading\ 2-\/byte\ checksum}}
+\DoxyCodeLine{02644\ \}\ \mbox{\hyperlink{fingerprint_8h_acf067a9f09c2b2135f1a80d61e5eb253}{ParserState}};}
+\DoxyCodeLine{02645\ }
+\DoxyCodeLine{02652\ \textcolor{preprocessor}{\#define\ TEMPLATE\_UPLOAD\_COMPLETE\_BIT\ (1\ <<\ 3)\ }\textcolor{comment}{//\ Bit\ 3\ for\ template\ upload\ complete}}
+\DoxyCodeLine{02653\ }
+\DoxyCodeLine{02654\ \mbox{\hyperlink{struct_fingerprint_packet}{FingerprintPacket}}*\ \mbox{\hyperlink{fingerprint_8h_a2fed032ecaed7d5e40172733dc09d4ca}{extract\_packet\_from\_raw\_data}}(uint8\_t*\ \mbox{\hyperlink{uniondata}{data}},\ \textcolor{keywordtype}{size\_t}\ data\_len,\ uint8\_t\ target\_packet\_id);}
+\DoxyCodeLine{02655\ }
+\DoxyCodeLine{02666\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a383b56ede4b8a01ca4da7ef68886cecf}{restore\_template\_from\_multipacket}}(uint16\_t\ template\_id,\ \mbox{\hyperlink{struct_multi_packet_response}{MultiPacketResponse}}\ *response);}
+\DoxyCodeLine{02667\ }
+\DoxyCodeLine{02676\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a23149083c11ee3399f2f9db34b10d541}{finger\_detection\_task}}(\textcolor{keywordtype}{void}\ *pvParameter);}
+\DoxyCodeLine{02677\ }
+\DoxyCodeLine{02686\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{02687\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a7cc9a0fbe6e036dd6863cd96f416a68cae1f62a8ddf0bc7958711ff6188cb2392}{FINGER\_OP\_NONE}}\ =\ 0,\ \ \ \ \ \ \ }
+\DoxyCodeLine{02688\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a7cc9a0fbe6e036dd6863cd96f416a68ca3f7842befa7b299dc3dc91a30462f093}{FINGER\_OP\_VERIFY}},\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{02689\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a7cc9a0fbe6e036dd6863cd96f416a68ca3a6fe1f6bbc9fc661911602a7d7f17b5}{FINGER\_OP\_ENROLL\_FIRST}},\ \ \ }
+\DoxyCodeLine{02690\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a7cc9a0fbe6e036dd6863cd96f416a68ca454491e7b2350acbe26b1bd832235a5c}{FINGER\_OP\_ENROLL\_SECOND}},\ \ }
+\DoxyCodeLine{02691\ \ \ \ \ \mbox{\hyperlink{fingerprint_8h_a7cc9a0fbe6e036dd6863cd96f416a68caa53965eef0dc1ecc5831fe75d1ae6abf}{FINGER\_OP\_CUSTOM}}\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{02692\ \}\ \mbox{\hyperlink{fingerprint_8h_a7cc9a0fbe6e036dd6863cd96f416a68c}{finger\_operation\_mode\_t}};}
+\DoxyCodeLine{02693\ }
+\DoxyCodeLine{02703\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a18d99335c54889f10f6ee774f35969de}{fingerprint\_set\_operation\_mode}}(\mbox{\hyperlink{fingerprint_8h_a7cc9a0fbe6e036dd6863cd96f416a68c}{finger\_operation\_mode\_t}}\ mode);}
+\DoxyCodeLine{02704\ }
+\DoxyCodeLine{02710\ \mbox{\hyperlink{fingerprint_8h_a7cc9a0fbe6e036dd6863cd96f416a68c}{finger\_operation\_mode\_t}}\ \mbox{\hyperlink{fingerprint_8h_a41d9b886cef2f7364c29325a1ece2761}{fingerprint\_get\_operation\_mode}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{02711\ }
+\DoxyCodeLine{02722\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a51b71265f769dca95a3075cec862b3ce}{fingerprint\_wait\_for\_finger}}(uint32\_t\ timeout\_ms);}
+\DoxyCodeLine{02723\ }
+\DoxyCodeLine{02732\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fingerprint_8h_a1e9be720a98be29e874de9b21b63fceb}{fingerprint\_event\_cleanup}}(\mbox{\hyperlink{structfingerprint__event__t}{fingerprint\_event\_t}}*\ event);}
+\DoxyCodeLine{02733\ }
+\DoxyCodeLine{02745\ esp\_err\_t\ \mbox{\hyperlink{fingerprint_8h_a91965fc8519bf24ec22ca673d1bf2299}{fingerprint\_set\_address}}(uint32\_t\ new\_address,\ uint32\_t\ current\_address);}
+\DoxyCodeLine{02746\ }
+\DoxyCodeLine{02747\ }
+\DoxyCodeLine{02748\ \textcolor{preprocessor}{\ \#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{02749\ \ \}}
+\DoxyCodeLine{02750\ \textcolor{preprocessor}{\ \#endif}}
+\DoxyCodeLine{02751\ \ }
+\DoxyCodeLine{02752\ \textcolor{preprocessor}{\ \#endif\ }\textcolor{comment}{//\ FINGERPRINT\_H}}
 
 \end{DoxyCode}

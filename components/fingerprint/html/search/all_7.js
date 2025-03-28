@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['default_5fbaud_5frate_0',['DEFAULT_BAUD_RATE',['../fingerprint_8h.html#a68654b05f39a5e88db0453de6f7fd726',1,'fingerprint.h']]],
-  ['default_5ffingerprint_5faddress_1',['DEFAULT_FINGERPRINT_ADDRESS',['../fingerprint_8h.html#a5d7dc57da1b15b90f236d89912b2d95a',1,'fingerprint.h']]],
-  ['default_5frx_5fpin_2',['DEFAULT_RX_PIN',['../fingerprint_8h.html#aef44023d85418b6b89d8e8492f4feb81',1,'fingerprint.h']]],
-  ['default_5ftx_5fpin_3',['DEFAULT_TX_PIN',['../fingerprint_8h.html#a906d33234fc0a208973dee29efb12336',1,'fingerprint.h']]],
-  ['delete_5ffingerprint_4',['delete_fingerprint',['../fingerprint_8h.html#a1f48d3dd2566720cfd011998cb0283f7',1,'delete_fingerprint(uint16_t location):&#160;fingerprint.c'],['../fingerprint_8c.html#a1f48d3dd2566720cfd011998cb0283f7',1,'delete_fingerprint(uint16_t location):&#160;fingerprint.c']]],
-  ['dependencies_5',['1.3 Dependencies',['../fingerprint_8h.html#autotoc_md3',1,'']]],
-  ['description_6',['2. Hardware Interface Description',['../fingerprint_8h.html#autotoc_md4',1,'']]],
-  ['driven_20system_7',['3. Event-driven System',['../fingerprint_8h.html#autotoc_md8',1,'']]]
+  ['backup_5ftemplate_0',['backup_template',['../fingerprint_8h.html#af02ed01b2157a3b70f9a67d3182e6770',1,'backup_template(uint16_t template_id):&#160;fingerprint.c'],['../fingerprint_8c.html#af02ed01b2157a3b70f9a67d3182e6770',1,'backup_template(uint16_t template_id):&#160;fingerprint.c']]],
+  ['based_20finger_20detection_1',['6.3 Interrupt-Based Finger Detection',['../fingerprint_8h.html#autotoc_md21',1,'']]],
+  ['baud_5frate_2',['baud_rate',['../structfingerprint__sys__params__t.html#a535c80fe48cb787340601b52d7fc6a73',1,'fingerprint_sys_params_t::baud_rate'],['../fingerprint_8c.html#a784e73e1ce3f90fbcbb0a78d72a053ff',1,'baud_rate:&#160;fingerprint.c']]]
 ];

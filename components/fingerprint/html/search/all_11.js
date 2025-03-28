@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['queue_5fsize_0',['QUEUE_SIZE',['../fingerprint_8h.html#a142810068f1b99cd93d3fc9f0e160e02',1,'fingerprint.h']]]
+  ['operations_0',['5.4 Handling Multi-Step Operations',['../fingerprint_8h.html#autotoc_md18',1,'']]]
 ];

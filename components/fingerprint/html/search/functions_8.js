@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['verify_5ffingerprint_0',['verify_fingerprint',['../fingerprint_8h.html#af73611117782f343652a3693d257e951',1,'verify_fingerprint(void):&#160;fingerprint.c'],['../fingerprint_8c.html#af73611117782f343652a3693d257e951',1,'verify_fingerprint(void):&#160;fingerprint.c']]]
+  ['max_0',['max',['../fingerprint_8c.html#a6134c859d385b972b7c0716784a20a2d',1,'fingerprint.c']]],
+  ['min_1',['min',['../fingerprint_8c.html#a5777230ba3f52101f5caf39a070f2aeb',1,'fingerprint.c']]]
 ];
