@@ -21,6 +21,9 @@ static int baud_rate = DEFAULT_BAUD_RATE; // Default baud rate
 
 static uint16_t global_location = 0; // Global variable to store location
 static bool is_fingerprint_validating = false; // Flag to check if fingerprint is validating
+// Add this global flag at the top of your fingerprint.c file with other static variables
+static bool is_uploading_template = false;
+static bool is_enrollment_in_progress = false; // Flag to check if enrollment is in progress
 
 static MultiPacketResponse *g_template_accumulator = NULL; // Global template accumulator
 
@@ -2355,7 +2358,13 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         } else if (last_sent_command == FINGERPRINT_CMD_REG_MODEL) {
             event_type = EVENT_MODEL_CREATED;
         } else if (last_sent_command == FINGERPRINT_CMD_STORE_CHAR) {
-            event_type = EVENT_TEMPLATE_RESTORED_SUCCESSUL;
+            // ESP_LOGI(TAG, "Received enrollment response: Is Uploading Template: %d", is_uploading_template);
+            // if(!is_uploading_template){       
+            // }
+            if(is_enrollment_in_progress){
+                event_type = EVENT_ENROLL_SUCCESS;
+            }
+            
         } else if (last_sent_command == FINGERPRINT_CMD_READ_SYS_PARA) {
             ESP_LOGI(TAG, "Received system parameters response");
             event_type = EVENT_SYS_PARAMS_READ;
@@ -2373,6 +2382,9 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             event_type = EVENT_TEMPLATE_LOADED;
         } else if (last_sent_command == FINGERPRINT_CMD_DELETE_CHAR) {
             event_type = EVENT_TEMPLATE_DELETED;
+            // Fill the deleted_template structure with proper info
+            event.data.deleted_template.template_id = global_location;
+            event.data.deleted_template.is_deleted = true;
         } else if (last_sent_command == FINGERPRINT_CMD_EMPTY_DATABASE) {
             event_type = EVENT_DB_CLEARED;
         } 
@@ -2390,6 +2402,10 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
             if (enroll_event_group) {
                 xEventGroupSetBits(enroll_event_group, ENROLL_BIT_SUCCESS);
             }
+            // Fill the restored_template structure with proper info
+            event.data.restored_template.template_id = global_location;
+            event.data.restored_template.is_restored = true;
+            // is_uploading_template = true;
         } else if (last_sent_command == FINGERPRINT_CMD_READ_INF_PAGE) { 
             event_type = EVENT_INFO_PAGE_READ;
             
@@ -2585,6 +2601,8 @@ void fingerprint_status_event_handler(fingerprint_status_t status, FingerprintPa
         case FINGERPRINT_DELETE_TEMPLATE_FAIL:
             if (last_sent_command == FINGERPRINT_CMD_DELETE_CHAR) {
                 // ESP_LOGI(TAG, "Template deletion failed - template may not exist");
+                event.data.deleted_template.template_id = global_location;
+                event.data.deleted_template.is_deleted = false;
                 event_type = EVENT_TEMPLATE_DELETE_FAIL;
                 if (enroll_event_group) {
                     xEventGroupSetBits(enroll_event_group, ENROLL_BIT_FAIL);
@@ -2652,7 +2670,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
     EventBits_t bits;
     bool finger_removed = false;
     bool duplicate_found = false;
-
+    is_enrollment_in_progress = true; // Set enrollment in progress flag
     if (enroll_event_group == NULL) {
         enroll_event_group = xEventGroupCreate();
         if (enroll_event_group == NULL) {
@@ -2881,6 +2899,7 @@ esp_err_t enroll_fingerprint(uint16_t location) {
             enrollment_in_progress = false;
             vEventGroupDelete(enroll_event_group);
             enroll_event_group = NULL;
+            is_enrollment_in_progress = false; // Reset enrollment in progress flag
             return ESP_OK;
         }
         
@@ -2907,6 +2926,7 @@ cleanup:
     }
     // Trigger the event
     trigger_fingerprint_event(event);
+    is_enrollment_in_progress = false; // Reset enrollment in progress flag
     return ESP_FAIL;
 }
 
@@ -2972,7 +2992,7 @@ esp_err_t verify_fingerprint(void) {
         
         ESP_LOGW(TAG, "No match found, attempt %d of %d", attempts + 1, max_attempts);
         attempts++;
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(1000));    
     }
 
     ESP_LOGE(TAG, "Verification failed after %d attempts", attempts);
@@ -2987,7 +3007,7 @@ esp_err_t delete_fingerprint(uint16_t location) {
     vTaskDelay(pdMS_TO_TICKS(250)); // Delay to allow for any pending operations to complete
     esp_err_t err;
     EventBits_t bits;
-
+    global_location = location; // Store location in global variable
     if (enroll_event_group == NULL) {
         enroll_event_group = xEventGroupCreate();
         if (enroll_event_group == NULL) {
@@ -3280,7 +3300,7 @@ esp_err_t backup_template(uint16_t template_id) {
     size_t template_size = 0;
     bool template_valid = false;
     fingerprint_event_t event;
-
+    // is_uploading_template = true; // Set flag to indicate upload in progress
     // Create event group at the start of backup process
     err = initialize_event_group();
     if (err != ESP_OK) {
@@ -3340,6 +3360,7 @@ esp_err_t backup_template(uint16_t template_id) {
     }
     
     cleanup_event_group();
+    // is_uploading_template = false; // Reset flag after upload
     return ESP_OK;
 }
 

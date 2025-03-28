@@ -25,9 +25,11 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Fingerprint scanner initialized and waiting for a finger to be detected.");
     uint16_t location = 0;  // Storage location for fingerprint template
+    // err = delete_fingerprint(location);
+    // err = delete_fingerprint(location+9);
     // vTaskDelay(pdMS_TO_TICKS(250));
-    // err = enroll_fingerprint(location);
-    esp_err_t out = delete_fingerprint(location);
+    err = enroll_fingerprint(location);
+    // esp_err_t out = delete_fingerprint(location);
 
     // err = clear_database();
     
@@ -41,10 +43,10 @@ void app_main(void)
     // Read system parameters
     err = read_system_parameters();
 
-    // // Backup Template
-    // uint16_t template_id = 9;
-    // ESP_LOGI(TAG, "1. Backing up template id 0x%04X", template_id);
-    // err = backup_template(template_id);
+    // Backup Template
+    uint16_t template_id = 0;
+    ESP_LOGI(TAG, "1. Backing up template id 0x%04X", template_id);
+    err = backup_template(template_id);
 
     // // Wait for the backup to complete and template to be saved
     // vTaskDelay(pdMS_TO_TICKS(10000));
@@ -104,9 +106,6 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_TEMPLATE_MERGED:
             ESP_LOGI(TAG, "Fingerprint templates merged successfully. Status: 0x%02X\n", event.status);
-            break;
-        case EVENT_TEMPLATE_STORE_SUCCESS:
-            ESP_LOGI(TAG, "Fingerprint template stored successfully. Status: 0x%02X\n", event.status);
             break;
         case EVENT_SEARCH_SUCCESS:
             tag = "SEARCH SUCCESS";
@@ -180,7 +179,7 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                 if (event.multi_packet->template_data != NULL && 
                     event.multi_packet->template_size > 0) {
                     
-                    uint16_t new_location = 0; // Target storage location
+                    uint16_t new_location = 9; // Target storage location
                     ESP_LOGI(tag, "Restoring template to location %d", new_location);
                     // Option 1: Directly use the event.multi_packet (simplest)
                     esp_err_t err = restore_template_from_multipacket(new_location, event.multi_packet);
@@ -268,15 +267,22 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
             break;
         case EVENT_TEMPLATE_DELETED:
             tag = "TEMPLATE DELETED";
-            ESP_LOGI(tag, "Fingerprint template deleted successfully. Status: 0x%02X\n", event.status);
+            // const char *isDeleted = event.data.deleted_template.is_deleted ? "Yes" : "No";
+            ESP_LOGI(tag, "Fingerprint template deleted successfully. Status: 0x%02X", event.status);
+            ESP_LOGI(tag, "Deleted template at location: %d", event.data.deleted_template.template_id);
+            ESP_LOGI(tag, "Deleted template? %s\n", event.data.deleted_template.is_deleted ? "Yes" : "No");
             break;
         case EVENT_TEMPLATE_DELETE_FAIL:
             tag = "TEMPLATE DELETE FAILED";
-            ESP_LOGE(tag, "Failed to delete fingerprint template. Status: 0x%02X\n", event.status);
+            // const char *isDeleted = event.data.deleted_template.is_deleted ? "Yes" : "No";
+            ESP_LOGE(tag, "Failed to delete fingerprint template. Status: 0x%02X", event.status);
+            ESP_LOGI(tag, "Failed to deleted template at location: %d", event.data.deleted_template.template_id);
+            ESP_LOGI(tag, "Deleted template? %s\n", event.data.deleted_template.is_deleted ? "Yes" : "No");
             break;
         case EVENT_TEMPLATE_RESTORED_SUCCESSUL:
             tag = "TEMPLATE STORED";
-            ESP_LOGI(tag, "Fingerprint template stored successfully. Status: 0x%02X\n", event.status);
+            ESP_LOGI(tag, "Fingerprint template stored successfully. Status: 0x%02X", event.status);
+            ESP_LOGI(tag, "Stored template at location: %d\n", event.data.restored_template.template_id);
             break;
         case EVENT_TEMPLATE_LOADED:
             ESP_LOGI(TAG, "Template loaded successfully. Status: 0x%02X\n", event.status);

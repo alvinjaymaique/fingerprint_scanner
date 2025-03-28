@@ -1,0 +1,260 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ddc0h ( 56768) map[0m
+[0;32mI (109) esp_image: segment 1: paddr=0001dde8 vaddr=3fc94000 size=02230h (  8752) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1ed40h (126272) map[0m
+[0;32mI (143) esp_image: segment 3: paddr=0003ed68 vaddr=3fc96230 size=013d0h (  5072) load[0m
+[0;32mI (144) esp_image: segment 4: paddr=00040140 vaddr=40374000 size=0ff1ch ( 65308) load[0m
+[0;32mI (164) esp_image: segment 5: paddr=00050064 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (171) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (171) boot: Disabling RNG early entropy source...[0m
+[0;32mI (182) cpu_start: Multicore app[0m
+[0;32mI (191) cpu_start: Pro cpu start user code[0m
+[0;32mI (191) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (191) app_init: Application information:[0m
+[0;32mI (191) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (196) app_init: App version:      e72c63b-dirty[0m
+[0;32mI (201) app_init: Compile time:     Mar 28 2025 15:46:14[0m
+[0;32mI (206) app_init: ELF file SHA256:  ca2ec4885...[0m
+[0;32mI (210) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (214) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (218) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (222) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (226) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (232) heap_init: At 3FC9A2A8 len 0004F468 (317 KiB): RAM[0m
+[0;32mI (237) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (248) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (253) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (263) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (267) spi_flash: flash io: opi_str[0m
+[0;33mW (270) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (282) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (288) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (295) main_task: Started on CPU0[0m
+[0;32mI (305) main_task: Calling app_main()[0m
+[0;32mI (305) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (305) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (315) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+
+[0;32mI (325) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (325) FINGERPRINT: Fingerprint module address changed from 0xFFFFFFFF to 0xFFFFFFFF[0m
+
+[0;32mI (335) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (345) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (595) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (645) CHIP ADDRESS SET: Fingerprint chip address set successfully. Status: 0x00[0m
+
+[0;33mW (3285) FINGERPRINT: Finger presence check failed on attempt 1[0m
+[0;33mW (3875) FINGERPRINT: Finger presence check failed on attempt 2[0m
+[0;33mW (4465) FINGERPRINT: Finger presence check failed on attempt 3[0m
+[0;33mW (4565) FINGERPRINT: Could not confirm finger presence after multiple attempts[0m
+[0;33mW (6175) FINGERPRINT: Finger presence check failed on attempt 1[0m
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0ddc0h ( 56768) map[0m
+[0;32mI (109) esp_image: segment 1: paddr=0001dde8 vaddr=3fc94000 size=02230h (  8752) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1ed40h (126272) map[0m
+[0;32mI (143) esp_image: segment 3: paddr=0003ed68 vaddr=3fc96230 size=013d0h (  5072) load[0m
+[0;32mI (144) esp_image: segment 4: paddr=00040140 vaddr=40374000 size=0ff1ch ( 65308) load[0m
+[0;32mI (164) esp_image: segment 5: paddr=00050064 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (171) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (171) boot: Disabling RNG early entropy source...[0m
+[0;32mI (182) cpu_start: Multicore app[0m
+[0;32mI (191) cpu_start: Pro cpu start user code[0m
+[0;32mI (191) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (191) app_init: Application information:[0m
+[0;32mI (191) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (196) app_init: App version:      e72c63b-dirty[0m
+[0;32mI (201) app_init: Compile time:     Mar 28 2025 15:46:14[0m
+[0;32mI (206) app_init: ELF file SHA256:  ca2ec4885...[0m
+[0;32mI (210) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (214) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (218) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (222) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (226) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (232) heap_init: At 3FC9A2A8 len 0004F468 (317 KiB): RAM[0m
+[0;32mI (237) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (242) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (248) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (253) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (263) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (267) spi_flash: flash io: opi_str[0m
+[0;33mW (270) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (282) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (288) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (295) main_task: Started on CPU0[0m
+[0;32mI (305) main_task: Calling app_main()[0m
+[0;32mI (305) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (305) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (315) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+
+[0;32mI (325) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (325) FINGERPRINT: Fingerprint module address changed from 0xFFFFFFFF to 0xFFFFFFFF[0m
+
+[0;32mI (335) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (345) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (595) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (645) CHIP ADDRESS SET: Fingerprint chip address set successfully. Status: 0x00[0m
+
+[0;32mI (4705) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+
+[0;32mI (5085) SEARCH SUCCESS: EVENT SEARCH SUCCESS[0m
+[0;32mI (5085) SEARCH SUCCESS: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (5085) SEARCH SUCCESS: Match found at Enrollee ID: 0[0m
+[0;32mI (5085) SEARCH SUCCESS: Match score: 3328[0m
+
+[0;32mI (6185) EVENT TEMPLATE COUNT: Number of valid templates: 3[0m
+
+[0;32mI (6385) FINGERPRINT: Reading system parameters...[0m
+[0;32mI (6445) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (6695) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (6705) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (6715) FINGERPRINT: Waiting for template data transfer...[0m
+[0;32mI (6765) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+
+[0;32mI (9755) FINGERPRINT: Copied 8124 bytes to template buffer[0m
+[0;32mI (9755) FINGERPRINT: Added 8124 bytes to template accumulator[0m
+[0;32mI (9755) FINGERPRINT: Last sent command: 0x08[0m
+[0;32mI (9805) TEMPLATE UPLOADED: Template uploaded[0m
+
+[0;32mI (9805) TEMPLATE UPLOADED: Multi-packet data available: 32 packets[0m
+
+[0;32mI (9805) TEMPLATE UPLOADED: Packet 0: ID=0x02, Address=0xFFFFFFFF, Length=7, Checksum=0x00C8[0m
+[0;32mI (9855) TEMPLATE UPLOADED: Packet 1: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x5430[0m
+[0;32mI (9855) FINGERPRINT: Accumulator state: data=0x3fcad59c, size=8124, complete=0[0m
+[0;32mI (9905) TEMPLATE UPLOADED: Packet 2: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x726F[0m
+[0;32mI (9955) TEMPLATE UPLOADED: Packet 3: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6CF1[0m
+[0;32mI (10005) TEMPLATE UPLOADED: Packet 4: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x754D[0m
+[0;32mI (10055) TEMPLATE UPLOADED: Packet 5: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6F77[0m
+[0;32mI (10105) TEMPLATE UPLOADED: Packet 6: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x7494[0m
+[0;32mI (10155) TEMPLATE UPLOADED: Packet 7: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6B93[0m
+[0;32mI (10205) TEMPLATE UPLOADED: Packet 8: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x2474[0m
+[0;32mI (10255) TEMPLATE UPLOADED: Packet 9: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x7265[0m
+[0;32mI (10305) TEMPLATE UPLOADED: Packet 10: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x7095[0m
+[0;32mI (10355) TEMPLATE UPLOADED: Packet 11: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x757C[0m
+[0;32mI (10405) TEMPLATE UPLOADED: Packet 12: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6CE1[0m
+[0;32mI (10455) TEMPLATE UPLOADED: Packet 13: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x73CC[0m
+[0;32mI (10505) TEMPLATE UPLOADED: Packet 14: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x7195[0m
+[0;32mI (10555) TEMPLATE UPLOADED: Packet 15: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x55A2[0m
+[0;32mI (10605) TEMPLATE UPLOADED: Packet 16: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x3F48[0m
+[0;32mI (10655) TEMPLATE UPLOADED: Packet 17: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x7845[0m
+[0;32mI (10705) TEMPLATE UPLOADED: Packet 18: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x7099[0m
+[0;32mI (10755) TEMPLATE UPLOADED: Packet 19: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x72B7[0m
+[0;32mI (10805) TEMPLATE UPLOADED: Packet 20: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x72EE[0m
+[0;32mI (10855) TEMPLATE UPLOADED: Packet 21: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x7205[0m
+[0;32mI (10905) TEMPLATE UPLOADED: Packet 22: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x74FE[0m
+[0;32mI (10955) TEMPLATE UPLOADED: Packet 23: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x34B4[0m
+[0;32mI (11005) TEMPLATE UPLOADED: Packet 24: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x5C73[0m
+[0;32mI (11055) TEMPLATE UPLOADED: Packet 25: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6908[0m
+[0;32mI (11105) TEMPLATE UPLOADED: Packet 26: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6CA8[0m
+[0;32mI (11155) TEMPLATE UPLOADED: Packet 27: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6BE1[0m
+[0;32mI (11205) TEMPLATE UPLOADED: Packet 28: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x741C[0m
+[0;32mI (11255) TEMPLATE UPLOADED: Packet 29: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x70A1[0m
+[0;32mI (11305) TEMPLATE UPLOADED: Packet 30: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x667B[0m
+[0;32mI (11355) TEMPLATE UPLOADED: Packet 31: ID=0x08, Address=0xFFFFFFFF, Length=79, Checksum=0x027F[0m
+[0;32mI (11405) TEMPLATE UPLOADED: Complete template data received (8124 bits)[0m
+[0;32mI (11405) Template Data: 0x3fcb18c4   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
+[0;32mI (11405) Template Data: 0x3fcb18d4   ff ff 02 00 07 00 00 54  1e 4d 00 c8 ef 01 ff ff  |.......T.M......|[0m
+[0;32mI (11415) Template Data: 0x3fcb18e4   ff ff 02 01 02 01 04 93  07 50 52 45 43 49 53 45  |.........PRECISE|[0m
+[0;32mI (11425) Template Data: 0x3fcb18f4   00 01 02 11 9e 0f d1 00  56 00 00 00 27 66 0d a8  |........V...'f..|[0m
+[0;32mI (11435) TEMPLATE UPLOADED: Restoring template to location 9[0m
+[0;32mI (11685) FINGERPRINT: Preparing to download template to location 9 using packet structures[0m
+[0;32mI (12085) FINGERPRINT: Found successful DownChar response at position 0[0m
+[0;32mI (12135) FINGERPRINT: Module ready to receive template data[0m
+[0;32mI (12135) FINGERPRINT: Using 32 existing packet structures for download[0m
+[0;32mI (12135) FINGERPRINT: Packet analysis: data packets: yes, final packet: yes[0m
+[0;32mI (12135) FINGERPRINT: Response Count: 32[0m
+[0;32mI (12145) FINGERPRINT: Sending packet 0 with ID 0x02[0m
+[0;32mI (12245) FINGERPRINT: Sending packet 1 with ID 0x02[0m
+[0;32mI (12385) FINGERPRINT: Sending packet 2 with ID 0x02[0m
+[0;32mI (12525) FINGERPRINT: Sending packet 3 with ID 0x02[0m
+[0;32mI (12665) FINGERPRINT: Sending packet 4 with ID 0x02[0m
+[0;32mI (12805) FINGERPRINT: Sending packet 5 with ID 0x02[0m
+[0;32mI (12945) FINGERPRINT: Sending packet 6 with ID 0x02[0m
+[0;32mI (13085) FINGERPRINT: Sending packet 7 with ID 0x02[0m
+[0;32mI (13225) FINGERPRINT: Sending packet 8 with ID 0x02[0m
+[0;32mI (13365) FINGERPRINT: Sending packet 9 with ID 0x02[0m
+[0;32mI (13505) FINGERPRINT: Sending packet 10 with ID 0x02[0m
+[0;32mI (13645) FINGERPRINT: Sending packet 11 with ID 0x02[0m
+[0;32mI (13785) FINGERPRINT: Sending packet 12 with ID 0x02[0m
+[0;32mI (13925) FINGERPRINT: Sending packet 13 with ID 0x02[0m
+[0;32mI (14065) FINGERPRINT: Sending packet 14 with ID 0x02[0m
+[0;32mI (14205) FINGERPRINT: Sending packet 15 with ID 0x02[0m
+[0;32mI (14345) FINGERPRINT: Sending packet 16 with ID 0x02[0m
+[0;32mI (14485) FINGERPRINT: Sending packet 17 with ID 0x02[0m
+[0;32mI (14625) FINGERPRINT: Sending packet 18 with ID 0x02[0m
+[0;32mI (14765) FINGERPRINT: Sending packet 19 with ID 0x02[0m
+[0;32mI (14905) FINGERPRINT: Sending packet 20 with ID 0x02[0m
+[0;32mI (15045) FINGERPRINT: Sending packet 21 with ID 0x02[0m
+[0;32mI (15185) FINGERPRINT: Sending packet 22 with ID 0x02[0m
+[0;32mI (15325) FINGERPRINT: Sending packet 23 with ID 0x02[0m
+[0;32mI (15465) FINGERPRINT: Sending packet 24 with ID 0x02[0m
+[0;32mI (15605) FINGERPRINT: Sending packet 25 with ID 0x02[0m
+[0;32mI (15745) FINGERPRINT: Sending packet 26 with ID 0x02[0m
+[0;32mI (15885) FINGERPRINT: Sending packet 27 with ID 0x02[0m
+[0;32mI (16025) FINGERPRINT: Sending packet 28 with ID 0x02[0m
+[0;32mI (16165) FINGERPRINT: Sending packet 29 with ID 0x02[0m
+[0;32mI (16305) FINGERPRINT: Sending packet 30 with ID 0x02[0m
+[0;32mI (16445) FINGERPRINT: Sending packet 31 with ID 0x08[0m
+[0;32mI (16445) FINGERPRINT: Sending final packet (0x08)[0m
+[0;32mI (16845) FINGERPRINT: Storing template to location 9...[0m
+[0;32mI (16845) FINGERPRINT: Template successfully restored to location 9[0m
+[0;32mI (16845) TEMPLATE UPLOADED: Template restored successfully to location 9[0m
+[0;32mI (16845) : [0m
+
+[0;32mI (16855) FINGERPRINT: Freed multi-packet response from event[0m
+[0;32mI (17205) FINGERPRINT: Fingerprint enrollment successful! Status: 0x00[0m
+[0;32mI (17205) Event Type: Event: 0x0A[0m
+
+[0;32mI (19855) main_task: Returned from app_main()[0m

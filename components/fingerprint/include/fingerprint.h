@@ -2270,6 +2270,18 @@ typedef struct {
     uint8_t attempts;        /**< Number of attempts made during the enrollment process */
 } fingerprint_enrollment_info_t;
 
+typedef struct {
+    uint16_t template_id;    /**< The ID of the fingerprint template that was deleted */
+    bool is_deleted;         /**< Flag indicating if the deletion was successful */
+    // uint8_t attempts;        /**< Number of attempts made during the deletion process */
+} fingerprint_deleted_template_t;
+
+typedef struct{
+    uint16_t template_id;    /**< The ID of the fingerprint template that was restored */
+    bool is_restored;        /**< Flag indicating if the restoration was successful */
+    // uint8_t attempts;        /**< Number of attempts made during the restoration process */
+} fingerprint_restored_template_t;
+
 /**
  * @struct fingerprint_event_t
  * @brief Defines a generic fingerprint event structure with flexible response types.
@@ -2297,6 +2309,8 @@ typedef struct {
         fingerprint_sys_params_t sys_params;     // Added system parameters
         fingerprint_template_buffer_t template_data; /**< Fingerprint template data */
         fingerprint_enrollment_info_t enrollment_info; /**< Enrollment information */
+        fingerprint_deleted_template_t deleted_template; /**< Deleted template information */
+        fingerprint_restored_template_t restored_template; /**< Restored template information */
         // Extend with additional structured types as needed
     } data;
 } fingerprint_event_t;
