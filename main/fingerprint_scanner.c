@@ -28,7 +28,7 @@ void app_main(void)
     // err = delete_fingerprint(location);
     // err = delete_fingerprint(location+9);
     // vTaskDelay(pdMS_TO_TICKS(250));
-    err = enroll_fingerprint(location);
+    // err = enroll_fingerprint(location);
     // esp_err_t out = delete_fingerprint(location);
 
     // err = clear_database();
@@ -45,7 +45,7 @@ void app_main(void)
 
     // Backup Template
     uint16_t template_id = 0;
-    ESP_LOGI(TAG, "1. Backing up template id 0x%04X", template_id);
+    ESP_LOGI(TAG, "1. Backing up template id 0x%04X\n", template_id);
     err = backup_template(template_id);
 
     // // Wait for the backup to complete and template to be saved
@@ -178,8 +178,14 @@ static void internal_handle_fingerprint_event(fingerprint_event_t event) {
                 
                 if (event.multi_packet->template_data != NULL && 
                     event.multi_packet->template_size > 0) {
-                    
-                    uint16_t new_location = 9; // Target storage location
+                    if (event.multi_packet->packets != NULL) {
+                        ESP_LOG_BUFFER_HEX("Multi-Packet Template Data", event.multi_packet->packets[0]->parameters,
+                                        (event.multi_packet->packets[0]->length - 2)+sizeof(event.multi_packet->packets[0]->parameters));
+                        ESP_LOGI(tag, "Multi-packet template data received (%d bytes)", event.multi_packet->packets[0]->length - 2);
+                    } else {
+                        ESP_LOGW(tag, "No packets available in multi-packet data");
+                    }
+                    uint16_t new_location = 10; // Target storage location
                     ESP_LOGI(tag, "Restoring template to location %d", new_location);
                     // Option 1: Directly use the event.multi_packet (simplest)
                     esp_err_t err = restore_template_from_multipacket(new_location, event.multi_packet);

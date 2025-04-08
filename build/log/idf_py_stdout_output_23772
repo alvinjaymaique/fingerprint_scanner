@@ -1,43 +1,159 @@
-[1/9] Performing build step for 'bootloader'
-[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/MELBEN/esp/fingerprint_scanner/build/bootloader/bootloader.bin"
-Bootloader binary size 0x5210 bytes. 0x2df0 bytes (36%) free.
-[2/9] No install step for 'bootloader'
-[3/9] Completed 'bootloader'
-[4/9] Building C object esp-idf/fingerprint/CMakeFiles/__idf_fingerprint.dir/fingerprint.c.obj
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'fingerprint_set_command':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:970:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
-  970 |     if (param_length > MAX_PARAMETERS) {  // Allow up to MAX_PARAMETERS (32 bytes) for commands like PS_WriteNotepad
-      |                      ^
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'read_response_task':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2154:32: warning: variable 'final_packet_index' set but not used [-Wunused-but-set-variable]
- 2154 |                         size_t final_packet_index = 0;
-      |                                ^~~~~~~~~~~~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'get_enrolled_count':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3526:28: warning: unused variable 'response' [-Wunused-variable]
- 3526 |     fingerprint_response_t response;
-      |                            ^~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: In function 'backup_template':
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:3938:14: warning: unused variable 'page_id' [-Wunused-variable]
- 3938 |     uint16_t page_id = template_id;
-      |              ^~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c: At top level:
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:2455:38: warning: 'g_template_buffer' defined but not used [-Wunused-variable]
- 2455 | static fingerprint_template_buffer_t g_template_buffer = {
-      |                                      ^~~~~~~~~~~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:1782:16: warning: 'saved_template' defined but not used [-Wunused-variable]
- 1782 | static uint8_t saved_template[1024]; // Buffer for template data
-      |                ^~~~~~~~~~~~~~
-C:/Users/MELBEN/esp/fingerprint_scanner/components/fingerprint/fingerprint.c:51:13: warning: 'finger_detected_flag' defined but not used [-Wunused-variable]
-   51 | static bool finger_detected_flag = false;
-      |             ^~~~~~~~~~~~~~~~~~~~
-[5/9] Linking C static library esp-idf\fingerprint\libfingerprint.a
-[6/9] Generating ld/sections.ld
-[7/9] Linking CXX executable fingerprint_scanner.elf
-[8/9] Generating binary image from built executable
-esptool.py v4.8.1
-Creating esp32s3 image...
-Merged 2 ELF sections
-Successfully created esp32s3 image.
-Generated C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin
-[9/9] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\MELBEN\esp\fingerprint_scanner\build\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/MELBEN/esp/fingerprint_scanner/build/partition_table/partition-table.bin C:/Users/MELBEN/esp/fingerprint_scanner/build/fingerprint_scanner.bin"
-fingerprint_scanner.bin binary size 0x417a0 bytes. Smallest app partition is 0x100000 bytes. 0xbe860 bytes (74%) free.
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x18 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+[0;32mI (33) boot: ESP-IDF v5.4-dirty 2nd stage bootloader[0m
+[0;32mI (33) boot: compile time Mar 20 2025 11:43:23[0m
+[0;32mI (33) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v0.1[0m
+[0;32mI (37) boot: efuse block revision: v1.2[0m
+[0;32mI (40) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (44) boot.esp32s3: SPI Mode       : SLOW READ[0m
+[0;32mI (48) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (52) boot: Enabling RNG early entropy source...[0m
+[0;32mI (57) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (79) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (85) boot: End of partition table[0m
+[0;32mI (88) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0e180h ( 57728) map[0m
+[0;32mI (109) esp_image: segment 1: paddr=0001e1a8 vaddr=3fc94000 size=01e70h (  7792) load[0m
+[0;32mI (112) esp_image: segment 2: paddr=00020020 vaddr=42000020 size=1f34ch (127820) map[0m
+[0;32mI (143) esp_image: segment 3: paddr=0003f374 vaddr=3fc95e70 size=019b0h (  6576) load[0m
+[0;32mI (145) esp_image: segment 4: paddr=00040d2c vaddr=40374000 size=0ff1ch ( 65308) load[0m
+[0;32mI (165) esp_image: segment 5: paddr=00050c50 vaddr=600fe100 size=0001ch (    28) load[0m
+[0;32mI (172) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (172) boot: Disabling RNG early entropy source...[0m
+[0;32mI (183) cpu_start: Multicore app[0m
+[0;32mI (192) cpu_start: Pro cpu start user code[0m
+[0;32mI (192) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (192) app_init: Application information:[0m
+[0;32mI (192) app_init: Project name:     fingerprint_scanner[0m
+[0;32mI (197) app_init: App version:      d0512f2-dirty[0m
+[0;32mI (201) app_init: Compile time:     Apr  1 2025 08:15:19[0m
+[0;32mI (206) app_init: ELF file SHA256:  50cc98719...[0m
+[0;32mI (211) app_init: ESP-IDF:          v5.4-dirty[0m
+[0;32mI (215) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (219) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (223) efuse_init: Chip rev:         v0.1[0m
+[0;32mI (227) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (233) heap_init: At 3FC9A4C8 len 0004F248 (316 KiB): RAM[0m
+[0;32mI (238) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (243) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (248) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM[0m
+[0;33mW (254) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode[0m
+[0;32mI (263) spi_flash: detected chip: mxic (opi)[0m
+[0;32mI (267) spi_flash: flash io: opi_str[0m
+[0;33mW (271) spi_flash: Detected size(32768k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (283) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (289) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (296) main_task: Started on CPU0[0m
+[0;32mI (306) main_task: Calling app_main()[0m
+[0;32mI (306) FINGERPRINT: Initializing fingerprint scanner...[0m
+[0;32mI (306) gpio: GPIO[15]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 0| Pulldown: 1| Intr:1 [0m
+[0;32mI (316) FINGERPRINT: Fingerprint scanner initialized successfully with interrupt-based detection.[0m
+
+[0;32mI (326) FINGERPRINT: Fingerprint event handler registered[0m
+[0;32mI (326) FINGERPRINT: Fingerprint module address changed from 0xFFFFFFFF to 0xFFFFFFFF[0m
+
+[0;32mI (336) FINGERPRINT: Fingerprint scanner initialized and waiting for a finger to be detected.[0m
+[0;32mI (646) CHIP ADDRESS SET: Fingerprint chip address set successfully. Status: 0x00[0m
+
+[0;32mI (916) FINGERPRINT: Position 0 is free[0m
+[0;32mI (916) FINGERPRINT: Waiting for a finger to be placed...[0m
+[0;32mI (966) INDEX TABLE READ: Index table read successful. Status: 0x00[0m
+
+[0;32mI (5236) FINGERPRINT: Remove finger and place it again...[0m
+[0;32mI (5276) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+
+[0;32mI (5596) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+
+[0;32mI (7266) FINGERPRINT: Finger removal confirmed[0m
+[0;32mI (7566) FINGERPRINT: Please place the same finger again...[0m
+[0;32mI (9886) FINGERPRINT: Second fingerprint image captured successfully![0m
+[0;32mI (9886) FINGERPRINT: Fingerprint model created successfully![0m
+[0;32mI (9906) FINGERPRINT: Fingerprint features extracted successfully! Status: 0x00[0m
+
+[0;32mI (12306) ENROLLMENT COMPLETE: Fingerprint enrollment process completed. Status: 0x00[0m
+[0;32mI (12306) ENROLLMENT INFO: Enrollment ID: 0[0m
+[0;32mI (12306) ENROLLMENT INFO: Have Duplicate: 0[0m
+[0;32mI (12306) ENROLLMENT INFO: Attempts: 1[0m
+
+[0;32mI (12306) FINGERPRINT: Starting fingerprint verification...[0m
+[0;32mI (12606) FINGERPRINT: Please place your finger on the sensor...[0m
+[0;32mI (12666) FINGERPRINT: Finger detected! Status: 0x00[0m
+
+[0;32mI (13106) SEARCH SUCCESS: EVENT SEARCH SUCCESS[0m
+[0;32mI (13106) SEARCH SUCCESS: Fingerprint search successful. Status: 0x00[0m
+[0;32mI (13106) SEARCH SUCCESS: Match found at Enrollee ID: 0[0m
+[0;32mI (13106) SEARCH SUCCESS: Match score: 6400[0m
+
+[0;32mI (14206) EVENT TEMPLATE COUNT: Number of valid templates: 1[0m
+
+[0;32mI (14406) FINGERPRINT: Reading system parameters...[0m
+[0;32mI (14466) FINGERPRINT: 1. Backing up template id 0x0000[0m
+[0;32mI (14716) FINGERPRINT: 0. Backing up template id 0x0000[0m
+[0;32mI (14726) FINGERPRINT: LoadChar command sent[0m
+[0;32mI (14736) FINGERPRINT: Waiting for template data transfer...[0m
+[0;32mI (14786) FINGERPRINT: Template loaded successfully. Status: 0x00[0m
+
+[0;32mI (17396) FINGERPRINT: Copied 6095 bytes to template buffer[0m
+[0;32mI (17396) FINGERPRINT: Added 6095 bytes to template accumulator[0m
+[0;32mI (17396) FINGERPRINT: Last sent command: 0x08[0m
+[0;32mI (17446) TEMPLATE UPLOADED: Template uploaded[0m
+
+[0;32mI (17446) TEMPLATE UPLOADED: Multi-packet data available: 24 packets[0m
+
+[0;32mI (17446) TEMPLATE UPLOADED: Packet 0: ID=0x02, Address=0xFFFFFFFF, Length=7, Checksum=0x012B[0m
+[0;32mI (17496) TEMPLATE UPLOADED: Packet 1: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x4E79[0m
+[0;32mI (17496) FINGERPRINT: Accumulator state: data=0x3fcabf30, size=6095, complete=0[0m
+[0;32mI (17496) main_task: Returned from app_main()[0m
+[0;32mI (17546) TEMPLATE UPLOADED: Packet 2: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x67B7[0m
+[0;32mI (17596) TEMPLATE UPLOADED: Packet 3: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6C50[0m
+[0;32mI (17646) TEMPLATE UPLOADED: Packet 4: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6CDA[0m
+[0;32mI (17696) TEMPLATE UPLOADED: Packet 5: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6C5E[0m
+[0;32mI (17746) TEMPLATE UPLOADED: Packet 6: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x730F[0m
+[0;32mI (17796) TEMPLATE UPLOADED: Packet 7: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x735A[0m
+[0;32mI (17846) TEMPLATE UPLOADED: Packet 8: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x2812[0m
+[0;32mI (17896) TEMPLATE UPLOADED: Packet 9: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6857[0m
+[0;32mI (17946) TEMPLATE UPLOADED: Packet 10: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x65AC[0m
+[0;32mI (17996) TEMPLATE UPLOADED: Packet 11: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6889[0m
+[0;32mI (18046) TEMPLATE UPLOADED: Packet 12: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x70A6[0m
+[0;32mI (18096) TEMPLATE UPLOADED: Packet 13: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x723E[0m
+[0;32mI (18146) TEMPLATE UPLOADED: Packet 14: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x723A[0m
+[0;32mI (18196) TEMPLATE UPLOADED: Packet 15: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x4A52[0m
+[0;32mI (18246) TEMPLATE UPLOADED: Packet 16: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x3FC1[0m
+[0;32mI (18296) TEMPLATE UPLOADED: Packet 17: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x698C[0m
+[0;32mI (18346) TEMPLATE UPLOADED: Packet 18: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6736[0m
+[0;32mI (18396) TEMPLATE UPLOADED: Packet 19: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x65A0[0m
+[0;32mI (18446) TEMPLATE UPLOADED: Packet 20: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x74D9[0m
+[0;32mI (18496) TEMPLATE UPLOADED: Packet 21: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6FB6[0m
+[0;32mI (18546) TEMPLATE UPLOADED: Packet 22: ID=0x02, Address=0xFFFFFFFF, Length=258, Checksum=0x6EC0[0m
+[0;32mI (18596) TEMPLATE UPLOADED: Packet 23: ID=0x08, Address=0xFFFFFFFF, Length=186, Checksum=0x2226[0m
+[0;32mI (18646) TEMPLATE UPLOADED: Complete template data received (6095 bits)[0m
+[0;32mI (18646) Template Data: 0x3fcaf178   ef 01 ff ff ff ff 07 00  03 00 00 0a ef 01 ff ff  |................|[0m
+[0;32mI (18646) Template Data: 0x3fcaf188   ff ff 02 00 07 00 00 54  16 b8 01 2b ef 01 ff ff  |.......T...+....|[0m
+[0;32mI (18656) Template Data: 0x3fcaf198   ff ff 02 01 02 01 03 8a  07 50 52 45 43 49 53 45  |.........PRECISE|[0m
+[0;32mI (18666) Template Data: 0x3fcaf1a8   00 01 02 9f ff 19 d5 00  56 00 00 00 27 66 0d a8  |........V...'f..|[0m
+[0;32mI (18676) TEMPLATE UPLOADED: Restoring template to location 9[0m
+[0;32mI (18926) FINGERPRINT: Preparing to download template to location 9 using packet structures[0m
+[0;32mI (19326) FINGERPRINT: Found successful DownChar response at position 0[0m
+[0;32mI (19376) FINGERPRINT: Module ready to receive template data[0m
+[0;32mI (19376) FINGERPRINT: Using 24 existing packet structures for download[0m
+[0;32mI (19376) FINGERPRINT: Packet analysis: data packets: yes, final packet: yes[0m
+[0;32mI (19376) FINGERPRINT: Response Count: 24[0m
+[0;32mI (19386) FINGERPRINT: Sending packet 0 with ID 0x02[0m
+[0;32mI (19486) FINGERPRINT: Sending packet 1 with ID 0x02[0m
+[0;32mI (19626) FINGERPRINT: Sending packet 2 with ID 0x02[0m
+[0;32mI (19766) FINGERPRINT: Sending packet 3 with ID 0x02[0m
+[0;32mI (19906) FINGERPRINT: Sending packet 4 with ID 0x02[0m
+[0;32mI (20046) FINGERPRINT: Sending packet 5 with ID 0x02[0m
