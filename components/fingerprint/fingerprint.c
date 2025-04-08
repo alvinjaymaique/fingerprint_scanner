@@ -1052,29 +1052,12 @@ esp_err_t fingerprint_send_command(FingerprintPacket *cmd, uint32_t address) {
     return ESP_OK;
 }
 
-// Add these function implementations right before the fingerprint_init function
 
-/**
- * @brief Register a callback function to handle fingerprint events.
- *
- * This function sets the global event handler function pointer to the provided
- * callback function, allowing it to be called when fingerprint events occur.
- *
- * @param handler Function pointer to the event handler callback
- */
 void register_fingerprint_event_handler(fingerprint_event_handler_t handler) {
     g_fingerprint_event_handler = handler;
     ESP_LOGI(TAG, "Fingerprint event handler registered");
 }
 
-/**
- * @brief Trigger a fingerprint event and call the registered event handler.
- *
- * This function is called internally when a fingerprint event occurs.
- * It checks if an event handler is registered and calls it with the event data.
- *
- * @param event The fingerprint event to trigger
- */
 void trigger_fingerprint_event(fingerprint_event_t event) {
     if (g_fingerprint_event_handler != NULL) {
         // Create a copy of the event to avoid any data races
